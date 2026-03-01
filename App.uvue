@@ -81,13 +81,14 @@
         
         if (token && userInfoStr) {
           try {
-            const userInfo = JSON.parse(userInfoStr)
+            const userInfo = JSON.parse(userInfoStr) as UserInfo
             state.userInfo = userInfo
             
             // 设置全局请求头（如果有token）
-            if (token && uni.$http) {
-              uni.$http.setHeader('Authorization', `Bearer ${token}`)
-            }
+            // uni.$http 在uni-app x中不可用，暂时注释
+            // if (token && uni.$http) {
+            //   uni.$http.setHeader('Authorization', `Bearer ${token}`)
+            // }
             
             // 已登录，跳转到首页
             uni.switchTab({

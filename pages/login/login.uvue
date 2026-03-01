@@ -10,7 +10,7 @@
     <!-- 登录表单 -->
     <view class="form">
       <view class="form-item">
-        <u-icon name="account" size="24" color="#C8102E"></u-icon>
+        <image src="/static/avatar.png" style="width: 24px; height: 24px; margin-right: 30rpx;" mode="aspectFit"></image>
         <input 
           class="input" 
           type="text" 
@@ -21,7 +21,7 @@
       </view>
       
       <view class="form-item">
-        <u-icon name="lock" size="24" color="#C8102E"></u-icon>
+        <image src="/static/lock-icon.png" style="width: 24px; height: 24px; margin-right: 30rpx;" mode="aspectFit"></image>
         <input 
           class="input" 
           type="password" 
@@ -33,18 +33,16 @@
       </view>
 
       <view class="form-item">
-        <u-checkbox v-model="remember" label="记住密码" size="18"></u-checkbox>
+        <checkbox :checked="remember" @change="remember = !remember" style="transform: scale(0.7); margin-right: 10rpx;"></checkbox>
+        <text style="font-size: 28rpx; color: #666;">记住密码</text>
       </view>
 
-      <u-button 
+      <button 
         class="login-btn" 
-        text="登录" 
-        type="primary" 
-        color="#C8102E"
-        shape="circle"
         @click="handleLogin"
         :loading="loading"
-      ></u-button>
+        style="background-color: #C8102E; color: white; border-radius: 100rpx; height: 100rpx; font-size: 36rpx; font-weight: bold; margin-top: 40rpx;"
+      >登录</button>
 
       <view class="tips">
         <text class="tip-text">默认账号：党员账号/手机号</text>
@@ -61,7 +59,7 @@
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
-import { setUserInfo } from '@/store/index.uts'
+import { setUserInfo, UserInfo } from '@/store/index.uts'
 
 interface LoginForm {
   username: string
@@ -77,7 +75,7 @@ const remember = ref(false)
 const loading = ref(false)
 
 const handleLogin = async () => {
-  if (!form.username.trim() != '') {
+  if (form.username.trim() == '') {
     uni.showToast({
       title: '请输入账号',
       icon: 'none'
@@ -85,7 +83,7 @@ const handleLogin = async () => {
     return
   }
 
-  if (!form.password.trim() != '') {
+  if (form.password.trim() == '') {
     uni.showToast({
       title: '请输入密码',
       icon: 'none'
@@ -127,9 +125,10 @@ const handleLogin = async () => {
     uni.setStorageSync('user_info', JSON.stringify(userData))
     
     // 设置全局请求头（如果有token）
-    if (userData.token) {
-      uni.$http?.setHeader('Authorization', `Bearer ${userData.token}`)
-    }
+    // uni.$http 在uni-app x中不可用，暂时注释
+    // if (userData.token) {
+    //   uni.$http?.setHeader('Authorization', `Bearer ${userData.token}`)
+    // }
     
     // 记住密码逻辑
     if (remember.value) {

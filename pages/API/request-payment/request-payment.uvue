@@ -28,36 +28,36 @@
     },
     onLoad: function () {
       // #ifdef APP
-      let provider = uni.getProviderSync({
-        service: "payment",
-      } as GetProviderSyncOptions)
-      console.log(provider)
-      provider.providerObjects.forEach((value : UniProvider) => {
-        switch (value.id) {
-          case 'alipay':
-            var aliPayProvider = value as UniPaymentAlipayProvider
-            console.log('alipay', aliPayProvider)
-            this.providerList.push({
-              name: aliPayProvider.description,
-              id: aliPayProvider.id,
-              provider: aliPayProvider
-            } as PayItem);
-            break;
-          case 'wxpay':
-            var wxPayProvider = value as UniPaymentWxpayProvider
-            console.log('wxpay', wxPayProvider)
-            this.providerList.push({
-              name: wxPayProvider.description,
-              id: wxPayProvider.id,
-              provider: wxPayProvider
-            } as PayItem);
-            break;
-          default:
-            break;
-        }
-      })
+      // 暂时注释uni-pay-x相关代码，因为uni-app x中uni-pay-x插件不兼容
+      // let provider = uni.getProviderSync({
+      //   service: "payment",
+      // } as GetProviderSyncOptions)
+      // console.log(provider)
+      // provider.providerObjects.forEach((value : UniProvider) => {
+      //   switch (value.id) {
+      //     case 'alipay':
+      //       var aliPayProvider = value as UniPaymentAlipayProvider
+      //       console.log('alipay', aliPayProvider)
+      //       this.providerList.push({
+      //         name: aliPayProvider.description,
+      //         id: aliPayProvider.id,
+      //         provider: aliPayProvider
+      //       } as PayItem);
+      //       break;
+      //     case 'wxpay':
+      //       var wxPayProvider = value as UniPaymentWxpayProvider
+      //       console.log('wxpay', wxPayProvider)
+      //       this.providerList.push({
+      //         name: wxPayProvider.description,
+      //         id: wxPayProvider.id,
+      //         provider: wxPayProvider
+      //       } as PayItem);
+      //       break;
+      //     default:
+      //       break;
+      //   }
+      // })
       // #endif
-
 
       // #ifdef MP-WEIXIN
       this.getOpenId()
