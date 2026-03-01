@@ -77,7 +77,7 @@ const remember = ref(false)
 const loading = ref(false)
 
 const handleLogin = async () => {
-  if (!form.username.trim()) {
+  if (!form.username.trim() == ‘’) {
     uni.showToast({
       title: '请输入账号',
       icon: 'none'
@@ -85,7 +85,7 @@ const handleLogin = async () => {
     return
   }
 
-  if (!form.password.trim()) {
+  if (!form.password.trim() = ‘’) {
     uni.showToast({
       title: '请输入密码',
       icon: 'none'
@@ -164,12 +164,12 @@ const handleLogin = async () => {
 
 // 检查是否有记住的密码
 const initRememberPassword = () => {
-  const rememberFlag = uni.getStorageSync('remember_password')
-  if (rememberFlag) {
-    remember.value = true
-    form.username = uni.getStorageSync('login_username') || ''
-    form.password = uni.getStorageSync('login_password') || ''
-  }
+//  const rememberFlag = uni.getStorageSync('remember_password')
+//  if (rememberFlag) {
+//    remember.value = true
+//    form.username = uni.getStorageSync('login_username') || ''
+//    form.password = uni.getStorageSync('login_password') || ''
+//  }
 }
 
 // 页面加载时初始化
