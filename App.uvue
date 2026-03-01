@@ -74,6 +74,43 @@
       // 获取系统主题
       checkSystemTheme();
 
+      // 检查登录状态
+      const checkLoginStatus = () => {
+        const token = uni.getStorageSync('user_token')
+        const userInfoStr = uni.getStorageSync('user_info')
+        
+        if (token && userInfoStr) {
+          try {
+            const userInfo = JSON.parse(userInfoStr)
+            state.userInfo = userInfo
+            
+            // 设置全局请求头（如果有token）
+            if (token && uni.$http) {
+              uni.$http.setHeader('Authorization', `Bearer ${token}`)
+            }
+            
+            // 已登录，跳转到首页
+            uni.switchTab({
+              url: '/pages/index/index'
+            })
+          } catch (error) {
+            console.error('解析用户信息失败:', error)
+            // 解析失败，跳转到登录页
+            uni.redirectTo({
+              url: '/pages/login/login'
+            })
+          }
+        } else {
+          // 未登录，跳转到登录页
+          uni.redirectTo({
+            url: '/pages/login/login'
+          })
+        }
+      }
+      
+      // 延迟检查，确保页面加载完成
+      setTimeout(checkLoginStatus, 100)
+
     },
     onShow: function (res : OnShowOptions) {
       this.globalData.onShowOption = res

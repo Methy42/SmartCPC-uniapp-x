@@ -75,12 +75,11 @@
                     "system" : {}
                 },
                 "uni-push" : {},
-                "uni-map" : {
-                    "tencent" : {}
-                },
-                "uni-verify" : {},
-                "uni-facialVerify" : {},
-                "uni-oauth" : {
+				"uni-map" : {
+					"tencent" : {}
+				},
+				"uni-facialVerify" : {},
+				"uni-oauth" : {
                     "huawei" : {
                         "client_id" : "6917567445824957002"
                     },

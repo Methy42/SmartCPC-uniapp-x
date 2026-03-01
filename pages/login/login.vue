@@ -1,0 +1,279 @@
+<template>
+  <view class="container">
+    <!-- 登录头部 -->
+    <view class="header">
+      <image class="logo" src="/static/party-icon.png" mode="aspectFit"></image>
+      <text class="title">水源红·智慧党建</text>
+      <text class="subtitle">党员教育管理平台</text>
+    </view>
+
+    <!-- 登录表单 -->
+    <view class="form">
+      <view class="form-item">
+        <u-icon name="account" size="24" color="#C8102E"></u-icon>
+        <input 
+          class="input" 
+          type="text" 
+          v-model="form.username" 
+          placeholder="请输入账号/手机号" 
+          placeholder-class="placeholder"
+        />
+      </view>
+      
+      <view class="form-item">
+        <u-icon name="lock" size="24" color="#C8102E"></u-icon>
+        <input 
+          class="input" 
+          type="password" 
+          v-model="form.password" 
+          placeholder="请输入密码" 
+          placeholder-class="placeholder"
+          password
+        />
+      </view>
+
+      <view class="form-item">
+        <u-checkbox v-model="remember" label="记住密码" size="18"></u-checkbox>
+      </view>
+
+      <u-button 
+        class="login-btn" 
+        text="登录" 
+        type="primary" 
+        color="#C8102E"
+        shape="circle"
+        @click="handleLogin"
+        :loading="loading"
+      ></u-button>
+
+      <view class="tips">
+        <text class="tip-text">默认账号：党员账号/手机号</text>
+        <text class="tip-text">默认密码：123456</text>
+      </view>
+    </view>
+
+    <!-- 底部说明 -->
+    <view class="footer">
+      <text class="footer-text">技术支持：南水北调（江苏）数智科技有限公司</text>
+    </view>
+  </view>
+</template>
+
+<script setup lang="ts">
+import { ref, reactive } from 'vue'
+import { useStore } from '@/store/index.uts'
+
+const store = useStore()
+
+interface LoginForm {
+  username: string
+  password: string
+}
+
+const form = reactive<LoginForm>({
+  username: '',
+  password: ''
+})
+
+const remember = ref(false)
+const loading = ref(false)
+
+const handleLogin = async () => {
+  if (!form.username.trim()) {
+    uni.showToast({
+      title: '请输入账号',
+      icon: 'none'
+    })
+    return
+  }
+
+  if (!form.password.trim()) {
+    uni.showToast({
+      title: '请输入密码',
+      icon: 'none'
+    })
+    return
+  }
+
+  loading.value = true
+
+  try {
+    // 调用登录API
+    const res = await uniCloud.callFunction({
+      name: 'user-login',
+      data: {
+        username: form.username,
+        password: form.password
+      }
+    })
+    
+    if (res.result.errCode !== 0) {
+      throw new Error(res.result.errMsg)
+    }
+    
+    const userData = res.result.data
+    
+    // 保存登录状态
+    store.setUserInfo({
+      id: userData.id,
+      username: userData.username,
+      name: userData.name,
+      avatar: userData.avatar,
+      role: userData.role,
+      organization: userData.organization,
+      token: userData.token
+    })
+    
+    // 保存token到本地存储
+    uni.setStorageSync('user_token', userData.token)
+    uni.setStorageSync('user_info', JSON.stringify(userData))
+    
+    // 设置全局请求头（如果有token）
+    if (userData.token) {
+      uni.$http?.setHeader('Authorization', `Bearer ${userData.token}`)
+    }
+    
+    // 记住密码逻辑
+    if (remember.value) {
+      uni.setStorageSync('login_username', form.username)
+      uni.setStorageSync('login_password', form.password)
+      uni.setStorageSync('remember_password', true)
+    } else {
+      uni.removeStorageSync('login_username')
+      uni.removeStorageSync('login_password')
+      uni.removeStorageSync('remember_password')
+    }
+    
+    uni.showToast({
+      title: '登录成功',
+      icon: 'success'
+    })
+    
+    // 跳转到首页
+    uni.switchTab({
+      url: '/pages/index/index'
+    })
+    
+  } catch (error: any) {
+    uni.showToast({
+      title: error.message || '登录失败',
+      icon: 'none'
+    })
+  } finally {
+    loading.value = false
+  }
+}
+
+// 检查是否有记住的密码
+const initRememberPassword = () => {
+  const rememberFlag = uni.getStorageSync('remember_password')
+  if (rememberFlag) {
+    remember.value = true
+    form.username = uni.getStorageSync('login_username') || ''
+    form.password = uni.getStorageSync('login_password') || ''
+  }
+}
+
+// 页面加载时初始化
+onMounted(() => {
+  initRememberPassword()
+})
+</script>
+
+<style scoped>
+.container {
+  height: 100vh;
+  background: linear-gradient(135deg, #C8102E 0%, #A80E26 100%);
+  display: flex;
+  flex-direction: column;
+  padding: 80rpx 60rpx;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 100rpx;
+}
+
+.logo {
+  width: 120rpx;
+  height: 120rpx;
+  margin-bottom: 30rpx;
+}
+
+.title {
+  display: block;
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #FFD700;
+  margin-bottom: 20rpx;
+}
+
+.subtitle {
+  display: block;
+  font-size: 32rpx;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.form {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 30rpx;
+  padding: 60rpx 50rpx;
+  margin-bottom: 60rpx;
+}
+
+.form-item {
+  display: flex;
+  align-items: center;
+  border-bottom: 2rpx solid #eee;
+  padding: 40rpx 0;
+  margin-bottom: 40rpx;
+}
+
+.form-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.input {
+  flex: 1;
+  margin-left: 30rpx;
+  font-size: 32rpx;
+  color: #333;
+  height: 50rpx;
+  line-height: 50rpx;
+}
+
+.placeholder {
+  color: #999;
+  font-size: 30rpx;
+}
+
+.login-btn {
+  height: 100rpx;
+  font-size: 36rpx;
+  font-weight: bold;
+  margin-top: 40rpx;
+}
+
+.tips {
+  margin-top: 50rpx;
+  text-align: center;
+}
+
+.tip-text {
+  display: block;
+  font-size: 26rpx;
+  color: #666;
+  margin-bottom: 10rpx;
+}
+
+.footer {
+  text-align: center;
+  margin-top: auto;
+}
+
+.footer-text {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.6);
+}
+</style>

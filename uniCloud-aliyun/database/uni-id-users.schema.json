@@ -1,0 +1,72 @@
+{
+  "bsonType": "object",
+  "required": ["username", "password"],
+  "permission": {
+    "read": "auth.uid != null",
+    "create": true,
+    "update": "auth.uid != null",
+    "delete": false
+  },
+  "properties": {
+    "_id": {
+      "description": "ID，系统自动生成"
+    },
+    "username": {
+      "bsonType": "string",
+      "maxLength": 50,
+      "minLength": 3,
+      "trim": "both",
+      "description": "用户名，唯一"
+    },
+    "password": {
+      "bsonType": "string",
+      "maxLength": 100,
+      "minLength": 6,
+      "description": "密码（加密存储）"
+    },
+    "name": {
+      "bsonType": "string",
+      "maxLength": 50,
+      "minLength": 2,
+      "trim": "both",
+      "description": "姓名"
+    },
+    "avatar": {
+      "bsonType": "string",
+      "maxLength": 500,
+      "description": "头像URL"
+    },
+    "role": {
+      "bsonType": "string",
+      "maxLength": 50,
+      "description": "角色：党员、支部书记、管理员等"
+    },
+    "organization": {
+      "bsonType": "string",
+      "maxLength": 100,
+      "description": "所属组织"
+    },
+    "phone": {
+      "bsonType": "string",
+      "maxLength": 20,
+      "description": "手机号"
+    },
+    "email": {
+      "bsonType": "string",
+      "maxLength": 100,
+      "description": "邮箱"
+    },
+    "create_date": {
+      "bsonType": "timestamp",
+      "description": "创建时间"
+    },
+    "last_login_date": {
+      "bsonType": "timestamp",
+      "description": "最后登录时间"
+    },
+    "status": {
+      "bsonType": "int",
+      "description": "状态：0-正常，1-禁用"
+    }
+  }
+}
