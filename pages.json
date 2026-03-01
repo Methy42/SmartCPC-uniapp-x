@@ -1646,24 +1646,6 @@
 			}
 		},
 		// #endif
-		// #ifdef APP-ANDROID || APP-IOS || APP-HARMONY
-		{
-			"path": "pages/API/get-uni-verify-manager/uni-verify-custom-page",
-			"style": {
-				"navigationBarTextStyle": "black",
-				"navigationStyle": "custom"
-			}
-		},
-		// #endif
-		// #ifdef APP-ANDROID || APP-IOS || APP-HARMONY
-		{
-			"path": "pages/API/get-uni-verify-manager/full-webview-page",
-			"style": {
-				"navigationBarTextStyle": "white",
-				"navigationStyle": "custom"
-			}
-		},
-		// #endif
 		// #ifdef APP-ANDROID || APP-IOS || WEB || MP-WEIXIN || APP-HARMONY
 		{
 			"path": "pages/API/rpx2px/rpx2px",
