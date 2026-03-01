@@ -1,0 +1,28 @@
+{
+    "name": "Ubuntu 22.04 Dev Environment",
+    "image": "mcr.microsoft.com/devcontainers/base:ubuntu-22.04",
+    "containerEnv": {
+        "HTTP_PROXY": "http://host.docker.internal:7890",
+        "HTTPS_PROXY": "http://host.docker.internal:7890",
+        "NO_PROXY": "localhost,127.0.0.1,.local"
+    },
+    "features": {
+        "ghcr.io/devcontainers/features/common-utils:2": {
+            "installZsh": true,
+            "installOhMyZsh": true,
+            "upgradePackages": true
+        },
+        "ghcr.io/devcontainers/features/git:1": {}
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-vscode.cpptools",
+                "ms-python.python",
+                "eamodio.gitlens"
+            ]
+        }
+    },
+    "postCreateCommand": "sudo apt update && sudo apt install -y build-essential curl wget vim",
+    "remoteUser": "vscode"
+}

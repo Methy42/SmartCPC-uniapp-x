@@ -1,0 +1,122 @@
+<template>
+  <view class="container">
+    <!-- 顶部标题栏 -->
+    <view class="page-header">
+      <image class="star-icon" src="/static/star.png" mode="widthFix"></image>
+      <text class="page-title">三会一课</text>
+    </view>
+
+    <!-- 选项卡 -->
+    <u-tabs :list="tabList" v-model="activeTab" active-color="#FF8C00" inactive-color="#666" bg-color="#F5F5F5"></u-tabs>
+
+    <!-- 待开会议列表 -->
+    <view class="meeting-list" v-if="activeTab === 0">
+      <view class="meeting-card">
+        <text class="meeting-title">11月份党支部委员会支部大会</text>
+        
+        <view class="meeting-info">
+          <u-icon name="calendar" size="24" color="#666"></u-icon>
+          <text class="info-text">会议时间：2025年11月17日 星期四 9:30 ~ 11:30</text>
+        </view>
+        
+        <view class="meeting-info">
+          <u-icon name="people" size="24" color="#666"></u-icon>
+          <text class="info-text">会议组织：数智公司党支部</text>
+        </view>
+        
+        <view class="meeting-info">
+          <u-icon name="location" size="24" color="#666"></u-icon>
+          <text class="info-text">会议地点：311室</text>
+        </view>
+        
+        <view class="btn-group">
+          <u-button text="参加" type="primary" size="mini" bg-color="#FF8C00"></u-button>
+          <u-button text="请假" type="default" size="mini" border-color="#FF8C00" color="#FF8C00"></u-button>
+        </view>
+      </view>
+    </view>
+
+    <!-- 已开会议列表（示例） -->
+    <view class="meeting-list" v-else>
+      <u-empty text="暂无已开会议记录"></u-empty>
+    </view>
+  </view>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+
+// 选项卡数据
+const tabList = ref([
+  { name: '待开会议' },
+  { name: '已开会议' }
+])
+const activeTab = ref(0)
+</script>
+
+<style scoped>
+.container {
+  background-color: #F5F5F5;
+  min-height: 100vh;
+  padding-bottom: 100rpx; /* 给tabBar留空间 */
+}
+
+/* 页面标题 */
+.page-header {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 30rpx;
+  background-color: #fff;
+}
+
+.star-icon {
+  width: 40rpx;
+  height: 40rpx;
+  margin-right: 10rpx;
+}
+
+.page-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+/* 会议列表 */
+.meeting-list {
+  padding: 20rpx 30rpx;
+}
+
+.meeting-card {
+  background-color: #fff;
+  border-radius: 16rpx;
+  padding: 30rpx;
+}
+
+.meeting-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+  display: block;
+}
+
+.meeting-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15rpx;
+}
+
+.info-text {
+  font-size: 28rpx;
+  color: #666;
+  margin-left: 10rpx;
+  flex: 1;
+}
+
+.btn-group {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20rpx;
+  margin-top: 20rpx;
+}
+</style>

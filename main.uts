@@ -6,6 +6,7 @@ import { uniStat } from '@/uni_modules/uni-stat/plugin.uts'
 import App from './App.uvue'
 
 import { createSSRApp } from 'vue'
+import uviewPlus from 'uview-plus'
 
 // 统计配置
 const uniStatcollectItems = {
@@ -20,6 +21,7 @@ const uniStatOptions = {
 
 export function createApp() {
   const app = createSSRApp(App)
+  app.use(uviewPlus)
   // #ifdef APP-ANDROID || APP-IOS || WEB || MP-WEIXIN || APP-HARMONY
   app.use(uniStat, uniStatOptions)
   // #endif

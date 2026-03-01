@@ -13,6 +13,41 @@
 	},
 	"pages": [
 		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "水源红·智慧党建",
+				"navigationBarBackgroundColor": "#C8102E"
+			}
+		},
+		{
+			"path": "pages/meeting/meetingList",
+			"style": {
+				"navigationBarTitleText": "三会一课",
+				"navigationBarBackgroundColor": "#C8102E"
+			}
+		},
+		{
+			"path": "pages/activity/activityList",
+			"style": {
+				"navigationBarTitleText": "支部活动",
+				"navigationBarBackgroundColor": "#C8102E"
+			}
+		},
+		{
+			"path": "pages/mine/mine",
+			"style": {
+				"navigationBarTitleText": "个人中心",
+				"navigationBarBackgroundColor": "#C8102E"
+			}
+		},
+		{
+			"path": "pages/statistics/statistics",
+			"style": {
+				"navigationBarTitleText": "数据看板",
+				"navigationBarBackgroundColor": "#C8102E"
+			}
+		},
+		{
 			"path": "pages/tabBar/component",
 			"style": {
 				"navigationBarTitleText": "内置组件",
@@ -3250,40 +3285,48 @@
 		"backgroundColor": "@backgroundColor",
 		"backgroundTextStyle": "@backgroundTextStyle"
 	},
-	// #ifndef APP-HARMONY
-	"tabBar": {
-		"color": "@tabBarColor",
-		"selectedColor": "@tabBarSelectedColor",
-		"borderStyle": "@tabBarBorderStyle",
-		"backgroundColor": "@tabBarBackgroundColor",
-		"list": [
-			{
-				"pagePath": "pages/tabBar/component",
-				"iconPath": "@tabBarComponentIconPath",
-				"selectedIconPath": "@tabBarComponentSelectedIconPath",
-				"text": "组件"
-			},
-			{
-				"pagePath": "pages/tabBar/API",
-				"iconPath": "@tabBarAPIIconPath",
-				"selectedIconPath": "@tabBarAPISelectedIconPath",
-				"text": "接口"
-			},
-			{
-				"pagePath": "pages/tabBar/CSS",
-				"iconPath": "@tabBarCSSIconPath",
-				"selectedIconPath": "@tabBarCSSSelectedIconPath",
-				"text": "CSS"
-			},
-			{
-				"pagePath": "pages/tabBar/template",
-				"iconPath": "@tabBarTemplateIconPath",
-				"selectedIconPath": "@tabBarTemplateSelectedIconPath",
-				"text": "模板"
-			}
-		]
-	},
-	// #endif
+// #ifndef APP-HARMONY
+"tabBar": {
+	"backgroundColor": "#F5F5F5",
+	"color": "#666",
+	"selectedColor": "#C8102E",
+	"borderStyle": "white",
+	"list": [
+		{
+			"pagePath": "pages/index/index",
+			"text": "首页",
+			"iconPath": "static/tab/home.png",
+			"selectedIconPath": "static/tab/home-active.png"
+		},
+		{
+			"pagePath": "pages/meeting/meetingList",
+			"text": "三会一课",
+			"iconPath": "static/tab/meeting.png",
+			"selectedIconPath": "static/tab/meeting-active.png",
+			"badge": "4"
+		},
+		{
+			"pagePath": "pages/activity/activityList",
+			"text": "支部活动",
+			"iconPath": "static/tab/activity.png",
+			"selectedIconPath": "static/tab/activity-active.png",
+			"badge": "2"
+		},
+		{
+			"pagePath": "pages/statistics/statistics",
+			"text": "统计",
+			"iconPath": "static/tab/statistics.png",
+			"selectedIconPath": "static/tab/statistics-active.png"
+		},
+		{
+			"pagePath": "pages/mine/mine",
+			"text": "我的",
+			"iconPath": "static/tab/mine.png",
+			"selectedIconPath": "static/tab/mine-active.png"
+		}
+	]
+},
+// #endif
 	// #ifdef APP-HARMONY
 	"tabBar": {
 		"color": "@tabBarColor",
@@ -3319,13 +3362,12 @@
 	},
 	// #endif
 	"condition": {
-		//模式配置，仅开发期间生效
-		"current": 0, //当前激活的模式(list 的索引项)
+		"current": 0,
 		"list": [
 			{
-				"name": "", //模式名称
-				"path": "", //启动页面，必选
-				"query": "" //启动参数，在页面的onLoad函数里面得到
+				"name": "",
+				"path": "",
+				"query": ""
 			}
 		]
 	},

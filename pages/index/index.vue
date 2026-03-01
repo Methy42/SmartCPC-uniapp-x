@@ -1,0 +1,141 @@
+<template>
+  <view class="container">
+    <!-- 顶部通栏 -->
+    <view class="header">
+      <image class="avatar" src="/static/avatar.png" mode="aspectFill"></image>
+      <view class="title">
+        <image class="party-icon" src="/static/party-icon.png" mode="widthFix"></image>
+        <text class="title-text">水源红·智慧党建</text>
+      </view>
+      <view class="header-btns">
+        <u-button icon="column-chart" text="数据看板" size="mini" type="text" color="#fff"></u-button>
+        <u-badge :count="4" type="danger" :dot="false">
+          <u-button icon="message" size="mini" type="text" color="#fff"></u-button>
+        </u-badge>
+      </view>
+    </view>
+
+    <!-- 功能网格 -->
+    <view class="func-grid">
+      <view class="func-item" v-for="(item, index) in funcList" :key="index">
+        <image class="func-icon" :src="item.icon" mode="widthFix"></image>
+        <text class="func-text">{{ item.name }}</text>
+      </view>
+    </view>
+
+    <!-- 底部版权 -->
+    <view class="footer">
+      <text class="copyright">技术支持：南水北调（江苏）数智科技有限公司</text>
+      <u-button class="share-btn" shape="circle" icon="share" size="mini" type="primary"></u-button>
+    </view>
+  </view>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+
+// 功能列表数据
+const funcList = ref([
+  { name: '支部党员大会', icon: '/static/icons/meeting1.png' },
+  { name: '支部委员会', icon: '/static/icons/meeting2.png' },
+  { name: '党小组会', icon: '/static/icons/meeting3.png' },
+  { name: '党课', icon: '/static/icons/meeting4.png' },
+  { name: '理论学习', icon: '/static/icons/study.png' },
+  { name: '支部活动', icon: '/static/icons/activity.png' }
+])
+</script>
+
+<style scoped>
+.container {
+  height: 100vh;
+  background: linear-gradient(#C8102E, #A80E26);
+  padding-bottom: 0; /* 首页隐藏tabBar */
+}
+
+/* 顶部通栏 */
+.header {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 30rpx;
+  color: #fff;
+}
+
+.avatar {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  margin-right: 20rpx;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.party-icon {
+  width: 40rpx;
+  height: 40rpx;
+  margin-right: 10rpx;
+}
+
+.title-text {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #FFD700;
+}
+
+.header-btns {
+  display: flex;
+  gap: 15rpx;
+}
+
+/* 功能网格 */
+.func-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30rpx;
+  padding: 40rpx 50rpx;
+  flex: 1;
+}
+
+.func-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 20rpx;
+  padding: 40rpx 20rpx;
+}
+
+.func-icon {
+  width: 80rpx;
+  height: 80rpx;
+  margin-bottom: 20rpx;
+}
+
+.func-text {
+  font-size: 32rpx;
+  color: #fff;
+}
+
+/* 底部版权 */
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 30rpx;
+}
+
+.copyright {
+  font-size: 24rpx;
+  color: #fff;
+}
+
+.share-btn {
+  width: 60rpx;
+  height: 60rpx;
+  background: rgba(255, 255, 255, 0.3);
+}
+</style>
