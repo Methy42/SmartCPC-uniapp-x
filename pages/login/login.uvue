@@ -61,9 +61,7 @@
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
-import { useStore } from '@/store/index.uts'
-
-const store = useStore()
+import { setUserInfo } from '@/store/index.uts'
 
 interface LoginForm {
   username: string
@@ -114,7 +112,7 @@ const handleLogin = async () => {
     const userData = res.result.data
     
     // 保存登录状态
-    store.setUserInfo({
+    setUserInfo({
       id: userData.id,
       username: userData.username,
       name: userData.name,
@@ -122,7 +120,7 @@ const handleLogin = async () => {
       role: userData.role,
       organization: userData.organization,
       token: userData.token
-    })
+    } as UserInfo)
     
     // 保存token到本地存储
     uni.setStorageSync('user_token', userData.token)
