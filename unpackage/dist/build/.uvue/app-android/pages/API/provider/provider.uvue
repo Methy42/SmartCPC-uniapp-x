@@ -1,0 +1,82 @@
+type ProviderItem = {
+    service: string;
+    name: string;
+    provider: string[];
+    providerObj: UniProvider[];
+};
+const __sfc__ = defineComponent({
+    data() {
+        return {
+            title: 'provider',
+            flag: false,
+            serviceList: [
+                { service: "payment", name: "支付", provider: [], providerObj: [] } as ProviderItem,
+                { service: "location", name: "定位", provider: [], providerObj: [] } as ProviderItem,
+            ] as ProviderItem[],
+            //自动化测试使用
+            providerIds: [] as string[],
+            providerObjects: [] as string[],
+        };
+    },
+    methods: {
+        getProvider() {
+            this.providerObjects = [];
+            this.serviceList.forEach((item: ProviderItem) => {
+                var provider = uni.getProviderSync({
+                    service: item.service,
+                } as GetProviderSyncOptions);
+                provider.providerIds.forEach((value) => {
+                    this.providerIds.push(value);
+                });
+                this.updateProvider(item.service, provider.providerIds, provider.providerObjects);
+            });
+        },
+        updateProvider(service: string, provider: string[] | null, uniProvider: UniProvider[]) {
+            //这里需要从新从serviceList 获取item，不能直接用forEach 里面的item，目前存在bug,后续会解决这个问题
+            const item: ProviderItem | null = this.serviceList.find((item: ProviderItem): boolean => {
+                return item.service == service;
+            });
+            if (item != null && provider != null) {
+                item.provider = provider;
+                item.providerObj = uniProvider;
+                item.providerObj.forEach((obj) => {
+                    this.providerObjects.push(obj.description);
+                });
+            }
+        }
+    }
+});
+export default __sfc__;
+function GenPagesAPIProviderProviderRender(this: InstanceType<typeof __sfc__>): any | null {
+    const _ctx = this;
+    const _cache = this.$.renderCache;
+    const _component_page_head = resolveEasyComponent("page-head", _easycom_page_head);
+    return _cE("scroll-view", _uM({ class: "page-scroll-view" }), [
+        _cE("view", _uM({ class: "page" }), [
+            _cV(_component_page_head, _uM({ title: _ctx.title }), null, 8 /* PROPS */, ["title"]),
+            _cE(Fragment, null, RenderHelpers.renderList(_ctx.serviceList, (item, index, __index, _cached): any => {
+                return _cE("view", _uM({
+                    class: "service-item",
+                    key: index
+                }), [
+                    _cE("text", _uM({ class: "service-name" }), _tD(item.name) + ":", 1 /* TEXT */),
+                    _cE("view", _uM({ class: "provider-list" }), [
+                        _cE(Fragment, null, RenderHelpers.renderList(item.provider, (item2, index2, __index, _cached): any => {
+                            return _cE("text", _uM({
+                                class: "provider-item",
+                                key: index2
+                            }), _tD(item2) + " " + _tD(item.providerObj.length > 0 ? ':' + JSON.stringify(item.providerObj[index2]) : ''), 1 /* TEXT */);
+                        }), 128 /* KEYED_FRAGMENT */)
+                    ])
+                ]);
+            }), 128 /* KEYED_FRAGMENT */),
+            _cE("button", _uM({
+                class: "btn-get-provider",
+                type: "primary",
+                onClick: _ctx.getProvider
+            }), "getProviderSync", 8 /* PROPS */, ["onClick"])
+        ])
+    ]);
+}
+const GenPagesAPIProviderProviderStyles = [_uM([["page", _pS(_uM([["paddingTop", 15], ["paddingRight", 15], ["paddingBottom", 15], ["paddingLeft", 15]]))], ["service-item", _pS(_uM([["marginTop", 10]]))], ["service-name", _pS(_uM([["fontWeight", "bold"]]))], ["provider-list", _pS(_uM([["marginLeft", 32]]))], ["provider-item", _pS(_uM([["lineHeight", 1.5]]))], ["btn-get-provider", _pS(_uM([["marginTop", 30]]))]])];
+import _easycom_page_head from '@/components/page-head/page-head.vue';

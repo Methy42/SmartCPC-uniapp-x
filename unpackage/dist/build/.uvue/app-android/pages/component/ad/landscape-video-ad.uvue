@@ -1,0 +1,79 @@
+const __sfc__ = defineComponent({
+    data() {
+        return {
+            title: '广告演示',
+            src: "https://qiniu-web-assets.dcloud.net.cn/video/sample/2minute-demo.mp4",
+            showAd: false,
+            adVisible: false,
+            countdown: 10,
+            adTimer: null
+        };
+    },
+    onLoad() {
+        // 页面加载逻辑
+    },
+    methods: {
+        setfs() {
+            const videoContext = uni.createVideoContext('myVideo2');
+            const direction: RequestFullScreenOptions = { direction: -90 } as RequestFullScreenOptions;
+            videoContext!.requestFullScreen(direction);
+        },
+        // 视频播放时触发广告
+        onVideoPlay() {
+            if (!this.showAd) {
+                const videoContext = uni.createVideoContext('myVideo2');
+                videoContext!.stop();
+                this.showAd = true;
+                const direction: RequestFullScreenOptions = { direction: 90 } as RequestFullScreenOptions;
+                videoContext!.requestFullScreen(direction);
+                this.adVisible = true;
+            }
+        },
+        // 关闭广告
+        closeAd() {
+            console.log("执行了关闭");
+            // this.showAd = false
+            this.adVisible = false;
+            // 确保视频恢复播放
+            const videoContext = uni.createVideoContext('myVideo2');
+            videoContext!.play();
+        },
+        loadFun() {
+            console.log("加载成功");
+        },
+        errorFun(e: UniAdErrorEvent) {
+            console.log(e.detail);
+        }
+    }
+});
+export default __sfc__;
+function GenPagesComponentAdLandscapeVideoAdRender(this: InstanceType<typeof __sfc__>): any | null {
+    const _ctx = this;
+    const _cache = this.$.renderCache;
+    return _cE("view", _uM({ class: "container" }), [
+        _cE("video", _uM({
+            id: "myVideo2",
+            src: _ctx.src,
+            controls: true,
+            autoplay: "false",
+            class: "video",
+            onPlay: _ctx.onVideoPlay
+        }), [
+            isTrue(_ctx.adVisible)
+                ? _cE("view", _uM({
+                    key: 0,
+                    class: "ad-container"
+                }), [
+                    _cE("ad", _uM({
+                        adpid: "1597617406",
+                        class: "ad-class",
+                        onLoad: _ctx.loadFun,
+                        onError: _ctx.errorFun,
+                        onClose: _ctx.closeAd
+                    }), null, 40 /* PROPS, NEED_HYDRATION */, ["onLoad", "onError", "onClose"])
+                ])
+                : _cC("v-if", true)
+        ], 40 /* PROPS, NEED_HYDRATION */, ["src", "onPlay"])
+    ]);
+}
+const GenPagesComponentAdLandscapeVideoAdStyles = [_uM([["container", _pS(_uM([["position", "relative"], ["width", "100%"], ["height", "100%"], ["display", "flex"], ["flexDirection", "column"]]))], ["video", _pS(_uM([["width", "100%"], ["height", "420rpx"], ["display", "flex"], ["alignItems", "center"], ["justifyContent", "center"]]))], ["ad-class", _pS(_uM([["width", "100%"], ["height", "100%"], ["display", "flex"], ["alignItems", "center"], ["justifyContent", "center"]]))], ["ad-container", _pS(_uM([["width", "100%"], ["height", "100%"], ["backgroundColor", "rgba(0,0,0,0.7)"], ["display", "flex"], ["alignItems", "center"], ["justifyContent", "center"]]))]])];

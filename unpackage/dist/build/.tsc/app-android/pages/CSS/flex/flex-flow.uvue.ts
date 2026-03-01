@@ -1,0 +1,119 @@
+const __sfc__ = defineComponent({})
+export default __sfc__
+function GenPagesCSSFlexFlexFlowRender(this: InstanceType<typeof __sfc__>): any | null {
+const _ctx = this
+const _cache = this.$.renderCache
+  return _cE("scroll-view", _uM({
+    style: _nS(_uM({"flex":"1"}))
+  }), [
+    _cE("view", _uM({
+      style: _nS(_uM({"flex-grow":"1"}))
+    }), [
+      _cE("view", null, [
+        _cE("text", null, "flex-flow: row nowrap"),
+        _cE("view", _uM({
+          class: "common",
+          style: _nS(_uM({"flex-flow":"row nowrap"}))
+        }), [
+          _cE("view", _uM({
+            style: _nS(_uM({"width":"50px","height":"50px","background-color":"red","flex-shrink":"0"}))
+          }), null, 4 /* STYLE */),
+          _cE("view", _uM({
+            style: _nS(_uM({"width":"50px","height":"50px","background-color":"green","flex-shrink":"0"}))
+          }), null, 4 /* STYLE */),
+          _cE("view", _uM({
+            style: _nS(_uM({"width":"50px","height":"50px","background-color":"blue","flex-shrink":"0"}))
+          }), null, 4 /* STYLE */),
+          _cE("view", _uM({
+            style: _nS(_uM({"width":"50px","height":"50px","background-color":"red","flex-shrink":"0"}))
+          }), null, 4 /* STYLE */),
+          _cE("view", _uM({
+            style: _nS(_uM({"width":"50px","height":"50px","background-color":"green","flex-shrink":"0"}))
+          }), null, 4 /* STYLE */),
+          _cE("view", _uM({
+            style: _nS(_uM({"width":"50px","height":"50px","background-color":"blue","flex-shrink":"0"}))
+          }), null, 4 /* STYLE */)
+        ], 4 /* STYLE */)
+      ]),
+      _cE("view", null, [
+        _cE("text", null, "flex-flow: row wrap"),
+        _cE("view", _uM({
+          class: "common",
+          style: _nS(_uM({"flex-flow":"row wrap"}))
+        }), [
+          _cE("view", _uM({
+            style: _nS(_uM({"width":"50px","height":"50px","background-color":"red","flex-shrink":"0"}))
+          }), null, 4 /* STYLE */),
+          _cE("view", _uM({
+            style: _nS(_uM({"width":"50px","height":"50px","background-color":"green","flex-shrink":"0"}))
+          }), null, 4 /* STYLE */),
+          _cE("view", _uM({
+            style: _nS(_uM({"width":"50px","height":"50px","background-color":"blue","flex-shrink":"0"}))
+          }), null, 4 /* STYLE */),
+          _cE("view", _uM({
+            style: _nS(_uM({"width":"50px","height":"50px","background-color":"red","flex-shrink":"0"}))
+          }), null, 4 /* STYLE */),
+          _cE("view", _uM({
+            style: _nS(_uM({"width":"50px","height":"50px","background-color":"green","flex-shrink":"0"}))
+          }), null, 4 /* STYLE */),
+          _cE("view", _uM({
+            style: _nS(_uM({"width":"50px","height":"50px","background-color":"blue","flex-shrink":"0"}))
+          }), null, 4 /* STYLE */)
+        ], 4 /* STYLE */)
+      ]),
+      _cE("view", null, [
+        _cE("text", null, "flex-flow: column nowrap"),
+        _cE("view", _uM({
+          class: "common",
+          style: _nS(_uM({"flex-flow":"column nowrap"}))
+        }), [
+          _cE("view", _uM({
+            style: _nS(_uM({"width":"50px","height":"50px","background-color":"red","flex-shrink":"0"}))
+          }), null, 4 /* STYLE */),
+          _cE("view", _uM({
+            style: _nS(_uM({"width":"50px","height":"50px","background-color":"green","flex-shrink":"0"}))
+          }), null, 4 /* STYLE */),
+          _cE("view", _uM({
+            style: _nS(_uM({"width":"50px","height":"50px","background-color":"blue","flex-shrink":"0"}))
+          }), null, 4 /* STYLE */),
+          _cE("view", _uM({
+            style: _nS(_uM({"width":"50px","height":"50px","background-color":"red","flex-shrink":"0"}))
+          }), null, 4 /* STYLE */),
+          _cE("view", _uM({
+            style: _nS(_uM({"width":"50px","height":"50px","background-color":"green","flex-shrink":"0"}))
+          }), null, 4 /* STYLE */),
+          _cE("view", _uM({
+            style: _nS(_uM({"width":"50px","height":"50px","background-color":"blue","flex-shrink":"0"}))
+          }), null, 4 /* STYLE */)
+        ], 4 /* STYLE */)
+      ]),
+      _cE("view", null, [
+        _cE("text", null, "flex-flow: column wrap"),
+        _cE("view", _uM({
+          class: "common",
+          style: _nS(_uM({"flex-flow":"column wrap"}))
+        }), [
+          _cE("view", _uM({
+            style: _nS(_uM({"width":"50px","height":"50px","background-color":"red","flex-shrink":"0"}))
+          }), null, 4 /* STYLE */),
+          _cE("view", _uM({
+            style: _nS(_uM({"width":"50px","height":"50px","background-color":"green","flex-shrink":"0"}))
+          }), null, 4 /* STYLE */),
+          _cE("view", _uM({
+            style: _nS(_uM({"width":"50px","height":"50px","background-color":"blue","flex-shrink":"0"}))
+          }), null, 4 /* STYLE */),
+          _cE("view", _uM({
+            style: _nS(_uM({"width":"50px","height":"50px","background-color":"red","flex-shrink":"0"}))
+          }), null, 4 /* STYLE */),
+          _cE("view", _uM({
+            style: _nS(_uM({"width":"50px","height":"50px","background-color":"green","flex-shrink":"0"}))
+          }), null, 4 /* STYLE */),
+          _cE("view", _uM({
+            style: _nS(_uM({"width":"50px","height":"50px","background-color":"blue","flex-shrink":"0"}))
+          }), null, 4 /* STYLE */)
+        ], 4 /* STYLE */)
+      ])
+    ], 4 /* STYLE */)
+  ], 4 /* STYLE */)
+}
+const GenPagesCSSFlexFlexFlowStyles = [_uM([["common", _pS(_uM([["width", 250], ["height", 250], ["backgroundColor", "#808080"]]))]])]

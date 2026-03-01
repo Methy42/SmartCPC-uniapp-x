@@ -1,0 +1,30 @@
+
+	const __sfc__ = defineComponent({
+		data() {
+			return {
+
+			}
+		},
+		methods: {
+      load(event : ImageLoadEvent) {
+        console.log("load event:", event)
+      }
+		}
+	})
+
+export default __sfc__
+function GenPagesComponentImageImageLongRender(this: InstanceType<typeof __sfc__>): any | null {
+const _ctx = this
+const _cache = this.$.renderCache
+  return _cE("scroll-view", _uM({
+    style: _nS(_uM({"flex":"1"}))
+  }), [
+    _cE("image", _uM({
+      style: _nS(_uM({"width":"100%"})),
+      src: "/static/longPath.jpg",
+      mode: "widthFix",
+      onLoad: _ctx.load
+    }), null, 44 /* STYLE, PROPS, NEED_HYDRATION */, ["onLoad"])
+  ], 4 /* STYLE */)
+}
+const GenPagesComponentImageImageLongStyles = []

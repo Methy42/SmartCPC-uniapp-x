@@ -1,0 +1,36 @@
+
+	const __sfc__ = defineComponent({
+		data() {
+			return {
+        scrollTop:0
+			}
+		},
+		methods: {
+			checkTestView():boolean {
+				let ele = uni.getElementById('testView') as UniElement
+				console.log(ele.getBoundingClientRect().y)
+        // TODO 鸿蒙低版本偏差稍大
+				return ele.getBoundingClientRect().y > 98
+			}
+		}
+	})
+
+export default __sfc__
+function GenPagesComponentViewIssue21144Render(this: InstanceType<typeof __sfc__>): any | null {
+const _ctx = this
+const _cache = this.$.renderCache
+  return _cE("scroll-view", _uM({
+    style: _nS(_uM({"flex":"1"})),
+    "scroll-top": _ctx.scrollTop
+  }), [
+    _cE("view", _uM({
+      id: "testView",
+      class: "btn-plus"
+    })),
+    _cE("view", _uM({
+      style: _nS(_uM({"width":"100%","height":"2000px"})),
+      onClick: _ctx.checkTestView
+    }), null, 12 /* STYLE, PROPS */, ["onClick"])
+  ], 12 /* STYLE, PROPS */, ["scroll-top"])
+}
+const GenPagesComponentViewIssue21144Styles = [_uM([["btn-plus", _pS(_uM([["position", "fixed"], ["top", 100], ["left", 10], ["width", 50], ["height", 50], ["backgroundColor", "#FF0000"], ["boxShadow", "0px 0px 0px rgba(0, 0, 0, 1)"]]))]])]

@@ -1,0 +1,310 @@
+
+  function getDate(type ?: string) : string {
+    const date = new Date();
+
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
+
+    if (type === 'start') {
+      year = year - 10;
+    } else if (type === 'end') {
+      year = year + 10;
+    }
+
+    const monthString = month > 9 ? month.toString() : '0' + month;
+    const dayString = day > 9 ? day.toString() : '0' + day;
+
+    return `${year}-${monthString}-${dayString}`;
+  }
+  const __sfc__ = defineComponent({
+    data() {
+      let hours = new Array<string>()
+      let minutes = new Array<string>()
+      for (let i = 1; i <= 24; i++) {
+        hours.push(i.toString())
+      }
+      for (let i = 1; i <= 60; i++) {
+        minutes.push(i.toString())
+      }
+      const date = new Date()
+      return {
+        nickname: '',
+        gender: '0',
+        age: 18,
+        loves: ['0'],
+        switch: true,
+        timeZoneIndex: 0,
+        timeZoneList: ['中国', '美国', '巴西', '日本'] as Array<string>,
+        multiArray: [
+          ['亚洲', '欧洲'],
+          ['中国', '日本'],
+          ['北京', '上海', '广州']
+        ] as Array<Array<string>>,
+        multiIndex: [0, 0, 0] as Array<number>,
+        datePickerValue: getDate(null),
+        startDate: getDate('start'),
+        endDate: getDate('end'),
+        timePickerValue: '12:01',
+        time: [date.getHours() - 1, date.getMinutes() - 1] as Array<number>,
+        hours: hours as Array<string>,
+        minutes: minutes as Array<string>,
+        comment: '',
+        formData: {} as UTSJSONObject,
+        // 仅测试
+        testVerifySubmit: false,
+        testVerifyReset: false,
+      }
+    },
+    computed: {
+      formDataText() : string {
+        return JSON.stringify(this.formData)
+      }
+    },
+    methods: {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      onFormSubmit(e : UniFormSubmitEvent) {
+        this.formData = e.detail.value
+
+        // 仅测试
+        this.testVerifySubmit = (e.type == 'submit' && (e.target?.tagName ?? '') == "FORM")
+      },
+      onFormReset(e : UniFormResetEvent) {
+        this.formData = {}
+        this.timeZoneIndex = 0
+
+        // 仅测试
+        this.testVerifyReset = (e.type == 'reset' && (e.target?.tagName ?? '') == "FORM")
+      }
+    }
+  })
+
+export default __sfc__
+function GenPagesComponentFormFormRender(this: InstanceType<typeof __sfc__>): any | null {
+const _ctx = this
+const _cache = this.$.renderCache
+const _component_radio = resolveComponent("radio")
+const _component_radio_group = resolveComponent("radio-group")
+const _component_checkbox = resolveComponent("checkbox")
+const _component_checkbox_group = resolveComponent("checkbox-group")
+const _component_slider = resolveComponent("slider")
+const _component_switch = resolveComponent("switch")
+const _component_picker_view_column = resolveComponent("picker-view-column")
+const _component_picker_view = resolveComponent("picker-view")
+const _component_form = resolveComponent("form", true)
+
+  return _cE("scroll-view", _uM({ class: "scroll-view" }), [
+    _cE("view", _uM({ class: "page" }), [
+      _cV(_component_form, _uM({
+        onSubmit: _ctx.onFormSubmit,
+        onReset: _ctx.onFormReset
+      }), _uM({
+        default: withSlotCtx((): any[] => [
+          _cE("view", _uM({ class: "uni-form-item" }), [
+            _cE("text", _uM({ class: "title" }), "姓名"),
+            _cE("input", _uM({
+              class: "uni-input",
+              name: "nickname",
+              value: _ctx.nickname,
+              placeholder: "请输入姓名",
+              maxlength: "-1"
+            }), null, 8 /* PROPS */, ["value"])
+          ]),
+          _cE("view", _uM({ class: "uni-form-item" }), [
+            _cE("text", _uM({ class: "title" }), "性别"),
+            _cV(_component_radio_group, _uM({
+              name: "gender",
+              class: "flex-row"
+            }), _uM({
+              default: withSlotCtx((): any[] => [
+                _cE("view", _uM({ class: "group-item" }), [
+                  _cV(_component_radio, _uM({
+                    value: "0",
+                    checked: _ctx.gender=='0'
+                  }), null, 8 /* PROPS */, ["checked"]),
+                  _cE("text", null, "男")
+                ]),
+                _cE("view", _uM({ class: "group-item" }), [
+                  _cV(_component_radio, _uM({
+                    value: "1",
+                    checked: _ctx.gender=='1'
+                  }), null, 8 /* PROPS */, ["checked"]),
+                  _cE("text", null, "女")
+                ])
+              ]),
+              _: 1 /* STABLE */
+            }))
+          ]),
+          _cE("view", _uM({ class: "uni-form-item" }), [
+            _cE("text", _uM({ class: "title" }), "爱好"),
+            _cV(_component_checkbox_group, _uM({
+              name: "loves",
+              class: "flex-row"
+            }), _uM({
+              default: withSlotCtx((): any[] => [
+                _cE("view", _uM({ class: "group-item" }), [
+                  _cV(_component_checkbox, _uM({
+                    value: "0",
+                    checked: _ctx.loves.indexOf('0')>-1
+                  }), null, 8 /* PROPS */, ["checked"]),
+                  _cE("text", null, "读书")
+                ]),
+                _cE("view", _uM({ class: "group-item" }), [
+                  _cV(_component_checkbox, _uM({
+                    value: "1",
+                    checked: _ctx.loves.indexOf('1')>-1
+                  }), null, 8 /* PROPS */, ["checked"]),
+                  _cE("text", null, "写字")
+                ])
+              ]),
+              _: 1 /* STABLE */
+            }))
+          ]),
+          _cE("view", _uM({ class: "uni-form-item" }), [
+            _cE("text", _uM({ class: "title" }), "年龄"),
+            _cV(_component_slider, _uM({
+              name: "age",
+              value: _ctx.age,
+              "show-value": true
+            }), null, 8 /* PROPS */, ["value"])
+          ]),
+          _cE("view", _uM({ class: "uni-form-item" }), [
+            _cE("text", _uM({ class: "title" }), "保留选项"),
+            _cE("view", null, [
+              _cV(_component_switch, _uM({
+                name: "switch",
+                checked: _ctx.switch
+              }), null, 8 /* PROPS */, ["checked"])
+            ])
+          ]),
+          _cE("view", _uM({ class: "uni-form-item" }), [
+            _cE("text", _uM({ class: "title" }), "备注"),
+            _cE("textarea", _uM({
+              name: "comment",
+              value: _ctx.comment,
+              placeholder: "请输入备注",
+              style: _nS(_uM({"background":"#FFF"}))
+            }), null, 12 /* STYLE, PROPS */, ["value"])
+          ]),
+          _cE("view", _uM({ class: "uni-form-item" }), [
+            _cE("text", _uM({ class: "title" }), "时间"),
+            _cV(_component_picker_view, _uM({
+              class: "picker-view",
+              name: "time",
+              value: _ctx.time,
+              "indicator-style": "height:50px"
+            }), _uM({
+              default: withSlotCtx((): any[] => [
+                _cV(_component_picker_view_column, null, _uM({
+                  default: withSlotCtx((): any[] => [
+                    _cE(Fragment, null, RenderHelpers.renderList(_ctx.hours, (item, index, __index, _cached): any => {
+                      return _cE("view", _uM({
+                        class: "picker-view-item",
+                        key: index
+                      }), [
+                        _cE("text", _uM({ class: "picker-view-text" }), _tD(item) + "时", 1 /* TEXT */)
+                      ])
+                    }), 128 /* KEYED_FRAGMENT */)
+                  ]),
+                  _: 1 /* STABLE */
+                })),
+                _cV(_component_picker_view_column, null, _uM({
+                  default: withSlotCtx((): any[] => [
+                    _cE(Fragment, null, RenderHelpers.renderList(_ctx.minutes, (item, index, __index, _cached): any => {
+                      return _cE("view", _uM({
+                        class: "picker-view-item",
+                        key: index
+                      }), [
+                        _cE("text", _uM({ class: "picker-view-text" }), _tD(item) + "分", 1 /* TEXT */)
+                      ])
+                    }), 128 /* KEYED_FRAGMENT */)
+                  ]),
+                  _: 1 /* STABLE */
+                }))
+              ]),
+              _: 1 /* STABLE */
+            }), 8 /* PROPS */, ["value"])
+          ]),
+          _cE("view", _uM({ class: "flex-row" }), [
+            _cE("button", _uM({
+              class: "btn btn-submit",
+              "form-type": "submit",
+              type: "primary"
+            }), "Submit"),
+            _cE("button", _uM({
+              class: "btn btn-reset",
+              type: "default",
+              "form-type": "reset"
+            }), "Reset")
+          ])
+        ]),
+        _: 1 /* STABLE */
+      }), 8 /* PROPS */, ["onSubmit", "onReset"]),
+      _cE("view", _uM({ class: "result" }), "提交的表单数据"),
+      _cE("textarea", _uM({
+        class: "textarea",
+        value: _ctx.formDataText,
+        maxlength: -1,
+        "auto-height": true
+      }), null, 8 /* PROPS */, ["value"])
+    ])
+  ])
+}
+const GenPagesComponentFormFormStyles = [_uM([["scroll-view", _pS(_uM([["flexGrow", 1], ["flexShrink", 1], ["flexBasis", "0%"]]))], ["page", _pS(_uM([["paddingTop", 15], ["paddingRight", 15], ["paddingBottom", 15], ["paddingLeft", 15]]))], ["flex-row", _pS(_uM([["flexDirection", "row"], ["alignItems", "center"]]))], ["uni-form-item", _pS(_uM([["paddingTop", 15], ["paddingRight", 0], ["paddingBottom", 15], ["paddingLeft", 0]]))], ["title", _pS(_uM([["marginBottom", 10], ["opacity", 0.8]]))], ["picker", _pS(_uM([["marginLeft", 15]]))], ["group-item", _pS(_uM([["flexDirection", "row"], ["marginRight", 20]]))], ["picker-view", _pS(_uM([["width", 200], ["height", 320], ["marginTop", 10]]))], ["picker-view-item", _pS(_uM([["height", 50]]))], ["picker-view-text", _pS(_uM([["lineHeight", "50px"], ["textAlign", "center"]]))], ["btn", _pS(_uM([["flexGrow", 1], ["flexShrink", 1], ["flexBasis", "0%"]]))], ["btn-submit", _pS(_uM([["marginRight", 5]]))], ["btn-reset", _pS(_uM([["marginLeft", 5]]))], ["result", _pS(_uM([["marginTop", 30]]))], ["textarea", _pS(_uM([["marginTop", 5], ["paddingTop", 5], ["paddingRight", 5], ["paddingBottom", 5], ["paddingLeft", 5], ["backgroundColor", "#ffffff"]]))]])]

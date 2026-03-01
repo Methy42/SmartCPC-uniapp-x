@@ -1,0 +1,135 @@
+
+  type Item = {
+    label : string,
+    value : string,
+  }
+
+  let globalScreenHeight = 0
+  try {
+    globalScreenHeight = uni.getWindowInfo().screenHeight
+  } catch (e) {
+    // 兼容本地测试
+    console.error(e)
+  }
+
+  const __sfc__ = defineComponent({
+    data() {
+      return {
+        title: 'getSystemInfo',
+        items: [] as Item[],
+        screenHeightAtReady: 0,
+        jest_result: false,
+      }
+    },
+    onUnload: function () {
+    },
+    onReady() {
+      this.screenHeightAtReady = uni.getSystemInfoSync().screenHeight
+      console.log(`全局获取屏幕高度: ${globalScreenHeight}  onReady内获取屏幕高度: ${this.screenHeightAtReady}`);
+    },
+    methods: {
+      getSystemInfo: function () {
+        uni.getSystemInfo({
+          success: (res) => {
+            this.items = [] as Item[];
+            const res_str = JSON.stringify(res);
+            const res_obj = JSON.parseObject(res_str);
+            const res_map = res_obj!.toMap();
+            let keys = [] as string[]
+            res_map.forEach((_, key) => {
+              keys.push(key);
+            });
+            keys.sort().forEach(key => {
+              const value = res[key];
+              if (value != null) {
+                const item = {
+                  label: key,
+                  value: "" + ((typeof value == "object") ? JSON.stringify(value) : value)
+                } as Item;
+                this.items.push(item);
+              }
+            });
+          },
+        })
+      },
+      getSystemInfoSync: function () {
+        this.items = [] as Item[];
+        const res = uni.getSystemInfoSync()
+        const res_str = JSON.stringify(res);
+        const res_obj = JSON.parseObject(res_str);
+        const res_map = res_obj!.toMap();
+        let keys = [] as string[]
+        res_map.forEach((_, key) => {
+          keys.push(key);
+        });
+        keys.sort().forEach(key => {
+          const value = res[key];
+          if (value != null) {
+            const item = {
+              label: key,
+              value: "" + ((typeof value == "object") ? JSON.stringify(value) : value)
+            } as Item;
+            this.items.push(item);
+          }
+        });
+      },
+      //自动化测试例专用
+      jest_getSystemInfo() : GetSystemInfoResult {
+        return uni.getSystemInfoSync();
+      },
+      jest_getScreenHeight_at_different_stages() {
+        this.jest_result = (globalScreenHeight == this.screenHeightAtReady)
+      }
+    }
+  })
+
+export default __sfc__
+function GenPagesAPIGetSystemInfoGetSystemInfoRender(this: InstanceType<typeof __sfc__>): any | null {
+const _ctx = this
+const _cache = this.$.renderCache
+const _component_page_head = resolveEasyComponent("page-head",_easycom_page_head)
+
+  return _cE("scroll-view", _uM({
+    style: _nS(_uM({"flex":"1"}))
+  }), [
+    _cE("view", null, [
+      _cV(_component_page_head, _uM({ title: _ctx.title }), null, 8 /* PROPS */, ["title"]),
+      _cE("view", _uM({ class: "uni-common-mt" }), [
+        _cE("view", _uM({ class: "uni-list" }), [
+          _cE(Fragment, null, RenderHelpers.renderList(_ctx.items, (item, _, __index, _cached): any => {
+            return _cE("view", _uM({
+              class: "uni-list-cell",
+              style: _nS(_uM({"align-items":"center"}))
+            }), [
+              _cE("view", _uM({ class: "uni-pd" }), [
+                _cE("view", _uM({
+                  class: "uni-label",
+                  style: _nS(_uM({"width":"180px"}))
+                }), _tD(item.label), 5 /* TEXT, STYLE */)
+              ]),
+              _cE("view", _uM({ class: "uni-list-cell-db" }), [
+                _cE("text", _uM({ class: "uni-list-cell-db-text" }), _tD(item.value == '' ? '未获取' : item.value), 1 /* TEXT */)
+              ])
+            ], 4 /* STYLE */)
+          }), 256 /* UNKEYED_FRAGMENT */)
+        ]),
+        _cE("view", _uM({ class: "uni-padding-wrap" }), [
+          _cE("view", _uM({ class: "uni-btn-v" }), [
+            _cE("button", _uM({
+              type: "primary",
+              onClick: _ctx.getSystemInfoSync
+            }), " 同步获取设备系统信息 ", 8 /* PROPS */, ["onClick"]),
+            _cE("button", _uM({
+              type: "primary",
+              onClick: _ctx.getSystemInfo,
+              style: _nS(_uM({"margin-top":"20px"}))
+            }), " 异步获取设备系统信息 ", 12 /* STYLE, PROPS */, ["onClick"])
+          ])
+        ])
+      ])
+    ])
+  ], 4 /* STYLE */)
+}
+const GenPagesAPIGetSystemInfoGetSystemInfoStyles = [_uM([["uni-pd", _pS(_uM([["paddingLeft", 15]]))]])]
+
+import _easycom_page_head from '@/components/page-head/page-head.vue'

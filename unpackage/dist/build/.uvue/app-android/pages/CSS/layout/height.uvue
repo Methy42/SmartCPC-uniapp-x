@@ -1,0 +1,27 @@
+const __sfc__ = defineComponent({});
+export default __sfc__;
+function GenPagesCSSLayoutHeightRender(this: InstanceType<typeof __sfc__>): any | null {
+    const _ctx = this;
+    const _cache = this.$.renderCache;
+    return _cE("view", _uM({
+        style: _nS(_uM({ "flex-grow": "1" }))
+    }), [
+        _cE("view", null, [
+            _cE("text", null, "height: 250px"),
+            _cE("view", _uM({
+                class: "common",
+                style: _nS(_uM({ "height": "250px" }))
+            }), null, 4 /* STYLE */)
+        ]),
+        _cE("view", _uM({
+            style: _nS(_uM({ "height": "250px" }))
+        }), [
+            _cE("text", null, "height: 50%"),
+            _cE("view", _uM({
+                class: "common",
+                style: _nS(_uM({ "height": "50%" }))
+            }), null, 4 /* STYLE */)
+        ], 4 /* STYLE */)
+    ], 4 /* STYLE */);
+}
+const GenPagesCSSLayoutHeightStyles = [_uM([["common", _pS(_uM([["width", 250], ["backgroundColor", "#FF0000"]]))]])];

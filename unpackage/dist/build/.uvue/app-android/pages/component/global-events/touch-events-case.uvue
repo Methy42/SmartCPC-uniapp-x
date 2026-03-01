@@ -1,0 +1,164 @@
+const __sfc__ = defineComponent({
+    data() {
+        return {
+            swiperChangeEvent: false,
+            viewTouchEvent: false,
+            swiperItemTouchEvent: false,
+            swiperTouchEvent: false,
+            stopPropagation: false,
+            preventDefault: false,
+            touchResult: ""
+        };
+    },
+    methods: {
+        changeStopPropagation(value: boolean) {
+            this.stopPropagation = value;
+        },
+        changePreventDefault(value: boolean) {
+            this.preventDefault = value;
+        },
+        swiperChange(e: UniSwiperChangeEvent) {
+            console.log("swiperChange", e.detail.current);
+            this.swiperChangeEvent = true;
+        },
+        viewTouchStart(e: UniTouchEvent) {
+            console.log("viewTouchStart");
+            this.touchResult = "viewTouchStart";
+            this.viewTouchEvent = true;
+            if (this.stopPropagation)
+                e.stopPropagation();
+            if (this.preventDefault)
+                e.preventDefault();
+        },
+        viewTouchMove(e: UniTouchEvent) {
+            console.log("viewTouchMove");
+            this.touchResult = "viewTouchMove";
+            this.viewTouchEvent = true;
+            if (this.stopPropagation)
+                e.stopPropagation();
+            if (this.preventDefault)
+                e.preventDefault();
+        },
+        viewTouchEnd(e: UniTouchEvent) {
+            console.log("viewTouchEnd");
+            this.touchResult = "viewTouchEnd";
+            if (this.stopPropagation)
+                e.stopPropagation();
+        },
+        swiperItemTouchStart(e: UniTouchEvent) {
+            console.log("swiperItemTouchStart");
+            this.touchResult += " -> swiperItemTouchStart";
+            this.swiperItemTouchEvent = true;
+        },
+        swiperItemTouchMove(e: UniTouchEvent) {
+            console.log("swiperItemTouchMove");
+            this.touchResult += " -> swiperItemTouchMove";
+        },
+        swiperItemTouchEnd(e: UniTouchEvent) {
+            console.log("swiperItemTouchEnd");
+            this.touchResult += " -> swiperItemTouchEnd";
+        },
+        swiperTouchStart(e: UniTouchEvent) {
+            console.log("swiperTouchStart");
+            this.touchResult += " -> swiperTouchStart";
+            this.swiperTouchEvent = true;
+        },
+        swiperTouchMove(e: UniTouchEvent) {
+            console.log("swiperTouchMove");
+            this.touchResult += " -> swiperTouchMove";
+        },
+        swiperTouchEnd(e: UniTouchEvent) {
+            console.log("swiperTouchEnd");
+            this.touchResult += " -> swiperTouchEnd";
+        },
+        resetEvent() {
+            this.swiperChangeEvent = false;
+            this.viewTouchEvent = false;
+            this.swiperItemTouchEvent = false;
+            this.swiperTouchEvent = false;
+            this.stopPropagation = true;
+            this.preventDefault = true;
+        },
+        isPassTest1(): boolean {
+            console.log("swiperChangeEvent:", this.swiperChangeEvent);
+            return this.swiperChangeEvent == false;
+        },
+        isPassTest2(): boolean {
+            console.log("viewTouchEvent:", this.viewTouchEvent);
+            console.log("swiperItemTouchEvent:", this.swiperItemTouchEvent);
+            console.log("swiperTouchEvent:", this.swiperTouchEvent);
+            return this.viewTouchEvent == true && this.swiperItemTouchEvent == true && this.swiperTouchEvent == true;
+        }
+    }
+});
+export default __sfc__;
+function GenPagesComponentGlobalEventsTouchEventsCaseRender(this: InstanceType<typeof __sfc__>): any | null {
+    const _ctx = this;
+    const _cache = this.$.renderCache;
+    const _component_boolean_data = resolveEasyComponent("boolean-data", _easycom_boolean_data);
+    const _component_navigator = resolveComponent("navigator");
+    return _cE("view", null, [
+        _cE("swiper", _uM({
+            ref: "header",
+            class: "h-300",
+            "indicator-dots": "true",
+            circular: "true",
+            onChange: _ctx.swiperChange,
+            onTouchstart: _ctx.swiperTouchStart,
+            onTouchmove: _ctx.swiperTouchMove,
+            onTouchend: _ctx.swiperTouchEnd
+        }), [
+            _cE(Fragment, null, RenderHelpers.renderList(3, (i, __key, __index, _cached): any => {
+                return _cE("swiper-item", _uM({
+                    "item-id": i,
+                    onTouchstart: _ctx.swiperItemTouchStart,
+                    onTouchmove: _ctx.swiperItemTouchMove,
+                    onTouchend: _ctx.swiperItemTouchEnd
+                }), [
+                    _cE("view", _uM({
+                        class: "h-300 header-tiem",
+                        onTouchstart: _ctx.viewTouchStart,
+                        onTouchmove: _ctx.viewTouchMove,
+                        onTouchend: _ctx.viewTouchEnd
+                    }), [
+                        _cE("text", null, _tD(i), 1 /* TEXT */)
+                    ], 40 /* PROPS, NEED_HYDRATION */, ["onTouchstart", "onTouchmove", "onTouchend"])
+                ], 40 /* PROPS, NEED_HYDRATION */, ["item-id", "onTouchstart", "onTouchmove", "onTouchend"]);
+            }), 64 /* STABLE_FRAGMENT */)
+        ], 40 /* PROPS, NEED_HYDRATION */, ["onChange", "onTouchstart", "onTouchmove", "onTouchend"]),
+        _cE("view", _uM({ class: "content" }), [
+            _cV(_component_boolean_data, _uM({
+                defaultValue: false,
+                title: "stopPropagation",
+                onChange: _ctx.changeStopPropagation
+            }), null, 8 /* PROPS */, ["onChange"]),
+            _cV(_component_boolean_data, _uM({
+                defaultValue: false,
+                title: "preventDefault",
+                onChange: _ctx.changePreventDefault
+            }), null, 8 /* PROPS */, ["onChange"]),
+            _cE("text", _uM({
+                style: _nS(_uM({ "padding": "10px" }))
+            }), _tD(_ctx.touchResult), 5 /* TEXT, STYLE */),
+            _cE("view", _uM({
+                class: "uni-padding-wrap uni-common-mt",
+                style: _nS(_uM({ "bottom": "20px" }))
+            }), [
+                _cV(_component_navigator, _uM({
+                    url: "/pages/component/global-events/touch-events-preventDefault",
+                    "hover-class": "none"
+                }), _uM({
+                    default: withSlotCtx((): any[] => [
+                        _cE("button", _uM({
+                            type: "default",
+                            class: "button"
+                        }), " 测试 preventDefault ")
+                    ]),
+                    _: 1 /* STABLE */
+                }))
+            ], 4 /* STYLE */)
+        ])
+    ]);
+}
+const GenPagesComponentGlobalEventsTouchEventsCaseStyles = [_uM([["h-300", _pS(_uM([["height", 300]]))], ["header-tiem", _pS(_uM([["backgroundColor", "#89ff8d"], ["alignItems", "center"], ["justifyContent", "center"]]))]])];
+import _easycom_boolean_data from '@/components/boolean-data/boolean-data.vue';

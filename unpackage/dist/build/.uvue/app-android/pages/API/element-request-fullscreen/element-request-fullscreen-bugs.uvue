@@ -1,0 +1,61 @@
+const __sfc__ = defineComponent({
+    data() {
+        return {
+            fullscreenElement: null as UniElement | null,
+            isFullscreen: false,
+        };
+    },
+    onReady() {
+        this.fullscreenElement = uni.getElementById('fullscreen') as UniElement;
+    },
+    methods: {
+        getCurrentPage(): UniPage {
+            const pages = getCurrentPages();
+            return pages[pages.length - 1];
+        },
+        requestfullscreen() {
+            if (this.isFullscreen) {
+                const page = this.getCurrentPage();
+                page.exitFullscreen({
+                    success: () => {
+                    },
+                    fail: (_error) => {
+                    },
+                    complete: (_result) => {
+                    }
+                } as ExitFullscreenOptions);
+            }
+            else {
+                this.fullscreenElement?.requestFullscreen({
+                    success: () => { },
+                    fail: (_error) => { },
+                    complete: (_result) => { }
+                } as RequestFullscreenOptions);
+            }
+            this.isFullscreen = !this.isFullscreen;
+        },
+        exitfullscreen() {
+        }
+    }
+});
+export default __sfc__;
+function GenPagesAPIElementRequestFullscreenElementRequestFullscreenBugsRender(this: InstanceType<typeof __sfc__>): any | null {
+    const _ctx = this;
+    const _cache = this.$.renderCache;
+    return _cE("view", null, [
+        _cE("view", _uM({
+            style: _nS(_uM({ "padding": "8px" }))
+        }), [
+            _cE("view", _uM({
+                class: "position-error",
+                id: "fullscreen",
+                onClick: _ctx.requestfullscreen
+            }), [
+                _cE("text", _uM({
+                    style: _nS(_uM({ "color": "white" }))
+                }), "测试position：fixed在安卓上的bug", 4 /* STYLE */)
+            ], 8 /* PROPS */, ["onClick"])
+        ], 4 /* STYLE */)
+    ]);
+}
+const GenPagesAPIElementRequestFullscreenElementRequestFullscreenBugsStyles = [_uM([["position-error", _pS(_uM([["width", 200], ["height", 200], ["position", "fixed"], ["backgroundColor", "#A52A2A"]]))]])];

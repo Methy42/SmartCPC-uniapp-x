@@ -1,0 +1,156 @@
+
+  type AudioPath = {
+    description : string
+    src : string
+  }
+  const __sfc__ = defineComponent({
+    data() {
+      return {
+        title: 'audio-path',
+        playIndex: 0,
+        isPlaying: false,
+
+        nativePath: uni.env.CACHE_PATH + 'uni-audio/test/test.mp3' as string,
+        // sdcardPath: 'sdcard/uni-audio/test.mp3',
+
+        _audioContext: null as InnerAudioContext | null,
+        supportPaths: [
+          {
+            description: '本地路径：/static方式',
+            src: '/static/test-audio/ForElise.mp3'
+          },
+          {
+            description: '本地路径：../static/',
+            src: '../../../static/test-audio/ForElise.mp3'
+          },
+
+          {
+            description: '本地路径：env方式',
+            src: 'env'
+          },
+
+          {
+            description: '网络路径',
+            src: 'https://web-ext-storage.dcloud.net.cn/uni-app-x/audio/ForElise.mp3'
+          },
+          {
+            description: '不存在的音频',
+            src: 'https://web-ext-storage.dcloud.net.cn/uni-app-x/audio/invalid_url.mp3'
+          },
+          {
+            description: '错误路径',
+            src: '../static/test-audio/ForElise22.mp3'
+          },
+        ] as Array<AudioPath>
+      }
+    },
+    onReady() {
+      this._audioContext = uni.createInnerAudioContext();
+      this._audioContext!.onPlay(() => {
+        console.log('开始播放');
+      });
+      this._audioContext!.onEnded(() => {
+        console.log('播放结束');
+        this.isPlaying = false;
+      });
+      this._audioContext!.onError((err) => {
+        this.isPlaying = false;
+        console.log('err', err);
+      });
+
+
+      const fileManager = uni.getFileSystemManager()
+      fileManager.mkdir({
+        dirPath: uni.env.CACHE_PATH + 'uni-audio/test',
+        recursive: true,
+        success: (res) => {
+          fileManager.copyFile({
+            srcPath: '/static/test-audio/ForElise.mp3',
+            destPath: this.nativePath,
+            success: () => {
+              console.log("copy成功： ", res)
+            }
+          })
+        },
+        fail: (err) => {
+          console.log("创建路径失败： ", err.errMsg)
+          if (err.errMsg.includes("file already exists")) {
+            console.log("已经包含该路径")
+            fileManager.copyFile({
+              srcPath: '/static/test-audio/ForElise.mp3',
+              destPath: this.nativePath,
+              success: (res) => {
+                console.log("copy成功： ", res)
+              },
+              fail: (err) => {
+                console.log("copy失败： ", err)
+              }
+            })
+          }
+        }
+      })
+
+    },
+
+    onUnload() {
+      if (this._audioContext != null) {
+        this.pause();
+        this._audioContext!.destroy()
+      }
+    },
+    methods: {
+      pause() {
+        this._audioContext!.pause();
+        this.isPlaying = false;
+      },
+      play(audioUrl : string, index : number) {
+        console.log(index, audioUrl);
+        if (this.isPlaying && this.playIndex == index) {
+          this.pause();
+          return;
+        }
+
+        if (audioUrl == 'env') {
+          audioUrl = this.nativePath
+        }
+
+
+        this.playIndex = index
+        this._audioContext!.src = audioUrl;
+        this._audioContext!.play();
+        this.isPlaying = true;
+      }
+    }
+  })
+
+export default __sfc__
+function GenPagesAPICreateInnerAudioContextInnerAudioPathRender(this: InstanceType<typeof __sfc__>): any | null {
+const _ctx = this
+const _cache = this.$.renderCache
+const _component_page_head = resolveEasyComponent("page-head",_easycom_page_head)
+
+  return _cE(Fragment, null, [
+    _cV(_component_page_head, _uM({ title: _ctx.title }), null, 8 /* PROPS */, ["title"]),
+    _cE("view", _uM({ class: "uni-padding-wrap uni-common-mt" }), [
+      _cE("view", _uM({ class: "uni-title" }), [
+        _cE("text", _uM({ class: "uni-title-text" }), "音频路径示例")
+      ]),
+      _cE(Fragment, null, RenderHelpers.renderList(_ctx.supportPaths, (item, index, __index, _cached): any => {
+        return _cE("view", _uM({
+          class: "formats",
+          key: index
+        }), [
+          _cE("text", _uM({ class: "uni-subtitle-text" }), _tD(item.description), 1 /* TEXT */),
+          _cE("image", _uM({
+            class: "icon-play",
+            src: (_ctx.isPlaying && _ctx.playIndex==index)?'/static/pause.png':'/static/play.png',
+            onClick: () => {_ctx.play(item.src,index)}
+          }), null, 8 /* PROPS */, ["src", "onClick"])
+        ])
+      }), 128 /* KEYED_FRAGMENT */)
+    ])
+  ], 64 /* STABLE_FRAGMENT */)
+}
+const GenPagesAPICreateInnerAudioContextInnerAudioPathStyles = [_uM([["formats", _pS(_uM([["alignItems", "center"]]))], ["icon-play", _pS(_uM([["width", 60], ["height", 60], ["marginTop", 10], ["marginRight", 10], ["marginBottom", 10], ["marginLeft", 10]]))]])]
+
+import _easycom_page_head from '@/components/page-head/page-head.vue'

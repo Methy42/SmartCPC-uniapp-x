@@ -1,0 +1,83 @@
+const __sfc__ = defineComponent({})
+export default __sfc__
+function GenPagesCSSFlexFlexRender(this: InstanceType<typeof __sfc__>): any | null {
+const _ctx = this
+const _cache = this.$.renderCache
+  return _cE("scroll-view", _uM({
+    style: _nS(_uM({"flex":"1"}))
+  }), [
+    _cE("view", _uM({
+      style: _nS(_uM({"flex-grow":"1"}))
+    }), [
+      _cE("view", null, [
+        _cE("text", null, "flex: 0"),
+        _cE("view", _uM({
+          style: _nS(_uM({"width":"250px","height":"150px","background-color":"gray","flex-direction":"row"}))
+        }), [
+          _cE("view", _uM({
+            class: "common",
+            style: _nS(_uM({"min-width":"25px","flex":"0"}))
+          }), null, 4 /* STYLE */),
+          _cE("view", _uM({
+            style: _nS(_uM({"width":"50px","height":"50px","background-color":"green"}))
+          }), null, 4 /* STYLE */),
+          _cE("view", _uM({
+            style: _nS(_uM({"width":"50px","height":"50px","background-color":"blue"}))
+          }), null, 4 /* STYLE */)
+        ], 4 /* STYLE */)
+      ]),
+      _cE("view", null, [
+        _cE("text", null, "flex: 1"),
+        _cE("view", _uM({
+          style: _nS(_uM({"width":"250px","height":"150px","background-color":"gray","flex-direction":"row"}))
+        }), [
+          _cE("view", _uM({
+            class: "common",
+            style: _nS(_uM({"flex":"1"}))
+          }), null, 4 /* STYLE */),
+          _cE("view", _uM({
+            style: _nS(_uM({"width":"50px","height":"50px","background-color":"green"}))
+          }), null, 4 /* STYLE */),
+          _cE("view", _uM({
+            style: _nS(_uM({"width":"50px","height":"50px","background-color":"blue"}))
+          }), null, 4 /* STYLE */)
+        ], 4 /* STYLE */)
+      ]),
+      _cE("view", null, [
+        _cE("text", null, "flex: auto"),
+        _cE("view", _uM({
+          style: _nS(_uM({"width":"250px","height":"150px","background-color":"gray","flex-direction":"row"}))
+        }), [
+          _cE("view", _uM({
+            class: "common",
+            style: _nS(_uM({"flex":"auto"}))
+          }), null, 4 /* STYLE */),
+          _cE("view", _uM({
+            style: _nS(_uM({"width":"50px","height":"50px","background-color":"green"}))
+          }), null, 4 /* STYLE */),
+          _cE("view", _uM({
+            style: _nS(_uM({"width":"50px","height":"50px","background-color":"blue"}))
+          }), null, 4 /* STYLE */)
+        ], 4 /* STYLE */)
+      ]),
+      _cE("view", null, [
+        _cE("text", null, "flex: none"),
+        _cE("view", _uM({
+          style: _nS(_uM({"width":"250px","height":"150px","background-color":"gray","flex-direction":"row"}))
+        }), [
+          _cE("view", _uM({
+            class: "common",
+            style: _nS(_uM({"flex":"none"}))
+          }), null, 4 /* STYLE */),
+          _cE("view", _uM({
+            style: _nS(_uM({"width":"50px","height":"50px","background-color":"green"}))
+          }), null, 4 /* STYLE */),
+          _cE("view", _uM({
+            style: _nS(_uM({"width":"50px","height":"50px","background-color":"blue"}))
+          }), null, 4 /* STYLE */)
+        ], 4 /* STYLE */)
+      ])
+    ], 4 /* STYLE */)
+  ], 4 /* STYLE */)
+}
+const GenPagesCSSFlexFlexStyles = [_uM([["common", _pS(_uM([["width", 50], ["height", 50], ["backgroundColor", "#FF0000"]]))]])]

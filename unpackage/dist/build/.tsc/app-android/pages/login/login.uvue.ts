@@ -1,0 +1,203 @@
+import { ref, reactive } from 'vue'
+import { setUserInfo, UserInfo } from '@/store/index.uts'
+
+interface LoginForm {
+  username: string
+  password: string
+}
+
+
+const __sfc__ = defineComponent({
+  __name: 'login',
+  setup(__props) {
+const __ins = getCurrentInstance()!;
+const _ctx = __ins.proxy as InstanceType<typeof __sfc__>;
+const _cache = __ins.renderCache;
+
+const form = reactive<LoginForm>({
+  username: '',
+  password: ''
+})
+
+const remember = ref(false)
+const loading = ref(false)
+
+const handleLogin = async () => {
+  if (form.username.trim() == '') {
+    uni.showToast({
+      title: '请输入账号',
+      icon: 'none'
+    })
+    return
+  }
+
+  if (form.password.trim() == '') {
+    uni.showToast({
+      title: '请输入密码',
+      icon: 'none'
+    })
+    return
+  }
+
+  loading.value = true
+
+  try {
+    // 调用登录API
+    const res = await uniCloud.callFunction({
+      name: 'user-login',
+      data: {
+        username: form.username,
+        password: form.password
+      }
+    })
+    
+    if (res.result.errCode !== 0) {
+      throw new Error(res.result.errMsg)
+    }
+    
+    const userData = res.result.data
+    
+    // 保存登录状态
+    setUserInfo({
+      id: userData.id,
+      username: userData.username,
+      name: userData.name,
+      avatar: userData.avatar,
+      role: userData.role,
+      organization: userData.organization,
+      token: userData.token
+    } as UserInfo)
+    
+    // 保存token到本地存储
+    uni.setStorageSync('user_token', userData.token)
+    uni.setStorageSync('user_info', JSON.stringify(userData))
+    
+    // 设置全局请求头（如果有token）
+    // uni.$http 在uni-app x中不可用，暂时注释
+    // if (userData.token) {
+    //   uni.$http?.setHeader('Authorization', `Bearer ${userData.token}`)
+    // }
+    
+    // 记住密码逻辑
+    if (remember.value) {
+      uni.setStorageSync('login_username', form.username)
+      uni.setStorageSync('login_password', form.password)
+      uni.setStorageSync('remember_password', true)
+    } else {
+      uni.removeStorageSync('login_username')
+      uni.removeStorageSync('login_password')
+      uni.removeStorageSync('remember_password')
+    }
+    
+    uni.showToast({
+      title: '登录成功',
+      icon: 'success'
+    })
+    
+    // 跳转到首页
+    uni.switchTab({
+      url: '/pages/index/index'
+    })
+    
+  } catch (error: any) {
+    uni.showToast({
+      title: error.message || '登录失败',
+      icon: 'none'
+    })
+  } finally {
+    loading.value = false
+  }
+}
+
+// 检查是否有记住的密码
+const initRememberPassword = () => {
+//  const rememberFlag = uni.getStorageSync('remember_password')
+//  if (rememberFlag) {
+//    remember.value = true
+//    form.username = uni.getStorageSync('login_username') || ''
+//    form.password = uni.getStorageSync('login_password') || ''
+//  }
+}
+
+// 页面加载时初始化
+onMounted(() => {
+  initRememberPassword()
+})
+
+return (): any | null => {
+
+const _component_checkbox = resolveComponent("checkbox")
+
+  return _cE("view", _uM({ class: "container" }), [
+    _cE("view", _uM({ class: "header" }), [
+      _cE("image", _uM({
+        class: "logo",
+        src: "/static/party-icon.png",
+        mode: "aspectFit"
+      })),
+      _cE("text", _uM({ class: "title" }), "水源红·智慧党建"),
+      _cE("text", _uM({ class: "subtitle" }), "党员教育管理平台")
+    ]),
+    _cE("view", _uM({ class: "form" }), [
+      _cE("view", _uM({ class: "form-item" }), [
+        _cE("image", _uM({
+          src: "/static/avatar.png",
+          style: _nS(_uM({"width":"24px","height":"24px","margin-right":"30rpx"})),
+          mode: "aspectFit"
+        }), null, 4 /* STYLE */),
+        _cE("input", _uM({
+          class: "input",
+          type: "text",
+          modelValue: form.username,
+          onInput: ($event: UniInputEvent) => {(form.username) = $event.detail.value},
+          placeholder: "请输入账号/手机号",
+          "placeholder-class": "placeholder"
+        }), null, 40 /* PROPS, NEED_HYDRATION */, ["modelValue", "onInput"])
+      ]),
+      _cE("view", _uM({ class: "form-item" }), [
+        _cE("image", _uM({
+          src: "/static/lock-icon.png",
+          style: _nS(_uM({"width":"24px","height":"24px","margin-right":"30rpx"})),
+          mode: "aspectFit"
+        }), null, 4 /* STYLE */),
+        _cE("input", _uM({
+          class: "input",
+          type: "password",
+          modelValue: form.password,
+          onInput: ($event: UniInputEvent) => {(form.password) = $event.detail.value},
+          placeholder: "请输入密码",
+          "placeholder-class": "placeholder",
+          password: ""
+        }), null, 40 /* PROPS, NEED_HYDRATION */, ["modelValue", "onInput"])
+      ]),
+      _cE("view", _uM({ class: "form-item" }), [
+        _cV(_component_checkbox, _uM({
+          checked: remember.value,
+          onChange: () => {remember.value = !remember.value},
+          style: _nS(_uM({"transform":"scale(0.7)","margin-right":"10rpx"}))
+        }), null, 8 /* PROPS */, ["checked", "onChange", "style"]),
+        _cE("text", _uM({
+          style: _nS(_uM({"font-size":"28rpx","color":"#666"}))
+        }), "记住密码", 4 /* STYLE */)
+      ]),
+      _cE("button", _uM({
+        class: "login-btn",
+        onClick: handleLogin,
+        loading: loading.value,
+        style: _nS(_uM({"background-color":"#C8102E","color":"white","border-radius":"100rpx","height":"100rpx","font-size":"36rpx","font-weight":"bold","margin-top":"40rpx"}))
+      }), "登录", 12 /* STYLE, PROPS */, ["loading"]),
+      _cE("view", _uM({ class: "tips" }), [
+        _cE("text", _uM({ class: "tip-text" }), "默认账号：党员账号/手机号"),
+        _cE("text", _uM({ class: "tip-text" }), "默认密码：123456")
+      ])
+    ]),
+    _cE("view", _uM({ class: "footer" }), [
+      _cE("text", _uM({ class: "footer-text" }), "技术支持：南水北调（江苏）数智科技有限公司")
+    ])
+  ])
+}
+}
+
+})
+export default __sfc__
+const GenPagesLoginLoginStyles = [_uM([["container", _pS(_uM([["backgroundImage", "linear-gradient(135deg, #C8102E 0%, #A80E26 100%)"], ["backgroundColor", "rgba(0,0,0,0)"], ["display", "flex"], ["flexDirection", "column"], ["paddingTop", "80rpx"], ["paddingRight", "60rpx"], ["paddingBottom", "80rpx"], ["paddingLeft", "60rpx"]]))], ["header", _pS(_uM([["textAlign", "center"], ["marginBottom", "100rpx"]]))], ["logo", _pS(_uM([["width", "120rpx"], ["height", "120rpx"], ["marginBottom", "30rpx"]]))], ["title", _pS(_uM([["fontSize", "48rpx"], ["fontWeight", "bold"], ["color", "#FFD700"], ["marginBottom", "20rpx"]]))], ["subtitle", _pS(_uM([["fontSize", "32rpx"], ["color", "rgba(255,255,255,0.8)"]]))], ["form", _pS(_uM([["backgroundImage", "none"], ["backgroundColor", "rgba(255,255,255,0.95)"], ["borderTopLeftRadius", "30rpx"], ["borderTopRightRadius", "30rpx"], ["borderBottomRightRadius", "30rpx"], ["borderBottomLeftRadius", "30rpx"], ["paddingTop", "60rpx"], ["paddingRight", "50rpx"], ["paddingBottom", "60rpx"], ["paddingLeft", "50rpx"], ["marginBottom", "60rpx"]]))], ["form-item", _pS(_uM([["display", "flex"], ["alignItems", "center"], ["borderBottomWidth", "2rpx"], ["borderBottomStyle", "solid"], ["borderBottomColor", "#eeeeee"], ["paddingTop", "40rpx"], ["paddingRight", 0], ["paddingBottom", "40rpx"], ["paddingLeft", 0], ["marginBottom", "40rpx"], ["borderBottomWidth:last-child", "medium"], ["borderBottomStyle:last-child", "none"], ["borderBottomColor:last-child", "#000000"], ["marginBottom:last-child", 0]]))], ["input", _pS(_uM([["flexGrow", 1], ["flexShrink", 1], ["flexBasis", "0%"], ["marginLeft", "30rpx"], ["fontSize", "32rpx"], ["color", "#333333"], ["height", "50rpx"], ["lineHeight", "50rpx"]]))], ["placeholder", _pS(_uM([["color", "#999999"], ["fontSize", "30rpx"]]))], ["login-btn", _pS(_uM([["height", "100rpx"], ["fontSize", "36rpx"], ["fontWeight", "bold"], ["marginTop", "40rpx"]]))], ["tips", _pS(_uM([["marginTop", "50rpx"], ["textAlign", "center"]]))], ["tip-text", _pS(_uM([["fontSize", "26rpx"], ["color", "#666666"], ["marginBottom", "10rpx"]]))], ["footer", _pS(_uM([["textAlign", "center"], ["marginTop", "auto"]]))], ["footer-text", _pS(_uM([["fontSize", "24rpx"], ["color", "rgba(255,255,255,0.6)"]]))]])]

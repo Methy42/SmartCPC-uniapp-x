@@ -1,0 +1,54 @@
+
+  const __sfc__ = defineComponent({
+    data() {
+      return {
+        title: 'rpx2px',
+        rpxValue: 750,
+        pxValue: 0,
+        result: false
+      }
+    },
+    methods: {
+      rpx2px: function () {
+        this.pxValue = uni.rpx2px(this.rpxValue);
+
+        // 仅限自动化测试
+        const windowInfo = uni.getWindowInfo();
+        if (windowInfo.windowWidth == this.pxValue) {
+          this.result = true
+        }
+      }
+    }
+  })
+
+export default __sfc__
+function GenPagesAPIRpx2pxRpx2pxRender(this: InstanceType<typeof __sfc__>): any | null {
+const _ctx = this
+const _cache = this.$.renderCache
+const _component_page_head = resolveEasyComponent("page-head",_easycom_page_head)
+
+  return _cE("scroll-view", _uM({ class: "page-scroll-view" }), [
+    _cE("view", _uM({ class: "page" }), [
+      _cV(_component_page_head, _uM({ title: _ctx.title }), null, 8 /* PROPS */, ["title"]),
+      _cE("view", null, [
+        _cE("view", _uM({ class: "item" }), [
+          _cE("text", _uM({ class: "item-k" }), "输入:"),
+          _cE("text", _uM({ class: "item-v" }), _tD(_ctx.rpxValue) + "rpx", 1 /* TEXT */)
+        ]),
+        _cE("view", _uM({ class: "item" }), [
+          _cE("text", _uM({ class: "item-k" }), "返回:"),
+          _cE("text", _uM({ class: "item-v" }), _tD(_ctx.pxValue) + "px", 1 /* TEXT */)
+        ])
+      ]),
+      _cE("view", null, [
+        _cE("button", _uM({
+          id: "convert",
+          onClick: _ctx.rpx2px
+        }), "转换", 8 /* PROPS */, ["onClick"])
+      ])
+    ])
+  ])
+}
+const GenPagesAPIRpx2pxRpx2pxStyles = [_uM([["page", _pS(_uM([["paddingTop", 15], ["paddingRight", 15], ["paddingBottom", 15], ["paddingLeft", 15]]))], ["item", _pS(_uM([["flexDirection", "row"]]))], ["item-k", _pS(_uM([["width", 72], ["lineHeight", 2]]))], ["item-v", _pS(_uM([["fontWeight", "bold"], ["lineHeight", 2]]))]])]
+
+import _easycom_page_head from '@/components/page-head/page-head.vue'

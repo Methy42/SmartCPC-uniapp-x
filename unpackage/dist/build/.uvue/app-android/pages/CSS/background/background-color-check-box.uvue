@@ -1,0 +1,23 @@
+const __sfc__ = defineComponent({});
+export default __sfc__;
+function GenPagesCSSBackgroundBackgroundColorCheckBoxRender(this: InstanceType<typeof __sfc__>): any | null {
+    const _ctx = this;
+    const _cache = this.$.renderCache;
+    const _component_checkbox = resolveComponent("checkbox");
+    return _cE("view", _uM({
+        style: _nS(_uM({ "flex": "1" }))
+    }), [
+        _cE("view", _uM({ class: "item" }), [
+            _cE("text", null, "check-box设置background-color"),
+            _cE("view", _uM({ class: "case" }), [
+                _cE("view", _uM({ class: "warp" }), [
+                    _cV(_component_checkbox, null, _uM({
+                        default: withSlotCtx((): any[] => ["select"]),
+                        _: 1 /* STABLE */
+                    }))
+                ])
+            ])
+        ])
+    ], 4 /* STYLE */);
+}
+const GenPagesCSSBackgroundBackgroundColorCheckBoxStyles = [_uM([["item", _pS(_uM([["marginTop", 15], ["marginRight", 15], ["marginBottom", 15], ["marginLeft", 15]]))], ["case", _pS(_uM([["marginTop", 10]]))], ["warp", _pS(_uM([["paddingTop", 16], ["paddingRight", 16], ["paddingBottom", 16], ["paddingLeft", 16], ["backgroundColor", "#000000"], ["boxShadow", "0px 0px 2px 0px rgba(0, 0, 0, 0.7)"]]))]])];

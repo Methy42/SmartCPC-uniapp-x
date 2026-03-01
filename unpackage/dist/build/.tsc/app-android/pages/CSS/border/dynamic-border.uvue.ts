@@ -1,0 +1,63 @@
+
+  const defaultStyle = 'border:2px solid black;background :#57BE6A;'
+  const __sfc__ = defineComponent({
+
+    data() {
+      return {
+        currentIndex: 0,
+        style: '' as string,
+      }
+    },
+    computed: {
+      isSelect() : boolean {
+        return this.style == defaultStyle
+      }
+    },
+    methods: {
+      changeIndex(index : number) {
+        this.currentIndex = index
+      },
+      setBorderBlank() {
+        this.style = this.style == '' ? defaultStyle : ''
+      }
+    }
+  })
+
+export default __sfc__
+function GenPagesCSSBorderDynamicBorderRender(this: InstanceType<typeof __sfc__>): any | null {
+const _ctx = this
+const _cache = this.$.renderCache
+  return _cE("scroll-view", _uM({
+    style: _nS(_uM({"flex":"1"}))
+  }), [
+    _cE("view", _uM({
+      style: _nS(_uM({"margin":"15px","border-radius":"10px","background-color":"white"}))
+    }), [
+      _cE(Fragment, null, RenderHelpers.renderList([0,1,2,3,4,5,6,7,8,9], (index, __key, __index, _cached): any => {
+        return _cE("view", _uM({
+          key: index,
+          class: _nC((index < 9 ? 'bb1' : '') + ' ' + (_ctx.currentIndex == 0 ? 'btlr10 btrr10' : _ctx.currentIndex == 9 ? 'bblr10 bbrr10' : '')),
+          style: _nS([_uM({"flex-direction":"row","align-items":"center","padding":"15px"}), index == _ctx.currentIndex ? 'background-color :#57BE6A;' : '']),
+          onClick: () => {_ctx.changeIndex(index)}
+        }), [
+          _cE("view", null, [
+            _cE("text", _uM({
+              style: _nS([_uM({"font-size":"14px"}), index == _ctx.currentIndex ? 'color: #FFFFFF;' : ''])
+            }), _tD(index), 5 /* TEXT, STYLE */)
+          ])
+        ], 14 /* CLASS, STYLE, PROPS */, ["onClick"])
+      }), 64 /* STABLE_FRAGMENT */)
+    ], 4 /* STYLE */),
+    _cE("view", _uM({
+      style: _nS(_uM({"margin":"15px","margin-top":"20px"}))
+    }), [
+      _cE("text", null, "动态切换 border 为空值"),
+      _cE("text", _uM({
+        onClick: _ctx.setBorderBlank,
+        class: "common",
+        style: _nS(_ctx.style)
+      }), _tD(_ctx.isSelect?'选中':'未选中'), 13 /* TEXT, STYLE, PROPS */, ["onClick"])
+    ], 4 /* STYLE */)
+  ], 4 /* STYLE */)
+}
+const GenPagesCSSBorderDynamicBorderStyles = [_uM([["common", _pS(_uM([["paddingTop", 15], ["paddingRight", 15], ["paddingBottom", 15], ["paddingLeft", 15], ["borderTopLeftRadius", 4], ["borderTopRightRadius", 4], ["borderBottomRightRadius", 4], ["borderBottomLeftRadius", 4], ["width", 120], ["textAlign", "center"], ["marginTop", 10]]))], ["bb1", _pS(_uM([["borderBottomWidth", "1rpx"], ["borderBottomStyle", "solid"], ["borderBottomColor", "#EEEEEE"]]))], ["btlr10", _pS(_uM([["borderTopLeftRadius", "10rpx"]]))], ["btrr10", _pS(_uM([["borderTopRightRadius", "10rpx"]]))], ["bblr10", _pS(_uM([["borderBottomLeftRadius", "10rpx"]]))], ["bbrr10", _pS(_uM([["borderBottomRightRadius", "10rpx"]]))]])]

@@ -1,0 +1,82 @@
+import _easycom_page_head from '@/components/page-head/page-head.vue'
+
+const __sfc__ = defineComponent({
+  __name: 'slider-100',
+  setup(__props, __setupCtx: SetupContext) {
+const __expose = __setupCtx.expose
+const __ins = getCurrentInstance()!;
+const _ctx = __ins.proxy as InstanceType<typeof __sfc__>;
+const _cache = __ins.renderCache;
+
+const title = ref('sliderx100通信性能测试(小程序卡为正常)')
+const sliderValue = ref(50)
+const safeAreaInsetsBottom = ref(0)
+const sliderRef = ref<UniSliderElement[]>([])
+
+
+function updateSliderValue(value: number) {
+
+  // TODO 跳过vue框架，直接修改原生组件
+  sliderRef.value.forEach((item) => {
+    item.value = value
+  })
+
+
+
+
+
+}
+
+function sliderChange(e: UniSliderChangeEvent) {
+  updateSliderValue(e.detail.value)
+}
+
+function sliderChanging(e: UniSliderChangeEvent) {
+  updateSliderValue(e.detail.value)
+}
+
+onReady(() => {
+  safeAreaInsetsBottom.value = uni.getWindowInfo().safeAreaInsets.bottom
+})
+
+// 自动化测试
+const updateSliderValueTest = (value : number) => {
+  sliderValue.value = value
+}
+__expose({updateSliderValueTest})
+
+return (): any | null => {
+
+const _component_page_head = resolveEasyComponent("page-head",_easycom_page_head)
+const _component_slider = resolveComponent("slider")
+
+  return _cE(Fragment, null, [
+    _cE("scroll-view", _uM({ class: "page" }), [
+      _cV(_component_page_head, _uM({ title: unref(title) }), null, 8 /* PROPS */, ["title"]),
+      _cE("view", _uM({ class: "grid-view" }), [
+        _cE(Fragment, null, RenderHelpers.renderList(100, (_, index, __index, _cached): any => {
+          return _cV(_component_slider, _uM({
+            ref_for: true,
+            ref_key: "sliderRef",
+            ref: sliderRef,
+            class: "slider",
+            key: index,
+            onChanging: sliderChanging,
+            onChange: sliderChange,
+            value: unref(sliderValue),
+            "block-size": 20,
+            "show-value": true
+          }), null, 8 /* PROPS */, ["value"])
+        }), 64 /* STABLE_FRAGMENT */)
+      ])
+    ]),
+    _cE("view", _uM({
+      style: _nS(_uM({'height': unref(safeAreaInsetsBottom)}))
+    }), null, 4 /* STYLE */)
+  ], 64 /* STABLE_FRAGMENT */)
+}
+}
+
+})
+export default __sfc__
+const GenPagesTemplateSlider100Slider100Styles = [_uM([["page", _pS(_uM([["flexGrow", 1], ["flexShrink", 1], ["flexBasis", "0%"]]))], ["grid-view", _pS(_uM([["flexDirection", "row"], ["flexWrap", "wrap"]]))], ["slider", _pS(_uM([["width", "25%"], ["marginTop", 1], ["marginLeft", 0], ["marginRight", 0], ["marginBottom", 1]]))]])]

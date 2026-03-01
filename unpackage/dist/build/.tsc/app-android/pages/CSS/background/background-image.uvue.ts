@@ -1,0 +1,75 @@
+
+  const __sfc__ = defineComponent({
+    data() {
+      return {
+        backgroundSelect: true,
+        directionData: ['to right', 'to left', 'to bottom', 'to top', 'to bottom left', 'to bottom right', 'to top left', 'to top right'],
+        testStyle: "background:linear-gradient(to right, red, yellow)",
+        testClass: "bg-color"
+      }
+    },
+    methods: {
+      //供自动化测试使用
+      updateBackgroundSelect() {
+        this.backgroundSelect = !this.backgroundSelect
+      },
+      changeBgStyle() {
+        const isColor = this.testStyle == "background:blue"
+        if (isColor) {
+          this.setBackgroundImage()
+        } else {
+          this.setBackgroundColor()
+        }
+      },
+      setBackgroundColor() {
+        this.testStyle = "background:blue"
+      },
+      setBackgroundImage() {
+        this.testStyle = "background:linear-gradient(to right, red, yellow)"
+      },
+      changeBgClass() {
+        this.testClass = this.testClass == "bg-color" ? "bg-image" : "bg-color"
+      }
+    }
+  })
+
+export default __sfc__
+function GenPagesCSSBackgroundBackgroundImageRender(this: InstanceType<typeof __sfc__>): any | null {
+const _ctx = this
+const _cache = this.$.renderCache
+  return _cE("scroll-view", _uM({
+    style: _nS(_uM({"flex":"1"}))
+  }), [
+    _cE("view", null, [
+      _cE("view", _uM({
+        style: _nS(_uM({"width":"0px","height":"0px","background-image":"linear-gradient(to bottom,#f5f5f5,#eff2f5)"}))
+      }), null, 4 /* STYLE */),
+      _cE("text", null, "不支持背景图片，仅支持linear-gradient方法"),
+      _cE(Fragment, null, RenderHelpers.renderList(_ctx.directionData, (direction, __key, __index, _cached): any => {
+        return _cE("view", null, [
+          _cE("text", null, "background-image: linear-gradient(" + _tD(direction) + ", red, yellow)", 1 /* TEXT */),
+          _cE("view", _uM({
+            class: "common",
+            style: _nS(_uM({'background-image': _ctx.backgroundSelect ?'linear-gradient('+direction+', red, yellow)':''}))
+          }), null, 4 /* STYLE */)
+        ])
+      }), 256 /* UNKEYED_FRAGMENT */),
+      _cE("view", null, [
+        _cE("text", null, "style 动态切换 background"),
+        _cE("view", _uM({
+          onClick: _ctx.changeBgStyle,
+          class: "common",
+          style: _nS(_ctx.testStyle)
+        }), _tD(_ctx.testStyle), 13 /* TEXT, STYLE, PROPS */, ["onClick"])
+      ]),
+      _cE("view", null, [
+        _cE("text", null, "class 动态切换 background"),
+        _cE("view", _uM({
+          onClick: _ctx.changeBgClass,
+          class: _nC(["common", _ctx.testClass])
+        }), _tD(_ctx.testClass), 11 /* TEXT, CLASS, PROPS */, ["onClick"])
+      ])
+    ])
+  ], 4 /* STYLE */)
+}
+const GenPagesCSSBackgroundBackgroundImageStyles = [_uM([["common", _pS(_uM([["width", 250], ["height", 250]]))], ["bg-color", _pS(_uM([["backgroundImage", "none"], ["backgroundColor", "#0000FF"]]))], ["bg-image", _pS(_uM([["backgroundImage", "linear-gradient(to right, red, yellow)"], ["backgroundColor", "rgba(0,0,0,0)"]]))]])]

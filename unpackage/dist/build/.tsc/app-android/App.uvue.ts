@@ -1,0 +1,242 @@
+
+  import { state, setLifeCycleNum, checkSystemTheme, setNetless } from '@/store/index.uts'
+
+
+  let firstBackTime = 0
+
+  const __sfc__ = defineApp({
+    globalData: {
+      str: 'default globalData str',
+      num: 0,
+      bool: false,
+      obj: {
+        str: 'default globalData obj str',
+        num: 0,
+        bool: false,
+      } as UTSJSONObject,
+      null: null as string | null,
+      arr: [] as number[],
+      mySet: new Set<string>(),
+      myMap: new Map<string, any>(),
+      func: () : string => {
+        return 'globalData func'
+      },
+      launchOptions: {
+        path: '',
+      } as OnLaunchOptions,
+      onShowOption: {
+        path: ''
+      } as OnShowOptions
+    },
+    onLaunch: function (res : OnLaunchOptions) {
+
+      this.globalData.launchOptions = res
+
+      // 自动化测试
+      setLifeCycleNum(state.lifeCycleNum + 1000)
+      console.log('App Launch')
+
+      // 页面性能分析
+      // const performance = uni.getPerformance()
+      // const observer1: PerformanceObserver = performance.createObserver(
+      //   (entryList: PerformanceObserverEntryList) => {
+      //     console.log('observer1:entryList.getEntries()' +JSON.stringify(entryList.getEntries()))
+      //   }
+      // )
+      // observer1.observe({
+      //   entryTypes: ['render', 'navigation'],
+      // } as PerformanceObserverOptions)
+      // 统计上报 - 应用启动
+
+      uni.report({
+      	name: 'uni-app-launch',
+      	options: res,
+      	success(res_data) {
+      		console.log(res_data);
+      	}, fail(err) {
+      		console.log(err);
+      	}
+      })
+
+
+      if (process.env.NODE_ENV !== 'development') { //真机运行可以注释此条件
+        uni.getPrivacySetting({
+          success(res1){
+             if(res1.needAuthorization){
+               uni.openDialogPage({
+                 url: '/pages/component/button/privacy',
+               })
+             }
+          }
+        })
+      }
+
+      // 获取系统主题
+      checkSystemTheme();
+
+      // 检查登录状态
+      const checkLoginStatus = () => {
+        const token = uni.getStorageSync('user_token')
+        const userInfoStr = uni.getStorageSync('user_info')
+        
+        if (token && userInfoStr) {
+          try {
+            const userInfo = JSON.parse(userInfoStr) as UserInfo
+            state.userInfo = userInfo
+            
+            // 设置全局请求头（如果有token）
+            // uni.$http 在uni-app x中不可用，暂时注释
+            // if (token && uni.$http) {
+            //   uni.$http.setHeader('Authorization', `Bearer ${token}`)
+            // }
+            
+            // 已登录，跳转到首页
+            uni.switchTab({
+              url: '/pages/index/index'
+            })
+          } catch (error) {
+            console.error('解析用户信息失败:', error)
+            // 解析失败，跳转到登录页
+            uni.redirectTo({
+              url: '/pages/login/login'
+            })
+          }
+        } else {
+          // 未登录，跳转到登录页
+          uni.redirectTo({
+            url: '/pages/login/login'
+          })
+        }
+      }
+      
+      // 延迟检查，确保页面加载完成
+      setTimeout(checkLoginStatus, 100)
+
+    },
+    onShow: function (res : OnShowOptions) {
+      this.globalData.onShowOption = res
+
+      // 处理scheme或通用链接直达
+      let url = this.getRedirectUrl(res.appScheme, res.appLink);
+      if (null != url) {
+        uni.navigateTo({
+          url: url
+        })
+      }
+
+      // 自动化测试
+      setLifeCycleNum(state.lifeCycleNum + 100)
+      console.log('App Show')
+
+
+      // 统计上报 - 应用显示
+      uni.report({
+      	name: 'uni-app-show',
+      	success(res_data) {
+      		console.log(res_data);
+      	}, fail(err) {
+      		console.log(err);
+      	}
+      })
+
+    },
+    onHide: function () {
+      // 自动化测试
+      setLifeCycleNum(state.lifeCycleNum - 100)
+      console.log('App Hide')
+
+
+      // 统计上报 - 应用进入后台
+      uni.report({
+      	name: 'uni-app-hide',
+      	success(res) {
+      		console.log(res);
+      	}, fail(err) {
+      		console.log(err);
+      	}
+      })
+
+    },
+
+    onLastPageBackPress: function () {
+      // 自动化测试
+      setLifeCycleNum(state.lifeCycleNum - 1000)
+      console.log('App LastPageBackPress')
+      if (firstBackTime == 0) {
+        uni.showToast({
+          title: '再按一次退出应用',
+          position: 'bottom',
+        })
+        firstBackTime = Date.now()
+        setTimeout(() => {
+          firstBackTime = 0
+        }, 2000)
+      } else if (Date.now() - firstBackTime < 2000) {
+        firstBackTime = Date.now()
+        uni.exit()
+      }
+    },
+    onExit() {
+      console.log('App Exit')
+    },
+
+    onError(err : any) {
+      console.log('App Error', err)
+      setLifeCycleNum(state.lifeCycleNum + 100)
+      // console.log('App onError', err)
+
+    	// 统计上报 - 应用发生错误
+    	uni.report({
+    		name: 'uni-app-error',
+    		options: err,
+    		success(res) {
+    			console.log(res);
+    		}, fail(err) {
+    			console.log(err);
+    		}
+    	})
+
+    },
+    methods: {
+      increaseLifeCycleNum() {
+        setLifeCycleNum(state.lifeCycleNum + 100)
+        console.log('App increaseLifeCycleNum')
+      },
+      getRedirectUrl(scheme : string | null, ulink : string | null) : string | null {
+        //解析scheme或universal link启动直达页面：
+        //scheme格式：uniappx://redirect/pages/component/view/view?key=value  //其中redirect后为页面路径
+        //universal link格式：https://uniappx.dcloud.net.cn/ulink/redirect.html?url=%2Fpages%2Fcomponent%2Fview%2Fview%3Fkey%3Dvalue  //通用链接路径需固定，?后面的url参数为直达页面路径，注意url字段值需做url编码（可使用encodeURIComponent方法）
+        let url : string | null = null;
+        if (null != scheme && scheme.length > 0) {
+          const PATHPRE = 'redirect';
+          let parts : string | null = null;
+          let pos = scheme.search('//');
+          if (pos > 0) {
+            parts = scheme.substring(pos + 2);
+          }
+          if (null != parts && parts.startsWith(PATHPRE)) {
+            url = parts.substring(PATHPRE.length);
+          }
+        } else if (null != ulink && ulink.length > 0) {
+          const PATH = 'ulink/redirect.html';
+          let parts = ulink.split('?');
+          if (parts.length > 1 && parts[0].endsWith(PATH) && parts[1].length > 0) {
+            parts[1].split('&').forEach((e) => {
+              let params = e.split('=');
+              if (params.length > 1 && params[0].length > 0 && params[1].length > 0) {
+                if ('url' == params[0]) {
+                  if (null == url) {
+                    url = decodeURIComponent(params[1]);
+                  }
+                }
+              }
+            });
+          }
+        }
+        return url;
+      }
+    }
+  })
+
+export default __sfc__
+const GenAppStyles = [_uM([["theme-light", _pS(_uM([["--list-background-color", "#ffffff"], ["--background-color", "#f8f8f8"], ["--active-color", "#a0a0a0"], ["--active-background-color", "#f8f8f8"], ["--text-color", "#333333"], ["--border-color", "rgba(0, 0, 0, .06)"]]))], ["theme-dark", _pS(_uM([["--list-background-color", "#2d2d2d"], ["--background-color", "#1a1a1a"], ["--active-color", "#8f8f8f"], ["--active-background-color", "#3b3b3b"], ["--text-color", "#ffffff"], ["--border-color", "rgba(255, 255, 255, 0.1)"]]))], ["uni-padding-wrap", _pS(_uM([["paddingTop", 0], ["paddingRight", 15], ["paddingBottom", 0], ["paddingLeft", 15]]))], ["uni-title", _pS(_uM([["paddingTop", 10], ["paddingRight", 0], ["paddingBottom", 10], ["paddingLeft", 0]]))], ["uni-title-text", _pS(_uM([["fontSize", 15], ["fontWeight", "bold"], ["color", "var(--text-color, #333333)"]]))], ["uni-subtitle-text", _pS(_uM([["color", "#888888"], ["fontSize", 12], ["fontWeight", "bold"], ["marginTop", 5]]))], ["uni-common-mb", _pS(_uM([["marginBottom", 15]]))], ["uni-common-pb", _pS(_uM([["paddingBottom", 15]]))], ["uni-common-pl", _pS(_uM([["paddingLeft", 15]]))], ["uni-common-mt", _pS(_uM([["marginTop", 15]]))], ["uni-hello-text", _pS(_uM([["color", "var(--text-color,#333333)"], ["lineHeight", "22px"]]))], ["uni-list", _pS(_uM([["backgroundColor", "var(--list-background-color,#ffffff)"], ["position", "relative"], ["display", "flex"], ["flexDirection", "column"], ["borderBottomWidth", 1], ["borderBottomStyle", "solid"], ["borderBottomColor", "#c8c7cc"]]))], ["uni-list-cell", _pS(_uM([["position", "relative"], ["display", "flex"], ["flexDirection", "row"], ["justifyContent", "space-between"], ["alignItems", "center"]]))], ["uni-list-cell-padding", _pS(_uM([["paddingTop", 10], ["paddingRight", 15], ["paddingBottom", 10], ["paddingLeft", 15]]))], ["uni-list-cell-line", _pS(_uM([["borderBottomWidth", 1], ["borderBottomStyle", "solid"], ["borderBottomColor", "var(--border-color,rgba(0,0,0,.06))"]]))], ["uni-list-cell-hover", _pS(_uM([["backgroundColor", "var(--active-background-color,#f8f8f8)"]]))], ["uni-list-cell-pd", _pS(_uM([["paddingTop", 11], ["paddingRight", 15], ["paddingBottom", 11], ["paddingLeft", 0]]))], ["uni-list-cell-left", _pS(_uM([["paddingTop", 0], ["paddingRight", 15], ["paddingBottom", 0], ["paddingLeft", 10]]))], ["uni-list-cell-db", _pS(_uM([["flexGrow", 1], ["flexShrink", 1], ["flexBasis", "0%"]]))], ["uni-list-cell-right", _pS(_uM([["flexGrow", 1], ["flexShrink", 1], ["flexBasis", "0%"]]))], ["uni-list-cell-db-text", _pS(_uM([["width", "100%"]]))], ["uni-label", _pS(_uM([["width", 105]]))], ["uni-input", _pS(_uM([["height", 25], ["paddingTop", 8], ["paddingRight", 13], ["paddingBottom", 8], ["paddingLeft", 13], ["fontSize", 14], ["backgroundImage", "none"], ["backgroundColor", "var(--list-background-color,#ffffff)"], ["flexGrow", 1], ["flexShrink", 1], ["flexBasis", "0%"], ["boxSizing", "content-box"]]))], ["uni-flex", _pS(_uM([["flexDirection", "row"]]))], ["uni-flex-item", _pS(_uM([["flexGrow", 1], ["flexShrink", 1], ["flexBasis", "0%"]]))], ["uni-row", _pS(_uM([["flexDirection", "row"]]))], ["uni-column", _pS(_uM([["flexDirection", "column"]]))], ["uni-bg-red", _pS(_uM([["backgroundImage", "none"], ["backgroundColor", "#F76260"]]))], ["uni-bg-green", _pS(_uM([["backgroundImage", "none"], ["backgroundColor", "#09BB07"]]))], ["uni-bg-blue", _pS(_uM([["backgroundImage", "none"], ["backgroundColor", "#007AFF"]]))], ["uni-btn-v", _pS(_uM([["paddingTop", 5], ["paddingRight", 0], ["paddingBottom", 5], ["paddingLeft", 0]]))], ["uni-btn", _pS(_uM([["marginTop", 10]]))], ["uni-link", _pS(_uM([["color", "#576B95"], ["fontSize", 13]]))], ["uni-center", _pS(_uM([["flexDirection", "row"], ["justifyContent", "center"]]))], ["uni-textarea", _pS(_uM([["paddingTop", 9], ["paddingRight", 9], ["paddingBottom", 9], ["paddingLeft", 9], ["lineHeight", 1.6], ["fontSize", 14]]))], ["uni-icon-size", _pS(_uM([["width", 14], ["height", 14]]))], ["uni-container", _pS(_uM([["paddingTop", 15], ["paddingRight", 15], ["paddingBottom", 15], ["paddingLeft", 15], ["backgroundColor", "var(--background-color,#f8f8f8)"]]))], ["uni-header-logo", _pS(_uM([["paddingTop", 15], ["paddingRight", 15], ["paddingBottom", 15], ["paddingLeft", 15], ["flexDirection", "column"], ["justifyContent", "center"], ["alignItems", "center"], ["marginTop", 5]]))], ["uni-header-image", _pS(_uM([["width", 80], ["height", 80]]))], ["uni-text-box", _pS(_uM([["marginBottom", 20]]))], ["hello-text", _pS(_uM([["color", "var(--text-color)"], ["fontSize", 14], ["lineHeight", "20px"]]))], ["uni-panel", _pS(_uM([["marginBottom", 12]]))], ["text-disabled", _pS(_uM([["!color", "var(--active-color)"]]))], ["uni-panel-h", _pS(_uM([["backgroundColor", "var(--list-background-color)"], ["!flexDirection", "row"], ["!justifyContent", "space-between"], ["!alignItems", "center"], ["paddingTop", 12], ["paddingRight", 12], ["paddingBottom", 12], ["paddingLeft", 12]]))], ["uni-panel-h-on", _pS(_uM([["backgroundColor", "#f0f0f0"]]))], ["uni-panel-text", _pS(_uM([["color", "var(--text-color)"], ["fontSize", 14], ["fontWeight", "normal"]]))], ["uni-navigate-item", _pS(_uM([["flexDirection", "row"], ["alignItems", "center"], ["backgroundColor", "var(--list-background-color)"], ["borderTopStyle", "solid"], ["borderTopColor", "#f0f0f0"], ["borderTopWidth", 1], ["paddingTop", 12], ["paddingRight", 12], ["paddingBottom", 12], ["paddingLeft", 12], ["justifyContent", "space-between"]]))], ["is--active", _pS(_uM([["backgroundColor", "var(--active-background-color)"]]))], ["uni-navigate-text", _pS(_uM([["color", "var(--text-color)"], ["fontSize", 14], ["fontWeight", "normal"]]))], ["left-win-active", _pS(_uM([["!color", "#007AFF"]]))], ["uni-collapse-item__title", _uM([[".uni-container .uni-collapse-item ", _uM([["!backgroundColor", "var(--list-background-color)"]])]])], ["uni-collapse-item__title-text", _uM([[".uni-container .uni-collapse-item .uni-collapse-item__title ", _uM([["!color", "var(--text-color)"]])], [".uni-container .uni-collapse-item .uni-collapse-item__title .open--active", _uM([["!color", "var(--active-color)"]])]])], ["page-scroll-view", _pS(_uM([["flexGrow", 1], ["flexShrink", 1], ["flexBasis", "0%"]]))]])]

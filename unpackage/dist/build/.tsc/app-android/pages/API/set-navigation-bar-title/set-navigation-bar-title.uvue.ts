@@ -1,0 +1,104 @@
+
+  import { state, setLifeCycleNum } from '@/store/index.uts'
+
+  const __sfc__ = defineComponent({
+    data() {
+      return {
+        newTitle: 'new title',
+        longTitle: 'long title long title long title long title long title long title long title long title long title long title'
+      }
+    },
+    methods: {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      setNavigationBarNewTitle() {
+        uni.setNavigationBarTitle({
+          title: this.newTitle,
+          success: () => {
+            console.log('setNavigationBarTitle success')
+            this.setLifeCycleNum(state.lifeCycleNum + 1)
+          },
+          fail: () => {
+            console.log('setNavigationBarTitle fail')
+            this.setLifeCycleNum(state.lifeCycleNum - 1)
+          },
+          complete: () => {
+            console.log('setNavigationBarTitle complete')
+            this.setLifeCycleNum(state.lifeCycleNum + 1)
+          }
+        })
+      },
+      setNavigationBarLongTitle() {
+        uni.setNavigationBarTitle({
+          title: this.longTitle,
+          success() {
+            console.log('setNavigationBarTitle success')
+          },
+          fail() {
+            console.log('setNavigationBarTitle fail')
+          },
+          complete() {
+            console.log('setNavigationBarTitle complete')
+          }
+        })
+      },
+      // 自动化测试
+      getLifeCycleNum() : number {
+        return state.lifeCycleNum
+      },
+      // 自动化测试
+      setLifeCycleNum(num : number) {
+        setLifeCycleNum(num)
+      }
+    },
+  })
+
+export default __sfc__
+function GenPagesAPISetNavigationBarTitleSetNavigationBarTitleRender(this: InstanceType<typeof __sfc__>): any | null {
+const _ctx = this
+const _cache = this.$.renderCache
+const _component_page_head = resolveEasyComponent("page-head",_easycom_page_head)
+
+  return _cE(Fragment, null, [
+    _cV(_component_page_head, _uM({ title: "setNavigationBarTitle" })),
+    _cE("view", _uM({ class: "uni-padding-wrap uni-common-mt" }), [
+      _cE("button", _uM({
+        onClick: _ctx.setNavigationBarNewTitle,
+        class: "uni-btn"
+      }), " 设置当前页面标题为: " + _tD(_ctx.newTitle), 9 /* TEXT, PROPS */, ["onClick"]),
+      _cE("button", _uM({
+        onClick: _ctx.setNavigationBarLongTitle,
+        class: "uni-btn"
+      }), " 设置超长标题 ", 8 /* PROPS */, ["onClick"])
+    ])
+  ], 64 /* STABLE_FRAGMENT */)
+}
+const GenPagesAPISetNavigationBarTitleSetNavigationBarTitleStyles = []
+
+import _easycom_page_head from '@/components/page-head/page-head.vue'

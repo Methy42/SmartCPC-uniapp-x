@@ -1,0 +1,96 @@
+import _easycom_page_head from '@/components/page-head/page-head.vue';
+const __sfc__ = defineComponent({
+    __name: 'network-status-change',
+    setup(__props) {
+        const __ins = getCurrentInstance()!;
+        const _ctx = __ins.proxy as InstanceType<typeof __sfc__>;
+        const _cache = __ins.renderCache;
+        const isConnected = ref(false);
+        const networkType = ref('unknown');
+        const listenStatus = ref('未监听');
+        const networkCallback = ref<((result: OnNetworkStatusChangeCallbackResult) => void) | null>(null);
+        // 获取当前网络状态
+        const getCurrentNetworkStatus = () => {
+            uni.getNetworkType({
+                success: (res) => {
+                    networkType.value = res.networkType;
+                    isConnected.value = res.networkType != 'none';
+                },
+                fail: () => {
+                    console.log('获取网络状态失败');
+                    networkType.value = 'unknown';
+                    isConnected.value = false;
+                }
+            });
+        };
+        // 开始监听
+        const startListen = () => {
+            if (networkCallback.value != null) {
+                listenStatus.value = '正在监听';
+                return;
+            }
+            networkCallback.value = (result: OnNetworkStatusChangeCallbackResult) => {
+                console.log('网络状态: ', result);
+                isConnected.value = result.isConnected;
+                networkType.value = result.networkType;
+                if (!result.isConnected) {
+                    networkType.value = 'none';
+                }
+            };
+            uni.onNetworkStatusChange(networkCallback.value!);
+            // console.log('开始监听网络状态')
+            listenStatus.value = '正在监听';
+        };
+        // 停止监听
+        const stopListen = () => {
+            if (networkCallback.value == null) {
+                listenStatus.value = '未监听';
+                return;
+            }
+            uni.offNetworkStatusChange(networkCallback.value!);
+            networkCallback.value = null;
+            // console.log('停止监听网络状态')
+            listenStatus.value = '停止监听';
+        };
+        onLoad((_options) => {
+            getCurrentNetworkStatus();
+        });
+        onUnload(() => {
+            stopListen();
+        });
+        return (): any | null => {
+            const _component_page_head = resolveEasyComponent("page-head", _easycom_page_head);
+            return _cE(Fragment, null, [
+                _cV(_component_page_head, _uM({ title: "networkStatusChange" })),
+                _cE("view", _uM({ class: "uni-list-cell-padding status-box" }), [
+                    _cE("text", _uM({ class: "uni-title-text" }), "网络状态"),
+                    _cE("view", _uM({ class: "uni-row uni-common-mt" }), [
+                        _cE("text", _uM({ class: "uni-hello-text" }), "是否连接："),
+                        _cE("text", null, _tD(unref(isConnected) ? '已连接' : '未连接'), 1 /* TEXT */)
+                    ]),
+                    _cE("view", _uM({ class: "uni-row uni-common-mt" }), [
+                        _cE("text", _uM({ class: "uni-hello-text" }), "网络类型："),
+                        _cE("text", null, _tD(unref(networkType)), 1 /* TEXT */)
+                    ]),
+                    _cE("view", _uM({ class: "uni-row uni-common-mt" }), [
+                        _cE("text", _uM({ class: "uni-hello-text" }), "监听状态："),
+                        _cE("text", null, _tD(unref(listenStatus)), 1 /* TEXT */)
+                    ])
+                ]),
+                _cE("view", _uM({ class: "uni-list-cell-padding uni-common-mt" }), [
+                    _cE("button", _uM({
+                        type: "primary",
+                        onClick: startListen
+                    }), "开始监听"),
+                    _cE("button", _uM({
+                        type: "default",
+                        class: "uni-common-mt",
+                        onClick: stopListen
+                    }), "停止监听")
+                ])
+            ], 64 /* STABLE_FRAGMENT */);
+        };
+    }
+});
+export default __sfc__;
+const GenPagesAPINetworkStatusChangeNetworkStatusChangeStyles = [_uM([["status-box", _pS(_uM([["backgroundColor", "#FFFFFF"], ["marginTop", 0], ["marginRight", 20], ["marginBottom", 0], ["marginLeft", 20]]))]])];

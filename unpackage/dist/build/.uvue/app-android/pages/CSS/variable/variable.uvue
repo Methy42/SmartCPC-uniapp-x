@@ -1,0 +1,56 @@
+const __sfc__ = defineComponent({
+    data() {
+        return {
+            statusBarHeight: 0,
+            statusBarHeight2: 0,
+        };
+    },
+    onReady() {
+        this.statusBarHeight = uni.getWindowInfo().statusBarHeight;
+        this.statusBarHeight2 = this.$page.statusBarHeight;
+    }
+});
+export default __sfc__;
+function GenPagesCSSVariableVariableRender(this: InstanceType<typeof __sfc__>): any | null {
+    const _ctx = this;
+    const _cache = this.$.renderCache;
+    return _cE("view", _uM({ class: "page" }), [
+        _cE("view", _uM({ class: "status-bar-height" }), [
+            _cE("text", null, "通过var(--status-bar-height)获取状态栏高度")
+        ]),
+        _cE("view", _uM({
+            class: "status-bar-window",
+            style: _nS(_uM({ height: _ctx.statusBarHeight + 'px' }))
+        }), [
+            _cE("text", null, "通过uni.getWindowInfo获取状态栏高度")
+        ], 4 /* STYLE */),
+        _cE("view", _uM({
+            class: "status-bar-unipage",
+            style: _nS(_uM({ height: _ctx.statusBarHeight2 + 'px' }))
+        }), [
+            _cE("text", null, "通过this.$page.statusBarHeight获取状态栏高度")
+        ], 4 /* STYLE */),
+        _cE("view", _uM({ class: "window-top" }), [
+            _cE("text", null, "window top")
+        ]),
+        _cE("view", _uM({ class: "window-bottom" }), [
+            _cE("text", null, "window bottom")
+        ]),
+        _cE("view", _uM({ class: "uni-safe-area-inset-top" }), [
+            _cE("text", null, "height:var(--uni-safe-area-inset-top)")
+        ]),
+        _cE("view", _uM({ class: "uni-safe-area-inset-left" }), [
+            _cE("text", null, "height:var(--uni-safe-area-inset-left)")
+        ]),
+        _cE("view", _uM({ class: "uni-safe-area-inset-right" }), [
+            _cE("text", null, "height:var(--uni-safe-area-inset-right)")
+        ]),
+        _cE("view", _uM({ class: "uni-safe-area-inset-bottom" }), [
+            _cE("text", null, "height:var(--uni-safe-area-inset-bottom)")
+        ]),
+        _cE("view", _uM({ class: "uni-fixed-bottom" }), [
+            _cE("text", null, "此区域应显示在安全区域内")
+        ])
+    ]);
+}
+const GenPagesCSSVariableVariableStyles = [_uM([["page", _pS(_uM([["flexGrow", 1], ["flexShrink", 1], ["flexBasis", "0%"]]))], ["status-bar-height", _pS(_uM([["height", CSS_VAR_STATUS_BAR_HEIGHT], ["alignItems", "center"], ["justifyContent", "center"], ["backgroundColor", "#FF0000"]]))], ["status-bar-window", _pS(_uM([["backgroundColor", "#FFFF00"], ["alignItems", "center"], ["justifyContent", "center"]]))], ["status-bar-unipage", _pS(_uM([["alignItems", "center"], ["justifyContent", "center"], ["backgroundColor", "#ADFF2F"]]))], ["window-top", _pS(_uM([["height", CSS_VAR_WINDOW_TOP], ["alignItems", "center"], ["backgroundColor", "#008000"], ["marginTop", 2], ["marginRight", 0], ["marginBottom", 2], ["marginLeft", 0]]))], ["window-bottom", _pS(_uM([["height", CSS_VAR_WINDOW_BOTTOM], ["alignItems", "center"], ["backgroundColor", "#0000FF"], ["marginTop", 2], ["marginRight", 0], ["marginBottom", 2], ["marginLeft", 0]]))], ["uni-safe-area-inset-top", _pS(_uM([["height", "var(--uni-safe-area-inset-top)"], ["alignItems", "center"], ["backgroundColor", "#FFFF00"], ["marginTop", 2], ["marginRight", 0], ["marginBottom", 2], ["marginLeft", 0]]))], ["uni-safe-area-inset-left", _pS(_uM([["height", "var(--uni-safe-area-inset-left)"], ["alignItems", "center"], ["backgroundColor", "#ADFF2F"], ["marginTop", 2], ["marginRight", 0], ["marginBottom", 2], ["marginLeft", 0]]))], ["uni-safe-area-inset-right", _pS(_uM([["height", "var(--uni-safe-area-inset-right, 60px)"], ["alignItems", "center"], ["backgroundColor", "#8B4513"], ["marginTop", 2], ["marginRight", 0], ["marginBottom", 2], ["marginLeft", 0]]))], ["uni-safe-area-inset-bottom", _pS(_uM([["height", "var(--uni-safe-area-inset-bottom)"], ["alignItems", "center"], ["backgroundColor", "#FA8072"], ["marginTop", 2], ["marginRight", 0], ["marginBottom", 2], ["marginLeft", 0]]))], ["uni-fixed-bottom", _pS(_uM([["position", "fixed"], ["left", "var(--uni-safe-area-inset-left)"], ["right", "var(--uni-safe-area-inset-right)"], ["bottom", "var(--uni-safe-area-inset-bottom)"], ["alignItems", "center"], ["backgroundColor", "#8A2BE2"]]))]])];

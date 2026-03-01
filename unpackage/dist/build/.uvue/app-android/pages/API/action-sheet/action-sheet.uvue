@@ -1,0 +1,289 @@
+import { state, setLifeCycleNum } from '@/store/index.uts';
+type ItemType = {
+    value: string;
+    name: string;
+};
+const __sfc__ = defineComponent({
+    data() {
+        return {
+            title: 'action-sheet',
+            titleColorCustom: false,
+            itemColorCustom: false,
+            itemContentLarge: false,
+            itemNumLargeSelect: false,
+            cancelTextCustom: false,
+            cancelColorCustom: false,
+            backgroundColorCustom: false,
+            showErrorToast: true,
+            items: [{
+                    value: '标题',
+                    name: '有标题'
+                } as ItemType, {
+                    value: '',
+                    name: '无标题'
+                } as ItemType, {
+                    value: '超长标题测试内容，测试超过显示最大范围之后的样式-超长标题测试内容，测试超过显示最大范围之后的样式',
+                    name: '超长标题'
+                } as ItemType] as ItemType[],
+            current: 0,
+            originTheme: null as string | null,
+        };
+    },
+    onLoad() {
+        uni.showActionSheet({
+            title: "onLoad 调用示例,请手动取消",
+            itemList: ['item1', 'item2'],
+            fail: (res) => {
+                // 自动化测试
+                setLifeCycleNum(state.lifeCycleNum + 1);
+                console.log('onLoad showActionSheet fail', res);
+            },
+            complete: (res) => {
+                // 自动化测试
+                setLifeCycleNum(state.lifeCycleNum + 1);
+                console.log('onLoad showActionSheet complete', res);
+            }
+        });
+        this.originTheme = uni.getSystemInfoSync().appTheme;
+    },
+    methods: {
+        //自动化测试例专用
+        setThemeAuto() {
+            uni.setAppTheme({
+                theme: 'auto'
+            });
+        },
+        resetTheme() {
+            const originTheme = this.originTheme;
+            if (originTheme != null) {
+                uni.setAppTheme({
+                    theme: originTheme
+                });
+            }
+        },
+        radioChange(e: UniRadioGroupChangeEvent) {
+            for (let i = 0; i < this.items.length; i++) {
+                if (this.items[i].value === e.detail.value) {
+                    this.current = i;
+                    break;
+                }
+            }
+        },
+        titleColorChange(e: UniSwitchChangeEvent) {
+            this.titleColorCustom = e.detail.value;
+        },
+        itemContentLargeChange: function (e: UniSwitchChangeEvent) {
+            this.itemContentLarge = e.detail.value;
+        },
+        itemColorChange: function (e: UniSwitchChangeEvent) {
+            this.itemColorCustom = e.detail.value;
+        },
+        itemNumLargeChange: function (e: UniSwitchChangeEvent) {
+            this.itemNumLargeSelect = e.detail.value;
+        },
+        cancelTextChange: function (e: UniSwitchChangeEvent) {
+            this.cancelTextCustom = e.detail.value;
+        },
+        cancelColorChange: function (e: UniSwitchChangeEvent) {
+            this.cancelColorCustom = e.detail.value;
+        },
+        backgroundColorChange: function (e: UniSwitchChangeEvent) {
+            this.backgroundColorCustom = e.detail.value;
+        },
+        showActionSheet() {
+            const options: ShowActionSheetOptions = {
+                title: this.items[this.current].value,
+                itemList: ['item1', 'item2', 'item3', 'item4'],
+                success: (res) => {
+                    console.log(res.tapIndex);
+                    uni.showToast({
+                        title: "点击了第" + res.tapIndex + "个选项",
+                        icon: "none"
+                    });
+                },
+                fail: (error) => {
+                    if (this.showErrorToast) {
+                        uni.showToast({
+                            title: error.errMsg,
+                            icon: "none"
+                        });
+                    }
+                    console.log(error);
+                }
+            };
+            if (this.itemContentLarge) {
+                options.itemList = ['两个黄鹂鸣翠柳，一行白鹭上青天。窗含西岭千秋雪，门泊东吴万里船', '水光潋滟晴方好,山色空蒙雨亦奇。 欲把西湖比西子,淡妆浓抹总相宜', ''];
+            }
+            if (this.itemNumLargeSelect) {
+                // 大量选项测试,不能超过6个元素 https://uniapp.dcloud.net.cn/api/ui/prompt.html#showactionsheet
+                const arr: string[] = [];
+                for (let i = 0; i < 10; i++) {
+                    arr.push(`两个黄鹂鸣翠柳，一行白鹭上青天 ${i + 1}`);
+                }
+                options.itemList = arr;
+            }
+            if (this.titleColorCustom) {
+                options.titleColor = '#007AFF';
+            }
+            if (this.itemColorCustom) {
+                options.itemColor = '#ff00ff';
+            }
+            if (this.cancelTextCustom) {
+                options.cancelText = 'custom cancel';
+            }
+            if (this.cancelColorCustom) {
+                options.cancelColor = '#007AFF';
+            }
+            if (this.backgroundColorCustom) {
+                options.backgroundColor = '#ccc';
+            }
+            uni.showActionSheet(options);
+        },
+        showActionSheetAndShowAgainInCallback() {
+            uni.showActionSheet({
+                title: '第一个',
+                itemList: ['1', '2', '3'],
+                complete() {
+                    uni.showActionSheet({
+                        title: '第二个',
+                        itemList: ['a', 'b', 'c'],
+                        complete: (res) => {
+                            console.log('showActionSheetAndShowAgainInCallback complete', res);
+                        }
+                    });
+                }
+            });
+        },
+        // 自动化测试
+        getLifeCycleNum(): number {
+            return state.lifeCycleNum;
+        },
+        // 自动化测试
+        setLifeCycleNum(num: number) {
+            return setLifeCycleNum(num);
+        },
+        // 自动化测试
+        // 自动化测试
+        hideActionSheet() {
+            uni.hideActionSheet();
+        },
+        // 自动化测试
+        showActionSheetAndNavigateBackInSuccessCallback() {
+            uni.showActionSheet({
+                title: 'showActionSheetAndNavigateBackInSuccessCallback',
+                itemList: ['1', '2', '3'],
+                success: (res) => {
+                    console.log('wzf showActionSheetAndNavigateBackInSuccessCallback success', res);
+                    setLifeCycleNum(state.lifeCycleNum + 1);
+                    uni.navigateBack();
+                },
+                fail: (error) => {
+                    console.log('wzf showActionSheetAndNavigateBackInSuccessCallback fail', error);
+                }
+            });
+        }
+    }
+});
+export default __sfc__;
+function GenPagesAPIActionSheetActionSheetRender(this: InstanceType<typeof __sfc__>): any | null {
+    const _ctx = this;
+    const _cache = this.$.renderCache;
+    const _component_page_head = resolveEasyComponent("page-head", _easycom_page_head);
+    const _component_radio = resolveComponent("radio");
+    const _component_radio_group = resolveComponent("radio-group");
+    const _component_switch = resolveComponent("switch");
+    return _cE("scroll-view", _uM({
+        style: _nS(_uM({ "flex": "1" }))
+    }), [
+        _cE("view", null, [
+            _cV(_component_page_head, _uM({ title: _ctx.title }), null, 8 /* PROPS */, ["title"]),
+            _cE("view", _uM({ class: "uni-list" }), [
+                _cV(_component_radio_group, _uM({ onChange: _ctx.radioChange }), _uM({
+                    default: withSlotCtx((): any[] => [
+                        _cE(Fragment, null, RenderHelpers.renderList(_ctx.items, (item, index, __index, _cached): any => {
+                            return _cV(_component_radio, _uM({
+                                class: _nC(["uni-list-cell uni-list-cell-pd", index < _ctx.items.length - 1 ? 'uni-list-cell-line' : '']),
+                                key: item.value,
+                                value: item.value,
+                                checked: index === _ctx.current
+                            }), _uM({
+                                default: withSlotCtx((): any[] => [_tD(item.name)]),
+                                _: 2 /* DYNAMIC */
+                            }), 1032 /* PROPS, DYNAMIC_SLOTS */, ["class", "value", "checked"]);
+                        }), 128 /* KEYED_FRAGMENT */)
+                    ]),
+                    _: 1 /* STABLE */
+                }), 8 /* PROPS */, ["onChange"])
+            ]),
+            _cE("view", _uM({ class: "uni-list" }), [
+                _cE("view", _uM({ class: "uni-list-cell uni-list-cell-pd" }), [
+                    _cE("view", _uM({ class: "uni-list-cell-db" }), "自定义 titleColor"),
+                    _cV(_component_switch, _uM({
+                        checked: _ctx.titleColorCustom,
+                        onChange: _ctx.titleColorChange
+                    }), null, 8 /* PROPS */, ["checked", "onChange"])
+                ]),
+                _cE("view", _uM({ class: "uni-list-cell uni-list-cell-pd" }), [
+                    _cE("view", _uM({ class: "uni-list-cell-db" }), "自定义 itemColor"),
+                    _cV(_component_switch, _uM({
+                        checked: _ctx.itemColorCustom,
+                        onChange: _ctx.itemColorChange
+                    }), null, 8 /* PROPS */, ["checked", "onChange"])
+                ]),
+                _cE("view", _uM({ class: "uni-list-cell uni-list-cell-pd" }), [
+                    _cE("view", _uM({ class: "uni-list-cell-db" }), "超长文本和空文本 item"),
+                    _cV(_component_switch, _uM({
+                        checked: _ctx.itemContentLarge,
+                        onChange: _ctx.itemContentLargeChange
+                    }), null, 8 /* PROPS */, ["checked", "onChange"])
+                ]),
+                _cE("view", _uM({ class: "uni-list-cell uni-list-cell-pd" }), [
+                    _cE("view", _uM({ class: "uni-list-cell-db" }), "超过6个 item"),
+                    _cV(_component_switch, _uM({
+                        checked: _ctx.itemNumLargeSelect,
+                        onChange: _ctx.itemNumLargeChange
+                    }), null, 8 /* PROPS */, ["checked", "onChange"])
+                ]),
+                _cE("view", _uM({ class: "uni-list-cell uni-list-cell-pd" }), [
+                    _cE("view", _uM({ class: "uni-list-cell-db" }), "自定义 cancelText"),
+                    _cV(_component_switch, _uM({
+                        checked: _ctx.cancelTextCustom,
+                        onChange: _ctx.cancelTextChange
+                    }), null, 8 /* PROPS */, ["checked", "onChange"])
+                ]),
+                _cE("view", _uM({ class: "uni-list-cell uni-list-cell-pd" }), [
+                    _cE("view", _uM({ class: "uni-list-cell-db" }), "自定义 cancelColor"),
+                    _cV(_component_switch, _uM({
+                        checked: _ctx.cancelColorCustom,
+                        onChange: _ctx.cancelColorChange
+                    }), null, 8 /* PROPS */, ["checked", "onChange"])
+                ]),
+                _cE("view", _uM({ class: "uni-list-cell uni-list-cell-pd" }), [
+                    _cE("view", _uM({ class: "uni-list-cell-db" }), "自定义 backgroundColor"),
+                    _cV(_component_switch, _uM({
+                        checked: _ctx.backgroundColorCustom,
+                        onChange: _ctx.backgroundColorChange
+                    }), null, 8 /* PROPS */, ["checked", "onChange"])
+                ])
+            ]),
+            _cE("view", _uM({ class: "uni-padding-wrap" }), [
+                _cE("view", _uM({ class: "uni-btn-v" }), [
+                    _cE("button", _uM({
+                        class: "uni-btn-v",
+                        type: "default",
+                        onClick: _ctx.showActionSheet,
+                        id: "btn-action-sheet-show"
+                    }), "弹出actionSheet", 8 /* PROPS */, ["onClick"]),
+                    _cE("button", _uM({
+                        class: "uni-btn-v uni-btn",
+                        type: "default",
+                        onClick: _ctx.showActionSheetAndShowAgainInCallback,
+                        id: "btn-action-sheet-show"
+                    }), "showActionSheet 并在回调中再次 showActionSheet", 8 /* PROPS */, ["onClick"])
+                ])
+            ])
+        ])
+    ], 4 /* STYLE */);
+}
+const GenPagesAPIActionSheetActionSheetStyles = [];
+import _easycom_page_head from '@/components/page-head/page-head.vue';

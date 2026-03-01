@@ -1,0 +1,56 @@
+
+  const __sfc__ = defineComponent({
+    data() {
+      return {
+        item_count: 20,
+        listViewElement: null as UniListViewElement | null,
+        isTesting: false
+      }
+    },
+    onReady() {
+      this.listViewElement = uni.getElementById<UniListViewElement>('listview')
+    },
+    methods: {
+      onScrollTolower(_ : ScrollToLowerEvent) {
+        setTimeout(() => {
+          if (this.isTesting && this.item_count > 20) {
+            return
+          }
+          this.item_count += 20
+        }, 300)
+      },
+      itemClick(index : number) {
+        console.log("itemTextClick---" + index)
+      }
+    }
+  })
+
+export default __sfc__
+function GenPagesComponentListViewListViewMultiplexInputRender(this: InstanceType<typeof __sfc__>): any | null {
+const _ctx = this
+const _cache = this.$.renderCache
+  return _cE("list-view", _uM({
+    id: "listview",
+    style: _nS(_uM({"flex":"1"})),
+    "show-scrollbar": "false",
+    onScrolltolower: _ctx.onScrollTolower
+  }), [
+    _cE(Fragment, null, RenderHelpers.renderList(_ctx.item_count, (index, __key, __index, _cached): any => {
+      return _cE("list-item", _uM({
+        class: "item",
+        onClick: () => {_ctx.itemClick(index)}
+      }), [
+        _cE("text", null, [
+          "item-------",
+          _cE("text", null, _tD(index), 1 /* TEXT */)
+        ]),
+        _cE("input", _uM({
+          style: _nS(_uM({"border-width":"1px","border-style":"solid"})),
+          placeholder: index + '',
+          value: index ==1 ? `第一个` :index 
+        }), null, 12 /* STYLE, PROPS */, ["placeholder", "value"])
+      ], 8 /* PROPS */, ["onClick"])
+    }), 256 /* UNKEYED_FRAGMENT */)
+  ], 44 /* STYLE, PROPS, NEED_HYDRATION */, ["onScrolltolower"])
+}
+const GenPagesComponentListViewListViewMultiplexInputStyles = [_uM([["item", _pS(_uM([["paddingTop", 15], ["paddingRight", 15], ["paddingBottom", 15], ["paddingLeft", 15], ["marginTop", 0], ["marginRight", 0], ["marginBottom", 5], ["marginLeft", 0], ["backgroundColor", "#ffffff"], ["borderTopLeftRadius", 5], ["borderTopRightRadius", 5], ["borderBottomRightRadius", 5], ["borderBottomLeftRadius", 5]]))], ["button_item", _pS(_uM([["width", 200]]))]])]

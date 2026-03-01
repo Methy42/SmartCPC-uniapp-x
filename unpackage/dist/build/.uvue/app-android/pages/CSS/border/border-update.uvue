@@ -1,0 +1,34 @@
+const __sfc__ = defineComponent({
+    __name: 'border-update',
+    setup(__props, __setupCtx: SetupContext) {
+        const __expose = __setupCtx.expose;
+        const __ins = getCurrentInstance()!;
+        const _ctx = __ins.proxy as InstanceType<typeof __sfc__>;
+        const _cache = __ins.renderCache;
+        let borderStyle = ref("border:3px solid red;");
+        const handleUpdate = () => {
+            borderStyle.value = "border:7px solid red;";
+        };
+        const jest_border_update = () => {
+            handleUpdate();
+        };
+        __expose({
+            jest_border_update
+        });
+        return (): any | null => {
+            return _cE("scroll-view", _uM({
+                style: _nS(_uM({ "flex": "1" }))
+            }), [
+                _cE("view", null, [
+                    _cE("button", _uM({ onClick: handleUpdate }), "点击更新border样式"),
+                    _cE("view", _uM({
+                        class: "border-view",
+                        style: _nS(unref(borderStyle))
+                    }), null, 4 /* STYLE */)
+                ])
+            ], 4 /* STYLE */);
+        };
+    }
+});
+export default __sfc__;
+const GenPagesCSSBorderBorderUpdateStyles = [_uM([["border-view", _pS(_uM([["width", 150], ["height", 150]]))]])];

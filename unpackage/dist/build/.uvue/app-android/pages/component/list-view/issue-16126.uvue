@@ -1,0 +1,70 @@
+const __sfc__ = defineComponent({
+    data() {
+        return {
+            listViewStyle: "flex:1; width: 100%; heigth: 100%",
+            dataList: 10,
+            intoview: "",
+            scrolltop: 0,
+            listViewElement: null as UniElement | null
+        };
+    },
+    onReady() {
+        // 组件ready时，获取组件实例
+        this.listViewElement = this.$refs["listview"] as UniElement;
+    },
+    methods: {
+        changeSize() {
+            if (this.listViewStyle == "flex:1; width: 100%; heigth: 100%") {
+                this.listViewStyle = "flex:1; width: 50%; heigth: 100%;";
+            }
+            else {
+                this.listViewStyle = "flex:1; width: 100%; heigth: 100%";
+            }
+        },
+        loadMore() {
+            setTimeout(() => {
+                this.dataList += 10;
+            }, 1000);
+        },
+        setScrollTop(value: number) {
+            this.scrolltop = value;
+        },
+        getScrollTop(): number {
+            var ret = this.listViewElement?.scrollTop ?? -1;
+            console.log(ret);
+            return ret;
+        },
+    }
+});
+export default __sfc__;
+function GenPagesComponentListViewIssue16126Render(this: InstanceType<typeof __sfc__>): any | null {
+    const _ctx = this;
+    const _cache = this.$.renderCache;
+    return _cE("view", _uM({
+        style: _nS(_uM({ "flex": "1" }))
+    }), [
+        _cE("list-view", _uM({
+            ref: "listview",
+            style: _nS(_ctx.listViewStyle),
+            onScrolltolower: _ctx.loadMore,
+            "scroll-into-view": _ctx.intoview,
+            "scroll-top": _ctx.scrolltop
+        }), [
+            _cE(Fragment, null, RenderHelpers.renderList(_ctx.dataList, (index, __key, __index, _cached): any => {
+                return _cE("list-item", _uM({
+                    class: "listItem",
+                    key: index,
+                    id: 'item' + index,
+                    onClick: _ctx.changeSize,
+                    type: "1"
+                }), [
+                    _cE("text", null, _tD(index), 1 /* TEXT */)
+                ], 8 /* PROPS */, ["id", "onClick"]);
+            }), 128 /* KEYED_FRAGMENT */),
+            _cE("list-item", _uM({ class: "listItem" }), [
+                _cE("text", null, "加载更多中...")
+            ])
+        ], 44 /* STYLE, PROPS, NEED_HYDRATION */, ["onScrolltolower", "scroll-into-view", "scroll-top"])
+    ], 4 /* STYLE */);
+}
+const GenPagesComponentListViewIssue16126Styles = [_uM([["listView", _pS(_uM([["flexGrow", 1], ["flexShrink", 1], ["flexBasis", "0%"]]))], ["listItem", _pS(_uM([["width", "100%"], ["height", 100], ["borderTopStyle", "solid"], ["borderRightStyle", "solid"], ["borderBottomStyle", "solid"], ["borderLeftStyle", "solid"], ["borderTopWidth", 1], ["borderRightWidth", 1], ["borderBottomWidth", 0], ["borderLeftWidth", 1], ["borderTopColor", "#FF0000"], ["borderRightColor", "#FF0000"], ["borderBottomColor", "#FF0000"], ["borderLeftColor", "#FF0000"], ["alignItems", "center"], ["justifyContent", "center"]]))], ["banner", _pS(_uM([["height", 180], ["overflow", "hidden"], ["position", "relative"], ["backgroundColor", "#cccccc"]]))], ["banner-img", _pS(_uM([["width", "100%"]]))], ["banner-title", _pS(_uM([["maxHeight", 42], ["overflow", "hidden"], ["position", "absolute"], ["left", 15], ["bottom", 15], ["width", "90%"], ["fontSize", 16], ["fontWeight", "400"], ["lineHeight", "21px"], ["color", "#FFFFFF"]]))]])];

@@ -1,0 +1,151 @@
+import refreshBox from '../../template/custom-refresher/refresh-box/refresh-box.uvue';
+const __sfc__ = defineComponent({
+    components: { refreshBox },
+    data() {
+        return {
+            scrollData: [] as Array<string>,
+            swiperList: [] as UTSJSONObject[],
+            scrollTop: 0,
+            refresherTriggered: false,
+            pullingDistance: 0,
+            resetting: false,
+            testScrollTop: 0
+        };
+    },
+    computed: {
+        state(): number {
+            if (this.resetting) {
+                return 3;
+            }
+            if (this.refresherTriggered) {
+                return 2;
+            }
+            if (this.pullingDistance > 45) {
+                return 1;
+            }
+            else {
+                return 0;
+            }
+        }
+    },
+    onLoad() {
+        setTimeout(() => {
+            this.swiperList = [
+                { type: 'list1' },
+                { type: 'list2' },
+                { type: 'list3' }
+            ];
+            let lists: Array<string> = [];
+            for (let i = 0; i < 30; i++) {
+                lists.push("item---" + i);
+            }
+            this.scrollData = lists;
+        }, 500);
+    },
+    methods: {
+        onRefresherpulling(e: RefresherEvent) {
+            this.pullingDistance = e.detail.dy;
+        },
+        onRefresherrefresh() {
+            this.refresherTriggered = true;
+            setTimeout(() => {
+                this.refresherTriggered = false;
+                this.resetting = true;
+            }, 1500);
+        },
+        onRefreshrestore() {
+            this.pullingDistance = 0;
+            this.resetting = false;
+        },
+        //自动化测试使用
+        testBodyScrollBy(y: number) {
+            this.scrollTop = y;
+        },
+        scrollEnd(e: UniScrollEvent) {
+            this.testScrollTop = e.detail.scrollTop;
+            console.log('testScrollTop:', this.testScrollTop);
+        }
+    }
+});
+export default __sfc__;
+function GenPagesComponentNestedScrollBodyNestedScrollBodyRender(this: InstanceType<typeof __sfc__>): any | null {
+    const _ctx = this;
+    const _cache = this.$.renderCache;
+    const _component_refresh_box = resolveComponent("refresh-box");
+    return _cE("scroll-view", _uM({
+        style: _nS(_uM({ "flex": "1" })),
+        type: "nested",
+        direction: "vertical",
+        "refresher-enabled": "true",
+        "refresher-default-style": "none",
+        bounces: "false",
+        "refresher-triggered": _ctx.refresherTriggered,
+        onRefresherpulling: _ctx.onRefresherpulling,
+        onRefresherrefresh: _ctx.onRefresherrefresh,
+        onRefresherrestore: _ctx.onRefreshrestore,
+        onScrollend: _ctx.scrollEnd
+    }), [
+        _cE("nested-scroll-header", null, [
+            _cE("swiper", _uM({
+                ref: "header",
+                "indicator-dots": "true",
+                circular: "true"
+            }), [
+                _cE(Fragment, null, RenderHelpers.renderList(3, (i, __key, __index, _cached): any => {
+                    return _cE("swiper-item", _uM({ "item-id": i }), [
+                        _cE("image", _uM({
+                            src: "/static/shuijiao.jpg",
+                            style: _nS(_uM({ "width": "100%", "height": "240px" }))
+                        }), null, 4 /* STYLE */)
+                    ], 8 /* PROPS */, ["item-id"]);
+                }), 64 /* STABLE_FRAGMENT */)
+            ], 512 /* NEED_PATCH */)
+        ]),
+        _cE("nested-scroll-body", null, [
+            _cE("view", _uM({
+                style: _nS(_uM({ "flex": "1" }))
+            }), [
+                _cE("view", _uM({
+                    style: _nS(_uM({ "flex-direction": "row" }))
+                }), [
+                    _cE("text", _uM({
+                        style: _nS(_uM({ "padding": "12px 15px" }))
+                    }), "nested-scroll-body", 4 /* STYLE */)
+                ], 4 /* STYLE */),
+                _cE("swiper", _uM({
+                    style: _nS(_uM({ "flex": "1" }))
+                }), [
+                    _cE(Fragment, null, RenderHelpers.renderList(_ctx.swiperList, (item, __key, __index, _cached): any => {
+                        return _cE("swiper-item", _uM({
+                            style: _nS(_uM({ "flex": "1" }))
+                        }), [
+                            _cE("list-view", _uM({
+                                bounces: "false",
+                                id: "body-list",
+                                "scroll-top": _ctx.scrollTop,
+                                style: _nS(_uM({ "flex": "1" })),
+                                key: item["type"],
+                                "associative-container": "nested-scroll-view",
+                                "refresher-enabled": false
+                            }), [
+                                _cE(Fragment, null, RenderHelpers.renderList(_ctx.scrollData, (key, __key, __index, _cached): any => {
+                                    return _cE("list-item", null, [
+                                        _cE("view", _uM({ class: "scroll-item" }), [
+                                            _cE("text", _uM({ class: "scroll-item-title" }), _tD(key), 1 /* TEXT */)
+                                        ])
+                                    ]);
+                                }), 256 /* UNKEYED_FRAGMENT */)
+                            ], 12 /* STYLE, PROPS */, ["scroll-top"])
+                        ], 4 /* STYLE */);
+                    }), 256 /* UNKEYED_FRAGMENT */)
+                ], 4 /* STYLE */)
+            ], 4 /* STYLE */),
+            _cE("text", null, "不会渲染，因为 nested-scroll-body 只会渲染第一个子节点")
+        ]),
+        _cV(_component_refresh_box, _uM({
+            slot: "refresher",
+            state: _ctx.state
+        }), null, 8 /* PROPS */, ["state"])
+    ], 44 /* STYLE, PROPS, NEED_HYDRATION */, ["refresher-triggered", "onRefresherpulling", "onRefresherrefresh", "onRefresherrestore", "onScrollend"]);
+}
+const GenPagesComponentNestedScrollBodyNestedScrollBodyStyles = [_uM([["scroll-item", _pS(_uM([["marginLeft", 6], ["marginRight", 6], ["marginTop", 6], ["backgroundColor", "#ffffff"], ["borderTopLeftRadius", 4], ["borderTopRightRadius", 4], ["borderBottomRightRadius", 4], ["borderBottomLeftRadius", 4]]))], ["scroll-item-title", _pS(_uM([["width", "100%"], ["height", 60], ["lineHeight", "60px"], ["textAlign", "center"], ["color", "#555555"]]))], ["scroll-header-tiem", _pS(_uM([["height", 200], ["backgroundColor", "#66ccff"], ["alignItems", "center"], ["justifyContent", "center"]]))]])];

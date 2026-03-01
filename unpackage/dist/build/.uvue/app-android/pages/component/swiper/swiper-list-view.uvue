@@ -1,0 +1,61 @@
+const __sfc__ = defineComponent({
+    data() {
+        return {
+            swiperCurrentIndex: 0,
+            currentVal: 0,
+            scrollTop: 0,
+            refresherTriggeredArray: [false, false, false] as Array<boolean>,
+        };
+    },
+    methods: {
+        swiperChange(e: SwiperChangeEvent) {
+            this.swiperCurrentIndex = e.detail.current;
+        },
+        onRefresherrefresh() {
+            this.refresherTriggeredArray[this.swiperCurrentIndex] = true;
+            setTimeout(() => {
+                this.refresherTriggeredArray[this.swiperCurrentIndex] = false;
+            }, 100);
+        }
+    }
+});
+export default __sfc__;
+function GenPagesComponentSwiperSwiperListViewRender(this: InstanceType<typeof __sfc__>): any | null {
+    const _ctx = this;
+    const _cache = this.$.renderCache;
+    return _cE("view", _uM({
+        style: _nS(_uM({ "flex": "1" }))
+    }), [
+        _cE("view", _uM({ class: "content-item" }), [
+            _cE("text", _uM({ class: "text" }), "左右滑动页面，体验swiper嵌套list-view效果。")
+        ]),
+        _cE("swiper", _uM({
+            style: _nS(_uM({ "flex": "1" })),
+            current: _ctx.currentVal,
+            onChange: _ctx.swiperChange
+        }), [
+            _cE(Fragment, null, RenderHelpers.renderList(3, (index, __key, __index, _cached): any => {
+                return _cE("swiper-item", null, [
+                    _cE("list-view", _uM({
+                        id: 'list' + index,
+                        style: _nS(_uM({ "flex": "1" })),
+                        "refresher-enabled": "true",
+                        onRefresherrefresh: _ctx.onRefresherrefresh,
+                        "refresher-triggered": _ctx.refresherTriggeredArray[index - 1],
+                        "scroll-top": _ctx.scrollTop
+                    }), [
+                        _cE("sticky-header", null, [
+                            _cE("text", _uM({ class: "header" }), "上下滑动体验吸顶效果 swiper-item" + _tD(index), 1 /* TEXT */)
+                        ]),
+                        _cE(Fragment, null, RenderHelpers.renderList(40, (itemIndex, __key, __index, _cached): any => {
+                            return _cE("list-item", _uM({ class: "item" }), [
+                                _cE("text", null, "item----------" + _tD(itemIndex), 1 /* TEXT */)
+                            ]);
+                        }), 64 /* STABLE_FRAGMENT */)
+                    ], 44 /* STYLE, PROPS, NEED_HYDRATION */, ["id", "onRefresherrefresh", "refresher-triggered", "scroll-top"])
+                ]);
+            }), 64 /* STABLE_FRAGMENT */)
+        ], 44 /* STYLE, PROPS, NEED_HYDRATION */, ["current", "onChange"])
+    ], 4 /* STYLE */);
+}
+const GenPagesComponentSwiperSwiperListViewStyles = [_uM([["item", _pS(_uM([["paddingTop", 15], ["paddingRight", 15], ["paddingBottom", 15], ["paddingLeft", 15], ["marginTop", 0], ["marginRight", 0], ["marginBottom", 5], ["marginLeft", 0], ["backgroundColor", "#ffffff"], ["borderTopLeftRadius", 5], ["borderTopRightRadius", 5], ["borderBottomRightRadius", 5], ["borderBottomLeftRadius", 5]]))], ["text", _pS(_uM([["fontSize", 14], ["color", "#666666"], ["lineHeight", "20px"]]))], ["content-item", _pS(_uM([["paddingTop", 15], ["paddingRight", 15], ["paddingBottom", 15], ["paddingLeft", 15], ["marginBottom", 10], ["backgroundColor", "#ffffff"]]))], ["header", _pS(_uM([["backgroundColor", "#ffaa00"], ["paddingTop", 15], ["paddingRight", 15], ["paddingBottom", 15], ["paddingLeft", 15], ["textAlign", "center"], ["color", "#ffffff"]]))]])];

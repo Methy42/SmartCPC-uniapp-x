@@ -1,0 +1,104 @@
+const __sfc__ = defineComponent({
+    data() {
+        return {
+            title: 'navigator'
+        };
+    }
+});
+export default __sfc__;
+function GenPagesComponentNavigatorNavigatorRender(this: InstanceType<typeof __sfc__>): any | null {
+    const _ctx = this;
+    const _cache = this.$.renderCache;
+    const _component_page_head = resolveEasyComponent("page-head", _easycom_page_head);
+    const _component_navigator = resolveComponent("navigator", true);
+    return _cE(Fragment, null, [
+        _cV(_component_page_head, _uM({ title: _ctx.title }), null, 8 /* PROPS */, ["title"]),
+        _cE("view", _uM({ class: "uni-padding-wrap uni-common-mt" }), [
+            _cV(_component_navigator, _uM({
+                id: "navigate",
+                class: "navigator",
+                url: "navigate?title=navigate"
+            }), _uM({
+                default: withSlotCtx((): any[] => [
+                    _cE("button", _uM({ type: "default" }), "跳转到新页面")
+                ]),
+                _: 1 /* STABLE */
+            })),
+            _cV(_component_navigator, _uM({
+                id: "redirect",
+                class: "navigator",
+                url: "redirect?title=redirect",
+                "open-type": "redirect"
+            }), _uM({
+                default: withSlotCtx((): any[] => [
+                    _cE("button", _uM({ type: "default" }), "在当前页打开redirect")
+                ]),
+                _: 1 /* STABLE */
+            })),
+            _cV(_component_navigator, _uM({
+                id: "switchTab",
+                class: "navigator",
+                url: "/pages/tabBar/template",
+                "open-type": "switchTab"
+            }), _uM({
+                default: withSlotCtx((): any[] => [
+                    _cE("button", _uM({ type: "default" }), "切换到模板选项卡switchTab")
+                ]),
+                _: 1 /* STABLE */
+            })),
+            _cV(_component_navigator, _uM({
+                id: "reLaunch",
+                class: "navigator",
+                url: "/pages/tabBar/component",
+                "open-type": "reLaunch"
+            }), _uM({
+                default: withSlotCtx((): any[] => [
+                    _cE("button", _uM({ type: "default" }), "关闭所有页面回首页reLaunch")
+                ]),
+                _: 1 /* STABLE */
+            })),
+            _cV(_component_navigator, _uM({
+                id: "reLaunch",
+                class: "navigator",
+                "open-type": "navigateBack"
+            }), _uM({
+                default: withSlotCtx((): any[] => [
+                    _cE("button", _uM({ type: "default" }), "返回上一页navigateBack")
+                ]),
+                _: 1 /* STABLE */
+            })),
+            _cV(_component_navigator, _uM({
+                id: "navigateToErrorPage",
+                class: "navigator",
+                url: "/pages/error-page/error-page"
+            }), _uM({
+                default: withSlotCtx((): any[] => [
+                    _cE("button", _uM({ type: "default" }), " 打开不存在的页面 ")
+                ]),
+                _: 1 /* STABLE */
+            })),
+            _cV(_component_navigator, _uM({
+                id: "navigateToErrorPage",
+                class: "navigator"
+            }), _uM({
+                default: withSlotCtx((): any[] => [
+                    _cE("button", _uM({ type: "default" }), " 未指定URL的跳转 ")
+                ]),
+                _: 1 /* STABLE */
+            })),
+            _cV(_component_navigator, _uM({
+                style: _nS(_uM({ "flex-direction": "row", "justify-content": "space-between" }))
+            }), _uM({
+                default: withSlotCtx((): any[] => [
+                    _cE("text", null, "两端对齐样式测试"),
+                    _cE("view", _uM({
+                        style: _nS(_uM({ "width": "20px", "height": "20px", "background-color": "aqua" }))
+                    }), null, 4 /* STYLE */)
+                ]),
+                _: 1 /* STABLE */
+            }), 8 /* PROPS */, ["style"])
+        ])
+    ], 64 /* STABLE_FRAGMENT */);
+}
+const GenPagesComponentNavigatorNavigatorStyles = [_uM([["navigator", _pS(_uM([["marginBottom", 15]]))]])];
+import _easycom_page_head from '@/components/page-head/page-head.vue';

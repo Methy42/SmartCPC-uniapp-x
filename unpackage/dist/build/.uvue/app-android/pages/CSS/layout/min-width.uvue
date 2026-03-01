@@ -1,0 +1,20 @@
+const __sfc__ = defineComponent({});
+export default __sfc__;
+function GenPagesCSSLayoutMinWidthRender(this: InstanceType<typeof __sfc__>): any | null {
+    const _ctx = this;
+    const _cache = this.$.renderCache;
+    return _cE("view", _uM({
+        style: _nS(_uM({ "flex-grow": "1" }))
+    }), [
+        _cE("view", null, [
+            _cE("text", null, "min-width: 250px"),
+            _cE("view", _uM({
+                class: "common",
+                style: _nS(_uM({ "min-width": "250px" }))
+            }), [
+                _cE("text", null, "width: 50px")
+            ], 4 /* STYLE */)
+        ])
+    ], 4 /* STYLE */);
+}
+const GenPagesCSSLayoutMinWidthStyles = [_uM([["common", _pS(_uM([["width", 50], ["height", 250], ["backgroundColor", "#FF0000"], ["justifyContent", "center"], ["alignItems", "center"]]))]])];

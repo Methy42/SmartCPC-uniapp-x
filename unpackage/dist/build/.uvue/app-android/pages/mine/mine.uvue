@@ -1,0 +1,85 @@
+const __sfc__ = defineComponent({
+    __name: 'mine',
+    setup(__props) {
+        const __ins = getCurrentInstance()!;
+        const _ctx = __ins.proxy as InstanceType<typeof __sfc__>;
+        const _cache = __ins.renderCache;
+        // 暂无业务逻辑
+        return (): any | null => {
+            const _component_u_tag = resolveComponent("u-tag");
+            const _component_u_cell = resolveComponent("u-cell");
+            const _component_u_cell_group = resolveComponent("u-cell-group");
+            return _cE("view", _uM({ class: "container" }), [
+                _cE("view", _uM({ class: "page-header" }), [
+                    _cE("image", _uM({
+                        class: "star-icon",
+                        src: "/static/star.png",
+                        mode: "widthFix"
+                    })),
+                    _cE("text", _uM({ class: "page-title" }), "个人中心")
+                ]),
+                _cE("view", _uM({ class: "user-card" }), [
+                    _cE("image", _uM({
+                        class: "user-avatar",
+                        src: "/static/avatar.png",
+                        mode: "aspectFill"
+                    })),
+                    _cE("view", _uM({ class: "user-info" }), [
+                        _cE("text", _uM({ class: "user-name" }), "李邵丽"),
+                        _cV(_component_u_tag, _uM({
+                            text: "党员",
+                            type: "danger",
+                            size: "mini"
+                        })),
+                        _cE("text", _uM({ class: "user-org" }), "所在党组织：数智公司党支部")
+                    ])
+                ]),
+                _cE("view", _uM({ class: "func-list" }), [
+                    _cV(_component_u_cell_group, null, _uM({
+                        default: withSlotCtx((): any[] => [
+                            _cV(_component_u_cell, _uM({
+                                title: "个人资料",
+                                icon: "heart",
+                                "icon-color": "#9370DB",
+                                isLink: ""
+                            })),
+                            _cV(_component_u_cell, _uM({
+                                title: "我的参会记录",
+                                icon: "flag",
+                                "icon-color": "#C8102E",
+                                isLink: ""
+                            })),
+                            _cV(_component_u_cell, _uM({
+                                title: "我的活动记录",
+                                icon: "folder",
+                                "icon-color": "#1E90FF",
+                                isLink: ""
+                            })),
+                            _cV(_component_u_cell, _uM({
+                                title: "修改密码",
+                                icon: "lock",
+                                "icon-color": "#32CD32",
+                                isLink: ""
+                            })),
+                            _cV(_component_u_cell, _uM({
+                                title: "系统设置",
+                                icon: "setting",
+                                "icon-color": "#1E90FF",
+                                isLink: ""
+                            })),
+                            _cV(_component_u_cell, _uM({
+                                title: "退出登录",
+                                icon: "logout",
+                                "icon-color": "#8B4513",
+                                isLink: ""
+                            }))
+                        ]),
+                        _: 1 /* STABLE */
+                    }))
+                ])
+            ]);
+        };
+    }
+});
+export default __sfc__;
+const GenPagesMineMineStyles = [_uM([["container", _pS(_uM([["backgroundColor", "#F5F5F5"], ["paddingBottom", "100rpx"]]))], ["page-header", _pS(_uM([["display", "flex"], ["alignItems", "center"], ["paddingTop", "20rpx"], ["paddingRight", "30rpx"], ["paddingBottom", "20rpx"], ["paddingLeft", "30rpx"], ["backgroundColor", "#ffffff"]]))], ["star-icon", _pS(_uM([["width", "40rpx"], ["height", "40rpx"], ["marginRight", "10rpx"]]))], ["page-title", _pS(_uM([["fontSize", "36rpx"], ["fontWeight", "bold"], ["color", "#333333"]]))], ["user-card", _pS(_uM([["backgroundColor", "#ffffff"], ["borderTopLeftRadius", "16rpx"], ["borderTopRightRadius", "16rpx"], ["borderBottomRightRadius", "16rpx"], ["borderBottomLeftRadius", "16rpx"], ["marginTop", "20rpx"], ["marginRight", "30rpx"], ["marginBottom", "20rpx"], ["marginLeft", "30rpx"], ["paddingTop", "30rpx"], ["paddingRight", "30rpx"], ["paddingBottom", "30rpx"], ["paddingLeft", "30rpx"], ["display", "flex"], ["alignItems", "center"]]))], ["user-avatar", _pS(_uM([["width", "120rpx"], ["height", "120rpx"], ["marginRight", "30rpx"]]))], ["user-info", _pS(_uM([["flexGrow", 1], ["flexShrink", 1], ["flexBasis", "0%"]]))], ["user-name", _pS(_uM([["fontSize", "36rpx"], ["fontWeight", "bold"], ["color", "#333333"], ["marginRight", "10rpx"]]))], ["user-org", _pS(_uM([["fontSize", "28rpx"], ["color", "#666666"], ["marginTop", "10rpx"]]))], ["func-list", _pS(_uM([["marginTop", "20rpx"], ["marginRight", "30rpx"], ["marginBottom", "20rpx"], ["marginLeft", "30rpx"]]))]])];

@@ -1,0 +1,85 @@
+
+  const __sfc__ = defineComponent({
+    data() {
+      return {
+        errorDetails: [] as string[],
+        btnText: "",
+        btnType: "primary",
+        btnDisable: false,
+        interstitialAd: null as InterstitialAd | null,
+        isAdLoadSuccess: false
+      }
+    },
+    onReady() {
+      this.loadAd()
+    },
+    methods: {
+      loadAd() {
+        if (this.btnDisable)
+          return
+        this.btnDisable = true
+        this.btnText = "正在加载广告"
+        this.btnType = "primary"
+        if (this.interstitialAd == null) {
+          this.interstitialAd = uni.createInterstitialAd({
+            adpid: "1111111113" //此处为测试广告位，实际开发中请在uni-ad后台申请自己的广告位后替换
+          })
+          this.interstitialAd!.onError((res) => {
+            this.errorDetails.length = 0;
+            this.btnType = "warn"
+            this.btnDisable = false
+            this.btnText = res.errMsg;
+            const errors = (res.cause as UniAggregateError | null)?.errors;
+            if(errors != null && errors.length > 0) {
+              for(var a = 0;a<errors.length;a++) {
+                var msg = JSON.stringify(errors[a]);
+                this.errorDetails.push(msg);
+              }
+            }
+          })
+          this.interstitialAd!.onLoad((_) => {
+            this.errorDetails.length = 0;
+            this.btnType = "primary"
+            this.btnText = "广告加载成功，点击观看"
+            this.btnDisable = false
+            this.isAdLoadSuccess = true
+          })
+          this.interstitialAd!.onClose((_) => {
+            this.isAdLoadSuccess = false
+            this.loadAd()
+          })
+        }
+        this.interstitialAd!.load().catch(() => { })
+      },
+      showAd() {
+        if (this.isAdLoadSuccess) {
+          this.interstitialAd!.show().catch(() => { })
+        } else {
+          this.loadAd()
+        }
+      }
+    }
+  })
+
+export default __sfc__
+function GenPagesAPICreateInterstitialAdCreateInterstitialAdRender(this: InstanceType<typeof __sfc__>): any | null {
+const _ctx = this
+const _cache = this.$.renderCache
+const _component_page_head = resolveEasyComponent("page-head",_easycom_page_head)
+
+  return _cE(Fragment, null, [
+    _cV(_component_page_head, _uM({ title: "插屏广告" })),
+    _cE("button", _uM({
+      type: _ctx.btnType,
+      style: _nS(_uM({"margin":"10px"})),
+      disabled: _ctx.btnDisable,
+      onClick: () => {_ctx.showAd()}
+    }), _tD(_ctx.btnText), 13 /* TEXT, STYLE, PROPS */, ["type", "disabled", "onClick"]),
+    _cE(Fragment, null, RenderHelpers.renderList(_ctx.errorDetails, (item, index, __index, _cached): any => {
+      return _cE("view", null, _tD(item), 1 /* TEXT */)
+    }), 256 /* UNKEYED_FRAGMENT */)
+  ], 64 /* STABLE_FRAGMENT */)
+}
+const GenPagesAPICreateInterstitialAdCreateInterstitialAdStyles = []
+
+import _easycom_page_head from '@/components/page-head/page-head.vue'

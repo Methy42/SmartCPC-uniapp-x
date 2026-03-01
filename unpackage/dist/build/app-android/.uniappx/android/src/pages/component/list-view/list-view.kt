@@ -1,0 +1,474 @@
+@file:Suppress("UNCHECKED_CAST", "USELESS_CAST", "INAPPLICABLE_JVM_NAME", "UNUSED_ANONYMOUS_PARAMETER", "NAME_SHADOWING", "UNNECESSARY_NOT_NULL_ASSERTION")
+package uni.UNI2A1DFEF
+import io.dcloud.uniapp.*
+import io.dcloud.uniapp.extapi.*
+import io.dcloud.uniapp.framework.*
+import io.dcloud.uniapp.runtime.*
+import io.dcloud.uniapp.vue.*
+import io.dcloud.uniapp.vue.shared.*
+import io.dcloud.unicloud.*
+import io.dcloud.uts.*
+import io.dcloud.uts.Map
+import io.dcloud.uts.Set
+import io.dcloud.uts.UTSAndroid
+import kotlin.properties.Delegates
+open class GenPagesComponentListViewListView : BasePage {
+    constructor(__ins: ComponentInternalInstance, __renderer: String?) : super(__ins, __renderer) {
+        onLoad(fun(_: OnLoadOptions) {
+            stat_instance.onLoad(this)
+        }
+        , __ins)
+        onPageShow(fun() {
+            stat_instance.onShow(this)
+        }
+        , __ins)
+        onPageHide(fun() {
+            stat_instance.onHide(this)
+        }
+        , __ins)
+        onUnload(fun() {
+            stat_instance.onUnload(this)
+        }
+        , __ins)
+        onLoad(fun(_: OnLoadOptions) {
+            var lists: UTSArray<String> = _uA()
+            run {
+                var i: Number = 0
+                while(i < 10){
+                    lists.push("item---" + i)
+                    i++
+                }
+            }
+            this.scrollData = lists
+        }
+        , __ins)
+    }
+    @Suppress("UNUSED_PARAMETER", "UNUSED_VARIABLE")
+    override fun `$render`(): Any? {
+        val _ctx = this
+        val _cache = this.`$`.renderCache
+        val _component_boolean_data = resolveEasyComponent("boolean-data", GenComponentsBooleanDataBooleanDataClass)
+        val _component_input_data = resolveEasyComponent("input-data", GenComponentsInputDataInputDataClass)
+        val _component_enum_data = resolveEasyComponent("enum-data", GenComponentsEnumDataEnumDataClass)
+        val _component_navigator = resolveComponent("navigator")
+        return _cE(Fragment, null, _uA(
+            _cE("view", _uM("class" to "main"), _uA(
+                _cE("list-view", _uM("direction" to _ctx.scroll_direction, "bounces" to _ctx.bounces_boolean, "upper-threshold" to _ctx.upper_threshold_input, "lower-threshold" to _ctx.lower_threshold_input, "scroll-top" to _ctx.scroll_top_input, "scroll-left" to _ctx.scroll_left_input, "show-scrollbar" to _ctx.show_scrollbar_boolean, "scroll-into-view" to _ctx.scrollIntoView, "scroll-with-animation" to _ctx.scroll_with_animation_boolean, "refresher-enabled" to _ctx.refresher_enabled_boolean, "refresher-background" to _ctx.refresher_background_input, "refresher-triggered" to _ctx.refresher_triggered_boolean, "refresher-default-style" to _ctx.refresher_default_style_input, "onClick" to _uA<Any?>(_ctx.list_view_click, _ctx.list_view_tap), "onTouchstart" to _ctx.list_view_touchstart, "onTouchmove" to _ctx.list_view_touchmove, "onTouchcancel" to _ctx.list_view_touchcancel, "onTouchend" to _ctx.list_view_touchend, "onLongpress" to _ctx.list_view_longpress, "onRefresherpulling" to _ctx.list_view_refresherpulling, "onRefresherrefresh" to _ctx.list_view_refresherrefresh, "onRefresherrestore" to _ctx.list_view_refresherrestore, "onRefresherabort" to _ctx.list_view_refresherabort, "onScrolltoupper" to _ctx.list_view_scrolltoupper, "ref" to "listview", "onScrolltolower" to _ctx.list_view_scrolltolower, "onScroll" to _ctx.list_view_scroll, "onScrollend" to _ctx.list_view_scrollend, "style" to _nS(_uM("width" to "100%")), "id" to "listview"), _uA(
+                    _cE(Fragment, null, RenderHelpers.renderList(_ctx.scrollData, fun(key, __key, __index, _cached): Any {
+                        return _cE("list-item", _uM("key" to key, "id" to key, "onClick" to _uA<Any?>(_ctx.list_item_click, _ctx.list_item_tap), "onTouchstart" to _ctx.list_item_touchstart, "onTouchmove" to _ctx.list_item_touchmove, "onTouchcancel" to _ctx.list_item_touchcancel, "onTouchend" to _ctx.list_item_touchend, "onLongpress" to _ctx.list_item_longpress, "class" to "list-item"), _uA(
+                            _cE("text", null, _tD(key), 1)
+                        ), 40, _uA(
+                            "id",
+                            "onClick",
+                            "onTouchstart",
+                            "onTouchmove",
+                            "onTouchcancel",
+                            "onTouchend",
+                            "onLongpress"
+                        ))
+                    }
+                    ), 128),
+                    _cE("list-item", _uM("slot" to "refresher", "class" to "refresh-box"), _uA(
+                        _cE("text", _uM("class" to "tip-text"), _tD(_ctx.text[_ctx.state]), 1)
+                    ))
+                ), 44, _uA(
+                    "direction",
+                    "bounces",
+                    "upper-threshold",
+                    "lower-threshold",
+                    "scroll-top",
+                    "scroll-left",
+                    "show-scrollbar",
+                    "scroll-into-view",
+                    "scroll-with-animation",
+                    "refresher-enabled",
+                    "refresher-background",
+                    "refresher-triggered",
+                    "refresher-default-style",
+                    "onClick",
+                    "onTouchstart",
+                    "onTouchmove",
+                    "onTouchcancel",
+                    "onTouchend",
+                    "onLongpress",
+                    "onRefresherpulling",
+                    "onRefresherrefresh",
+                    "onRefresherrestore",
+                    "onRefresherabort",
+                    "onScrolltoupper",
+                    "onScrolltolower",
+                    "onScroll",
+                    "onScrollend"
+                ))
+            )),
+            _cE("scroll-view", _uM("style" to _nS(_uM("flex" to "1")), "direction" to "vertical"), _uA(
+                _cE("view", _uM("class" to "content"), _uA(
+                    _cV(_component_boolean_data, _uM("defaultValue" to false, "title" to "设置当前下拉刷新状态，true 表示下拉刷新已经被触发，false 表示下拉刷新未被触发", "onChange" to _ctx.change_refresher_triggered_boolean), null, 8, _uA(
+                        "onChange"
+                    )),
+                    _cV(_component_boolean_data, _uM("defaultValue" to false, "title" to "开启下拉刷新", "onChange" to _ctx.change_refresher_enabled_boolean), null, 8, _uA(
+                        "onChange"
+                    )),
+                    _cV(_component_boolean_data, _uM("defaultValue" to false, "title" to "开启自定义样式", "onChange" to _ctx.change_refresher_style_boolean), null, 8, _uA(
+                        "onChange"
+                    )),
+                    _cV(_component_boolean_data, _uM("defaultValue" to false, "title" to "是否在设置滚动条位置时使用滚动动画，设置false没有滚动动画", "onChange" to _ctx.change_scroll_with_animation_boolean), null, 8, _uA(
+                        "onChange"
+                    )),
+                    _cV(_component_boolean_data, _uM("defaultValue" to false, "title" to "控制是否出现滚动条", "onChange" to _ctx.change_show_scrollbar_boolean), null, 8, _uA(
+                        "onChange"
+                    )),
+                    _cV(_component_boolean_data, _uM("defaultValue" to true, "title" to "控制是否回弹效果", "onChange" to _ctx.change_bounces_boolean), null, 8, _uA(
+                        "onChange"
+                    )),
+                    _cV(_component_boolean_data, _uM("defaultValue" to true, "title" to "允许纵向滚动", "onChange" to _ctx.change_scroll_y_boolean), null, 8, _uA(
+                        "onChange"
+                    )),
+                    _cV(_component_boolean_data, _uM("defaultValue" to false, "title" to "允许横向滚动", "onChange" to _ctx.change_scroll_x_boolean), null, 8, _uA(
+                        "onChange"
+                    )),
+                    _cV(_component_input_data, _uM("defaultValue" to "50", "title" to "距顶部/左边多远时（单位px），触发 scrolltoupper 事件", "type" to "number", "onConfirm" to _ctx.confirm_upper_threshold_input), null, 8, _uA(
+                        "onConfirm"
+                    )),
+                    _cV(_component_input_data, _uM("defaultValue" to "50", "title" to "距底部/右边多远时（单位px），触发 scrolltolower 事件", "type" to "number", "onConfirm" to _ctx.confirm_lower_threshold_input), null, 8, _uA(
+                        "onConfirm"
+                    )),
+                    _cV(_component_input_data, _uM("defaultValue" to "0", "title" to "设置竖向滚动条位置", "type" to "number", "onConfirm" to _ctx.confirm_scroll_top_input), null, 8, _uA(
+                        "onConfirm"
+                    )),
+                    _cV(_component_input_data, _uM("defaultValue" to "0", "title" to "设置横向滚动条位置", "type" to "number", "onConfirm" to _ctx.confirm_scroll_left_input), null, 8, _uA(
+                        "onConfirm"
+                    )),
+                    _cV(_component_input_data, _uM("defaultValue" to "#FFF", "title" to "设置下拉刷新区域背景颜色", "type" to "text", "onConfirm" to _ctx.confirm_refresher_background_input), null, 8, _uA(
+                        "onConfirm"
+                    )),
+                    _cV(_component_enum_data, _uM("items" to _ctx.size_enum, "title" to "通过id位置跳转", "onChange" to _ctx.item_change_size_enum), null, 8, _uA(
+                        "items",
+                        "onChange"
+                    )),
+                    _cV(_component_navigator, _uM("url" to "/pages/component/list-view/list-view-refresh"), _uM("default" to withSlotCtx(fun(): UTSArray<Any> {
+                        return _uA(
+                            _cE("button", _uM("type" to "primary", "class" to "button"), " list-view 下拉刷新 ")
+                        )
+                    }
+                    ), "_" to 1)),
+                    _cV(_component_navigator, _uM("url" to "/pages/component/list-view/list-view-multiplex"), _uM("default" to withSlotCtx(fun(): UTSArray<Any> {
+                        return _uA(
+                            _cE("button", _uM("type" to "primary", "class" to "button"), " list-view 对list-item复用测试 ")
+                        )
+                    }
+                    ), "_" to 1)),
+                    _cV(_component_navigator, _uM("url" to "/pages/component/list-view/list-view-multiplex-input"), _uM("default" to withSlotCtx(fun(): UTSArray<Any> {
+                        return _uA(
+                            _cE("button", _uM("type" to "primary", "class" to "button"), " list-view 复用测试（item中嵌入input） ")
+                        )
+                    }
+                    ), "_" to 1)),
+                    _cV(_component_navigator, _uM("url" to "/pages/component/list-view/list-view-multiplex-video"), _uM("default" to withSlotCtx(fun(): UTSArray<Any> {
+                        return _uA(
+                            _cE("button", _uM("type" to "primary", "class" to "button"), " list-view 复用测试（item中嵌入video） ")
+                        )
+                    }
+                    ), "_" to 1)),
+                    _cV(_component_navigator, _uM("url" to "/pages/component/list-view/list-view-children-in-slot"), _uM("default" to withSlotCtx(fun(): UTSArray<Any> {
+                        return _uA(
+                            _cE("button", _uM("type" to "primary", "class" to "button"), " list-view 测试插槽中子组件增删 ")
+                        )
+                    }
+                    ), "_" to 1)),
+                    _cV(_component_navigator, _uM("url" to "/pages/component/list-view/list-view-children-if-show"), _uM("default" to withSlotCtx(fun(): UTSArray<Any> {
+                        return _uA(
+                            _cE("button", _uM("type" to "primary", "class" to "button"), " list-item v-if v-show 组合增删 ")
+                        )
+                    }
+                    ), "_" to 1)),
+                    _cV(_component_navigator, _uM("url" to "/pages/component/list-view/list-view-long-press"), _uM("default" to withSlotCtx(fun(): UTSArray<Any> {
+                        return _uA(
+                            _cE("button", _uM("type" to "primary", "class" to "button"), " list-item 中设置长按事件测试 ")
+                        )
+                    }
+                    ), "_" to 1))
+                ))
+            ), 4)
+        ), 64)
+    }
+    open var refresher_triggered_boolean: Boolean by `$data`
+    open var refresher_enabled_boolean: Boolean by `$data`
+    open var scroll_with_animation_boolean: Boolean by `$data`
+    open var show_scrollbar_boolean: Boolean by `$data`
+    open var bounces_boolean: Boolean by `$data`
+    open var scroll_y_boolean: Boolean by `$data`
+    open var scroll_x_boolean: Boolean by `$data`
+    open var scroll_direction: String by `$data`
+    open var upper_threshold_input: Number by `$data`
+    open var lower_threshold_input: Number by `$data`
+    open var scroll_top_input: Number by `$data`
+    open var scroll_left_input: Number by `$data`
+    open var refresher_background_input: String by `$data`
+    open var scrollData: UTSArray<String> by `$data`
+    open var size_enum: UTSArray<ItemType> by `$data`
+    open var scrollIntoView: String by `$data`
+    open var refresherrefresh: Boolean by `$data`
+    open var refresher_default_style_input: String by `$data`
+    open var text: UTSArray<String> by `$data`
+    open var state: Number by `$data`
+    open var reset: Boolean by `$data`
+    open var isScrollTest: String by `$data`
+    open var isScrolltolowerTest: String by `$data`
+    open var isScrolltoupperTest: String by `$data`
+    open var scrollDetailTest: UniScrollEventDetail? by `$data`
+    open var scrollEndDetailTest: UniScrollEventDetail? by `$data`
+    @Suppress("USELESS_CAST")
+    override fun data(): Map<String, Any?> {
+        return _uM("refresher_triggered_boolean" to false, "refresher_enabled_boolean" to false, "scroll_with_animation_boolean" to false, "show_scrollbar_boolean" to false, "bounces_boolean" to true, "scroll_y_boolean" to true, "scroll_x_boolean" to false, "scroll_direction" to "vertical", "upper_threshold_input" to 50, "lower_threshold_input" to 50, "scroll_top_input" to 0, "scroll_left_input" to 0, "refresher_background_input" to "#FFF", "scrollData" to _uA<String>(), "size_enum" to _uA<ItemType>(ItemType(value = 0, name = "item---0"), ItemType(value = 3, name = "item---3")), "scrollIntoView" to "", "refresherrefresh" to false, "refresher_default_style_input" to "black", "text" to _uA(
+            "继续下拉执行刷新",
+            "释放立即刷新",
+            "刷新中",
+            ""
+        ), "state" to 3, "reset" to true, "isScrollTest" to "", "isScrolltolowerTest" to "", "isScrolltoupperTest" to "", "scrollDetailTest" to null as UniScrollEventDetail?, "scrollEndDetailTest" to null as UniScrollEventDetail?)
+    }
+    open var list_view_click = ::gen_list_view_click_fn
+    open fun gen_list_view_click_fn() {
+        console.log("组件被点击时触发")
+    }
+    open var list_view_touchstart = ::gen_list_view_touchstart_fn
+    open fun gen_list_view_touchstart_fn() {
+        console.log("手指触摸动作开始")
+    }
+    open var list_view_touchmove = ::gen_list_view_touchmove_fn
+    open fun gen_list_view_touchmove_fn() {
+        console.log("手指触摸后移动")
+    }
+    open var list_view_touchcancel = ::gen_list_view_touchcancel_fn
+    open fun gen_list_view_touchcancel_fn() {
+        console.log("手指触摸动作被打断，如来电提醒，弹窗")
+    }
+    open var list_view_touchend = ::gen_list_view_touchend_fn
+    open fun gen_list_view_touchend_fn() {
+        console.log("手指触摸动作结束")
+    }
+    open var list_view_tap = ::gen_list_view_tap_fn
+    open fun gen_list_view_tap_fn() {
+        console.log("手指触摸后马上离开")
+    }
+    open var list_view_longpress = ::gen_list_view_longpress_fn
+    open fun gen_list_view_longpress_fn() {
+        console.log("如果一个组件被绑定了 longpress 事件，那么当用户长按这个组件时，该事件将会被触发。")
+    }
+    open var list_view_refresherpulling = ::gen_list_view_refresherpulling_fn
+    open fun gen_list_view_refresherpulling_fn(e: RefresherEvent) {
+        console.log("下拉刷新控件被下拉")
+        if (this.reset) {
+            if (e.detail.dy > 45) {
+                this.state = 1
+            } else {
+                this.state = 0
+            }
+        }
+    }
+    open var list_view_refresherrefresh = ::gen_list_view_refresherrefresh_fn
+    open fun gen_list_view_refresherrefresh_fn() {
+        console.log("下拉刷新被触发 ")
+        this.refresherrefresh = true
+        this.refresher_triggered_boolean = true
+        this.state = 2
+        this.reset = false
+        setTimeout(fun(){
+            this.refresher_triggered_boolean = false
+        }
+        , 1500)
+    }
+    open var list_view_refresherrestore = ::gen_list_view_refresherrestore_fn
+    open fun gen_list_view_refresherrestore_fn() {
+        this.refresherrefresh = false
+        this.state = 3
+        this.reset = true
+        console.log("下拉刷新被复位")
+    }
+    open var list_view_refresherabort = ::gen_list_view_refresherabort_fn
+    open fun gen_list_view_refresherabort_fn() {
+        console.log("下拉刷新被中止")
+    }
+    open var list_view_scrolltoupper = ::gen_list_view_scrolltoupper_fn
+    open fun gen_list_view_scrolltoupper_fn(e: UniScrollToUpperEvent) {
+        console.log("滚动到顶部/左边，会触发 scrolltoupper 事件  direction=" + e.detail.direction)
+        this.checkEventTest(ScrollEventTest__1(type = e.type, target = e.target, currentTarget = e.currentTarget, direction = e.detail.direction), "scrolltoupper")
+    }
+    open var list_view_scrolltolower = ::gen_list_view_scrolltolower_fn
+    open fun gen_list_view_scrolltolower_fn(e: UniScrollToLowerEvent) {
+        console.log("滚动到底部/右边，会触发 scrolltolower 事件  direction=" + e.detail.direction)
+        this.checkEventTest(ScrollEventTest__1(type = e.type, target = e.target, currentTarget = e.currentTarget, direction = e.detail.direction), "scrolltolower")
+    }
+    open var list_view_scroll = ::gen_list_view_scroll_fn
+    open fun gen_list_view_scroll_fn(e: UniScrollEvent) {
+        console.log("滚动时触发，event.detail = {scrollLeft, scrollTop, scrollHeight, scrollWidth, deltaX, deltaY}")
+        this.scrollDetailTest = e.detail
+        this.checkEventTest(ScrollEventTest__1(type = e.type, target = e.target, currentTarget = e.currentTarget), "scroll")
+    }
+    open var list_view_scrollend = ::gen_list_view_scrollend_fn
+    open fun gen_list_view_scrollend_fn(e: UniScrollEvent) {
+        console.log("滚动结束时触发", e.detail)
+        this.scrollEndDetailTest = e.detail
+        this.checkEventTest(ScrollEventTest__1(type = e.type, target = e.target, currentTarget = e.currentTarget), "scrollend")
+    }
+    open var list_item_click = ::gen_list_item_click_fn
+    open fun gen_list_item_click_fn() {
+        console.log("list-item组件被点击时触发")
+    }
+    open var list_item_touchstart = ::gen_list_item_touchstart_fn
+    open fun gen_list_item_touchstart_fn() {
+        console.log("手指触摸list-item组件动作开始")
+    }
+    open var list_item_touchmove = ::gen_list_item_touchmove_fn
+    open fun gen_list_item_touchmove_fn() {
+        console.log("手指触摸list-item组件后移动")
+    }
+    open var list_item_touchcancel = ::gen_list_item_touchcancel_fn
+    open fun gen_list_item_touchcancel_fn() {
+        console.log("手指触摸list-item组件动作被打断，如来电提醒，弹窗")
+    }
+    open var list_item_touchend = ::gen_list_item_touchend_fn
+    open fun gen_list_item_touchend_fn() {
+        console.log("手指触摸list-item组件动作结束")
+    }
+    open var list_item_tap = ::gen_list_item_tap_fn
+    open fun gen_list_item_tap_fn() {
+        console.log("手指触摸list-item组件后马上离开")
+    }
+    open var list_item_longpress = ::gen_list_item_longpress_fn
+    open fun gen_list_item_longpress_fn() {
+        console.log("list-item组件被绑定了 longpress 事件，那么当用户长按这个组件时，该事件将会被触发。")
+    }
+    open var change_refresher_triggered_boolean = ::gen_change_refresher_triggered_boolean_fn
+    open fun gen_change_refresher_triggered_boolean_fn(checked: Boolean) {
+        this.refresher_triggered_boolean = checked
+    }
+    open var change_refresher_enabled_boolean = ::gen_change_refresher_enabled_boolean_fn
+    open fun gen_change_refresher_enabled_boolean_fn(checked: Boolean) {
+        this.refresher_enabled_boolean = checked
+    }
+    open var change_scroll_with_animation_boolean = ::gen_change_scroll_with_animation_boolean_fn
+    open fun gen_change_scroll_with_animation_boolean_fn(checked: Boolean) {
+        this.scroll_with_animation_boolean = checked
+    }
+    open var change_show_scrollbar_boolean = ::gen_change_show_scrollbar_boolean_fn
+    open fun gen_change_show_scrollbar_boolean_fn(checked: Boolean) {
+        this.show_scrollbar_boolean = checked
+    }
+    open var change_bounces_boolean = ::gen_change_bounces_boolean_fn
+    open fun gen_change_bounces_boolean_fn(checked: Boolean) {
+        this.bounces_boolean = checked
+    }
+    open var change_scroll_y_boolean = ::gen_change_scroll_y_boolean_fn
+    open fun gen_change_scroll_y_boolean_fn(checked: Boolean) {
+        this.scroll_y_boolean = checked
+        this.change_scroll_direction()
+    }
+    open var change_scroll_x_boolean = ::gen_change_scroll_x_boolean_fn
+    open fun gen_change_scroll_x_boolean_fn(checked: Boolean) {
+        this.scroll_x_boolean = checked
+        this.change_scroll_direction()
+    }
+    open var change_scroll_direction = ::gen_change_scroll_direction_fn
+    open fun gen_change_scroll_direction_fn() {
+        if (this.scroll_y_boolean && this.scroll_x_boolean || this.scroll_y_boolean) {
+            this.scroll_direction = "vertical"
+        } else if (!this.scroll_y_boolean && !this.scroll_x_boolean) {
+            this.scroll_direction = "none"
+        } else if (!this.scroll_y_boolean && this.scroll_x_boolean) {
+            this.scroll_direction = "horizontal"
+        }
+    }
+    open var confirm_upper_threshold_input = ::gen_confirm_upper_threshold_input_fn
+    open fun gen_confirm_upper_threshold_input_fn(value: Number) {
+        this.upper_threshold_input = value
+    }
+    open var confirm_lower_threshold_input = ::gen_confirm_lower_threshold_input_fn
+    open fun gen_confirm_lower_threshold_input_fn(value: Number) {
+        this.lower_threshold_input = value
+    }
+    open var confirm_scroll_top_input = ::gen_confirm_scroll_top_input_fn
+    open fun gen_confirm_scroll_top_input_fn(value: Number) {
+        this.scroll_top_input = value
+    }
+    open var confirm_scroll_left_input = ::gen_confirm_scroll_left_input_fn
+    open fun gen_confirm_scroll_left_input_fn(value: Number) {
+        this.scroll_left_input = value
+    }
+    open var confirm_refresher_background_input = ::gen_confirm_refresher_background_input_fn
+    open fun gen_confirm_refresher_background_input_fn(value: String) {
+        this.refresher_background_input = value
+    }
+    open var item_change_size_enum = ::gen_item_change_size_enum_fn
+    open fun gen_item_change_size_enum_fn(index: Number) {
+        this.scrollIntoView = "item---" + index
+    }
+    open var setScrollIntoView = ::gen_setScrollIntoView_fn
+    open fun gen_setScrollIntoView_fn(id: String) {
+        this.scrollIntoView = id
+    }
+    open var checkEventTest = ::gen_checkEventTest_fn
+    open fun gen_checkEventTest_fn(e: ScrollEventTest__1, eventName: String) {
+        val isPass = e.type === eventName && e.target is UniElement && e.currentTarget is UniElement
+        val result = if (isPass) {
+            "" + eventName + ":Success"
+        } else {
+            "" + eventName + ":Fail"
+        }
+        when (eventName) {
+            "scroll" -> 
+                this.isScrollTest = result
+            "scrolltolower" -> 
+                this.isScrolltolowerTest = result + ("-" + e.direction)
+            "scrolltoupper" -> 
+                this.isScrolltoupperTest = result + ("-" + e.direction)
+            else -> 
+                {}
+        }
+    }
+    open var check_scroll_height = ::gen_check_scroll_height_fn
+    open fun gen_check_scroll_height_fn(): Boolean {
+        var listElement = this.`$refs`["listview"] as UniElement
+        console.log("check_scroll_height--" + listElement.scrollHeight)
+        if (listElement.scrollHeight > 2000) {
+            return true
+        }
+        return false
+    }
+    open var check_scroll_width = ::gen_check_scroll_width_fn
+    open fun gen_check_scroll_width_fn(): Boolean {
+        var listElement = this.`$refs`["listview"] as UniElement
+        console.log("check_scroll_width" + listElement.scrollWidth)
+        if (listElement.scrollWidth > 2000) {
+            return true
+        }
+        return false
+    }
+    open var change_refresher_style_boolean = ::gen_change_refresher_style_boolean_fn
+    open fun gen_change_refresher_style_boolean_fn(checked: Boolean) {
+        if (checked) {
+            this.refresher_default_style_input = "none"
+        } else {
+            this.refresher_default_style_input = "black"
+        }
+    }
+    companion object {
+        val styles: Map<String, Map<String, Map<String, Any>>> by lazy {
+            _nCS(_uA(
+                styles0
+            ), _uA(
+                GenApp.styles
+            ))
+        }
+        val styles0: Map<String, Map<String, Map<String, Any>>>
+            get() {
+                return _uM("main" to _pS(_uM("maxHeight" to 250, "paddingTop" to 5, "paddingRight" to 0, "paddingBottom" to 5, "paddingLeft" to 0, "borderBottomWidth" to 1, "borderBottomStyle" to "solid", "borderBottomColor" to "rgba(0,0,0,0.06)", "flexDirection" to "row", "justifyContent" to "center")), "list-item" to _uM(".main " to _uM("width" to "100%", "height" to 250, "borderTopWidth" to 1, "borderRightWidth" to 1, "borderBottomWidth" to 1, "borderLeftWidth" to 1, "borderTopStyle" to "solid", "borderRightStyle" to "solid", "borderBottomStyle" to "solid", "borderLeftStyle" to "solid", "borderTopColor" to "#666666", "borderRightColor" to "#666666", "borderBottomColor" to "#666666", "borderLeftColor" to "#666666", "backgroundColor" to "#66ccff", "alignItems" to "center", "justifyContent" to "center")), "tip-text" to _pS(_uM("color" to "#888888", "fontSize" to 12)), "refresh-box" to _pS(_uM("justifyContent" to "center", "alignItems" to "center", "flexDirection" to "row", "height" to 45, "width" to "100%")), "button" to _pS(_uM("marginTop" to 15)))
+            }
+        var inheritAttrs = true
+        var inject: Map<String, Map<String, Any?>> = _uM()
+        var emits: Map<String, Any?> = _uM()
+        var props = _nP(_uM())
+        var propsNeedCastKeys: UTSArray<String> = _uA()
+        var components: Map<String, CreateVueComponent> = _uM()
+    }
+}

@@ -1,0 +1,259 @@
+const __sfc__ = defineComponent({
+    data() {
+        return {
+            disabled: false
+        };
+    },
+    onReady() {
+        this.$nextTick(() => {
+            let element = uni.getElementById("dynamic-height-textarea");
+            element?.style.setProperty("height", "52px");
+        });
+    },
+    methods: {
+        changed() {
+            this.disabled = !this.disabled;
+        }
+    },
+});
+export default __sfc__;
+function GenPagesCSSBoxShadowBoxShadowRender(this: InstanceType<typeof __sfc__>): any | null {
+    const _ctx = this;
+    const _cache = this.$.renderCache;
+    return _cE("scroll-view", _uM({
+        style: _nS(_uM({ "flex": "1" }))
+    }), [
+        _cE("view", _uM({
+            style: _nS(_uM({ "flex-grow": "1" }))
+        }), [
+            _cE("view", null, [
+                _cE("text", null, "box-shadow: 5px 5px black"),
+                _cE("view", _uM({ class: "backgroundview" }), [
+                    _cE("view", _uM({
+                        class: "common",
+                        style: _nS(_uM({ "box-shadow": "5px 5px black" }))
+                    }), null, 4 /* STYLE */)
+                ])
+            ]),
+            _cE("view", null, [
+                _cE("text", null, "box-shadow: 5px 5px 5px #00FF00"),
+                _cE("view", _uM({ class: "backgroundview" }), [
+                    _cE("view", _uM({
+                        class: "common",
+                        style: _nS(_uM({ "box-shadow": "5px 5px 5px #00FF00" }))
+                    }), null, 4 /* STYLE */)
+                ])
+            ]),
+            _cE("view", null, [
+                _cE("text", null, "box-shadow: 5px 5px 5px rgb(0,0,255)"),
+                _cE("view", _uM({ class: "backgroundview" }), [
+                    _cE("view", _uM({
+                        class: "common",
+                        style: _nS(_uM({ "box-shadow": "5px 5px 5px rgb(0,0,255)" }))
+                    }), null, 4 /* STYLE */)
+                ])
+            ]),
+            _cE("view", null, [
+                _cE("text", null, "box-shadow: 5px 5px 5px rgba(0,255,255,0.5)"),
+                _cE("view", _uM({ class: "backgroundview" }), [
+                    _cE("view", _uM({
+                        class: "common",
+                        style: _nS(_uM({ "box-shadow": "5px 5px 5px rgba(0,255,255,0.5)" }))
+                    }), null, 4 /* STYLE */)
+                ])
+            ]),
+            _cE("view", null, [
+                _cE("text", null, "box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5)"),
+                _cE("view", _uM({ class: "backgroundview" }), [
+                    _cE("view", _uM({
+                        class: "common",
+                        style: _nS(_uM({ "box-shadow": "5px 5px 5px rgba(0, 0, 0, 0.5)" }))
+                    }), null, 4 /* STYLE */)
+                ])
+            ]),
+            _cE("view", null, [
+                _cE("text", null, "box-shadow: 5px 5px 5px black"),
+                _cE("view", _uM({ class: "backgroundview" }), [
+                    _cE("view", _uM({
+                        class: "common",
+                        style: _nS(_uM({ "box-shadow": "5px 5px 5px black" }))
+                    }), null, 4 /* STYLE */)
+                ])
+            ]),
+            _cE("view", null, [
+                _cE("text", null, "box-shadow: 5px 10px 5px black"),
+                _cE("view", _uM({ class: "backgroundview" }), [
+                    _cE("view", _uM({
+                        class: "common",
+                        style: _nS(_uM({ "box-shadow": "5px 10px 5px black" }))
+                    }), null, 4 /* STYLE */)
+                ])
+            ]),
+            _cE("view", null, [
+                _cE("text", null, "box-shadow: 5px 5px 5px 5px black（harmony暂不支持阴影扩散半径）"),
+                _cE("view", _uM({ class: "backgroundview" }), [
+                    _cE("view", _uM({
+                        class: "common",
+                        style: _nS(_uM({ "box-shadow": "5px 5px 5px 5px black" }))
+                    }), null, 4 /* STYLE */)
+                ])
+            ]),
+            _cE("view", null, [
+                _cE("text", null, "box-shadow: -5px -5px 5px black"),
+                _cE("view", _uM({ class: "backgroundview" }), [
+                    _cE("view", _uM({
+                        class: "common",
+                        style: _nS(_uM({ "box-shadow": "-5px -5px 5px black" }))
+                    }), null, 4 /* STYLE */)
+                ])
+            ]),
+            _cE("view", null, [
+                _cE("text", null, "box-shadow: inset 5px 5px black（harmony暂不支持inset）"),
+                _cE("view", _uM({ class: "backgroundview" }), [
+                    _cE("view", _uM({
+                        class: "common",
+                        style: _nS(_uM({ "box-shadow": "inset 5px 5px black" }))
+                    }), null, 4 /* STYLE */)
+                ])
+            ]),
+            _cE("view", null, [
+                _cE("text", null, "box-shadow: inset 5px 5px 5px black（harmony暂不支持inset）"),
+                _cE("view", _uM({ class: "backgroundview" }), [
+                    _cE("view", _uM({
+                        class: "common",
+                        style: _nS(_uM({ "box-shadow": "inset 5px 5px 5px black" }))
+                    }), null, 4 /* STYLE */)
+                ])
+            ]),
+            _cE("view", null, [
+                _cE("text", null, "box-shadow: inset 5px 10px 5px black（harmony暂不支持inset）"),
+                _cE("view", _uM({ class: "backgroundview" }), [
+                    _cE("view", _uM({
+                        class: "common",
+                        style: _nS(_uM({ "box-shadow": "inset 5px 10px 5px black" }))
+                    }), null, 4 /* STYLE */)
+                ])
+            ]),
+            _cE("view", null, [
+                _cE("text", null, "box-shadow: inset 5px 5px 5px 5px black（harmony暂不支持inset）"),
+                _cE("view", _uM({ class: "backgroundview" }), [
+                    _cE("view", _uM({
+                        class: "common",
+                        style: _nS(_uM({ "box-shadow": "inset 5px 5px 5px 5px black" }))
+                    }), null, 4 /* STYLE */)
+                ])
+            ]),
+            _cE("view", null, [
+                _cE("text", null, "box-shadow: inset -5px -5px 5px black（harmony暂不支持inset）"),
+                _cE("view", _uM({ class: "backgroundview" }), [
+                    _cE("view", _uM({
+                        class: "common",
+                        style: _nS(_uM({ "box-shadow": "inset -5px -5px 5px black" }))
+                    }), null, 4 /* STYLE */)
+                ])
+            ]),
+            _cE("view", null, [
+                _cE("text", null, "box-shadow: 0px 1px 3px rgba(0,0,0,0.4)"),
+                _cE("view", _uM({ class: "backgroundview" }), [
+                    _cE("view", _uM({
+                        class: "common",
+                        style: _nS(_uM({ "box-shadow": "0px 1px 3px rgba(0, 0, 0, 0.4)" }))
+                    }), null, 4 /* STYLE */)
+                ])
+            ]),
+            _cE("view", null, [
+                _cE("text", null, "circle: box-shadow: 5px 5px black"),
+                _cE("view", _uM({ class: "backgroundview" }), [
+                    _cE("view", _uM({
+                        class: "common",
+                        style: _nS(_uM({ "border-radius": "62px", "box-shadow": "5px 5px black" }))
+                    }), null, 4 /* STYLE */)
+                ])
+            ]),
+            _cE("view", null, [
+                _cE("text", null, "circle: box-shadow: 5px 5px 5px black"),
+                _cE("view", _uM({ class: "backgroundview" }), [
+                    _cE("view", _uM({
+                        class: "common",
+                        style: _nS(_uM({ "border-radius": "62px", "box-shadow": "5px 5px 5px black" }))
+                    }), null, 4 /* STYLE */)
+                ])
+            ]),
+            _cE("view", null, [
+                _cE("text", null, "circle: box-shadow: 5px 10px 5px black"),
+                _cE("view", _uM({ class: "backgroundview" }), [
+                    _cE("view", _uM({
+                        class: "common",
+                        style: _nS(_uM({ "border-radius": "62px", "box-shadow": "5px 10px 5px black" }))
+                    }), null, 4 /* STYLE */)
+                ])
+            ]),
+            _cE("view", null, [
+                _cE("text", null, "circle: box-shadow: 5px 5px 5px 5px black"),
+                _cE("view", _uM({ class: "backgroundview" }), [
+                    _cE("view", _uM({
+                        class: "common",
+                        style: _nS(_uM({ "border-radius": "62px", "box-shadow": "5px 5px 5px 5px black" }))
+                    }), null, 4 /* STYLE */)
+                ])
+            ]),
+            _cE("view", null, [
+                _cE("text", null, "circle: box-shadow: -5px -5px 5px black"),
+                _cE("view", _uM({ class: "backgroundview" }), [
+                    _cE("view", _uM({
+                        class: "common",
+                        style: _nS(_uM({ "border-radius": "62px", "box-shadow": "-5px -5px 5px black" }))
+                    }), null, 4 /* STYLE */)
+                ])
+            ]),
+            _cE("view", null, [
+                _cE("text", null, "circle: box-shadow: 0px 1px 3px rgba(0,0,0,0.4)"),
+                _cE("view", _uM({ class: "backgroundview" }), [
+                    _cE("view", _uM({
+                        class: "common",
+                        style: _nS(_uM({ "border-radius": "62px", "box-shadow": "0px 1px 3px rgba(0, 0, 0, 0.4)" }))
+                    }), null, 4 /* STYLE */)
+                ])
+            ]),
+            _cE("view", null, [
+                _cE("text", null, "点击动态切换 box-shadow: none"),
+                _cE("view", _uM({
+                    class: "backgroundview",
+                    onClick: _ctx.changed
+                }), [
+                    _cE("view", _uM({
+                        class: _nC(['common', _ctx.disabled ? 'disabledShadow' : 'shadow'])
+                    }), null, 2 /* CLASS */)
+                ], 8 /* PROPS */, ["onClick"])
+            ]),
+            _cE("view", null, [
+                _cE("text", null, "点击动态切换 box-shadow: 非法值"),
+                _cE("view", _uM({
+                    class: "backgroundview",
+                    onClick: _ctx.changed
+                }), [
+                    _cE("view", _uM({
+                        class: _nC(['common', _ctx.disabled ? 'invalidShadow' : 'shadow'])
+                    }), null, 2 /* CLASS */)
+                ], 8 /* PROPS */, ["onClick"])
+            ]),
+            _cE("view", null, [
+                _cE("text", null, "box-shadow父视图动态改变高度的渲染效果"),
+                _cE("view", _uM({ class: "backgroundview" }), [
+                    _cE("view", _uM({
+                        style: _nS(_uM({ "justify-content": "center", "align-items": "center", "width": "150px", "background-color": "red", "box-shadow": "0 0 10px" }))
+                    }), [
+                        _cE("view", null, [
+                            _cE("textarea", _uM({
+                                id: "dynamic-height-textarea",
+                                style: _nS(_uM({ "margin": "20px", "background-color": "aqua", "height": "32px", "width": "110px" })),
+                                value: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                            }), null, 4 /* STYLE */)
+                        ])
+                    ], 4 /* STYLE */)
+                ])
+            ])
+        ], 4 /* STYLE */)
+    ], 4 /* STYLE */);
+}
+const GenPagesCSSBoxShadowBoxShadowStyles = [_uM([["common", _pS(_uM([["width", 125], ["height", 125], ["backgroundColor", "#A52A2A"]]))], ["backgroundview", _pS(_uM([["width", 250], ["height", 250], ["backgroundColor", "#FFFFFF"], ["justifyContent", "center"], ["alignItems", "center"]]))], ["shadow", _pS(_uM([["boxShadow", "5px 5px black"]]))], ["disabledShadow", _pS(_uM([["boxShadow", "none"]]))], ["invalidShadow", _pS(_uM([["boxShadow", "abcd"]]))]])];

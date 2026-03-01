@@ -1,0 +1,77 @@
+
+  const __sfc__ = defineComponent({
+    data() {
+      return {
+        data: [] as Array<number>,
+        loadMoreText: "加载中...",
+        showLoadMore: false,
+        max: 0,
+        pulldownRefreshTriggered: false
+      }
+    },
+    onReady() {
+      uni.startPullDownRefresh();
+      this.initData();
+    },
+    onReachBottom() {
+      console.log("onReachBottom");
+      if (this.max > 40) {
+        this.loadMoreText = "没有更多数据了!"
+        return;
+      }
+      this.showLoadMore = true;
+      setTimeout(() => {
+        this.setListData();
+      }, 300);
+    },
+    onPullDownRefresh() {
+      console.log('onPullDownRefresh');
+      this.pulldownRefreshTriggered = true
+      this.initData();
+    },
+    methods: {
+      initData() {
+        setTimeout(() => {
+          this.max = 0;
+          this.data = [];
+          let data : Array<number> = [];
+          this.max += 20;
+          for (let i : number = this.max - 19; i < this.max + 1; i++) {
+            data.push(i)
+          }
+          this.data = this.data.concat(data);
+          uni.stopPullDownRefresh();
+        }, 1000);
+      },
+      setListData() {
+        let data : Array<number> = [];
+        this.max += 10;
+        for (let i : number = this.max - 9; i < this.max + 1; i++) {
+          data.push(i)
+        }
+        this.data = this.data.concat(data);
+      }
+    }
+  })
+
+export default __sfc__
+function GenPagesAPIPullDownRefreshPullDownRefreshRender(this: InstanceType<typeof __sfc__>): any | null {
+const _ctx = this
+const _cache = this.$.renderCache
+  return _cE("scroll-view", _uM({
+    style: _nS(_uM({"flex":"1"}))
+  }), [
+    _cE("view", _uM({ class: "uni-padding-wrap uni-common-mt" }), [
+      _cE(Fragment, null, RenderHelpers.renderList(_ctx.data, (num, index, __index, _cached): any => {
+        return _cE("text", _uM({
+          class: "text",
+          key: index
+        }), "list - " + _tD(num), 1 /* TEXT */)
+      }), 128 /* KEYED_FRAGMENT */),
+      isTrue(_ctx.showLoadMore)
+        ? _cE("view", _uM({ key: 0 }), _tD(_ctx.loadMoreText), 1 /* TEXT */)
+        : _cC("v-if", true)
+    ])
+  ], 4 /* STYLE */)
+}
+const GenPagesAPIPullDownRefreshPullDownRefreshStyles = [_uM([["text", _pS(_uM([["marginTop", 6], ["marginRight", 0], ["marginBottom", 6], ["marginLeft", 0], ["width", "100%"], ["backgroundColor", "#ffffff"], ["height", 52], ["lineHeight", "52px"], ["textAlign", "center"], ["color", "#555555"], ["borderTopLeftRadius", 4], ["borderTopRightRadius", 4], ["borderBottomRightRadius", 4], ["borderBottomLeftRadius", 4]]))]])]

@@ -1,0 +1,406 @@
+
+  type SwiperEventTest = {
+    type : string;
+    target : UniElement | null;
+    currentTarget : UniElement | null;
+  }
+  const __sfc__ = defineComponent({
+    data() {
+      return {
+        background: ['color1', 'color2', 'color3'],
+        dotsSelect: false,
+        reboundSelect: false,
+        autoplaySelect: false,
+        circularSelect: false,
+        indicatorColorSelect: false,
+        verticalSelect: false,
+        currentSelect: false,
+        currentItemIdSelect: false,
+        intervalSelect: 2000,
+        durationSelect: 500,
+        indicatorColor: "",
+        indicatorColorActive: "",
+        currentVal: 0,
+        currentItemIdVal: "",
+        disableTouchSelect: false,
+        swiperTransitionSelect: false,
+        swiperAnimationfinishSelect: false,
+        swiperChangeSelect: false,
+        currentValChange: 0,
+        autoplayForDefault: false,
+        circularForDefault: false,
+        // 自动化测试
+        changeDetailTest: null as UniSwiperChangeEventDetail | null,
+        transitionDetailTest: null as UniSwiperTransitionEventDetail | null,
+        animationfinishDetailTest: null as UniSwiperAnimationFinishEventDetail | null,
+        isChangeTest: '',
+        isTransitionTest: '',
+        isAnimationfinishTest: '',
+        swipeX: 0,
+        swipeY: 0
+      }
+    },
+    onReady() {
+
+      // 获取模拟滑动手势的起始点
+      let ele = uni.getElementById("swiper-view")
+      let eleRect = ele?.getBoundingClientRect()
+      if (eleRect != null) {
+        // 避开右侧边界，避免滑动行为响应为侧滑
+        this.swipeX = eleRect.width - 40
+        this.swipeY += eleRect.y + uni.getSystemInfoSync().safeArea.top + 44 + 35
+      }
+
+    },
+    methods: {
+      swipertouchStart(e : UniTouchEvent) {
+        console.log("swiper touchstart")
+      },
+      viewtouchStart(e : UniTouchEvent) {
+        console.log("view touchstart:")
+      },
+      swiperChange: function (e : UniSwiperChangeEvent) {
+        this.changeDetailTest = e.detail
+        this.checkEventTest({
+          type: e.type,
+          target: e.target,
+          currentTarget: e.currentTarget
+        } as SwiperEventTest, 'change')
+        this.currentValChange = e.detail.current
+        console.log(this.currentValChange)
+        if (this.swiperChangeSelect) {
+          console.log("swiperChange", e)
+        }
+      },
+      swiperTransition: function (e : UniSwiperTransitionEvent) {
+        this.transitionDetailTest = e.detail
+        this.checkEventTest({
+          type: e.type,
+          target: e.target,
+          currentTarget: e.currentTarget
+        } as SwiperEventTest, 'transition')
+        if (this.swiperTransitionSelect) {
+          console.log("swiperTransition", e)
+        }
+      },
+      swiperAnimationfinish: function (e : UniSwiperAnimationFinishEvent) {
+        this.animationfinishDetailTest = e.detail
+        this.checkEventTest({
+          type: e.type,
+          target: e.target,
+          currentTarget: e.currentTarget
+        } as SwiperEventTest, 'animationfinish')
+        if (this.swiperAnimationfinishSelect) {
+          console.log("swiperAnimationfinish", e)
+        }
+      },
+      //自动化测试例专用
+      jest_getSystemInfo() : GetSystemInfoResult {
+        return uni.getSystemInfoSync();
+      },
+      // 自动化测试专用（由于事件event参数对象中存在循环引用，在ios端JSON.stringify报错，自动化测试无法page.data获取）
+      checkEventTest(e : SwiperEventTest, eventName : String) {
+
+        const isPass = e.type === eventName && e.target instanceof UniElement && e.currentTarget instanceof UniElement;
+
+
+
+
+        const result = isPass ? `${eventName}:Success` : `${eventName}:Fail`;
+        switch (eventName) {
+          case 'change':
+            this.isChangeTest = result
+            break;
+          case 'transition':
+            this.isTransitionTest = result
+            break;
+          case 'animationfinish':
+            this.isAnimationfinishTest = result
+            break;
+          default:
+            break;
+        }
+      },
+      dotsChange: function (e : UniSwitchChangeEvent) {
+        this.dotsSelect = e.detail.value
+      },
+      swiperTransitionChange: function (e : UniSwitchChangeEvent) {
+        this.swiperTransitionSelect = e.detail.value
+      },
+      swiperChangeChange: function (e : UniSwitchChangeEvent) {
+        this.swiperChangeSelect = e.detail.value
+      },
+      swiperAnimationfinishChange: function (e : UniSwitchChangeEvent) {
+        this.swiperAnimationfinishSelect = e.detail.value
+      },
+      autoplayChange: function (e : UniSwitchChangeEvent) {
+        this.autoplaySelect = e.detail.value
+      },
+      verticalChange: function (e : UniSwitchChangeEvent) {
+        this.verticalSelect = e.detail.value
+      },
+      disableTouchChange: function (e : UniSwitchChangeEvent) {
+        this.disableTouchSelect = e.detail.value
+      },
+      currentItemIdChange: function (e : UniSwitchChangeEvent) {
+        this.currentItemIdSelect = e.detail.value
+        if (this.currentItemIdSelect) {
+          this.currentItemIdVal = 'C'
+        } else {
+          this.currentItemIdVal = 'A'
+        }
+      },
+      currentChange: function (e : UniSwitchChangeEvent) {
+        this.currentSelect = e.detail.value
+        if (this.currentSelect) {
+          this.currentVal = 2
+        } else {
+          this.currentVal = 0
+        }
+
+      },
+      circularChange: function (e : UniSwitchChangeEvent) {
+        this.circularSelect = e.detail.value
+        console.log(this.circularSelect)
+      },
+      reboundSelectChange: function (e : UniSwitchChangeEvent) {
+        this.reboundSelect = e.detail.value
+        console.log(this.reboundSelect)
+      },
+      sliderChange(e : UniSliderChangeEvent) {
+        this.intervalSelect = e.detail.value
+      },
+      durationSliderChange(e : UniSliderChangeEvent) {
+        this.durationSelect = e.detail.value
+      },
+      indicatorColorChange(e : UniSwitchChangeEvent) {
+        this.indicatorColorSelect = e.detail.value
+        if (this.indicatorColorSelect) {
+          // 选择了定制指示器颜色
+          this.indicatorColor = "#ff00ff"
+          this.indicatorColorActive = "#0000ff"
+        } else {
+          // 没有选择颜色
+          this.indicatorColor = ""
+          this.indicatorColorActive = ""
+        }
+      }
+    }
+  })
+
+export default __sfc__
+function GenPagesComponentSwiperSwiperRender(this: InstanceType<typeof __sfc__>): any | null {
+const _ctx = this
+const _cache = this.$.renderCache
+const _component_page_head = resolveEasyComponent("page-head",_easycom_page_head)
+const _component_switch = resolveComponent("switch")
+const _component_slider = resolveComponent("slider")
+const _component_navigator = resolveComponent("navigator")
+
+  return _cE("scroll-view", _uM({ class: "page-scroll-view" }), [
+    _cE("view", _uM({ class: "uni-common-mb uni-common-pb" }), [
+      _cV(_component_page_head, _uM({ title: "swiper,可滑动视图" })),
+      _cE("view", null, [
+        _cE("swiper", _uM({
+          id: "swiper-view",
+          class: "swiper",
+          vertical: _ctx.verticalSelect,
+          "indicator-dots": _ctx.dotsSelect,
+          autoplay: _ctx.autoplaySelect,
+          bounces: _ctx.reboundSelect,
+          interval: _ctx.intervalSelect,
+          circular: _ctx.circularSelect,
+          duration: _ctx.durationSelect,
+          "indicator-color": _ctx.indicatorColor,
+          "indicator-active-color": _ctx.indicatorColorActive,
+          "disable-touch": _ctx.disableTouchSelect,
+          current: _ctx.currentVal,
+          "current-item-id": _ctx.currentItemIdVal,
+          onChange: _ctx.swiperChange,
+          onTransition: _ctx.swiperTransition,
+          onAnimationfinish: _ctx.swiperAnimationfinish,
+          onTouchstart: _ctx.swipertouchStart
+        }), [
+          _cE("swiper-item", _uM({ "item-id": "A" }), [
+            _cE("view", _uM({ class: "swiper-item uni-bg-red" }), [
+              _cE("text", _uM({
+                class: "swiper-item-Text",
+                onTouchstart: _ctx.viewtouchStart
+              }), "A", 40 /* PROPS, NEED_HYDRATION */, ["onTouchstart"])
+            ])
+          ]),
+          _cE("swiper-item", _uM({ "item-id": "B" }), [
+            _cE("view", _uM({ class: "swiper-item uni-bg-green" }), [
+              _cE("text", _uM({ class: "swiper-item-Text" }), "B")
+            ])
+          ]),
+          _cE("swiper-item", _uM({ "item-id": "C" }), [
+            _cE("view", _uM({ class: "swiper-item uni-bg-blue" }), [
+              _cE("text", _uM({ class: "swiper-item-Text" }), "C")
+            ])
+          ])
+        ], 40 /* PROPS, NEED_HYDRATION */, ["vertical", "indicator-dots", "autoplay", "bounces", "interval", "circular", "duration", "indicator-color", "indicator-active-color", "disable-touch", "current", "current-item-id", "onChange", "onTransition", "onAnimationfinish", "onTouchstart"])
+      ]),
+      _cE("view", _uM({ class: "uni-list" }), [
+        _cE("view", _uM({ class: "uni-list-cell uni-list-cell-padding" }), [
+          _cE("view", _uM({ class: "uni-list-cell-db" }), "显示面板指示点"),
+          _cV(_component_switch, _uM({
+            checked: _ctx.dotsSelect,
+            onChange: _ctx.dotsChange
+          }), null, 8 /* PROPS */, ["checked", "onChange"])
+        ]),
+        _cE("view", _uM({ class: "uni-list-cell uni-list-cell-padding" }), [
+          _cE("view", _uM({ class: "uni-list-cell-db" }), "定制指示器颜色"),
+          _cV(_component_switch, _uM({
+            checked: _ctx.indicatorColorSelect,
+            onChange: _ctx.indicatorColorChange
+          }), null, 8 /* PROPS */, ["checked", "onChange"])
+        ]),
+        _cE("view", _uM({ class: "uni-list-cell uni-list-cell-padding" }), [
+          _cE("view", _uM({ class: "uni-list-cell-db" }), "禁止 touch 操作"),
+          _cV(_component_switch, _uM({
+            checked: _ctx.disableTouchSelect,
+            onChange: _ctx.disableTouchChange
+          }), null, 8 /* PROPS */, ["checked", "onChange"])
+        ]),
+        _cE("view", _uM({ class: "uni-list-cell uni-list-cell-padding" }), [
+          _cE("view", _uM({ class: "uni-list-cell-db" }), "是否自动切换"),
+          _cV(_component_switch, _uM({
+            checked: _ctx.autoplaySelect,
+            onChange: _ctx.autoplayChange
+          }), null, 8 /* PROPS */, ["checked", "onChange"])
+        ]),
+        _cE("view", _uM({ class: "uni-list-cell uni-list-cell-padding" }), [
+          _cE("view", _uM({ class: "uni-list-cell-db" }), "是否衔接滑动"),
+          _cV(_component_switch, _uM({
+            checked: _ctx.circularSelect,
+            onChange: _ctx.circularChange
+          }), null, 8 /* PROPS */, ["checked", "onChange"])
+        ]),
+        _cE("view", _uM({ class: "uni-title uni-list-cell-padding" }), "间隔时间(毫秒)"),
+        _cE("view", _uM({ class: "uni-padding-wrap" }), [
+          _cV(_component_slider, _uM({
+            onChange: _ctx.sliderChange,
+            value: 2000,
+            min: 500,
+            max: 5000,
+            "show-value": true
+          }), null, 8 /* PROPS */, ["onChange"])
+        ]),
+        _cE("view", _uM({ class: "uni-title uni-list-cell-padding" }), "动画时长(毫秒)"),
+        _cE("view", _uM({ class: "uni-padding-wrap" }), [
+          _cV(_component_slider, _uM({
+            onChange: _ctx.durationSliderChange,
+            value: 500,
+            min: 50,
+            max: 2000,
+            "show-value": true
+          }), null, 8 /* PROPS */, ["onChange"])
+        ]),
+        _cE("view", _uM({ class: "uni-list-cell uni-list-cell-padding" }), [
+          _cE("view", _uM({ class: "uni-list-cell-db" }), "是否纵向滑动"),
+          _cV(_component_switch, _uM({
+            checked: _ctx.verticalSelect,
+            onChange: _ctx.verticalChange
+          }), null, 8 /* PROPS */, ["checked", "onChange"])
+        ]),
+        _cE("view", _uM({ class: "uni-list-cell uni-list-cell-padding" }), [
+          _cE("view", _uM({ class: "uni-list-cell-db" }), "是否回弹效果"),
+          _cV(_component_switch, _uM({
+            checked: _ctx.reboundSelect,
+            onChange: _ctx.reboundSelectChange
+          }), null, 8 /* PROPS */, ["checked", "onChange"])
+        ]),
+        _cE("view", _uM({ class: "uni-list-cell uni-list-cell-padding" }), [
+          _cE("view", _uM({ class: "uni-list-cell-db" }), "指定current为最后一个元素"),
+          _cV(_component_switch, _uM({
+            checked: _ctx.currentSelect,
+            onChange: _ctx.currentChange
+          }), null, 8 /* PROPS */, ["checked", "onChange"])
+        ]),
+        _cE("view", _uM({ class: "uni-list-cell uni-list-cell-padding" }), [
+          _cE("view", _uM({ class: "uni-list-cell-db" }), "指定current-item-id为最后一个元素"),
+          _cV(_component_switch, _uM({
+            checked: _ctx.currentItemIdSelect,
+            onChange: _ctx.currentItemIdChange
+          }), null, 8 /* PROPS */, ["checked", "onChange"])
+        ]),
+        _cE("view", _uM({ class: "uni-list-cell uni-list-cell-padding" }), [
+          _cE("view", _uM({ class: "uni-list-cell-db" }), "打印 swiperChange 日志"),
+          _cV(_component_switch, _uM({
+            checked: _ctx.swiperChangeSelect,
+            onChange: _ctx.swiperChangeChange
+          }), null, 8 /* PROPS */, ["checked", "onChange"])
+        ]),
+        _cE("view", _uM({ class: "uni-list-cell uni-list-cell-padding" }), [
+          _cE("view", _uM({ class: "uni-list-cell-db" }), "打印 swiperTransition 日志"),
+          _cV(_component_switch, _uM({
+            checked: _ctx.swiperTransitionSelect,
+            onChange: _ctx.swiperTransitionChange
+          }), null, 8 /* PROPS */, ["checked", "onChange"])
+        ]),
+        _cE("view", _uM({ class: "uni-list-cell uni-list-cell-padding" }), [
+          _cE("view", _uM({ class: "uni-list-cell-db" }), "打印 swiperAnimationfinish 日志"),
+          _cV(_component_switch, _uM({
+            checked: _ctx.swiperAnimationfinishSelect,
+            onChange: _ctx.swiperAnimationfinishChange
+          }), null, 8 /* PROPS */, ["checked", "onChange"])
+        ]),
+        _cE("view", _uM({ class: "uni-list-cell-padding" }), "测试 swiper 默认行为"),
+        _cE("swiper", _uM({
+          class: "swiper",
+          autoplay: _ctx.autoplayForDefault,
+          circular: _ctx.circularForDefault
+        }), [
+          _cE("swiper-item", _uM({ "item-id": "A" }), [
+            _cE("view", _uM({ class: "swiper-item uni-bg-red" }), [
+              _cE("text", _uM({ class: "swiper-item-Text" }), "A")
+            ])
+          ]),
+          _cE("swiper-item", _uM({ "item-id": "B" }), [
+            _cE("view", _uM({ class: "swiper-item uni-bg-green" }), [
+              _cE("text", _uM({ class: "swiper-item-Text" }), "B")
+            ])
+          ]),
+          _cE("swiper-item", _uM({ "item-id": "C" }), [
+            _cE("view", _uM({ class: "swiper-item uni-bg-blue" }), [
+              _cE("text", _uM({ class: "swiper-item-Text" }), "C")
+            ])
+          ])
+        ], 8 /* PROPS */, ["autoplay", "circular"]),
+        _cE("view", _uM({ class: "uni-list-cell uni-list-cell-padding" }), [
+          _cE("view", _uM({ class: "uni-list-cell-db" }), "是否自动切换"),
+          _cV(_component_switch, _uM({
+            checked: _ctx.autoplayForDefault,
+            onChange: () => {_ctx.autoplayForDefault = !_ctx.autoplayForDefault}
+          }), null, 8 /* PROPS */, ["checked", "onChange"])
+        ]),
+        _cE("view", _uM({ class: "uni-list-cell uni-list-cell-padding" }), [
+          _cE("view", _uM({ class: "uni-list-cell-db" }), "是否衔接滑动"),
+          _cV(_component_switch, _uM({
+            checked: _ctx.circularForDefault,
+            onChange: () => {_ctx.circularForDefault = !_ctx.circularForDefault}
+          }), null, 8 /* PROPS */, ["checked", "onChange"])
+        ]),
+        _cV(_component_navigator, _uM({ url: "/pages/component/swiper/swiper-list-view" }), _uM({
+          default: withSlotCtx((): any[] => [
+            _cE("button", _uM({ type: "primary" }), " swiper 嵌套 list-view 测试 ")
+          ]),
+          _: 1 /* STABLE */
+        })),
+        _cV(_component_navigator, _uM({
+          url: "/pages/component/swiper/swiper-anim",
+          style: _nS(_uM({"margin-top":"10px"}))
+        }), _uM({
+          default: withSlotCtx((): any[] => [
+            _cE("button", _uM({ type: "primary" }), " swiper 动画测试 ")
+          ]),
+          _: 1 /* STABLE */
+        }), 8 /* PROPS */, ["style"])
+      ])
+    ])
+  ])
+}
+const GenPagesComponentSwiperSwiperStyles = [_uM([["swiper", _pS(_uM([["height", 150]]))], ["swiper-item", _pS(_uM([["width", "100%"], ["height", 150]]))], ["swiper-item-Text", _pS(_uM([["width", "100%"], ["textAlign", "center"], ["lineHeight", "150px"]]))]])]
+
+import _easycom_page_head from '@/components/page-head/page-head.vue'

@@ -1,0 +1,149 @@
+import _easycom_uni_loading from '@/uni_modules/uni-loading/components/uni-loading/uni-loading.uvue'
+type MessageItem = {
+    id : number;
+    avatar : string;
+    left : boolean;
+    content : string;
+    height : number;
+  }
+
+  
+const __sfc__ = defineComponent({
+  __name: 'list-view-long-press',
+  setup(__props) {
+const __ins = getCurrentInstance()!;
+const _ctx = __ins.proxy as InstanceType<typeof __sfc__>;
+const _cache = __ins.renderCache;
+
+  const messageView = ref<UniElement | null>(null)
+  const bottom = ref<UniElement | null>(null)
+  const avatarWidth = ref(38)
+  const scrollTop = ref(0)
+  const message = ref('')
+  const showBottom = ref(false)
+  const isFocus = ref(false)
+  const loading = ref(false)
+  const audio = ref(false)
+  const recording = ref(false)
+  const messageList = ref<MessageItem[]>([])
+
+  const screenWidth = computed(() : number => {
+    return 1080
+  })
+  const clearData = () => {
+    if (messageList.value.length >= 40) {
+      messageList.value.splice(39, messageList.value.length - 1)
+    }
+  }
+
+  const listItemLongPress = (index : number) => {
+    uni.showToast({
+      title: '触发长按:' + index,
+      position: "bottom"
+    })
+  }
+
+  const loadData = () => {
+    loading.value = true
+    setTimeout(() => {
+      loading.value = false
+      let length = messageList.value.length
+      for (let i = 0; i < 20; i++) {
+        let item = {
+          id: length + i,
+          avatar: "/static/uni.png",
+          left: true,
+          content: '这是一些占位消息',
+          height: 0
+        } as MessageItem
+        messageList.value.push(item)
+      }
+    }, 800)
+  }
+  const getMessage = () => {
+    let idList : number[] = []
+    for (let index = 0; index < 20; index++) {
+      let item = {
+        id: index,
+        avatar: '/static/uni.png',
+        left: false,
+        content: `这是一条消息${index}`,
+        height: 0
+      } as MessageItem
+      messageList.value.push(item)
+      idList.push(item.id)
+    }
+  }
+  onReady(() => {
+    getMessage()
+  })
+
+return (): any | null => {
+
+const _component_uni_loading = resolveEasyComponent("uni-loading",_easycom_uni_loading)
+
+  return _cE("view", _uM({
+    style: _nS(_uM({"flex":"1"}))
+  }), [
+    _cE("scroll-view", _uM({
+      "show-scrollbar": false,
+      "scroll-with-animation": true,
+      style: _nS(_uM({"flex":"1","padding-bottom":"10px"}))
+    }), [
+      _cE("list-view", _uM({
+        ref_key: "messageView",
+        ref: messageView,
+        onScrolltoupper: clearData,
+        onScrolltolower: loadData,
+        "scroll-with-animation": true,
+        "show-scrollbar": false,
+        style: _nS(_uM({"flex":"1","transform":"rotate(180deg)"}))
+      }), [
+        _cE(Fragment, null, RenderHelpers.renderList(unref(messageList), (item, index, __index, _cached): any => {
+          return _cE("list-item", _uM({
+            onLongpress: () => {listItemLongPress(index)},
+            key: `listItem${index}`,
+            id: `listItem${item.id}`,
+            style: _nS(_uM({"transform":"rotate(180deg)","padding":"10px 12px"})),
+            type: "0"
+          }), [
+            _cE("view", _uM({ class: "left-row" }), [
+              _cE("image", _uM({
+                "fade-show": true,
+                src: item.avatar,
+                style: _nS(_uM({width: `${unref(avatarWidth)}px`,height: `${unref(avatarWidth)}px`,borderRadius: `${unref(avatarWidth)}px`}))
+              }), null, 12 /* STYLE, PROPS */, ["src"]),
+              _cE("view", _uM({
+                id: `listItemContent${item.id}`,
+                class: "flex-row content",
+                style: _nS(_uM({"padding":"9px 11px 9px 11px","border-radius":"7px","align-items":"center","margin-left":"8px","background-color":"#3c99ff"}))
+              }), [
+                _cE("text", _uM({
+                  style: _nS(_uM({"font-size":"13px","line-height":"20px","color":"#fff"}))
+                }), _tD(item.content), 5 /* TEXT, STYLE */)
+              ], 12 /* STYLE, PROPS */, ["id"]),
+              _cE("view", _uM({
+                style: _nS(_uM({"flex":"1"}))
+              }), null, 4 /* STYLE */)
+            ])
+          ], 44 /* STYLE, PROPS, NEED_HYDRATION */, ["onLongpress", "id"])
+        }), 128 /* KEYED_FRAGMENT */),
+        _cE("list-item", _uM({
+          slot: "load-more",
+          type: "3",
+          class: "loading"
+        }), [
+          _cV(_component_uni_loading, _uM({
+            loading: unref(loading),
+            color: "#999"
+          }), null, 8 /* PROPS */, ["loading"])
+        ])
+      ], 36 /* STYLE, NEED_HYDRATION */)
+    ], 4 /* STYLE */)
+  ], 4 /* STYLE */)
+}
+}
+
+})
+export default __sfc__
+const GenPagesComponentListViewListViewLongPressStyles = [_uM([["flex-row", _pS(_uM([["display", "flex"], ["flexDirection", "row"]]))], ["left-row", _pS(_uM([["flexDirection", "row-reverse"]]))], ["content", _pS(_uM([["marginTop", 0], ["marginRight", 8], ["marginBottom", 0], ["marginLeft", 8]]))], ["loading", _pS(_uM([["height", 60], ["justifyContent", "center"], ["alignItems", "center"]]))]])]

@@ -1,0 +1,27 @@
+const __sfc__ = defineComponent({})
+export default __sfc__
+function GenPagesCSSFunctionUrlRender(this: InstanceType<typeof __sfc__>): any | null {
+const _ctx = this
+const _cache = this.$.renderCache
+  return _cE("view", _uM({ class: "container" }), [
+    _cE("text", _uM({ class: "intro-text" }), "url() 函数用于加载图片、字体等资源，支持 /static 目录下的本地文件和网络链接。"),
+    _cE("view", _uM({ class: "section" }), [
+      _cE("text", _uM({ class: "section-title" }), "字体示例"),
+      _cE("view", _uM({ class: "font-grid" }), [
+        _cE("view", _uM({ class: "font-item" }), [
+          _cE("text", _uM({ class: "custom-font" }), "阿里妈妈刀隶体"),
+          _cE("text", _uM({ class: "font-value" }), "@font-face { font-family: 'AlimamaDaoLiTi'; src: url('/static/font/AlimamaDaoLiTi.woff2') }")
+        ]),
+        _cE("view", _uM({ class: "font-item" }), [
+          _cE("text", _uM({ class: "pacifico-font" }), "Pacifico Font Example"),
+          _cE("text", _uM({ class: "font-value" }), "@font-face { font-family: 'Pacifico'; src: url('/static/font/Pacifico-Regular.ttf') }")
+        ]),
+        _cE("view", _uM({ class: "font-item" }), [
+          _cE("text", _uM({ class: "web-font" }), "网络字体"),
+          _cE("text", _uM({ class: "font-value" }), "@font-face { font-family: 'AlimamaDaoLiTiTTF'; src: url('https://qiniu-web-assets.dcloud.net.cn/uni-app-x/static/font/AlimamaDaoLiTi.ttf') }")
+        ])
+      ])
+    ])
+  ])
+}
+const GenPagesCSSFunctionUrlStyles = [_uM([["container", _pS(_uM([["paddingTop", 20], ["paddingRight", 20], ["paddingBottom", 20], ["paddingLeft", 20]]))], ["intro-text", _pS(_uM([["fontSize", 14], ["color", "#333333"], ["marginBottom", 30], ["lineHeight", 1.6], ["paddingTop", 15], ["paddingRight", 15], ["paddingBottom", 15], ["paddingLeft", 15], ["backgroundColor", "#f8f9fa"], ["borderTopLeftRadius", 8], ["borderTopRightRadius", 8], ["borderBottomRightRadius", 8], ["borderBottomLeftRadius", 8]]))], ["section", _pS(_uM([["marginBottom", 30]]))], ["section-title", _pS(_uM([["fontSize", 18], ["fontWeight", "bold"], ["marginBottom", 15]]))], ["font-grid", _pS(_uM([["flexDirection", "row"], ["flexWrap", "wrap"]]))], ["font-item", _pS(_uM([["width", "100%"], ["marginBottom", 20]]))], ["custom-font", _pS(_uM([["fontSize", 20], ["marginBottom", 8], ["fontFamily", "AlimamaDaoLiTi"]]))], ["pacifico-font", _pS(_uM([["fontSize", 20], ["marginBottom", 8], ["fontFamily", "Pacifico"]]))], ["web-font", _pS(_uM([["fontSize", 20], ["marginBottom", 8], ["fontFamily", "AlimamaDaoLiTiTTF"]]))], ["font-value", _pS(_uM([["fontSize", 12], ["color", "#999999"]]))], ["@FONT-FACE", _uM([["0", _uM([["fontFamily", "AlimamaDaoLiTi"], ["src", "url('/static/font/AlimamaDaoLiTi.woff2'),\r\n\t\t\t url('/static/font/AlimamaDaoLiTi.woff'),\r\n\t\t\t url('/static/font/AlimamaDaoLiTi.otf')"]])], ["1", _uM([["fontFamily", "Pacifico"], ["src", "url('/static/font/Pacifico-Regular.ttf')"]])], ["2", _uM([["fontFamily", "AlimamaDaoLiTiTTF"], ["src", "url('https://qiniu-web-assets.dcloud.net.cn/uni-app-x/static/font/AlimamaDaoLiTi.ttf')"]])]])]])]

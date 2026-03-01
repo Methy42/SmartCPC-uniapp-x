@@ -1,0 +1,170 @@
+import _easycom_page_head from '@/components/page-head/page-head.vue'
+import {
+    state,
+    setLifeCycleNum
+  } from '@/store/index.uts'
+
+  // 响应式数据
+  type DialogPagesNum = {
+    value: number
+  }
+
+  
+const __sfc__ = defineComponent({
+  __name: 'open-location',
+  setup(__props, __setupCtx: SetupContext) {
+const __expose = __setupCtx.expose
+const __ins = getCurrentInstance()!;
+const _ctx = __ins.proxy as InstanceType<typeof __sfc__>;
+const _cache = __ins.renderCache;
+
+  const title = ref('openLocation')
+  const longitude = ref(116.39747)
+  const latitude = ref(39.9085)
+  const name = ref('天安门')
+  const address = ref('北京市东城区东长安街')
+  // 自动化测试
+  const dialogPagesNum = reactive({ value: -1 } as DialogPagesNum)
+
+  // 生命周期钩子
+  onPageShow(() => {
+    console.log("Page Show")
+    // 自动化测试
+    setLifeCycleNum(state.lifeCycleNum + 1)
+  })
+
+  onPageHide(() => {
+    console.log("Page Hide")
+    // 自动化测试
+    setLifeCycleNum(state.lifeCycleNum - 1)
+  })
+
+  // 自动化测试
+  const test = () => {
+    const pages = getCurrentPages()
+    const page = pages[pages.length - 1]
+
+    const dialogPages = page.getDialogPages()
+    dialogPagesNum.value = dialogPages.length
+
+  }
+
+  // 方法
+  const openLocation = () => {
+    uni.openLocation({
+      longitude: longitude.value,
+      latitude: latitude.value,
+      name: name.value,
+      address: address.value
+    })
+    // 自动化测试
+    setTimeout(() => {
+      test()
+    }, 500)
+  }
+
+  // 自动化测试
+  const pageSetLifeCycleNum = (value: number) => {
+    setLifeCycleNum(value)
+  }
+
+  // 自动化测试
+  const getLifeCycleNum = (): number => {
+    return state.lifeCycleNum
+  }
+
+  __expose({
+    dialogPagesNum,
+    openLocation,
+    pageSetLifeCycleNum,
+    getLifeCycleNum,
+  })
+
+return (): any | null => {
+
+const _component_page_head = resolveEasyComponent("page-head",_easycom_page_head)
+const _component_form = resolveComponent("form")
+
+  return _cE("view", null, [
+    _cV(_component_page_head, _uM({ title: unref(title) }), null, 8 /* PROPS */, ["title"]),
+    _cE("view", _uM({ class: "uni-common-mt" }), [
+      _cV(_component_form, _uM({ onSubmit: openLocation }), _uM({
+        default: withSlotCtx((): any[] => [
+          _cE("view", _uM({ class: "uni-list" }), [
+            _cE("view", _uM({ class: "uni-list-cell" }), [
+              _cE("view", _uM({ class: "uni-list-cell-left" }), [
+                _cE("view", _uM({ class: "uni-label" }), "经度")
+              ]),
+              _cE("view", _uM({ class: "uni-list-cell-db" }), [
+                _cE("input", _uM({
+                  modelValue: handleModelValueForModifierNumber(unref(longitude)),
+                  onInput: ($event: UniInputEvent) => {trySetRefValue(longitude, looseToNumber($event.detail.value))},
+                  class: "uni-input",
+                  type: "text",
+                  disabled: true
+                }), null, 40 /* PROPS, NEED_HYDRATION */, ["modelValue"])
+              ])
+            ]),
+            _cE("view", _uM({ class: "uni-list-cell" }), [
+              _cE("view", _uM({ class: "uni-list-cell-left" }), [
+                _cE("view", _uM({ class: "uni-label" }), "纬度")
+              ]),
+              _cE("view", _uM({ class: "uni-list-cell-db" }), [
+                _cE("input", _uM({
+                  modelValue: handleModelValueForModifierNumber(unref(latitude)),
+                  onInput: ($event: UniInputEvent) => {trySetRefValue(latitude, looseToNumber($event.detail.value))},
+                  class: "uni-input",
+                  type: "text",
+                  disabled: true
+                }), null, 40 /* PROPS, NEED_HYDRATION */, ["modelValue"])
+              ])
+            ]),
+            _cE("view", _uM({ class: "uni-list-cell" }), [
+              _cE("view", _uM({ class: "uni-list-cell-left" }), [
+                _cE("view", _uM({ class: "uni-label" }), "位置名称")
+              ]),
+              _cE("view", _uM({ class: "uni-list-cell-db" }), [
+                _cE("input", _uM({
+                  modelValue: unref(name),
+                  onInput: ($event: UniInputEvent) => {trySetRefValue(name, $event.detail.value)},
+                  class: "uni-input",
+                  type: "text",
+                  disabled: true
+                }), null, 40 /* PROPS, NEED_HYDRATION */, ["modelValue"])
+              ])
+            ]),
+            _cE("view", _uM({ class: "uni-list-cell" }), [
+              _cE("view", _uM({ class: "uni-list-cell-left" }), [
+                _cE("view", _uM({ class: "uni-label" }), "详细位置")
+              ]),
+              _cE("view", _uM({ class: "uni-list-cell-db" }), [
+                _cE("input", _uM({
+                  modelValue: unref(address),
+                  onInput: ($event: UniInputEvent) => {trySetRefValue(address, $event.detail.value)},
+                  class: "uni-input",
+                  type: "text",
+                  disabled: true
+                }), null, 40 /* PROPS, NEED_HYDRATION */, ["modelValue"])
+              ])
+            ])
+          ]),
+          _cE("view", _uM({ class: "uni-padding-wrap" }), [
+            _cE("view", _uM({ class: "tips" }), "注意：需要正确配置地图服务商的Key才能正常显示位置"),
+            _cE("view", _uM({ class: "uni-btn-v uni-common-mt" }), [
+              _cE("button", _uM({
+                type: "primary",
+                formType: "submit"
+              }), "查看位置")
+            ])
+          ])
+        ]),
+        _: 1 /* STABLE */
+      }))
+    ])
+  ])
+}
+}
+
+})
+export default __sfc__
+const GenPagesAPIOpenLocationOpenLocationStyles = [_uM([["uni-list-cell-left", _pS(_uM([["paddingTop", 0], ["paddingRight", 15], ["paddingBottom", 0], ["paddingLeft", 15]]))], ["tips", _pS(_uM([["fontSize", 12], ["marginTop", 15], ["opacity", 0.8]]))]])]

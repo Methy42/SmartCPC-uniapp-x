@@ -1,0 +1,27 @@
+const __sfc__ = defineComponent({});
+export default __sfc__;
+function GenPagesCSSBorderComplexBorderComplexBorderRender(this: InstanceType<typeof __sfc__>): any | null {
+    const _ctx = this;
+    const _cache = this.$.renderCache;
+    return _cE("view", _uM({
+        style: _nS(_uM({ "flex-grow": "1" }))
+    }), [
+        _cE("view", null, [
+            _cE("text", null, "圆角 : 各边之间 不同width && 不同颜色 && 不同圆角"),
+            _cE("view", _uM({
+                style: _nS(_uM({ "width": "250px", "height": "250px", "background-color": "gray", "justify-content": "center", "align-items": "center" }))
+            }), [
+                _cE("view", _uM({ class: "border-circle" }))
+            ], 4 /* STYLE */)
+        ]),
+        _cE("view", null, [
+            _cE("text", null, "直角 : 各边之间 不同width && 不同颜色 "),
+            _cE("view", _uM({
+                style: _nS(_uM({ "width": "250px", "height": "250px", "background-color": "gray", "justify-content": "center", "align-items": "center" }))
+            }), [
+                _cE("view", _uM({ class: "border-rect" }))
+            ], 4 /* STYLE */)
+        ])
+    ], 4 /* STYLE */);
+}
+const GenPagesCSSBorderComplexBorderComplexBorderStyles = [_uM([["common", _pS(_uM([["width", 250], ["height", 250], ["backgroundColor", "#808080"]]))], ["border-circle", _pS(_uM([["width", 125], ["height", 125], ["backgroundColor", "#00dd00"], ["borderTopWidth", 10], ["borderRightWidth", 10], ["borderBottomWidth", 20], ["borderLeftWidth", 10], ["borderTopStyle", "solid"], ["borderRightStyle", "solid"], ["borderBottomStyle", "solid"], ["borderLeftStyle", "solid"], ["borderTopColor", "#000000"], ["borderRightColor", "#FFDC02"], ["borderBottomColor", "#ff0000"], ["borderLeftColor", "#000000"], ["borderBottomRightRadius", 5], ["borderBottomLeftRadius", 5], ["borderTopLeftRadius", 5], ["borderTopRightRadius", 5]]))], ["border-rect", _pS(_uM([["width", 125], ["height", 125], ["borderTopStyle", "solid"], ["borderRightStyle", "solid"], ["borderBottomStyle", "solid"], ["borderLeftStyle", "solid"], ["backgroundColor", "#00dd00"], ["borderTopWidth", 10], ["borderRightWidth", 10], ["borderBottomWidth", 20], ["borderLeftWidth", 10], ["borderTopColor", "#000000"], ["borderRightColor", "#FFDC02"], ["borderBottomColor", "#ff0000"], ["borderLeftColor", "#000000"]]))]])];

@@ -1,0 +1,67 @@
+const __sfc__ = defineComponent({
+    __name: 'border',
+    setup(__props) {
+        const __ins = getCurrentInstance()!;
+        const _ctx = __ins.proxy as InstanceType<typeof __sfc__>;
+        const _cache = __ins.renderCache;
+        const shown = ref(false);
+        setTimeout(() => {
+            shown.value = true;
+        }, 1000);
+        return (): any | null => {
+            return _cE("scroll-view", _uM({
+                style: _nS(_uM({ "flex": "1" }))
+            }), [
+                _cE("view", _uM({
+                    style: _nS(_uM({ "flex-grow": "1" }))
+                }), [
+                    _cE("view", null, [
+                        _cE("text", null, "border: 5px dotted blue"),
+                        _cE("view", _uM({
+                            class: "common",
+                            style: _nS(_uM({ "border": "5px dotted blue" }))
+                        }), null, 4 /* STYLE */)
+                    ]),
+                    _cE("view", null, [
+                        _cE("text", null, "border与background-image同时设置"),
+                        _cE("view", _uM({
+                            class: "common",
+                            style: _nS(_uM({ "border-style": "solid", "border-color": "rgba(0, 0, 255, 0.1)", "background-image": "linear-gradient(to right, #00ff00, #00bc79)" }))
+                        }), null, 4 /* STYLE */)
+                    ]),
+                    _cE("view", null, [
+                        _cE("text", null, "设置border的view，通过v-show控制显示"),
+                        withDirectives(_cE("view", null, [
+                            _cE("view", _uM({
+                                class: "common",
+                                style: _nS(_uM({ "border": "5px dotted blue" }))
+                            }), null, 4 /* STYLE */)
+                        ], 512 /* NEED_PATCH */), [
+                            [vShow, unref(shown)]
+                        ])
+                    ]),
+                    _cE("view", null, [
+                        _cE("text", null, "设置border 多次赋值的场景"),
+                        _cE("view", null, [
+                            _cE("view", _uM({ class: "common multi-times-border" })),
+                            _cE("view", _uM({
+                                class: "multi-times-border",
+                                style: _nS(_uM({ "width": "250px", "height": "250px" }))
+                            }), null, 4 /* STYLE */),
+                            _cE("view", _uM({
+                                class: "multi-times-border",
+                                style: _nS(_uM({ "border-right": "6px solid blue", "width": "250px", "height": "250px" }))
+                            }), null, 4 /* STYLE */),
+                            _cE("view", _uM({
+                                class: "common multi-times-border",
+                                style: _nS(_uM({ "border": "dashed" }))
+                            }), null, 4 /* STYLE */)
+                        ])
+                    ])
+                ], 4 /* STYLE */)
+            ], 4 /* STYLE */);
+        };
+    }
+});
+export default __sfc__;
+const GenPagesCSSBorderBorderStyles = [_uM([["common", _uM([["", _uM([["width", 250], ["height", 250], ["backgroundColor", "#808080"]])], [".multi-times-border", _uM([["borderRightColor", "#008000"]])]])], ["multi-times-border", _pS(_uM([["borderTopWidth", 3], ["borderRightWidth", 6], ["borderBottomWidth", 3], ["borderLeftWidth", 3], ["borderTopStyle", "solid"], ["borderRightStyle", "solid"], ["borderBottomStyle", "solid"], ["borderLeftStyle", "solid"], ["borderTopColor", "#FF0000"], ["borderRightColor", "#008000"], ["borderBottomColor", "#FF0000"], ["borderLeftColor", "#FF0000"]]))]])];

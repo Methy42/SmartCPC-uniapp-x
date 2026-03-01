@@ -1,0 +1,231 @@
+
+  type ScrollEventTest = {
+    type : string;
+    target : UniElement | null;
+    currentTarget : UniElement | null;
+    direction ?: string
+  }
+  const __sfc__ = defineComponent({
+    data() {
+      return {
+        scrollTop: 0,
+        oldScrollTop: 0,
+        scrollLeft: 120,
+        showScrollbar: true,
+        // 自动化测试
+        isScrollTest: '',
+        isScrolltolowerTest: '',
+        isScrolltoupperTest: '',
+        scrollDetailTest: null as UniScrollEventDetail | null,
+        scrollEndDetailTest: null as UniScrollEventDetail | null,
+      }
+    },
+    methods: {
+      upper: function (e : UniScrollToUpperEvent) {
+        console.log('滚动到顶部/左边', e)
+        this.checkEventTest({
+          type: e.type,
+          target: e.target,
+          currentTarget: e.currentTarget,
+          direction: e.detail.direction,
+        } as ScrollEventTest, 'scrolltoupper')
+      },
+      lower: function (e : UniScrollToLowerEvent) {
+        console.log('滚动到底部/右边', e)
+        this.checkEventTest({
+          type: e.type,
+          target: e.target,
+          currentTarget: e.currentTarget,
+          direction: e.detail.direction,
+        } as ScrollEventTest, 'scrolltolower')
+      },
+      scroll: function (e : UniScrollEvent) {
+        this.scrollDetailTest = e.detail
+        this.checkEventTest({
+          type: e.type,
+          target: e.target,
+          currentTarget: e.currentTarget
+        } as ScrollEventTest, 'scroll')
+        this.oldScrollTop = e.detail.scrollTop
+      },
+      end: function (e : UniScrollEvent) {
+        console.log('滚动结束时触发', e)
+        this.scrollEndDetailTest = e.detail
+        this.checkEventTest({
+          type: e.type,
+          target: e.target,
+          currentTarget: e.currentTarget
+        } as ScrollEventTest, 'scrollend')
+      },
+      goTop: function () {
+        // 解决view层不同步的问题
+        this.scrollTop = this.oldScrollTop
+        this.$nextTick(() => {
+          this.scrollTop = 0
+        })
+        uni.showToast({
+          icon: 'none',
+          title: '纵向滚动 scrollTop 值已被修改为 0',
+        })
+      },
+      // 自动化测试专用（由于事件event参数对象中存在循环引用，在ios端JSON.stringify报错，自动化测试无法page.data获取）
+      checkEventTest(e : ScrollEventTest, eventName : String) {
+
+        const isPass = e.type === eventName && e.target instanceof UniElement && e.currentTarget instanceof UniElement;
+
+
+
+
+        const result = isPass ? `${eventName}:Success` : `${eventName}:Fail`;
+        switch (eventName) {
+          case 'scroll':
+            this.isScrollTest = result
+            break;
+          case 'scrolltolower':
+            this.isScrolltolowerTest = result + `-${e.direction}`
+            break;
+          case 'scrolltoupper':
+            this.isScrolltoupperTest = result + `-${e.direction}`
+            break;
+          default:
+            break;
+        }
+      },
+      // 自动化测试专用
+      setVerticalScrollBy(y : number) {
+        const element = uni.getElementById("verticalScrollView")
+        if (element != null) {
+          element.scrollBy(0, y)
+        }
+      }
+    },
+  })
+
+export default __sfc__
+function GenPagesComponentScrollViewScrollViewRender(this: InstanceType<typeof __sfc__>): any | null {
+const _ctx = this
+const _cache = this.$.renderCache
+const _component_page_head = resolveEasyComponent("page-head",_easycom_page_head)
+const _component_navigator = resolveComponent("navigator")
+
+  return _cE("scroll-view", _uM({ class: "page-scroll-view" }), [
+    _cE("view", null, [
+      _cV(_component_page_head, _uM({ title: "scroll-view,区域滚动视图" })),
+      _cE("view", _uM({ class: "uni-padding-wrap uni-common-mt" }), [
+        _cE("view", _uM({ class: "uni-title uni-common-mt" }), [
+          _cE("text", _uM({ class: "uni-title-text" }), "Vertical Scroll"),
+          _cE("text", _uM({ class: "uni-subtitle-text" }), "纵向滚动")
+        ]),
+        _cE("view", null, [
+          _cE("scroll-view", _uM({
+            "scroll-top": _ctx.scrollTop,
+            direction: "vertical",
+            class: "scroll-Y",
+            "scroll-with-animation": "true",
+            onScrolltoupper: _ctx.upper,
+            onScrolltolower: _ctx.lower,
+            onScroll: _ctx.scroll,
+            onScrollend: _ctx.end,
+            "show-scrollbar": _ctx.showScrollbar,
+            id: "verticalScrollView"
+          }), [
+            _cE("view", _uM({ class: "scroll-view-item uni-bg-red" }), [
+              _cE("text", _uM({ class: "text" }), "A")
+            ]),
+            _cE("view", _uM({ class: "scroll-view-item uni-bg-green" }), [
+              _cE("text", _uM({ class: "text" }), "B")
+            ]),
+            _cE("view", _uM({ class: "scroll-view-item uni-bg-blue" }), [
+              _cE("text", _uM({ class: "text" }), "C")
+            ])
+          ], 40 /* PROPS, NEED_HYDRATION */, ["scroll-top", "onScrolltoupper", "onScrolltolower", "onScroll", "onScrollend", "show-scrollbar"])
+        ]),
+        _cE("view", _uM({
+          onClick: _ctx.goTop,
+          class: "uni-center uni-common-mt"
+        }), [
+          _cE("text", _uM({ class: "uni-link" }), "点击这里返回顶部")
+        ], 8 /* PROPS */, ["onClick"]),
+        _cE("view", _uM({ class: "uni-title uni-common-mt" }), [
+          _cE("text", _uM({ class: "uni-title-text" }), "Horizontal Scroll"),
+          _cE("text", _uM({ class: "uni-subtitle-text" }), "横向滚动")
+        ]),
+        _cE("view", null, [
+          _cE("scroll-view", _uM({
+            class: "scroll-view_H",
+            direction: "horizontal",
+            onScroll: _ctx.scroll,
+            onScrollend: _ctx.end,
+            "scroll-left": _ctx.scrollLeft,
+            "show-scrollbar": _ctx.showScrollbar
+          }), [
+            _cE("view", _uM({ class: "scroll-view-item_H uni-bg-red" }), [
+              _cE("text", _uM({ class: "text" }), "A")
+            ]),
+            _cE("view", _uM({ class: "scroll-view-item_H uni-bg-green" }), [
+              _cE("text", _uM({ class: "text" }), "B")
+            ]),
+            _cE("view", _uM({ class: "scroll-view-item_H uni-bg-blue" }), [
+              _cE("text", _uM({ class: "text" }), "C")
+            ])
+          ], 40 /* PROPS, NEED_HYDRATION */, ["onScroll", "onScrollend", "scroll-left", "show-scrollbar"])
+        ]),
+        _cV(_component_navigator, _uM({
+          url: "/pages/component/scroll-view/scroll-view-props",
+          "hover-class": "none"
+        }), _uM({
+          default: withSlotCtx((): any[] => [
+            _cE("button", _uM({
+              type: "primary",
+              class: "button"
+            }), " 非下拉刷新的属性示例 ")
+          ]),
+          _: 1 /* STABLE */
+        })),
+        _cE("view", _uM({ class: "uni-common-pb" })),
+        _cV(_component_navigator, _uM({
+          url: "/pages/component/scroll-view/scroll-view-refresher-props",
+          "hover-class": "none"
+        }), _uM({
+          default: withSlotCtx((): any[] => [
+            _cE("button", _uM({
+              type: "primary",
+              class: "button"
+            }), " 下拉刷新的属性示例 ")
+          ]),
+          _: 1 /* STABLE */
+        })),
+        _cE("view", _uM({ class: "uni-common-pb" })),
+        _cV(_component_navigator, _uM({
+          url: "/pages/component/scroll-view/scroll-view-refresher",
+          "hover-class": "none"
+        }), _uM({
+          default: withSlotCtx((): any[] => [
+            _cE("button", _uM({
+              type: "primary",
+              class: "button"
+            }), " 默认下拉刷新示例 ")
+          ]),
+          _: 1 /* STABLE */
+        })),
+        _cE("view", _uM({ class: "uni-common-pb" })),
+        _cV(_component_navigator, _uM({
+          url: "/pages/component/scroll-view/scroll-view-custom-refresher-props",
+          "hover-class": "none"
+        }), _uM({
+          default: withSlotCtx((): any[] => [
+            _cE("button", _uM({
+              type: "primary",
+              class: "button"
+            }), " 自定义下拉刷新示例 ")
+          ]),
+          _: 1 /* STABLE */
+        })),
+        _cE("view", _uM({ class: "uni-common-pb" }))
+      ])
+    ])
+  ])
+}
+const GenPagesComponentScrollViewScrollViewStyles = [_uM([["scroll-Y", _pS(_uM([["height", 150]]))], ["scroll-view_H", _pS(_uM([["width", "100%"], ["flexDirection", "row"]]))], ["scroll-view-item", _pS(_uM([["height", 150], ["justifyContent", "center"], ["alignItems", "center"]]))], ["scroll-view-item_H", _pS(_uM([["width", "100%"], ["height", 150], ["justifyContent", "center"], ["alignItems", "center"]]))], ["text", _pS(_uM([["fontSize", 18], ["color", "#ffffff"]]))], ["button", _pS(_uM([["marginTop", 15]]))]])]
+
+import _easycom_page_head from '@/components/page-head/page-head.vue'

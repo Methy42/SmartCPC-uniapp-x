@@ -1,0 +1,48 @@
+import childWidthUvue from "./child-width.uvue";
+const __sfc__ = defineComponent({
+    components: {
+        childWidthUvue
+    }
+});
+export default __sfc__;
+function GenPagesCSSLayoutWidthRender(this: InstanceType<typeof __sfc__>): any | null {
+    const _ctx = this;
+    const _cache = this.$.renderCache;
+    const _component_child_width_uvue = resolveComponent("child-width-uvue");
+    return _cE("scroll-view", _uM({
+        style: _nS(_uM({ "flex": "1" }))
+    }), [
+        _cE("view", _uM({
+            style: _nS(_uM({ "flex-grow": "1" }))
+        }), [
+            _cE("view", null, [
+                _cE("text", null, "width: 250px"),
+                _cE("view", _uM({
+                    class: "common",
+                    style: _nS(_uM({ "width": "250px" }))
+                }), null, 4 /* STYLE */)
+            ]),
+            _cE("view", _uM({
+                style: _nS(_uM({ "width": "250px" }))
+            }), [
+                _cE("text", null, "width: 50%"),
+                _cE("view", _uM({
+                    class: "common",
+                    style: _nS(_uM({ "width": "50%" }))
+                }), null, 4 /* STYLE */)
+            ], 4 /* STYLE */),
+            _cE("view", null, [
+                _cE("text", null, "width: 250rpx"),
+                _cE("view", _uM({
+                    class: "common",
+                    style: _nS(_uM({ "width": "250rpx" }))
+                }), null, 4 /* STYLE */)
+            ]),
+            _cE("view", _uM({ class: "container" }), [
+                _cE("text", null, "嵌套子元素测试 v-deep width: 150rpx"),
+                _cV(_component_child_width_uvue)
+            ])
+        ], 4 /* STYLE */)
+    ], 4 /* STYLE */);
+}
+const GenPagesCSSLayoutWidthStyles = [_uM([["common", _pS(_uM([["height", 250], ["backgroundColor", "#FF0000"]]))], ["box", _uM([[".container ", _uM([["width", 150], ["height", 150]])]])]])];

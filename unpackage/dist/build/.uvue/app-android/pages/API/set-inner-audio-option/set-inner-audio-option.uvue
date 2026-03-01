@@ -1,0 +1,113 @@
+const __sfc__ = defineComponent({
+    data() {
+        return {
+            backgroundManager: null as BackgroundAudioManager | null,
+            innerAudio: null as InnerAudioContext | null,
+            isBackgroundAudioPaused: false
+        };
+    },
+    onUnload() {
+        this.backgroundManager?.stop();
+        this.innerAudio?.stop();
+    },
+    methods: {
+        playBackgroundMusic() {
+            if (this.backgroundManager == null) {
+                this.backgroundManager = uni.getBackgroundAudioManager();
+                this.backgroundManager!.onPause((_result) => {
+                    this.isBackgroundAudioPaused = true;
+                });
+            }
+            else {
+                this.backgroundManager!.stop();
+            }
+            this.backgroundManager!.src = 'https://web-ext-storage.dcloud.net.cn/uni-app/ForElise.mp3';
+            this.backgroundManager!.coverImgUrl = 'https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/music-a.png';
+            this.backgroundManager!.play();
+        },
+        playInnerMusic() {
+            if (this.innerAudio == null)
+                this.innerAudio = uni.createInnerAudioContext();
+            else {
+                this.innerAudio!.stop();
+            }
+            this.innerAudio!.src = 'https://web-ext-storage.dcloud.net.cn/uni-app/ForElise.mp3';
+            this.innerAudio!.play();
+        },
+        onMixChanged(event: UniRadioGroupChangeEvent) {
+            uni.setInnerAudioOption({
+                mixWithOther: event.detail.value == "1"
+            });
+        },
+        testInnerAudioOption() {
+            uni.setInnerAudioOption({
+                mixWithOther: false
+            });
+        }
+    }
+});
+export default __sfc__;
+function GenPagesAPISetInnerAudioOptionSetInnerAudioOptionRender(this: InstanceType<typeof __sfc__>): any | null {
+    const _ctx = this;
+    const _cache = this.$.renderCache;
+    const _component_page_head = resolveEasyComponent("page-head", _easycom_page_head);
+    const _component_radio = resolveComponent("radio");
+    const _component_radio_group = resolveComponent("radio-group");
+    return _cE("scroll-view", _uM({
+        style: _nS(_uM({ "flex": "1" }))
+    }), [
+        _cV(_component_page_head, _uM({ title: "setInnerAudioOption" })),
+        _cE("text", _uM({
+            style: _nS(_uM({ "margin-left": "8px" }))
+        }), "是否允许与其他音频同时播放", 4 /* STYLE */),
+        _cV(_component_radio_group, _uM({
+            class: "uni-flex",
+            style: _nS(_uM({ "margin": "8px" })),
+            onChange: _ctx.onMixChanged
+        }), _uM({
+            default: withSlotCtx((): any[] => [
+                _cV(_component_radio, _uM({
+                    value: "1",
+                    checked: true
+                }), _uM({
+                    default: withSlotCtx((): any[] => ["是"]),
+                    _: 1 /* STABLE */
+                })),
+                _cV(_component_radio, _uM({
+                    value: "0",
+                    style: _nS(_uM({ "margin-left": "16px" }))
+                }), _uM({
+                    default: withSlotCtx((): any[] => ["否"]),
+                    _: 1 /* STABLE */
+                }), 8 /* PROPS */, ["style"])
+            ]),
+            _: 1 /* STABLE */
+        }), 8 /* PROPS */, ["style", "onChange"]),
+        _cE("view", _uM({
+            style: _nS(_uM({ "padding": "8px 8px" }))
+        }), [
+            _cE("button", _uM({
+                onClick: _ctx.playBackgroundMusic,
+                type: "primary"
+            }), "播放背景音频", 8 /* PROPS */, ["onClick"]),
+            _cE("button", _uM({
+                onClick: _ctx.playInnerMusic,
+                style: _nS(_uM({ "margin-top": "8px" }))
+            }), "播放音频", 12 /* STYLE, PROPS */, ["onClick"])
+        ], 4 /* STYLE */),
+        _cE("view", _uM({
+            style: _nS(_uM({ "padding": "16px 8px" }))
+        }), [
+            _cE("view", _uM({ class: "uni-row" }), [
+                _cE("view", null, "1. "),
+                "uni.setInnerAudioOption需要与uni.createInnerAudioContext搭配才会生效 "
+            ]),
+            _cE("view", _uM({ class: "uni-row" }), [
+                _cE("view", null, "2. "),
+                "设置mixWithOther为true时，会暂停其他App的音频和背景音频 "
+            ])
+        ], 4 /* STYLE */)
+    ], 4 /* STYLE */);
+}
+const GenPagesAPISetInnerAudioOptionSetInnerAudioOptionStyles = [];
+import _easycom_page_head from '@/components/page-head/page-head.vue';

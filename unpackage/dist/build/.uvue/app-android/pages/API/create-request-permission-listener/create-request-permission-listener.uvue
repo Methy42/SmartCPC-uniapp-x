@@ -1,0 +1,82 @@
+const __sfc__ = defineComponent({
+    data() {
+        return {
+            isPermissionAlertShow: false,
+            permissionAlert: null as UniElement | null,
+            timeoutId: -1,
+            permissionListener: null as RequestPermissionListener | null
+        };
+    },
+    onReady() {
+        this.watchPermissionRRequest();
+    },
+    onUnload() {
+        this.permissionListener?.stop();
+        this.permissionListener = null;
+        clearTimeout(this.timeoutId);
+    },
+    methods: {
+        watchPermissionRRequest() {
+            this.permissionListener = uni.createRequestPermissionListener();
+            this.permissionListener!.onConfirm((_) => {
+                // TODO 目前onConfirm监听实现的在时间上不够精确，暂时需要延迟弹框，后续修复
+                // TODO 这里的弹框仅为演示，实际开发中监听权限申请的代码应该在app.uvue中，弹框应全局处理，可参考https://gitcode.net/dcloud/uni-api/-/tree/master/uni_modules/uni-prompt/utssdk/app-android 代码自行封装一个uts的全局弹框
+                this.timeoutId = setTimeout(() => {
+                    this.isPermissionAlertShow = true;
+                }, 100);
+            });
+            this.permissionListener!.onComplete((_) => {
+                clearTimeout(this.timeoutId);
+                this.isPermissionAlertShow = false;
+            });
+        },
+        requestPermission() {
+            if (UTSAndroid.checkSystemPermissionGranted(UTSAndroid.getUniActivity()!, ["android.permission.READ_CALENDAR"])) {
+                uni.showToast({
+                    title: "权限已经同意了，不需要再申请",
+                    position: "bottom"
+                });
+                return;
+            }
+            UTSAndroid.requestSystemPermission(UTSAndroid.getUniActivity()!, ["android.permission.READ_CALENDAR"], (_: boolean, p: string[]) => {
+                console.log(p);
+            }, (_: boolean, p: string[]) => {
+                uni.showToast({
+                    title: "权限被拒绝了",
+                    position: "bottom"
+                });
+                console.log(p);
+            });
+        }
+    }
+});
+export default __sfc__;
+function GenPagesAPICreateRequestPermissionListenerCreateRequestPermissionListenerRender(this: InstanceType<typeof __sfc__>): any | null {
+    const _ctx = this;
+    const _cache = this.$.renderCache;
+    const _component_page_head = resolveEasyComponent("page-head", _easycom_page_head);
+    return _cE("scroll-view", _uM({
+        style: _nS(_uM({ "flex": "1" }))
+    }), [
+        _cV(_component_page_head, _uM({ title: "权限申请监听" })),
+        _cE("view", _uM({
+            class: "permission-alert",
+            id: "permission-alert",
+            style: _nS(_uM({ 'transform': _ctx.isPermissionAlertShow ? 'translateY(0)' : 'translateY(-110px)' }))
+        }), [
+            _cE("text", _uM({
+                style: _nS(_uM({ "font-size": "20px", "margin-bottom": "10px", "margin-top": "5px" }))
+            }), "访问日历权限申请说明：", 4 /* STYLE */),
+            _cE("text", _uM({
+                style: _nS(_uM({ "color": "darkgray" }))
+            }), "uni-app x正在申请访问日历权限用于演示，允许或拒绝均不会获取任何隐私信息。", 4 /* STYLE */)
+        ], 4 /* STYLE */),
+        _cE("button", _uM({
+            type: "primary",
+            style: _nS(_uM({ "margin": "10px" })),
+            onClick: _ctx.requestPermission
+        }), "点击申请日历权限", 12 /* STYLE, PROPS */, ["onClick"])
+    ], 4 /* STYLE */);
+}
+const GenPagesAPICreateRequestPermissionListenerCreateRequestPermissionListenerStyles = [_uM([["permission-alert", _pS(_uM([["width", "90%"], ["height", 100], ["marginTop", 10], ["marginRight", "5%"], ["marginBottom", 10], ["marginLeft", "5%"], ["position", "absolute"], ["top", 0], ["zIndex", 3], ["borderTopLeftRadius", 5], ["borderTopRightRadius", 5], ["borderBottomRightRadius", 5], ["borderBottomLeftRadius", 5], ["transitionProperty", "transform"], ["transitionDuration", "200ms"], ["backgroundColor", "#FFFFFF"], ["paddingTop", 10], ["paddingRight", 10], ["paddingBottom", 10], ["paddingLeft", 10]]))], ["@TRANSITION", _uM([["permission-alert", _uM([["property", "transform"], ["duration", "200ms"]])]])]])];
+import _easycom_page_head from '@/components/page-head/page-head.vue';
