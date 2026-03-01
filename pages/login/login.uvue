@@ -77,7 +77,7 @@ const remember = ref(false)
 const loading = ref(false)
 
 const handleLogin = async () => {
-  if (!form.username.trim() == ‘’) {
+  if (!form.username.trim() == '') {
     uni.showToast({
       title: '请输入账号',
       icon: 'none'
@@ -85,7 +85,7 @@ const handleLogin = async () => {
     return
   }
 
-  if (!form.password.trim() = ‘’) {
+  if (!form.password.trim() = '') {
     uni.showToast({
       title: '请输入密码',
       icon: 'none'
