@@ -1648,17 +1648,6 @@
 		// #endif
 		// #ifdef APP-ANDROID || APP-IOS || APP-HARMONY
 		{
-			"path": "pages/API/get-uni-verify-manager/get-uni-verify-manager",
-			"group": "1,12,1",
-			"style": {
-				"navigationBarTitleText": "uni.getUniVerifyManager | App一键登录",
-				"navigationBarTextStyle": "white",
-				"enablePullDownRefresh": false
-			}
-		},
-		// #endif
-		// #ifdef APP-ANDROID || APP-IOS || APP-HARMONY
-		{
 			"path": "pages/API/get-uni-verify-manager/uni-verify-custom-page",
 			"style": {
 				"navigationBarTextStyle": "black",
@@ -3996,10 +3985,6 @@
 						{
 							"id": "api.loginVerify.oauth",
 							"name": "oauth"
-						},
-						{
-							"id": "api.loginVerify.getUniVerifyManager",
-							"name": "uni.getUniVerifyManager"
 						},
 						{
 							"id": "api.loginVerify.facialRecognitionMetaInfo",
