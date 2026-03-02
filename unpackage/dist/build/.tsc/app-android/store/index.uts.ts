@@ -17,7 +17,7 @@ export type UserInfo = {
   role?: string,
   organization?: string,
   token?: string,
-  nickName: string,
+  nickName?: string,
   avatarUrl?: string
 }
 

@@ -37,176 +37,72 @@ open class GenPagesStatisticsStatistics : BasePage {
             val __ins = getCurrentInstance()!!
             val _ctx = __ins.proxy as GenPagesStatisticsStatistics
             val _cache = __ins.renderCache
-            val yearList = ref(_uA(
-                "2023",
-                "2024",
-                "2025",
-                "2026"
-            ))
+            val yearList = ref(_uA<String>("2023", "2024", "2025", "2026"))
             val selectedYear = ref("2025")
             val onYearChange = fun(kVal: Any){
                 console.log("选择年份：", kVal)
             }
-            val columnOpts = ref(object : UTSJSONObject() {
-                var color = _uA(
-                    "#C8102E"
-                )
-                var padding: UTSArray<Number> = _uA(
-                    15,
-                    15,
-                    0,
-                    15
-                )
-                var xAxis = object : UTSJSONObject() {
-                    var disableGrid = true
-                }
-                var yAxis = object : UTSJSONObject() {
-                    var min: Number = 0
-                    var max: Number = 8
-                }
-            })
-            val columnData = ref(object : UTSJSONObject() {
-                var categories = _uA(
-                    "1月",
-                    "2月",
-                    "3月",
-                    "4月",
-                    "5月",
-                    "6月",
-                    "7月",
-                    "8月",
-                    "9月",
-                    "10月",
-                    "11月",
-                    "12月"
-                )
-                var series = _uA(
-                    object : UTSJSONObject() {
-                        var name = "开展次数"
-                        var data: UTSArray<Number> = _uA(
-                            3,
-                            2,
-                            4,
-                            5,
-                            3,
-                            6,
-                            4,
-                            7,
-                            5,
-                            4,
-                            3,
-                            6
-                        )
-                    }
-                )
-            })
-            val pieOpts = ref(object : UTSJSONObject() {
-                var color = _uA(
-                    "#C8102E",
-                    "#FF8C00",
-                    "#1E90FF",
-                    "#9370DB",
-                    "#D3D3D3",
-                    "#F0E68C"
-                )
-                var padding: UTSArray<Number> = _uA(
-                    15,
-                    15,
-                    0,
-                    15
-                )
-            })
-            val pieData = ref(object : UTSJSONObject() {
-                var series = _uA(
-                    object : UTSJSONObject() {
-                        var name = "支部党员大会"
-                        var data: Number = 16
-                    },
-                    object : UTSJSONObject() {
-                        var name = "支部委员会"
-                        var data: Number = 12
-                    },
-                    object : UTSJSONObject() {
-                        var name = "党小组会"
-                        var data: Number = 10
-                    },
-                    object : UTSJSONObject() {
-                        var name = "党课"
-                        var data: Number = 8
-                    },
-                    object : UTSJSONObject() {
-                        var name = "理论学习"
-                        var data: Number = 0
-                    },
-                    object : UTSJSONObject() {
-                        var name = "支部活动"
-                        var data: Number = 0
-                    }
-                )
-            })
-            val rateList = ref(_uA(
-                object : UTSJSONObject() {
-                    var rate: Number = 98
-                    var name = "支部党员大会 参会率"
-                    var color = "#C8102E"
-                },
-                object : UTSJSONObject() {
-                    var rate: Number = 96
-                    var name = "支部委员会 参会率"
-                    var color = "#FF8C00"
-                },
-                object : UTSJSONObject() {
-                    var rate: Number = 95
-                    var name = "党小组会 参会率"
-                    var color = "#1E90FF"
-                },
-                object : UTSJSONObject() {
-                    var rate: Number = 95
-                    var name = "理论学习 参会率"
-                    var color = "#9370DB"
-                },
-                object : UTSJSONObject() {
-                    var rate: Number = 95
-                    var name = "党课 参会率"
-                    var color = "#48D1CC"
-                },
-                object : UTSJSONObject() {
-                    var rate: Number = 95
-                    var name = "支部活动 参会率"
-                    var color = "#32CD32"
-                }
-            ))
-            val taskColumns = ref(_uA(
-                object : UTSJSONObject() {
-                    var title = "序号"
-                    var key = "id"
-                },
-                object : UTSJSONObject() {
-                    var title = "任务名称"
-                    var key = "name"
-                },
-                object : UTSJSONObject() {
-                    var title = "完成状态"
-                    var key = "status"
-                }
-            ))
-            val taskData = ref(_uA(
-                object : UTSJSONObject() {
-                    var id: Number = 1
-                    var name = "党风廉政建设"
-                    var status = "进行中"
-                },
-                object : UTSJSONObject() {
-                    var id: Number = 2
-                    var name = "主题党日活动"
-                    var status = "已完成"
-                },
-                object : UTSJSONObject() {
-                    var id: Number = 3
-                    var name = "党员教育培训"
-                    var status = "进行中"
-                }
-            ))
+            val columnOpts = ref<ColumnOpts>(ColumnOpts(color = _uA(
+                "#C8102E"
+            ), padding = _uA(
+                15,
+                15,
+                0,
+                15
+            ), xAxis = XAxisConfig(disableGrid = true), yAxis = YAxisConfig(min = 0, max = 8)))
+            val columnData = ref<ColumnData>(ColumnData(categories = _uA(
+                "1月",
+                "2月",
+                "3月",
+                "4月",
+                "5月",
+                "6月",
+                "7月",
+                "8月",
+                "9月",
+                "10月",
+                "11月",
+                "12月"
+            ), series = _uA(
+                SeriesItem(name = "开展次数", data = _uA(
+                    3,
+                    2,
+                    4,
+                    5,
+                    3,
+                    6,
+                    4,
+                    7,
+                    5,
+                    4,
+                    3,
+                    6
+                ))
+            )))
+            val pieOpts = ref<PieOpts>(PieOpts(color = _uA(
+                "#C8102E",
+                "#FF8C00",
+                "#1E90FF",
+                "#9370DB",
+                "#D3D3D3",
+                "#F0E68C"
+            ), padding = _uA(
+                15,
+                15,
+                0,
+                15
+            )))
+            val pieData = ref<PieData>(PieData(series = _uA(
+                PieSeriesItem(name = "支部党员大会", data = 16),
+                PieSeriesItem(name = "支部委员会", data = 12),
+                PieSeriesItem(name = "党小组会", data = 10),
+                PieSeriesItem(name = "党课", data = 8),
+                PieSeriesItem(name = "理论学习", data = 0),
+                PieSeriesItem(name = "支部活动", data = 0)
+            )))
+            val rateList = ref(_uA<RateItem>(RateItem(rate = 98, name = "支部党员大会 参会率", color = "#C8102E"), RateItem(rate = 96, name = "支部委员会 参会率", color = "#FF8C00"), RateItem(rate = 95, name = "党小组会 参会率", color = "#1E90FF"), RateItem(rate = 95, name = "理论学习 参会率", color = "#9370DB"), RateItem(rate = 95, name = "党课 参会率", color = "#48D1CC"), RateItem(rate = 95, name = "支部活动 参会率", color = "#32CD32")))
+            val taskColumns = ref(_uA<TaskColumn>(TaskColumn(title = "序号", key = "id"), TaskColumn(title = "任务名称", key = "name"), TaskColumn(title = "完成状态", key = "status")))
+            val taskData = ref(_uA<TaskItem>(TaskItem(id = 1, name = "党风廉政建设", status = "进行中"), TaskItem(id = 2, name = "主题党日活动", status = "已完成"), TaskItem(id = 3, name = "党员教育培训", status = "进行中")))
             return fun(): Any? {
                 val _component_u_picker = resolveComponent("u-picker")
                 val _component_qiun_data_charts = resolveComponent("qiun-data-charts")
@@ -291,7 +187,7 @@ open class GenPagesStatisticsStatistics : BasePage {
         }
         val styles0: Map<String, Map<String, Map<String, Any>>>
             get() {
-                return _uM("container" to _pS(_uM("backgroundColor" to "#F5F5F5", "paddingBottom" to "100rpx")), "page-header" to _pS(_uM("display" to "flex", "alignItems" to "center", "justifyContent" to "space-between", "paddingTop" to "20rpx", "paddingRight" to "30rpx", "paddingBottom" to "20rpx", "paddingLeft" to "30rpx", "backgroundColor" to "#ffffff")), "star-icon" to _pS(_uM("width" to "40rpx", "height" to "40rpx", "marginRight" to "10rpx")), "page-title" to _pS(_uM("fontSize" to "36rpx", "fontWeight" to "bold", "color" to "#333333")), "year-picker" to _pS(_uM("width" to "120rpx")), "data-card" to _pS(_uM("backgroundColor" to "#ffffff", "borderTopLeftRadius" to "16rpx", "borderTopRightRadius" to "16rpx", "borderBottomRightRadius" to "16rpx", "borderBottomLeftRadius" to "16rpx", "marginTop" to "20rpx", "marginRight" to "30rpx", "marginBottom" to "20rpx", "marginLeft" to "30rpx", "paddingTop" to "30rpx", "paddingRight" to "30rpx", "paddingBottom" to "30rpx", "paddingLeft" to "30rpx")), "card-header" to _pS(_uM("display" to "flex", "alignItems" to "center", "marginBottom" to "30rpx")), "party-icon" to _pS(_uM("width" to "40rpx", "height" to "40rpx", "marginRight" to "10rpx")), "card-title" to _pS(_uM("fontSize" to "28rpx", "color" to "#333333")), "data-grid" to _pS(_uM("gridTemplateColumns" to "repeat(3, 1fr)", "gap" to "20rpx")), "data-item" to _uM("" to _uM("borderTopLeftRadius" to "12rpx", "borderTopRightRadius" to "12rpx", "borderBottomRightRadius" to "12rpx", "borderBottomLeftRadius" to "12rpx", "paddingTop" to "20rpx", "paddingRight" to "20rpx", "paddingBottom" to "20rpx", "paddingLeft" to "20rpx", "textAlign" to "center", "color" to "#ffffff"), ".red" to _uM("backgroundColor" to "#C8102E"), ".blue" to _uM("backgroundColor" to "#1E90FF"), ".purple" to _uM("backgroundColor" to "#9370DB")), "data-num" to _pS(_uM("fontSize" to "36rpx", "fontWeight" to "bold")), "data-label" to _pS(_uM("fontSize" to "24rpx", "marginTop" to "10rpx")), "chart-card" to _pS(_uM("backgroundColor" to "#ffffff", "borderTopLeftRadius" to "16rpx", "borderTopRightRadius" to "16rpx", "borderBottomRightRadius" to "16rpx", "borderBottomLeftRadius" to "16rpx", "marginTop" to "20rpx", "marginRight" to "30rpx", "marginBottom" to "20rpx", "marginLeft" to "30rpx", "paddingTop" to "30rpx", "paddingRight" to "30rpx", "paddingBottom" to "30rpx", "paddingLeft" to "30rpx")), "chart-title" to _pS(_uM("fontSize" to "32rpx", "fontWeight" to "bold", "color" to "#333333", "textAlign" to "center", "marginBottom" to "20rpx")), "chart-subtitle" to _pS(_uM("fontSize" to "28rpx", "color" to "#666666", "marginTop" to "20rpx", "marginRight" to 0, "marginBottom" to "20rpx", "marginLeft" to 0)), "rate-card" to _pS(_uM("backgroundColor" to "#ffffff", "borderTopLeftRadius" to "16rpx", "borderTopRightRadius" to "16rpx", "borderBottomRightRadius" to "16rpx", "borderBottomLeftRadius" to "16rpx", "marginTop" to "20rpx", "marginRight" to "30rpx", "marginBottom" to "20rpx", "marginLeft" to "30rpx", "paddingTop" to "30rpx", "paddingRight" to "30rpx", "paddingBottom" to "30rpx", "paddingLeft" to "30rpx")), "rate-grid" to _pS(_uM("gridTemplateColumns" to "repeat(3, 1fr)", "gap" to "20rpx")), "rate-item" to _pS(_uM("textAlign" to "center")), "rate-num" to _pS(_uM("fontSize" to "32rpx", "fontWeight" to "bold", "color" to "#333333", "marginTop" to "10rpx", "marginRight" to 0, "marginBottom" to "10rpx", "marginLeft" to 0)), "rate-text" to _pS(_uM("fontSize" to "24rpx", "color" to "#666666")), "task-card" to _pS(_uM("backgroundColor" to "#ffffff", "borderTopLeftRadius" to "16rpx", "borderTopRightRadius" to "16rpx", "borderBottomRightRadius" to "16rpx", "borderBottomLeftRadius" to "16rpx", "marginTop" to "20rpx", "marginRight" to "30rpx", "marginBottom" to "20rpx", "marginLeft" to "30rpx", "paddingTop" to "30rpx", "paddingRight" to "30rpx", "paddingBottom" to "30rpx", "paddingLeft" to "30rpx")), "task-title" to _pS(_uM("fontSize" to "32rpx", "fontWeight" to "bold", "color" to "#333333", "marginBottom" to "20rpx")))
+                return _uM("container" to _pS(_uM("backgroundColor" to "#F5F5F5", "display" to "flex", "flexDirection" to "column", "flexGrow" to 1, "flexShrink" to 1, "flexBasis" to "0%", "paddingBottom" to "100rpx")), "page-header" to _pS(_uM("display" to "flex", "alignItems" to "center", "justifyContent" to "space-between", "paddingTop" to "20rpx", "paddingRight" to "30rpx", "paddingBottom" to "20rpx", "paddingLeft" to "30rpx", "backgroundColor" to "#ffffff")), "star-icon" to _pS(_uM("width" to "40rpx", "height" to "40rpx", "marginRight" to "10rpx")), "page-title" to _pS(_uM("fontSize" to "36rpx", "fontWeight" to "bold", "color" to "#333333")), "year-picker" to _pS(_uM("width" to "120rpx")), "data-card" to _pS(_uM("backgroundColor" to "#ffffff", "borderTopLeftRadius" to "16rpx", "borderTopRightRadius" to "16rpx", "borderBottomRightRadius" to "16rpx", "borderBottomLeftRadius" to "16rpx", "marginTop" to "20rpx", "marginRight" to "30rpx", "marginBottom" to "20rpx", "marginLeft" to "30rpx", "paddingTop" to "30rpx", "paddingRight" to "30rpx", "paddingBottom" to "30rpx", "paddingLeft" to "30rpx")), "card-header" to _pS(_uM("display" to "flex", "alignItems" to "center", "marginBottom" to "30rpx")), "party-icon" to _pS(_uM("width" to "40rpx", "height" to "40rpx", "marginRight" to "10rpx")), "card-title" to _pS(_uM("fontSize" to "28rpx", "color" to "#333333")), "data-grid" to _pS(_uM("display" to "flex", "flexWrap" to "wrap", "marginLeft" to "-10rpx", "marginRight" to "-10rpx")), "data-item" to _uM("" to _uM("borderTopLeftRadius" to "12rpx", "borderTopRightRadius" to "12rpx", "borderBottomRightRadius" to "12rpx", "borderBottomLeftRadius" to "12rpx", "paddingTop" to "20rpx", "paddingRight" to "20rpx", "paddingBottom" to "20rpx", "paddingLeft" to "20rpx", "textAlign" to "center", "color" to "#ffffff", "flexGrow" to 1, "flexShrink" to 1, "flexBasis" to "0%", "marginTop" to 0, "marginRight" to "10rpx", "marginBottom" to "20rpx", "marginLeft" to "10rpx"), ".red" to _uM("backgroundColor" to "#C8102E"), ".blue" to _uM("backgroundColor" to "#1E90FF"), ".purple" to _uM("backgroundColor" to "#9370DB")), "data-num" to _pS(_uM("fontSize" to "36rpx", "fontWeight" to "bold")), "data-label" to _pS(_uM("fontSize" to "24rpx", "marginTop" to "10rpx")), "chart-card" to _pS(_uM("backgroundColor" to "#ffffff", "borderTopLeftRadius" to "16rpx", "borderTopRightRadius" to "16rpx", "borderBottomRightRadius" to "16rpx", "borderBottomLeftRadius" to "16rpx", "marginTop" to "20rpx", "marginRight" to "30rpx", "marginBottom" to "20rpx", "marginLeft" to "30rpx", "paddingTop" to "30rpx", "paddingRight" to "30rpx", "paddingBottom" to "30rpx", "paddingLeft" to "30rpx")), "chart-title" to _pS(_uM("fontSize" to "32rpx", "fontWeight" to "bold", "color" to "#333333", "textAlign" to "center", "marginBottom" to "20rpx")), "chart-subtitle" to _pS(_uM("fontSize" to "28rpx", "color" to "#666666", "marginTop" to "20rpx", "marginRight" to 0, "marginBottom" to "20rpx", "marginLeft" to 0)), "rate-card" to _pS(_uM("backgroundColor" to "#ffffff", "borderTopLeftRadius" to "16rpx", "borderTopRightRadius" to "16rpx", "borderBottomRightRadius" to "16rpx", "borderBottomLeftRadius" to "16rpx", "marginTop" to "20rpx", "marginRight" to "30rpx", "marginBottom" to "20rpx", "marginLeft" to "30rpx", "paddingTop" to "30rpx", "paddingRight" to "30rpx", "paddingBottom" to "30rpx", "paddingLeft" to "30rpx")), "rate-grid" to _pS(_uM("display" to "flex", "flexWrap" to "wrap", "marginLeft" to "-10rpx", "marginRight" to "-10rpx")), "rate-item" to _pS(_uM("textAlign" to "center", "flexGrow" to 1, "flexShrink" to 1, "flexBasis" to "0%", "marginTop" to 0, "marginRight" to "10rpx", "marginBottom" to "20rpx", "marginLeft" to "10rpx")), "rate-num" to _pS(_uM("fontSize" to "32rpx", "fontWeight" to "bold", "color" to "#333333", "marginTop" to "10rpx", "marginRight" to 0, "marginBottom" to "10rpx", "marginLeft" to 0)), "rate-text" to _pS(_uM("fontSize" to "24rpx", "color" to "#666666")), "task-card" to _pS(_uM("backgroundColor" to "#ffffff", "borderTopLeftRadius" to "16rpx", "borderTopRightRadius" to "16rpx", "borderBottomRightRadius" to "16rpx", "borderBottomLeftRadius" to "16rpx", "marginTop" to "20rpx", "marginRight" to "30rpx", "marginBottom" to "20rpx", "marginLeft" to "30rpx", "paddingTop" to "30rpx", "paddingRight" to "30rpx", "paddingBottom" to "30rpx", "paddingLeft" to "30rpx")), "task-title" to _pS(_uM("fontSize" to "32rpx", "fontWeight" to "bold", "color" to "#333333", "marginBottom" to "20rpx")))
             }
         var inheritAttrs = true
         var inject: Map<String, Map<String, Any?>> = _uM()

@@ -78,15 +78,7 @@ open class GenPagesAPIRequestPaymentRequestPayment : BasePage {
     open var requestPayment = ::gen_requestPayment_fn
     open fun gen_requestPayment_fn(e: PayItem) {
         val provider = e.id
-        if (provider == "alipay") {
-            this.payAli(provider)
-        } else if (provider == "wxpay") {
-            if (e.provider != null && e.provider is UniPaymentWxpayProvider && !(e.provider as UniPaymentWxpayProvider).isWeChatInstalled) {
-                uni_showToast(ShowToastOptions(title = "微信没有安装", icon = "error"))
-            } else {
-                this.payWX(provider)
-            }
-        }
+        uni_showToast(ShowToastOptions(title = "支付功能暂不可用", icon = "none"))
     }
     open var payAli = ::gen_payAli_fn
     open fun gen_payAli_fn(id: String) {

@@ -37,32 +37,7 @@ open class GenPagesIndexIndex : BasePage {
             val __ins = getCurrentInstance()!!
             val _ctx = __ins.proxy as GenPagesIndexIndex
             val _cache = __ins.renderCache
-            val funcList = ref(_uA(
-                object : UTSJSONObject() {
-                    var name = "支部党员大会"
-                    var icon = "/static/icons/meeting1.png"
-                },
-                object : UTSJSONObject() {
-                    var name = "支部委员会"
-                    var icon = "/static/icons/meeting2.png"
-                },
-                object : UTSJSONObject() {
-                    var name = "党小组会"
-                    var icon = "/static/icons/meeting3.png"
-                },
-                object : UTSJSONObject() {
-                    var name = "党课"
-                    var icon = "/static/icons/meeting4.png"
-                },
-                object : UTSJSONObject() {
-                    var name = "理论学习"
-                    var icon = "/static/icons/study.png"
-                },
-                object : UTSJSONObject() {
-                    var name = "支部活动"
-                    var icon = "/static/icons/activity.png"
-                }
-            ))
+            val funcList = ref(_uA<FuncItem>(FuncItem(name = "支部党员大会", icon = "/static/icons/meeting1.png"), FuncItem(name = "支部委员会", icon = "/static/icons/meeting2.png"), FuncItem(name = "党小组会", icon = "/static/icons/meeting3.png"), FuncItem(name = "党课", icon = "/static/icons/meeting4.png"), FuncItem(name = "理论学习", icon = "/static/icons/study.png"), FuncItem(name = "支部活动", icon = "/static/icons/activity.png")))
             return fun(): Any? {
                 val _component_u_button = resolveComponent("u-button")
                 val _component_u_badge = resolveComponent("u-badge")
@@ -74,7 +49,7 @@ open class GenPagesIndexIndex : BasePage {
                             _cE("text", _uM("class" to "title-text"), "水源红·智慧党建")
                         )),
                         _cE("view", _uM("class" to "header-btns"), _uA(
-                            _cV(_component_u_button, _uM("icon" to "column-chart", "text" to "数据看板", "size" to "mini", "type" to "text", "color" to "#fff")),
+                            _cV(_component_u_button, _uM("class" to "header-btn", "icon" to "column-chart", "text" to "数据看板", "size" to "mini", "type" to "text", "color" to "#fff")),
                             _cV(_component_u_badge, _uM("count" to 4, "type" to "danger", "dot" to false), _uM("default" to withSlotCtx(fun(): UTSArray<Any> {
                                 return _uA(
                                     _cV(_component_u_button, _uM("icon" to "message", "size" to "mini", "type" to "text", "color" to "#fff"))
@@ -85,12 +60,15 @@ open class GenPagesIndexIndex : BasePage {
                     )),
                     _cE("view", _uM("class" to "func-grid"), _uA(
                         _cE(Fragment, null, RenderHelpers.renderList(funcList.value, fun(item, index, __index, _cached): Any {
-                            return _cE("view", _uM("class" to "func-item", "key" to index), _uA(
+                            return _cE("view", _uM("class" to _nC(_uA(
+                                "func-item",
+                                _uM("func-odd" to (index % 2 === 0))
+                            )), "key" to index), _uA(
                                 _cE("image", _uM("class" to "func-icon", "src" to item.icon, "mode" to "widthFix"), null, 8, _uA(
                                     "src"
                                 )),
                                 _cE("text", _uM("class" to "func-text"), _tD(item.name), 1)
-                            ))
+                            ), 2)
                         }
                         ), 128)
                     )),
@@ -110,7 +88,7 @@ open class GenPagesIndexIndex : BasePage {
         }
         val styles0: Map<String, Map<String, Map<String, Any>>>
             get() {
-                return _uM("container" to _pS(_uM("backgroundImage" to "linear-gradient(#C8102E, #A80E26)", "backgroundColor" to "rgba(0,0,0,0)", "paddingBottom" to 0)), "header" to _pS(_uM("display" to "flex", "alignItems" to "center", "paddingTop" to "20rpx", "paddingRight" to "30rpx", "paddingBottom" to "20rpx", "paddingLeft" to "30rpx", "color" to "#ffffff")), "avatar" to _pS(_uM("width" to "80rpx", "height" to "80rpx", "marginRight" to "20rpx")), "title" to _pS(_uM("display" to "flex", "alignItems" to "center", "flexGrow" to 1, "flexShrink" to 1, "flexBasis" to "0%")), "party-icon" to _pS(_uM("width" to "40rpx", "height" to "40rpx", "marginRight" to "10rpx")), "title-text" to _pS(_uM("fontSize" to "36rpx", "fontWeight" to "bold", "color" to "#FFD700")), "header-btns" to _pS(_uM("display" to "flex", "gap" to "15rpx")), "func-grid" to _pS(_uM("gridTemplateColumns" to "repeat(2, 1fr)", "gap" to "30rpx", "paddingTop" to "40rpx", "paddingRight" to "50rpx", "paddingBottom" to "40rpx", "paddingLeft" to "50rpx", "flexGrow" to 1, "flexShrink" to 1, "flexBasis" to "0%")), "func-item" to _pS(_uM("display" to "flex", "flexDirection" to "column", "alignItems" to "center", "justifyContent" to "center", "backgroundImage" to "none", "backgroundColor" to "rgba(255,255,255,0.2)", "borderTopLeftRadius" to "20rpx", "borderTopRightRadius" to "20rpx", "borderBottomRightRadius" to "20rpx", "borderBottomLeftRadius" to "20rpx", "paddingTop" to "40rpx", "paddingRight" to "20rpx", "paddingBottom" to "40rpx", "paddingLeft" to "20rpx")), "func-icon" to _pS(_uM("width" to "80rpx", "height" to "80rpx", "marginBottom" to "20rpx")), "func-text" to _pS(_uM("fontSize" to "32rpx", "color" to "#ffffff")), "footer" to _pS(_uM("display" to "flex", "justifyContent" to "space-between", "alignItems" to "center", "paddingTop" to "20rpx", "paddingRight" to "30rpx", "paddingBottom" to "20rpx", "paddingLeft" to "30rpx")), "copyright" to _pS(_uM("fontSize" to "24rpx", "color" to "#ffffff")), "share-btn" to _pS(_uM("width" to "60rpx", "height" to "60rpx", "backgroundImage" to "none", "backgroundColor" to "rgba(255,255,255,0.3)")))
+                return _uM("container" to _pS(_uM("display" to "flex", "flexDirection" to "column", "backgroundImage" to "linear-gradient(#C8102E, #A80E26)", "backgroundColor" to "rgba(0,0,0,0)", "paddingBottom" to 0, "flexGrow" to 1, "flexShrink" to 1, "flexBasis" to "0%")), "header" to _pS(_uM("display" to "flex", "alignItems" to "center", "paddingTop" to "20rpx", "paddingRight" to "30rpx", "paddingBottom" to "20rpx", "paddingLeft" to "30rpx", "color" to "#ffffff")), "avatar" to _pS(_uM("width" to "80rpx", "height" to "80rpx", "borderTopLeftRadius" to "40rpx", "borderTopRightRadius" to "40rpx", "borderBottomRightRadius" to "40rpx", "borderBottomLeftRadius" to "40rpx", "marginRight" to "20rpx")), "title" to _pS(_uM("display" to "flex", "alignItems" to "center", "flexGrow" to 1, "flexShrink" to 1, "flexBasis" to "0%")), "party-icon" to _pS(_uM("width" to "40rpx", "height" to "40rpx", "marginRight" to "10rpx")), "title-text" to _pS(_uM("fontSize" to "36rpx", "fontWeight" to "bold", "color" to "#FFD700")), "header-btns" to _pS(_uM("display" to "flex")), "header-btn" to _pS(_uM("marginRight:first-child" to "15rpx")), "func-grid" to _pS(_uM("display" to "flex", "flexWrap" to "wrap", "paddingTop" to "40rpx", "paddingRight" to "50rpx", "paddingBottom" to "40rpx", "paddingLeft" to "50rpx", "flexGrow" to 1, "flexShrink" to 1, "flexBasis" to "0%")), "func-item" to _pS(_uM("display" to "flex", "flexDirection" to "column", "alignItems" to "center", "justifyContent" to "center", "backgroundImage" to "none", "backgroundColor" to "rgba(255,255,255,0.2)", "borderTopLeftRadius" to "20rpx", "borderTopRightRadius" to "20rpx", "borderBottomRightRadius" to "20rpx", "borderBottomLeftRadius" to "20rpx", "paddingTop" to "40rpx", "paddingRight" to "20rpx", "paddingBottom" to "40rpx", "paddingLeft" to "20rpx", "width" to "50%", "marginBottom" to "30rpx")), "func-odd" to _pS(_uM("marginRight" to "30rpx")), "func-icon" to _pS(_uM("width" to "80rpx", "height" to "80rpx", "marginBottom" to "20rpx")), "func-text" to _pS(_uM("fontSize" to "32rpx", "color" to "#ffffff")), "footer" to _pS(_uM("display" to "flex", "justifyContent" to "space-between", "alignItems" to "center", "paddingTop" to "20rpx", "paddingRight" to "30rpx", "paddingBottom" to "20rpx", "paddingLeft" to "30rpx")), "copyright" to _pS(_uM("fontSize" to "24rpx", "color" to "#ffffff")), "share-btn" to _pS(_uM("width" to "60rpx", "height" to "60rpx", "backgroundImage" to "none", "backgroundColor" to "rgba(255,255,255,0.3)")))
             }
         var inheritAttrs = true
         var inject: Map<String, Map<String, Any?>> = _uM()

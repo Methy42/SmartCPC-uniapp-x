@@ -26,7 +26,6 @@ import io.dcloud.uniapp.extapi.getWindowInfo as uni_getWindowInfo
 import io.dcloud.uniapp.extapi.navigateTo as uni_navigateTo
 import io.dcloud.uniapp.extapi.onAppThemeChange as uni_onAppThemeChange
 import io.dcloud.uniapp.extapi.openDialogPage as uni_openDialogPage
-import io.dcloud.uniapp.extapi.redirectTo as uni_redirectTo
 import io.dcloud.uniapp.extapi.removeStorageSync as uni_removeStorageSync
 import uts.sdk.modules.uniStat.report as uni_report
 import io.dcloud.uniapp.extapi.setStorageSync as uni_setStorageSync
@@ -157,7 +156,7 @@ class SafeAreaReactiveObject : SafeArea, IUTSReactive<SafeArea> {
         }
 }
 val AGREE_PRIVACY = "UNI-PRIVACY-AGREE"
-open class UserInfo__1 (
+open class UserInfo (
     @JsonNotNull
     open var id: String,
     @JsonNotNull
@@ -168,27 +167,26 @@ open class UserInfo__1 (
     open var role: String? = null,
     open var organization: String? = null,
     open var token: String? = null,
-    @JsonNotNull
-    open var nickName: String,
+    open var nickName: String? = null,
     open var avatarUrl: String? = null,
 ) : UTSReactiveObject() {
     override fun __v_create(__v_isReadonly: Boolean, __v_isShallow: Boolean, __v_skip: Boolean): UTSReactiveObject {
-        return UserInfo__1ReactiveObject(this, __v_isReadonly, __v_isShallow, __v_skip)
+        return UserInfoReactiveObject(this, __v_isReadonly, __v_isShallow, __v_skip)
     }
 }
-class UserInfo__1ReactiveObject : UserInfo__1, IUTSReactive<UserInfo__1> {
-    override var __v_raw: UserInfo__1
+class UserInfoReactiveObject : UserInfo, IUTSReactive<UserInfo> {
+    override var __v_raw: UserInfo
     override var __v_isReadonly: Boolean
     override var __v_isShallow: Boolean
     override var __v_skip: Boolean
-    constructor(__v_raw: UserInfo__1, __v_isReadonly: Boolean, __v_isShallow: Boolean, __v_skip: Boolean) : super(id = __v_raw.id, username = __v_raw.username, name = __v_raw.name, avatar = __v_raw.avatar, role = __v_raw.role, organization = __v_raw.organization, token = __v_raw.token, nickName = __v_raw.nickName, avatarUrl = __v_raw.avatarUrl) {
+    constructor(__v_raw: UserInfo, __v_isReadonly: Boolean, __v_isShallow: Boolean, __v_skip: Boolean) : super(id = __v_raw.id, username = __v_raw.username, name = __v_raw.name, avatar = __v_raw.avatar, role = __v_raw.role, organization = __v_raw.organization, token = __v_raw.token, nickName = __v_raw.nickName, avatarUrl = __v_raw.avatarUrl) {
         this.__v_raw = __v_raw
         this.__v_isReadonly = __v_isReadonly
         this.__v_isShallow = __v_isShallow
         this.__v_skip = __v_skip
     }
-    override fun __v_clone(__v_isReadonly: Boolean, __v_isShallow: Boolean, __v_skip: Boolean): UserInfo__1ReactiveObject {
-        return UserInfo__1ReactiveObject(this.__v_raw, __v_isReadonly, __v_isShallow, __v_skip)
+    override fun __v_clone(__v_isReadonly: Boolean, __v_isShallow: Boolean, __v_skip: Boolean): UserInfoReactiveObject {
+        return UserInfoReactiveObject(this.__v_raw, __v_isReadonly, __v_isShallow, __v_skip)
     }
     override var id: String
         get() {
@@ -274,7 +272,7 @@ class UserInfo__1ReactiveObject : UserInfo__1, IUTSReactive<UserInfo__1> {
             __v_raw.token = value
             _tRS(__v_raw, "token", oldValue, value)
         }
-    override var nickName: String
+    override var nickName: String?
         get() {
             return _tRG(__v_raw, "nickName", __v_raw.nickName, __v_isReadonly, __v_isShallow)
         }
@@ -323,7 +321,7 @@ open class State (
     open var isDarkMode: Boolean = false,
     @JsonNotNull
     open var netless: Boolean = false,
-    open var userInfo: UserInfo__1? = null,
+    open var userInfo: UserInfo? = null,
 ) : UTSReactiveObject() {
     override fun __v_create(__v_isReadonly: Boolean, __v_isShallow: Boolean, __v_skip: Boolean): UTSReactiveObject {
         return StateReactiveObject(this, __v_isReadonly, __v_isShallow, __v_skip)
@@ -487,7 +485,7 @@ class StateReactiveObject : State, IUTSReactive<State> {
             __v_raw.netless = value
             _tRS(__v_raw, "netless", oldValue, value)
         }
-    override var userInfo: UserInfo__1?
+    override var userInfo: UserInfo?
         get() {
             return _tRG(__v_raw, "userInfo", __v_raw.userInfo, __v_isReadonly, __v_isShallow)
         }
@@ -511,9 +509,6 @@ val getAgreePrivacy = fun(): Boolean? {
     return null
 }
 val state = reactive(State(lifeCycleNum = 0, statusBarHeight = 0, devicePixelRatio = 1, eventCallbackNum = 0, noMatchLeftWindow = true, active = "componentPage", leftWinActive = "/pages/component/view/view", safeArea = SafeArea(top = 0, right = 0, bottom = 0, left = 0, width = 0, height = 0), agreeToPrivacy = getAgreePrivacy(), allowCapture = true, isDarkMode = false, netless = false, userInfo = null))
-val setUserInfo = fun(userInfo: UserInfo__1?){
-    state.userInfo = userInfo
-}
 val setLifeCycleNum = fun(num: Number){
     state.lifeCycleNum = num
 }
@@ -589,30 +584,18 @@ open class GenApp : BaseApp {
                 ))
             }
             checkSystemTheme()
-            val checkLoginStatus = fun(){
-                val token = uni_getStorageSync("user_token")
-                val userInfoStr = uni_getStorageSync("user_info")
-                if (token && userInfoStr) {
-                    try {
-                        val userInfo = JSON.parse(userInfoStr) as UserInfo
-                        state.userInfo = userInfo
-                        uni_switchTab(SwitchTabOptions(url = "/pages/index/index"))
-                    } catch (error: Throwable) {
-                        console.error("解析用户信息失败:", error)
-                        uni_redirectTo(RedirectToOptions(url = "/pages/login/login"))
-                    }
-                } else {
-                    uni_redirectTo(RedirectToOptions(url = "/pages/login/login"))
-                }
+            setTimeout(fun(){
+                uni_switchTab(SwitchTabOptions(url = "/pages/index/index"))
             }
-            setTimeout(checkLoginStatus, 100)
+            , 100)
         }
         , __ins)
         onAppShow(fun(res: OnShowOptions) {
             this.globalData.onShowOption = res
             var url = this.getRedirectUrl(res.appScheme, res.appLink)
-            if (null != url) {
-                uni_navigateTo(NavigateToOptions(url = url))
+            val hasUrl = url != null
+            if (hasUrl) {
+                uni_navigateTo(NavigateToOptions(url = url!!))
             }
             setLifeCycleNum(state.lifeCycleNum + 100)
             console.log("App Show")
@@ -640,15 +623,20 @@ open class GenApp : BaseApp {
         onLastPageBackPress(fun() {
             setLifeCycleNum(state.lifeCycleNum - 1000)
             console.log("App LastPageBackPress")
-            if (firstBackTime == 0) {
+            val isFirstBack = firstBackTime === 0
+            if (isFirstBack) {
                 uni_showToast(ShowToastOptions(title = "再按一次退出应用", position = "bottom"))
                 firstBackTime = Date.now()
                 setTimeout(fun(){
                     firstBackTime = 0
                 }, 2000)
-            } else if (Date.now() - firstBackTime < 2000) {
-                firstBackTime = Date.now()
-                uni_exit(null)
+            } else {
+                val timeDiff = Date.now() - firstBackTime
+                val isWithinTwoSeconds = timeDiff < 2000
+                if (isWithinTwoSeconds) {
+                    firstBackTime = Date.now()
+                    uni_exit(null)
+                }
             }
         }
         , __ins)
@@ -681,25 +669,30 @@ open class GenApp : BaseApp {
     open var getRedirectUrl = ::gen_getRedirectUrl_fn
     open fun gen_getRedirectUrl_fn(scheme: String?, ulink: String?): String? {
         var url: String? = null
-        if (null != scheme && scheme.length > 0) {
+        val hasScheme = scheme != null && (scheme as String).length > 0
+        val hasUlink = ulink != null && (ulink as String).length > 0
+        if (hasScheme) {
             val PATHPRE = "redirect"
             var parts: String? = null
-            var pos = scheme.search("//")
+            val schemeStr = scheme as String
+            val pos = schemeStr.indexOf("//")
             if (pos > 0) {
-                parts = scheme.substring(pos + 2)
+                parts = schemeStr.substring(pos + 2)
             }
-            if (null != parts && parts.startsWith(PATHPRE)) {
+            if (parts != null && parts.startsWith(PATHPRE)) {
                 url = parts.substring(PATHPRE.length)
             }
-        } else if (null != ulink && ulink.length > 0) {
+        } else if (hasUlink) {
             val PATH = "ulink/redirect.html"
-            var parts = ulink.split("?")
+            val ulinkStr = ulink as String
+            val parts = ulinkStr.split("?")
             if (parts.length > 1 && parts[0].endsWith(PATH) && parts[1].length > 0) {
-                parts[1].split("&").forEach(fun(e){
-                    var params = e.split("=")
+                val paramsStr = parts[1]
+                paramsStr.split("&").forEach(fun(e){
+                    val params = e.split("=")
                     if (params.length > 1 && params[0].length > 0 && params[1].length > 0) {
-                        if ("url" == params[0]) {
-                            if (null == url) {
+                        if (params[0] === "url") {
+                            if (url == null) {
                                 url = decodeURIComponent(params[1])
                             }
                         }
@@ -729,13 +722,9 @@ val GenAppClass = CreateVueAppComponent(GenApp::class.java, fun(): VueComponentO
     return GenApp(instance)
 }
 )
-interface LoginForm {
-    var username: String
-    var password: String
-}
 val GenPagesLoginLoginClass = CreateVueComponent(GenPagesLoginLogin::class.java, fun(): VueComponentOptions {
-    return VueComponentOptions(type = "page", name = "", inheritAttrs = GenPagesLoginLogin.inheritAttrs, inject = GenPagesLoginLogin.inject, props = GenPagesLoginLogin.props, propsNeedCastKeys = GenPagesLoginLogin.propsNeedCastKeys, emits = GenPagesLoginLogin.emits, components = GenPagesLoginLogin.components, styles = GenPagesLoginLogin.styles, setup = fun(props: ComponentPublicInstance): Any? {
-        return GenPagesLoginLogin.setup(props as GenPagesLoginLogin)
+    return VueComponentOptions(type = "page", name = "", inheritAttrs = GenPagesLoginLogin.inheritAttrs, inject = GenPagesLoginLogin.inject, props = GenPagesLoginLogin.props, propsNeedCastKeys = GenPagesLoginLogin.propsNeedCastKeys, emits = GenPagesLoginLogin.emits, components = GenPagesLoginLogin.components, styles = GenPagesLoginLogin.styles, setup = fun(): Any? {
+        return GenPagesLoginLogin.setup()
     }
     )
 }
@@ -743,6 +732,55 @@ val GenPagesLoginLoginClass = CreateVueComponent(GenPagesLoginLogin::class.java,
     return GenPagesLoginLogin(instance, renderer)
 }
 )
+open class FuncItem (
+    @JsonNotNull
+    open var name: String,
+    @JsonNotNull
+    open var icon: String,
+) : UTSReactiveObject() {
+    override fun __v_create(__v_isReadonly: Boolean, __v_isShallow: Boolean, __v_skip: Boolean): UTSReactiveObject {
+        return FuncItemReactiveObject(this, __v_isReadonly, __v_isShallow, __v_skip)
+    }
+}
+class FuncItemReactiveObject : FuncItem, IUTSReactive<FuncItem> {
+    override var __v_raw: FuncItem
+    override var __v_isReadonly: Boolean
+    override var __v_isShallow: Boolean
+    override var __v_skip: Boolean
+    constructor(__v_raw: FuncItem, __v_isReadonly: Boolean, __v_isShallow: Boolean, __v_skip: Boolean) : super(name = __v_raw.name, icon = __v_raw.icon) {
+        this.__v_raw = __v_raw
+        this.__v_isReadonly = __v_isReadonly
+        this.__v_isShallow = __v_isShallow
+        this.__v_skip = __v_skip
+    }
+    override fun __v_clone(__v_isReadonly: Boolean, __v_isShallow: Boolean, __v_skip: Boolean): FuncItemReactiveObject {
+        return FuncItemReactiveObject(this.__v_raw, __v_isReadonly, __v_isShallow, __v_skip)
+    }
+    override var name: String
+        get() {
+            return _tRG(__v_raw, "name", __v_raw.name, __v_isReadonly, __v_isShallow)
+        }
+        set(value) {
+            if (!__v_canSet("name")) {
+                return
+            }
+            val oldValue = __v_raw.name
+            __v_raw.name = value
+            _tRS(__v_raw, "name", oldValue, value)
+        }
+    override var icon: String
+        get() {
+            return _tRG(__v_raw, "icon", __v_raw.icon, __v_isReadonly, __v_isShallow)
+        }
+        set(value) {
+            if (!__v_canSet("icon")) {
+                return
+            }
+            val oldValue = __v_raw.icon
+            __v_raw.icon = value
+            _tRS(__v_raw, "icon", oldValue, value)
+        }
+}
 val GenPagesIndexIndexClass = CreateVueComponent(GenPagesIndexIndex::class.java, fun(): VueComponentOptions {
     return VueComponentOptions(type = "page", name = "", inheritAttrs = GenPagesIndexIndex.inheritAttrs, inject = GenPagesIndexIndex.inject, props = GenPagesIndexIndex.props, propsNeedCastKeys = GenPagesIndexIndex.propsNeedCastKeys, emits = GenPagesIndexIndex.emits, components = GenPagesIndexIndex.components, styles = GenPagesIndexIndex.styles, setup = fun(props: ComponentPublicInstance): Any? {
         return GenPagesIndexIndex.setup(props as GenPagesIndexIndex)
@@ -763,6 +801,69 @@ val GenPagesMeetingMeetingListClass = CreateVueComponent(GenPagesMeetingMeetingL
     return GenPagesMeetingMeetingList(instance, renderer)
 }
 )
+open class HistoryItem (
+    @JsonNotNull
+    open var title: String,
+    @JsonNotNull
+    open var subtitle: String,
+    @JsonNotNull
+    open var time: String,
+) : UTSReactiveObject() {
+    override fun __v_create(__v_isReadonly: Boolean, __v_isShallow: Boolean, __v_skip: Boolean): UTSReactiveObject {
+        return HistoryItemReactiveObject(this, __v_isReadonly, __v_isShallow, __v_skip)
+    }
+}
+class HistoryItemReactiveObject : HistoryItem, IUTSReactive<HistoryItem> {
+    override var __v_raw: HistoryItem
+    override var __v_isReadonly: Boolean
+    override var __v_isShallow: Boolean
+    override var __v_skip: Boolean
+    constructor(__v_raw: HistoryItem, __v_isReadonly: Boolean, __v_isShallow: Boolean, __v_skip: Boolean) : super(title = __v_raw.title, subtitle = __v_raw.subtitle, time = __v_raw.time) {
+        this.__v_raw = __v_raw
+        this.__v_isReadonly = __v_isReadonly
+        this.__v_isShallow = __v_isShallow
+        this.__v_skip = __v_skip
+    }
+    override fun __v_clone(__v_isReadonly: Boolean, __v_isShallow: Boolean, __v_skip: Boolean): HistoryItemReactiveObject {
+        return HistoryItemReactiveObject(this.__v_raw, __v_isReadonly, __v_isShallow, __v_skip)
+    }
+    override var title: String
+        get() {
+            return _tRG(__v_raw, "title", __v_raw.title, __v_isReadonly, __v_isShallow)
+        }
+        set(value) {
+            if (!__v_canSet("title")) {
+                return
+            }
+            val oldValue = __v_raw.title
+            __v_raw.title = value
+            _tRS(__v_raw, "title", oldValue, value)
+        }
+    override var subtitle: String
+        get() {
+            return _tRG(__v_raw, "subtitle", __v_raw.subtitle, __v_isReadonly, __v_isShallow)
+        }
+        set(value) {
+            if (!__v_canSet("subtitle")) {
+                return
+            }
+            val oldValue = __v_raw.subtitle
+            __v_raw.subtitle = value
+            _tRS(__v_raw, "subtitle", oldValue, value)
+        }
+    override var time: String
+        get() {
+            return _tRG(__v_raw, "time", __v_raw.time, __v_isReadonly, __v_isShallow)
+        }
+        set(value) {
+            if (!__v_canSet("time")) {
+                return
+            }
+            val oldValue = __v_raw.time
+            __v_raw.time = value
+            _tRS(__v_raw, "time", oldValue, value)
+        }
+}
 val GenPagesActivityActivityListClass = CreateVueComponent(GenPagesActivityActivityList::class.java, fun(): VueComponentOptions {
     return VueComponentOptions(type = "page", name = "", inheritAttrs = GenPagesActivityActivityList.inheritAttrs, inject = GenPagesActivityActivityList.inject, props = GenPagesActivityActivityList.props, propsNeedCastKeys = GenPagesActivityActivityList.propsNeedCastKeys, emits = GenPagesActivityActivityList.emits, components = GenPagesActivityActivityList.components, styles = GenPagesActivityActivityList.styles, setup = fun(props: ComponentPublicInstance): Any? {
         return GenPagesActivityActivityList.setup(props as GenPagesActivityActivityList)
@@ -783,6 +884,573 @@ val GenPagesMineMineClass = CreateVueComponent(GenPagesMineMine::class.java, fun
     return GenPagesMineMine(instance, renderer)
 }
 )
+open class XAxisConfig (
+    @JsonNotNull
+    open var disableGrid: Boolean = false,
+) : UTSReactiveObject() {
+    override fun __v_create(__v_isReadonly: Boolean, __v_isShallow: Boolean, __v_skip: Boolean): UTSReactiveObject {
+        return XAxisConfigReactiveObject(this, __v_isReadonly, __v_isShallow, __v_skip)
+    }
+}
+class XAxisConfigReactiveObject : XAxisConfig, IUTSReactive<XAxisConfig> {
+    override var __v_raw: XAxisConfig
+    override var __v_isReadonly: Boolean
+    override var __v_isShallow: Boolean
+    override var __v_skip: Boolean
+    constructor(__v_raw: XAxisConfig, __v_isReadonly: Boolean, __v_isShallow: Boolean, __v_skip: Boolean) : super(disableGrid = __v_raw.disableGrid) {
+        this.__v_raw = __v_raw
+        this.__v_isReadonly = __v_isReadonly
+        this.__v_isShallow = __v_isShallow
+        this.__v_skip = __v_skip
+    }
+    override fun __v_clone(__v_isReadonly: Boolean, __v_isShallow: Boolean, __v_skip: Boolean): XAxisConfigReactiveObject {
+        return XAxisConfigReactiveObject(this.__v_raw, __v_isReadonly, __v_isShallow, __v_skip)
+    }
+    override var disableGrid: Boolean
+        get() {
+            return _tRG(__v_raw, "disableGrid", __v_raw.disableGrid, __v_isReadonly, __v_isShallow)
+        }
+        set(value) {
+            if (!__v_canSet("disableGrid")) {
+                return
+            }
+            val oldValue = __v_raw.disableGrid
+            __v_raw.disableGrid = value
+            _tRS(__v_raw, "disableGrid", oldValue, value)
+        }
+}
+open class YAxisConfig (
+    @JsonNotNull
+    open var min: Number,
+    @JsonNotNull
+    open var max: Number,
+) : UTSReactiveObject() {
+    override fun __v_create(__v_isReadonly: Boolean, __v_isShallow: Boolean, __v_skip: Boolean): UTSReactiveObject {
+        return YAxisConfigReactiveObject(this, __v_isReadonly, __v_isShallow, __v_skip)
+    }
+}
+class YAxisConfigReactiveObject : YAxisConfig, IUTSReactive<YAxisConfig> {
+    override var __v_raw: YAxisConfig
+    override var __v_isReadonly: Boolean
+    override var __v_isShallow: Boolean
+    override var __v_skip: Boolean
+    constructor(__v_raw: YAxisConfig, __v_isReadonly: Boolean, __v_isShallow: Boolean, __v_skip: Boolean) : super(min = __v_raw.min, max = __v_raw.max) {
+        this.__v_raw = __v_raw
+        this.__v_isReadonly = __v_isReadonly
+        this.__v_isShallow = __v_isShallow
+        this.__v_skip = __v_skip
+    }
+    override fun __v_clone(__v_isReadonly: Boolean, __v_isShallow: Boolean, __v_skip: Boolean): YAxisConfigReactiveObject {
+        return YAxisConfigReactiveObject(this.__v_raw, __v_isReadonly, __v_isShallow, __v_skip)
+    }
+    override var min: Number
+        get() {
+            return _tRG(__v_raw, "min", __v_raw.min, __v_isReadonly, __v_isShallow)
+        }
+        set(value) {
+            if (!__v_canSet("min")) {
+                return
+            }
+            val oldValue = __v_raw.min
+            __v_raw.min = value
+            _tRS(__v_raw, "min", oldValue, value)
+        }
+    override var max: Number
+        get() {
+            return _tRG(__v_raw, "max", __v_raw.max, __v_isReadonly, __v_isShallow)
+        }
+        set(value) {
+            if (!__v_canSet("max")) {
+                return
+            }
+            val oldValue = __v_raw.max
+            __v_raw.max = value
+            _tRS(__v_raw, "max", oldValue, value)
+        }
+}
+open class ColumnOpts (
+    @JsonNotNull
+    open var color: UTSArray<String>,
+    @JsonNotNull
+    open var padding: UTSArray<Number>,
+    @JsonNotNull
+    open var xAxis: XAxisConfig,
+    @JsonNotNull
+    open var yAxis: YAxisConfig,
+) : UTSReactiveObject() {
+    override fun __v_create(__v_isReadonly: Boolean, __v_isShallow: Boolean, __v_skip: Boolean): UTSReactiveObject {
+        return ColumnOptsReactiveObject(this, __v_isReadonly, __v_isShallow, __v_skip)
+    }
+}
+class ColumnOptsReactiveObject : ColumnOpts, IUTSReactive<ColumnOpts> {
+    override var __v_raw: ColumnOpts
+    override var __v_isReadonly: Boolean
+    override var __v_isShallow: Boolean
+    override var __v_skip: Boolean
+    constructor(__v_raw: ColumnOpts, __v_isReadonly: Boolean, __v_isShallow: Boolean, __v_skip: Boolean) : super(color = __v_raw.color, padding = __v_raw.padding, xAxis = __v_raw.xAxis, yAxis = __v_raw.yAxis) {
+        this.__v_raw = __v_raw
+        this.__v_isReadonly = __v_isReadonly
+        this.__v_isShallow = __v_isShallow
+        this.__v_skip = __v_skip
+    }
+    override fun __v_clone(__v_isReadonly: Boolean, __v_isShallow: Boolean, __v_skip: Boolean): ColumnOptsReactiveObject {
+        return ColumnOptsReactiveObject(this.__v_raw, __v_isReadonly, __v_isShallow, __v_skip)
+    }
+    override var color: UTSArray<String>
+        get() {
+            return _tRG(__v_raw, "color", __v_raw.color, __v_isReadonly, __v_isShallow)
+        }
+        set(value) {
+            if (!__v_canSet("color")) {
+                return
+            }
+            val oldValue = __v_raw.color
+            __v_raw.color = value
+            _tRS(__v_raw, "color", oldValue, value)
+        }
+    override var padding: UTSArray<Number>
+        get() {
+            return _tRG(__v_raw, "padding", __v_raw.padding, __v_isReadonly, __v_isShallow)
+        }
+        set(value) {
+            if (!__v_canSet("padding")) {
+                return
+            }
+            val oldValue = __v_raw.padding
+            __v_raw.padding = value
+            _tRS(__v_raw, "padding", oldValue, value)
+        }
+    override var xAxis: XAxisConfig
+        get() {
+            return _tRG(__v_raw, "xAxis", __v_raw.xAxis, __v_isReadonly, __v_isShallow)
+        }
+        set(value) {
+            if (!__v_canSet("xAxis")) {
+                return
+            }
+            val oldValue = __v_raw.xAxis
+            __v_raw.xAxis = value
+            _tRS(__v_raw, "xAxis", oldValue, value)
+        }
+    override var yAxis: YAxisConfig
+        get() {
+            return _tRG(__v_raw, "yAxis", __v_raw.yAxis, __v_isReadonly, __v_isShallow)
+        }
+        set(value) {
+            if (!__v_canSet("yAxis")) {
+                return
+            }
+            val oldValue = __v_raw.yAxis
+            __v_raw.yAxis = value
+            _tRS(__v_raw, "yAxis", oldValue, value)
+        }
+}
+open class SeriesItem (
+    @JsonNotNull
+    open var name: String,
+    @JsonNotNull
+    open var data: UTSArray<Number>,
+) : UTSReactiveObject() {
+    override fun __v_create(__v_isReadonly: Boolean, __v_isShallow: Boolean, __v_skip: Boolean): UTSReactiveObject {
+        return SeriesItemReactiveObject(this, __v_isReadonly, __v_isShallow, __v_skip)
+    }
+}
+class SeriesItemReactiveObject : SeriesItem, IUTSReactive<SeriesItem> {
+    override var __v_raw: SeriesItem
+    override var __v_isReadonly: Boolean
+    override var __v_isShallow: Boolean
+    override var __v_skip: Boolean
+    constructor(__v_raw: SeriesItem, __v_isReadonly: Boolean, __v_isShallow: Boolean, __v_skip: Boolean) : super(name = __v_raw.name, data = __v_raw.data) {
+        this.__v_raw = __v_raw
+        this.__v_isReadonly = __v_isReadonly
+        this.__v_isShallow = __v_isShallow
+        this.__v_skip = __v_skip
+    }
+    override fun __v_clone(__v_isReadonly: Boolean, __v_isShallow: Boolean, __v_skip: Boolean): SeriesItemReactiveObject {
+        return SeriesItemReactiveObject(this.__v_raw, __v_isReadonly, __v_isShallow, __v_skip)
+    }
+    override var name: String
+        get() {
+            return _tRG(__v_raw, "name", __v_raw.name, __v_isReadonly, __v_isShallow)
+        }
+        set(value) {
+            if (!__v_canSet("name")) {
+                return
+            }
+            val oldValue = __v_raw.name
+            __v_raw.name = value
+            _tRS(__v_raw, "name", oldValue, value)
+        }
+    override var data: UTSArray<Number>
+        get() {
+            return _tRG(__v_raw, "data", __v_raw.data, __v_isReadonly, __v_isShallow)
+        }
+        set(value) {
+            if (!__v_canSet("data")) {
+                return
+            }
+            val oldValue = __v_raw.data
+            __v_raw.data = value
+            _tRS(__v_raw, "data", oldValue, value)
+        }
+}
+open class ColumnData (
+    @JsonNotNull
+    open var categories: UTSArray<String>,
+    @JsonNotNull
+    open var series: UTSArray<SeriesItem>,
+) : UTSReactiveObject() {
+    override fun __v_create(__v_isReadonly: Boolean, __v_isShallow: Boolean, __v_skip: Boolean): UTSReactiveObject {
+        return ColumnDataReactiveObject(this, __v_isReadonly, __v_isShallow, __v_skip)
+    }
+}
+class ColumnDataReactiveObject : ColumnData, IUTSReactive<ColumnData> {
+    override var __v_raw: ColumnData
+    override var __v_isReadonly: Boolean
+    override var __v_isShallow: Boolean
+    override var __v_skip: Boolean
+    constructor(__v_raw: ColumnData, __v_isReadonly: Boolean, __v_isShallow: Boolean, __v_skip: Boolean) : super(categories = __v_raw.categories, series = __v_raw.series) {
+        this.__v_raw = __v_raw
+        this.__v_isReadonly = __v_isReadonly
+        this.__v_isShallow = __v_isShallow
+        this.__v_skip = __v_skip
+    }
+    override fun __v_clone(__v_isReadonly: Boolean, __v_isShallow: Boolean, __v_skip: Boolean): ColumnDataReactiveObject {
+        return ColumnDataReactiveObject(this.__v_raw, __v_isReadonly, __v_isShallow, __v_skip)
+    }
+    override var categories: UTSArray<String>
+        get() {
+            return _tRG(__v_raw, "categories", __v_raw.categories, __v_isReadonly, __v_isShallow)
+        }
+        set(value) {
+            if (!__v_canSet("categories")) {
+                return
+            }
+            val oldValue = __v_raw.categories
+            __v_raw.categories = value
+            _tRS(__v_raw, "categories", oldValue, value)
+        }
+    override var series: UTSArray<SeriesItem>
+        get() {
+            return _tRG(__v_raw, "series", __v_raw.series, __v_isReadonly, __v_isShallow)
+        }
+        set(value) {
+            if (!__v_canSet("series")) {
+                return
+            }
+            val oldValue = __v_raw.series
+            __v_raw.series = value
+            _tRS(__v_raw, "series", oldValue, value)
+        }
+}
+open class PieSeriesItem (
+    @JsonNotNull
+    open var name: String,
+    @JsonNotNull
+    open var data: Number,
+) : UTSReactiveObject() {
+    override fun __v_create(__v_isReadonly: Boolean, __v_isShallow: Boolean, __v_skip: Boolean): UTSReactiveObject {
+        return PieSeriesItemReactiveObject(this, __v_isReadonly, __v_isShallow, __v_skip)
+    }
+}
+class PieSeriesItemReactiveObject : PieSeriesItem, IUTSReactive<PieSeriesItem> {
+    override var __v_raw: PieSeriesItem
+    override var __v_isReadonly: Boolean
+    override var __v_isShallow: Boolean
+    override var __v_skip: Boolean
+    constructor(__v_raw: PieSeriesItem, __v_isReadonly: Boolean, __v_isShallow: Boolean, __v_skip: Boolean) : super(name = __v_raw.name, data = __v_raw.data) {
+        this.__v_raw = __v_raw
+        this.__v_isReadonly = __v_isReadonly
+        this.__v_isShallow = __v_isShallow
+        this.__v_skip = __v_skip
+    }
+    override fun __v_clone(__v_isReadonly: Boolean, __v_isShallow: Boolean, __v_skip: Boolean): PieSeriesItemReactiveObject {
+        return PieSeriesItemReactiveObject(this.__v_raw, __v_isReadonly, __v_isShallow, __v_skip)
+    }
+    override var name: String
+        get() {
+            return _tRG(__v_raw, "name", __v_raw.name, __v_isReadonly, __v_isShallow)
+        }
+        set(value) {
+            if (!__v_canSet("name")) {
+                return
+            }
+            val oldValue = __v_raw.name
+            __v_raw.name = value
+            _tRS(__v_raw, "name", oldValue, value)
+        }
+    override var data: Number
+        get() {
+            return _tRG(__v_raw, "data", __v_raw.data, __v_isReadonly, __v_isShallow)
+        }
+        set(value) {
+            if (!__v_canSet("data")) {
+                return
+            }
+            val oldValue = __v_raw.data
+            __v_raw.data = value
+            _tRS(__v_raw, "data", oldValue, value)
+        }
+}
+open class PieOpts (
+    @JsonNotNull
+    open var color: UTSArray<String>,
+    @JsonNotNull
+    open var padding: UTSArray<Number>,
+) : UTSReactiveObject() {
+    override fun __v_create(__v_isReadonly: Boolean, __v_isShallow: Boolean, __v_skip: Boolean): UTSReactiveObject {
+        return PieOptsReactiveObject(this, __v_isReadonly, __v_isShallow, __v_skip)
+    }
+}
+class PieOptsReactiveObject : PieOpts, IUTSReactive<PieOpts> {
+    override var __v_raw: PieOpts
+    override var __v_isReadonly: Boolean
+    override var __v_isShallow: Boolean
+    override var __v_skip: Boolean
+    constructor(__v_raw: PieOpts, __v_isReadonly: Boolean, __v_isShallow: Boolean, __v_skip: Boolean) : super(color = __v_raw.color, padding = __v_raw.padding) {
+        this.__v_raw = __v_raw
+        this.__v_isReadonly = __v_isReadonly
+        this.__v_isShallow = __v_isShallow
+        this.__v_skip = __v_skip
+    }
+    override fun __v_clone(__v_isReadonly: Boolean, __v_isShallow: Boolean, __v_skip: Boolean): PieOptsReactiveObject {
+        return PieOptsReactiveObject(this.__v_raw, __v_isReadonly, __v_isShallow, __v_skip)
+    }
+    override var color: UTSArray<String>
+        get() {
+            return _tRG(__v_raw, "color", __v_raw.color, __v_isReadonly, __v_isShallow)
+        }
+        set(value) {
+            if (!__v_canSet("color")) {
+                return
+            }
+            val oldValue = __v_raw.color
+            __v_raw.color = value
+            _tRS(__v_raw, "color", oldValue, value)
+        }
+    override var padding: UTSArray<Number>
+        get() {
+            return _tRG(__v_raw, "padding", __v_raw.padding, __v_isReadonly, __v_isShallow)
+        }
+        set(value) {
+            if (!__v_canSet("padding")) {
+                return
+            }
+            val oldValue = __v_raw.padding
+            __v_raw.padding = value
+            _tRS(__v_raw, "padding", oldValue, value)
+        }
+}
+open class PieData (
+    @JsonNotNull
+    open var series: UTSArray<PieSeriesItem>,
+) : UTSReactiveObject() {
+    override fun __v_create(__v_isReadonly: Boolean, __v_isShallow: Boolean, __v_skip: Boolean): UTSReactiveObject {
+        return PieDataReactiveObject(this, __v_isReadonly, __v_isShallow, __v_skip)
+    }
+}
+class PieDataReactiveObject : PieData, IUTSReactive<PieData> {
+    override var __v_raw: PieData
+    override var __v_isReadonly: Boolean
+    override var __v_isShallow: Boolean
+    override var __v_skip: Boolean
+    constructor(__v_raw: PieData, __v_isReadonly: Boolean, __v_isShallow: Boolean, __v_skip: Boolean) : super(series = __v_raw.series) {
+        this.__v_raw = __v_raw
+        this.__v_isReadonly = __v_isReadonly
+        this.__v_isShallow = __v_isShallow
+        this.__v_skip = __v_skip
+    }
+    override fun __v_clone(__v_isReadonly: Boolean, __v_isShallow: Boolean, __v_skip: Boolean): PieDataReactiveObject {
+        return PieDataReactiveObject(this.__v_raw, __v_isReadonly, __v_isShallow, __v_skip)
+    }
+    override var series: UTSArray<PieSeriesItem>
+        get() {
+            return _tRG(__v_raw, "series", __v_raw.series, __v_isReadonly, __v_isShallow)
+        }
+        set(value) {
+            if (!__v_canSet("series")) {
+                return
+            }
+            val oldValue = __v_raw.series
+            __v_raw.series = value
+            _tRS(__v_raw, "series", oldValue, value)
+        }
+}
+open class RateItem (
+    @JsonNotNull
+    open var rate: Number,
+    @JsonNotNull
+    open var name: String,
+    @JsonNotNull
+    open var color: String,
+) : UTSReactiveObject() {
+    override fun __v_create(__v_isReadonly: Boolean, __v_isShallow: Boolean, __v_skip: Boolean): UTSReactiveObject {
+        return RateItemReactiveObject(this, __v_isReadonly, __v_isShallow, __v_skip)
+    }
+}
+class RateItemReactiveObject : RateItem, IUTSReactive<RateItem> {
+    override var __v_raw: RateItem
+    override var __v_isReadonly: Boolean
+    override var __v_isShallow: Boolean
+    override var __v_skip: Boolean
+    constructor(__v_raw: RateItem, __v_isReadonly: Boolean, __v_isShallow: Boolean, __v_skip: Boolean) : super(rate = __v_raw.rate, name = __v_raw.name, color = __v_raw.color) {
+        this.__v_raw = __v_raw
+        this.__v_isReadonly = __v_isReadonly
+        this.__v_isShallow = __v_isShallow
+        this.__v_skip = __v_skip
+    }
+    override fun __v_clone(__v_isReadonly: Boolean, __v_isShallow: Boolean, __v_skip: Boolean): RateItemReactiveObject {
+        return RateItemReactiveObject(this.__v_raw, __v_isReadonly, __v_isShallow, __v_skip)
+    }
+    override var rate: Number
+        get() {
+            return _tRG(__v_raw, "rate", __v_raw.rate, __v_isReadonly, __v_isShallow)
+        }
+        set(value) {
+            if (!__v_canSet("rate")) {
+                return
+            }
+            val oldValue = __v_raw.rate
+            __v_raw.rate = value
+            _tRS(__v_raw, "rate", oldValue, value)
+        }
+    override var name: String
+        get() {
+            return _tRG(__v_raw, "name", __v_raw.name, __v_isReadonly, __v_isShallow)
+        }
+        set(value) {
+            if (!__v_canSet("name")) {
+                return
+            }
+            val oldValue = __v_raw.name
+            __v_raw.name = value
+            _tRS(__v_raw, "name", oldValue, value)
+        }
+    override var color: String
+        get() {
+            return _tRG(__v_raw, "color", __v_raw.color, __v_isReadonly, __v_isShallow)
+        }
+        set(value) {
+            if (!__v_canSet("color")) {
+                return
+            }
+            val oldValue = __v_raw.color
+            __v_raw.color = value
+            _tRS(__v_raw, "color", oldValue, value)
+        }
+}
+open class TaskColumn (
+    @JsonNotNull
+    open var title: String,
+    @JsonNotNull
+    open var key: String,
+) : UTSReactiveObject() {
+    override fun __v_create(__v_isReadonly: Boolean, __v_isShallow: Boolean, __v_skip: Boolean): UTSReactiveObject {
+        return TaskColumnReactiveObject(this, __v_isReadonly, __v_isShallow, __v_skip)
+    }
+}
+class TaskColumnReactiveObject : TaskColumn, IUTSReactive<TaskColumn> {
+    override var __v_raw: TaskColumn
+    override var __v_isReadonly: Boolean
+    override var __v_isShallow: Boolean
+    override var __v_skip: Boolean
+    constructor(__v_raw: TaskColumn, __v_isReadonly: Boolean, __v_isShallow: Boolean, __v_skip: Boolean) : super(title = __v_raw.title, key = __v_raw.key) {
+        this.__v_raw = __v_raw
+        this.__v_isReadonly = __v_isReadonly
+        this.__v_isShallow = __v_isShallow
+        this.__v_skip = __v_skip
+    }
+    override fun __v_clone(__v_isReadonly: Boolean, __v_isShallow: Boolean, __v_skip: Boolean): TaskColumnReactiveObject {
+        return TaskColumnReactiveObject(this.__v_raw, __v_isReadonly, __v_isShallow, __v_skip)
+    }
+    override var title: String
+        get() {
+            return _tRG(__v_raw, "title", __v_raw.title, __v_isReadonly, __v_isShallow)
+        }
+        set(value) {
+            if (!__v_canSet("title")) {
+                return
+            }
+            val oldValue = __v_raw.title
+            __v_raw.title = value
+            _tRS(__v_raw, "title", oldValue, value)
+        }
+    override var key: String
+        get() {
+            return _tRG(__v_raw, "key", __v_raw.key, __v_isReadonly, __v_isShallow)
+        }
+        set(value) {
+            if (!__v_canSet("key")) {
+                return
+            }
+            val oldValue = __v_raw.key
+            __v_raw.key = value
+            _tRS(__v_raw, "key", oldValue, value)
+        }
+}
+open class TaskItem (
+    @JsonNotNull
+    open var id: Number,
+    @JsonNotNull
+    open var name: String,
+    @JsonNotNull
+    open var status: String,
+) : UTSReactiveObject() {
+    override fun __v_create(__v_isReadonly: Boolean, __v_isShallow: Boolean, __v_skip: Boolean): UTSReactiveObject {
+        return TaskItemReactiveObject(this, __v_isReadonly, __v_isShallow, __v_skip)
+    }
+}
+class TaskItemReactiveObject : TaskItem, IUTSReactive<TaskItem> {
+    override var __v_raw: TaskItem
+    override var __v_isReadonly: Boolean
+    override var __v_isShallow: Boolean
+    override var __v_skip: Boolean
+    constructor(__v_raw: TaskItem, __v_isReadonly: Boolean, __v_isShallow: Boolean, __v_skip: Boolean) : super(id = __v_raw.id, name = __v_raw.name, status = __v_raw.status) {
+        this.__v_raw = __v_raw
+        this.__v_isReadonly = __v_isReadonly
+        this.__v_isShallow = __v_isShallow
+        this.__v_skip = __v_skip
+    }
+    override fun __v_clone(__v_isReadonly: Boolean, __v_isShallow: Boolean, __v_skip: Boolean): TaskItemReactiveObject {
+        return TaskItemReactiveObject(this.__v_raw, __v_isReadonly, __v_isShallow, __v_skip)
+    }
+    override var id: Number
+        get() {
+            return _tRG(__v_raw, "id", __v_raw.id, __v_isReadonly, __v_isShallow)
+        }
+        set(value) {
+            if (!__v_canSet("id")) {
+                return
+            }
+            val oldValue = __v_raw.id
+            __v_raw.id = value
+            _tRS(__v_raw, "id", oldValue, value)
+        }
+    override var name: String
+        get() {
+            return _tRG(__v_raw, "name", __v_raw.name, __v_isReadonly, __v_isShallow)
+        }
+        set(value) {
+            if (!__v_canSet("name")) {
+                return
+            }
+            val oldValue = __v_raw.name
+            __v_raw.name = value
+            _tRS(__v_raw, "name", oldValue, value)
+        }
+    override var status: String
+        get() {
+            return _tRG(__v_raw, "status", __v_raw.status, __v_isReadonly, __v_isShallow)
+        }
+        set(value) {
+            if (!__v_canSet("status")) {
+                return
+            }
+            val oldValue = __v_raw.status
+            __v_raw.status = value
+            _tRS(__v_raw, "status", oldValue, value)
+        }
+}
 val GenPagesStatisticsStatisticsClass = CreateVueComponent(GenPagesStatisticsStatistics::class.java, fun(): VueComponentOptions {
     return VueComponentOptions(type = "page", name = "", inheritAttrs = GenPagesStatisticsStatistics.inheritAttrs, inject = GenPagesStatisticsStatistics.inject, props = GenPagesStatisticsStatistics.props, propsNeedCastKeys = GenPagesStatisticsStatistics.propsNeedCastKeys, emits = GenPagesStatisticsStatistics.emits, components = GenPagesStatisticsStatistics.components, styles = GenPagesStatisticsStatistics.styles, setup = fun(props: ComponentPublicInstance): Any? {
         return GenPagesStatisticsStatistics.setup(props as GenPagesStatisticsStatistics)

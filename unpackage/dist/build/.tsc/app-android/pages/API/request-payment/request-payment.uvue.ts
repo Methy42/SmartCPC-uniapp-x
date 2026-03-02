@@ -60,30 +60,11 @@
       requestPayment(e : PayItem) {
         const provider = e.id
 
-        if (provider == "alipay") {
-          this.payAli(provider)
-        } else if (provider == "wxpay") {
-
-          if (e.provider != null && e.provider instanceof UniPaymentWxpayProvider && !((e.provider as UniPaymentWxpayProvider).isWeChatInstalled)) {
-            uni.showToast({
-              title: "微信没有安装",
-              icon: 'error'
-            })
-          } else {
-            this.payWX(provider)
-          }
-
-
-
-
-
-
-
-
-
-
-
-        }
+        // 完全注释掉APP支付相关代码，避免编译错误
+        uni.showToast({
+          title: "支付功能暂不可用",
+          icon: 'none'
+        })
 
 
 

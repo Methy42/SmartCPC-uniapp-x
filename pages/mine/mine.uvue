@@ -37,7 +37,9 @@
 <style scoped>
 .container {
   background-color: #F5F5F5;
-  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
   padding-bottom: 100rpx;
 }
 
@@ -73,7 +75,7 @@
 .user-avatar {
   width: 120rpx;
   height: 120rpx;
-  border-radius: 50%;
+  border-radius: 60rpx; /* 50% 改为像素值 */
   margin-right: 30rpx;
 }
 
@@ -92,7 +94,6 @@
   font-size: 28rpx;
   color: #666;
   margin-top: 10rpx;
-  display: block;
 }
 
 /* 功能列表 */

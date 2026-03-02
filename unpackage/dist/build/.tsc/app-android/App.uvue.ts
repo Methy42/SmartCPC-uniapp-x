@@ -1,5 +1,5 @@
 
-  import { state, setLifeCycleNum, checkSystemTheme, setNetless } from '@/store/index.uts'
+  import { state, setLifeCycleNum, checkSystemTheme, setNetless, UserInfo } from '@/store/index.uts'
 
 
   let firstBackTime = 0
@@ -74,43 +74,50 @@
       // 获取系统主题
       checkSystemTheme();
 
-      // 检查登录状态
-      const checkLoginStatus = () => {
-        const token = uni.getStorageSync('user_token')
-        const userInfoStr = uni.getStorageSync('user_info')
-        
-        if (token && userInfoStr) {
-          try {
-            const userInfo = JSON.parse(userInfoStr) as UserInfo
-            state.userInfo = userInfo
-            
-            // 设置全局请求头（如果有token）
-            // uni.$http 在uni-app x中不可用，暂时注释
-            // if (token && uni.$http) {
-            //   uni.$http.setHeader('Authorization', `Bearer ${token}`)
-            // }
-            
-            // 已登录，跳转到首页
-            uni.switchTab({
-              url: '/pages/index/index'
-            })
-          } catch (error) {
-            console.error('解析用户信息失败:', error)
-            // 解析失败，跳转到登录页
-            uni.redirectTo({
-              url: '/pages/login/login'
-            })
-          }
-        } else {
-          // 未登录，跳转到登录页
-          uni.redirectTo({
-            url: '/pages/login/login'
-          })
-        }
-      }
+      // 暂时注释掉登录检查，直接跳转到首页
+      setTimeout(() => {
+        uni.switchTab({
+          url: '/pages/index/index'
+        })
+      }, 100)
       
-      // 延迟检查，确保页面加载完成
-      setTimeout(checkLoginStatus, 100)
+      // // 检查登录状态
+      // const checkLoginStatus = () => {
+      //   const token = uni.getStorageSync('user_token')
+      //   const userInfoStr = uni.getStorageSync('user_info')
+      //   
+      //   if (token && userInfoStr) {
+      //     try {
+      //       const userInfo = JSON.parse(userInfoStr) as UserInfo
+      //       state.userInfo = userInfo
+      //       
+      //       // 设置全局请求头（如果有token）
+      //       // uni.$http 在uni-app x中不可用，暂时注释
+      //       // if (token && uni.$http) {
+      //       //   uni.$http.setHeader('Authorization', `Bearer ${token}`)
+      //       // }
+      //       
+      //       // 已登录，跳转到首页
+      //       uni.switchTab({
+      //         url: '/pages/index/index'
+      //       })
+      //     } catch (error) {
+      //       console.error('解析用户信息失败:', error)
+      //       // 解析失败，跳转到登录页
+      //       uni.redirectTo({
+      //         url: '/pages/login/login'
+      //       })
+      //     }
+      //   } else {
+      //     // 未登录，跳转到登录页
+      //     uni.redirectTo({
+      //       url: '/pages/login/login'
+      //     })
+      //   }
+      // }
+      // 
+      // // 延迟检查，确保页面加载完成
+      // setTimeout(checkLoginStatus, 100)
 
     },
     onShow: function (res : OnShowOptions) {
@@ -118,9 +125,11 @@
 
       // 处理scheme或通用链接直达
       let url = this.getRedirectUrl(res.appScheme, res.appLink);
-      if (null != url) {
+      // 修复类型推断：显式转换为布尔值 - 使用Kotlin兼容的null检查
+      const hasUrl = url != null
+      if (hasUrl) {
         uni.navigateTo({
-          url: url
+          url: url!
         })
       }
 
@@ -162,7 +171,9 @@
       // 自动化测试
       setLifeCycleNum(state.lifeCycleNum - 1000)
       console.log('App LastPageBackPress')
-      if (firstBackTime == 0) {
+      // 修复类型推断：显式转换为布尔值
+      const isFirstBack = firstBackTime === 0
+      if (isFirstBack) {
         uni.showToast({
           title: '再按一次退出应用',
           position: 'bottom',
@@ -171,9 +182,13 @@
         setTimeout(() => {
           firstBackTime = 0
         }, 2000)
-      } else if (Date.now() - firstBackTime < 2000) {
-        firstBackTime = Date.now()
-        uni.exit()
+      } else {
+        const timeDiff = Date.now() - firstBackTime
+        const isWithinTwoSeconds = timeDiff < 2000
+        if (isWithinTwoSeconds) {
+          firstBackTime = Date.now()
+          uni.exit()
+        }
       }
     },
     onExit() {
@@ -207,25 +222,33 @@
         //scheme格式：uniappx://redirect/pages/component/view/view?key=value  //其中redirect后为页面路径
         //universal link格式：https://uniappx.dcloud.net.cn/ulink/redirect.html?url=%2Fpages%2Fcomponent%2Fview%2Fview%3Fkey%3Dvalue  //通用链接路径需固定，?后面的url参数为直达页面路径，注意url字段值需做url编码（可使用encodeURIComponent方法）
         let url : string | null = null;
-        if (null != scheme && scheme.length > 0) {
+        
+        // 修复类型推断：显式转换为布尔值
+        const hasScheme = scheme !== null && (scheme as string).length > 0;
+        const hasUlink = ulink !== null && (ulink as string).length > 0;
+        
+        if (hasScheme) {
           const PATHPRE = 'redirect';
           let parts : string | null = null;
-          let pos = scheme.search('//');
+          const schemeStr = scheme as string;
+          const pos = schemeStr.indexOf('//');
           if (pos > 0) {
-            parts = scheme.substring(pos + 2);
+            parts = schemeStr.substring(pos + 2);
           }
-          if (null != parts && parts.startsWith(PATHPRE)) {
+          if (parts !== null && parts.startsWith(PATHPRE)) {
             url = parts.substring(PATHPRE.length);
           }
-        } else if (null != ulink && ulink.length > 0) {
+        } else if (hasUlink) {
           const PATH = 'ulink/redirect.html';
-          let parts = ulink.split('?');
+          const ulinkStr = ulink as string;
+          const parts = ulinkStr.split('?');
           if (parts.length > 1 && parts[0].endsWith(PATH) && parts[1].length > 0) {
-            parts[1].split('&').forEach((e) => {
-              let params = e.split('=');
+            const paramsStr = parts[1];
+            paramsStr.split('&').forEach((e) => {
+              const params = e.split('=');
               if (params.length > 1 && params[0].length > 0 && params[1].length > 0) {
-                if ('url' == params[0]) {
-                  if (null == url) {
+                if (params[0] === 'url') {
+                  if (url === null) {
                     url = decodeURIComponent(params[1]);
                   }
                 }

@@ -8,7 +8,7 @@
         <text class="title-text">水源红·智慧党建</text>
       </view>
       <view class="header-btns">
-        <u-button icon="column-chart" text="数据看板" size="mini" type="text" color="#fff"></u-button>
+        <u-button class="header-btn" icon="column-chart" text="数据看板" size="mini" type="text" color="#fff"></u-button>
         <u-badge :count="4" type="danger" :dot="false">
           <u-button icon="message" size="mini" type="text" color="#fff"></u-button>
         </u-badge>
@@ -17,7 +17,7 @@
 
     <!-- 功能网格 -->
     <view class="func-grid">
-      <view class="func-item" v-for="(item, index) in funcList" :key="index">
+      <view class="func-item" :class="{'func-odd': index % 2 === 0}" v-for="(item, index) in funcList" :key="index">
         <image class="func-icon" :src="item.icon" mode="widthFix"></image>
         <text class="func-text">{{ item.name }}</text>
       </view>
@@ -34,8 +34,14 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
+// 功能项类型
+type FuncItem = {
+  name: string
+  icon: string
+}
+
 // 功能列表数据
-const funcList = ref([
+const funcList = ref<FuncItem[]>([
   { name: '支部党员大会', icon: '/static/icons/meeting1.png' },
   { name: '支部委员会', icon: '/static/icons/meeting2.png' },
   { name: '党小组会', icon: '/static/icons/meeting3.png' },
@@ -47,9 +53,11 @@ const funcList = ref([
 
 <style scoped>
 .container {
-  height: 100vh;
+  display: flex;
+  flex-direction: column;
   background: linear-gradient(#C8102E, #A80E26);
   padding-bottom: 0; /* 首页隐藏tabBar */
+  flex: 1;
 }
 
 /* 顶部通栏 */
@@ -63,7 +71,7 @@ const funcList = ref([
 .avatar {
   width: 80rpx;
   height: 80rpx;
-  border-radius: 50%;
+  border-radius: 40rpx; /* 50% 改为像素值 */
   margin-right: 20rpx;
 }
 
@@ -87,14 +95,16 @@ const funcList = ref([
 
 .header-btns {
   display: flex;
-  gap: 15rpx;
+}
+
+.header-btn:first-child {
+  margin-right: 15rpx; /* 替代 gap */
 }
 
 /* 功能网格 */
 .func-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 30rpx;
+  display: flex;
+  flex-wrap: wrap;
   padding: 40rpx 50rpx;
   flex: 1;
 }
@@ -107,6 +117,12 @@ const funcList = ref([
   background: rgba(255, 255, 255, 0.2);
   border-radius: 20rpx;
   padding: 40rpx 20rpx;
+  width: 50%; /* 改为固定50%，避免calc */
+  margin-bottom: 30rpx;
+}
+
+.func-odd {
+  margin-right: 30rpx; /* 替代 gap */
 }
 
 .func-icon {

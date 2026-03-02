@@ -30,7 +30,7 @@
         </view>
         
         <view class="btn-group">
-          <u-button text="参加" type="primary" size="mini" bg-color="#FF8C00"></u-button>
+          <u-button class="btn-group-btn" text="参加" type="primary" size="mini" bg-color="#FF8C00"></u-button>
           <u-button text="请假" type="default" size="mini" border-color="#FF8C00" color="#FF8C00"></u-button>
         </view>
       </view>
@@ -57,7 +57,9 @@ const activeTab = ref(0)
 <style scoped>
 .container {
   background-color: #F5F5F5;
-  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
   padding-bottom: 100rpx; /* 给tabBar留空间 */
 }
 
@@ -97,7 +99,6 @@ const activeTab = ref(0)
   font-weight: bold;
   color: #333;
   margin-bottom: 20rpx;
-  display: block;
 }
 
 .meeting-info {
@@ -116,7 +117,10 @@ const activeTab = ref(0)
 .btn-group {
   display: flex;
   justify-content: flex-end;
-  gap: 20rpx;
   margin-top: 20rpx;
+}
+
+.btn-group-btn:first-child {
+  margin-right: 20rpx;
 }
 </style>

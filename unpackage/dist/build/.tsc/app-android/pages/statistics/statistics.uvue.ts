@@ -1,6 +1,67 @@
 import { ref } from 'vue'
 
 // 年份选择
+type XAxisConfig = {
+  disableGrid: boolean
+}
+
+type YAxisConfig = {
+  min: number
+  max: number
+}
+
+type ColumnOpts = {
+  color: string[]
+  padding: number[]
+  xAxis: XAxisConfig
+  yAxis: YAxisConfig
+}
+
+type SeriesItem = {
+  name: string
+  data: number[]
+}
+
+type ColumnData = {
+  categories: string[]
+  series: SeriesItem[]
+}
+
+// 柱状图配置
+type PieSeriesItem = {
+  name: string
+  data: number
+}
+
+type PieOpts = {
+  color: string[]
+  padding: number[]
+}
+
+type PieData = {
+  series: PieSeriesItem[]
+}
+
+// 饼图配置
+type RateItem = {
+  rate: number
+  name: string
+  color: string
+}
+
+// 参会率数据
+type TaskColumn = {
+  title: string
+  key: string
+}
+
+type TaskItem = {
+  id: number
+  name: string
+  status: string
+}
+
+// 任务清单数据
 
 const __sfc__ = defineComponent({
   __name: 'statistics',
@@ -9,14 +70,14 @@ const __ins = getCurrentInstance()!;
 const _ctx = __ins.proxy as InstanceType<typeof __sfc__>;
 const _cache = __ins.renderCache;
 
-const yearList = ref(['2023', '2024', '2025', '2026'])
+const yearList = ref<string[]>(['2023', '2024', '2025', '2026'])
 const selectedYear = ref('2025')
 const onYearChange = (val: any) => {
   console.log('选择年份：', val)
 }
 
-// 柱状图配置
-const columnOpts = ref({
+// 柱状图配置类型 - 修复内联对象字面量类型
+const columnOpts = ref<ColumnOpts>({
   color: ['#C8102E'],
   padding: [15, 15, 0, 15],
   xAxis: {
@@ -27,7 +88,8 @@ const columnOpts = ref({
     max: 8
   }
 })
-const columnData = ref({
+
+const columnData = ref<ColumnData>({
   categories: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
   series: [{
     name: '开展次数',
@@ -35,12 +97,13 @@ const columnData = ref({
   }]
 })
 
-// 饼图配置
-const pieOpts = ref({
+// 饼图配置类型
+const pieOpts = ref<PieOpts>({
   color: ['#C8102E', '#FF8C00', '#1E90FF', '#9370DB', '#D3D3D3', '#F0E68C'],
   padding: [15, 15, 0, 15]
 })
-const pieData = ref({
+
+const pieData = ref<PieData>({
   series: [
     { name: '支部党员大会', data: 16 },
     { name: '支部委员会', data: 12 },
@@ -51,8 +114,8 @@ const pieData = ref({
   ]
 })
 
-// 参会率数据
-const rateList = ref([
+// 参会率数据类型
+const rateList = ref<RateItem[]>([
   { rate: 98, name: '支部党员大会 参会率', color: '#C8102E' },
   { rate: 96, name: '支部委员会 参会率', color: '#FF8C00' },
   { rate: 95, name: '党小组会 参会率', color: '#1E90FF' },
@@ -61,13 +124,14 @@ const rateList = ref([
   { rate: 95, name: '支部活动 参会率', color: '#32CD32' }
 ])
 
-// 任务清单数据
-const taskColumns = ref([
+// 任务清单数据类型
+const taskColumns = ref<TaskColumn[]>([
   { title: '序号', key: 'id' },
   { title: '任务名称', key: 'name' },
   { title: '完成状态', key: 'status' }
 ])
-const taskData = ref([
+
+const taskData = ref<TaskItem[]>([
   { id: 1, name: '党风廉政建设', status: '进行中' },
   { id: 2, name: '主题党日活动', status: '已完成' },
   { id: 3, name: '党员教育培训', status: '进行中' }
@@ -167,4 +231,4 @@ const _component_u_table = resolveComponent("u-table")
 
 })
 export default __sfc__
-const GenPagesStatisticsStatisticsStyles = [_uM([["container", _pS(_uM([["backgroundColor", "#F5F5F5"], ["paddingBottom", "100rpx"]]))], ["page-header", _pS(_uM([["display", "flex"], ["alignItems", "center"], ["justifyContent", "space-between"], ["paddingTop", "20rpx"], ["paddingRight", "30rpx"], ["paddingBottom", "20rpx"], ["paddingLeft", "30rpx"], ["backgroundColor", "#ffffff"]]))], ["star-icon", _pS(_uM([["width", "40rpx"], ["height", "40rpx"], ["marginRight", "10rpx"]]))], ["page-title", _pS(_uM([["fontSize", "36rpx"], ["fontWeight", "bold"], ["color", "#333333"]]))], ["year-picker", _pS(_uM([["width", "120rpx"]]))], ["data-card", _pS(_uM([["backgroundColor", "#ffffff"], ["borderTopLeftRadius", "16rpx"], ["borderTopRightRadius", "16rpx"], ["borderBottomRightRadius", "16rpx"], ["borderBottomLeftRadius", "16rpx"], ["marginTop", "20rpx"], ["marginRight", "30rpx"], ["marginBottom", "20rpx"], ["marginLeft", "30rpx"], ["paddingTop", "30rpx"], ["paddingRight", "30rpx"], ["paddingBottom", "30rpx"], ["paddingLeft", "30rpx"]]))], ["card-header", _pS(_uM([["display", "flex"], ["alignItems", "center"], ["marginBottom", "30rpx"]]))], ["party-icon", _pS(_uM([["width", "40rpx"], ["height", "40rpx"], ["marginRight", "10rpx"]]))], ["card-title", _pS(_uM([["fontSize", "28rpx"], ["color", "#333333"]]))], ["data-grid", _pS(_uM([["gridTemplateColumns", "repeat(3, 1fr)"], ["gap", "20rpx"]]))], ["data-item", _uM([["", _uM([["borderTopLeftRadius", "12rpx"], ["borderTopRightRadius", "12rpx"], ["borderBottomRightRadius", "12rpx"], ["borderBottomLeftRadius", "12rpx"], ["paddingTop", "20rpx"], ["paddingRight", "20rpx"], ["paddingBottom", "20rpx"], ["paddingLeft", "20rpx"], ["textAlign", "center"], ["color", "#ffffff"]])], [".red", _uM([["backgroundColor", "#C8102E"]])], [".blue", _uM([["backgroundColor", "#1E90FF"]])], [".purple", _uM([["backgroundColor", "#9370DB"]])]])], ["data-num", _pS(_uM([["fontSize", "36rpx"], ["fontWeight", "bold"]]))], ["data-label", _pS(_uM([["fontSize", "24rpx"], ["marginTop", "10rpx"]]))], ["chart-card", _pS(_uM([["backgroundColor", "#ffffff"], ["borderTopLeftRadius", "16rpx"], ["borderTopRightRadius", "16rpx"], ["borderBottomRightRadius", "16rpx"], ["borderBottomLeftRadius", "16rpx"], ["marginTop", "20rpx"], ["marginRight", "30rpx"], ["marginBottom", "20rpx"], ["marginLeft", "30rpx"], ["paddingTop", "30rpx"], ["paddingRight", "30rpx"], ["paddingBottom", "30rpx"], ["paddingLeft", "30rpx"]]))], ["chart-title", _pS(_uM([["fontSize", "32rpx"], ["fontWeight", "bold"], ["color", "#333333"], ["textAlign", "center"], ["marginBottom", "20rpx"]]))], ["chart-subtitle", _pS(_uM([["fontSize", "28rpx"], ["color", "#666666"], ["marginTop", "20rpx"], ["marginRight", 0], ["marginBottom", "20rpx"], ["marginLeft", 0]]))], ["rate-card", _pS(_uM([["backgroundColor", "#ffffff"], ["borderTopLeftRadius", "16rpx"], ["borderTopRightRadius", "16rpx"], ["borderBottomRightRadius", "16rpx"], ["borderBottomLeftRadius", "16rpx"], ["marginTop", "20rpx"], ["marginRight", "30rpx"], ["marginBottom", "20rpx"], ["marginLeft", "30rpx"], ["paddingTop", "30rpx"], ["paddingRight", "30rpx"], ["paddingBottom", "30rpx"], ["paddingLeft", "30rpx"]]))], ["rate-grid", _pS(_uM([["gridTemplateColumns", "repeat(3, 1fr)"], ["gap", "20rpx"]]))], ["rate-item", _pS(_uM([["textAlign", "center"]]))], ["rate-num", _pS(_uM([["fontSize", "32rpx"], ["fontWeight", "bold"], ["color", "#333333"], ["marginTop", "10rpx"], ["marginRight", 0], ["marginBottom", "10rpx"], ["marginLeft", 0]]))], ["rate-text", _pS(_uM([["fontSize", "24rpx"], ["color", "#666666"]]))], ["task-card", _pS(_uM([["backgroundColor", "#ffffff"], ["borderTopLeftRadius", "16rpx"], ["borderTopRightRadius", "16rpx"], ["borderBottomRightRadius", "16rpx"], ["borderBottomLeftRadius", "16rpx"], ["marginTop", "20rpx"], ["marginRight", "30rpx"], ["marginBottom", "20rpx"], ["marginLeft", "30rpx"], ["paddingTop", "30rpx"], ["paddingRight", "30rpx"], ["paddingBottom", "30rpx"], ["paddingLeft", "30rpx"]]))], ["task-title", _pS(_uM([["fontSize", "32rpx"], ["fontWeight", "bold"], ["color", "#333333"], ["marginBottom", "20rpx"]]))]])]
+const GenPagesStatisticsStatisticsStyles = [_uM([["container", _pS(_uM([["backgroundColor", "#F5F5F5"], ["display", "flex"], ["flexDirection", "column"], ["flexGrow", 1], ["flexShrink", 1], ["flexBasis", "0%"], ["paddingBottom", "100rpx"]]))], ["page-header", _pS(_uM([["display", "flex"], ["alignItems", "center"], ["justifyContent", "space-between"], ["paddingTop", "20rpx"], ["paddingRight", "30rpx"], ["paddingBottom", "20rpx"], ["paddingLeft", "30rpx"], ["backgroundColor", "#ffffff"]]))], ["star-icon", _pS(_uM([["width", "40rpx"], ["height", "40rpx"], ["marginRight", "10rpx"]]))], ["page-title", _pS(_uM([["fontSize", "36rpx"], ["fontWeight", "bold"], ["color", "#333333"]]))], ["year-picker", _pS(_uM([["width", "120rpx"]]))], ["data-card", _pS(_uM([["backgroundColor", "#ffffff"], ["borderTopLeftRadius", "16rpx"], ["borderTopRightRadius", "16rpx"], ["borderBottomRightRadius", "16rpx"], ["borderBottomLeftRadius", "16rpx"], ["marginTop", "20rpx"], ["marginRight", "30rpx"], ["marginBottom", "20rpx"], ["marginLeft", "30rpx"], ["paddingTop", "30rpx"], ["paddingRight", "30rpx"], ["paddingBottom", "30rpx"], ["paddingLeft", "30rpx"]]))], ["card-header", _pS(_uM([["display", "flex"], ["alignItems", "center"], ["marginBottom", "30rpx"]]))], ["party-icon", _pS(_uM([["width", "40rpx"], ["height", "40rpx"], ["marginRight", "10rpx"]]))], ["card-title", _pS(_uM([["fontSize", "28rpx"], ["color", "#333333"]]))], ["data-grid", _pS(_uM([["display", "flex"], ["flexWrap", "wrap"], ["marginLeft", "-10rpx"], ["marginRight", "-10rpx"]]))], ["data-item", _uM([["", _uM([["borderTopLeftRadius", "12rpx"], ["borderTopRightRadius", "12rpx"], ["borderBottomRightRadius", "12rpx"], ["borderBottomLeftRadius", "12rpx"], ["paddingTop", "20rpx"], ["paddingRight", "20rpx"], ["paddingBottom", "20rpx"], ["paddingLeft", "20rpx"], ["textAlign", "center"], ["color", "#ffffff"], ["flexGrow", 1], ["flexShrink", 1], ["flexBasis", "0%"], ["marginTop", 0], ["marginRight", "10rpx"], ["marginBottom", "20rpx"], ["marginLeft", "10rpx"]])], [".red", _uM([["backgroundColor", "#C8102E"]])], [".blue", _uM([["backgroundColor", "#1E90FF"]])], [".purple", _uM([["backgroundColor", "#9370DB"]])]])], ["data-num", _pS(_uM([["fontSize", "36rpx"], ["fontWeight", "bold"]]))], ["data-label", _pS(_uM([["fontSize", "24rpx"], ["marginTop", "10rpx"]]))], ["chart-card", _pS(_uM([["backgroundColor", "#ffffff"], ["borderTopLeftRadius", "16rpx"], ["borderTopRightRadius", "16rpx"], ["borderBottomRightRadius", "16rpx"], ["borderBottomLeftRadius", "16rpx"], ["marginTop", "20rpx"], ["marginRight", "30rpx"], ["marginBottom", "20rpx"], ["marginLeft", "30rpx"], ["paddingTop", "30rpx"], ["paddingRight", "30rpx"], ["paddingBottom", "30rpx"], ["paddingLeft", "30rpx"]]))], ["chart-title", _pS(_uM([["fontSize", "32rpx"], ["fontWeight", "bold"], ["color", "#333333"], ["textAlign", "center"], ["marginBottom", "20rpx"]]))], ["chart-subtitle", _pS(_uM([["fontSize", "28rpx"], ["color", "#666666"], ["marginTop", "20rpx"], ["marginRight", 0], ["marginBottom", "20rpx"], ["marginLeft", 0]]))], ["rate-card", _pS(_uM([["backgroundColor", "#ffffff"], ["borderTopLeftRadius", "16rpx"], ["borderTopRightRadius", "16rpx"], ["borderBottomRightRadius", "16rpx"], ["borderBottomLeftRadius", "16rpx"], ["marginTop", "20rpx"], ["marginRight", "30rpx"], ["marginBottom", "20rpx"], ["marginLeft", "30rpx"], ["paddingTop", "30rpx"], ["paddingRight", "30rpx"], ["paddingBottom", "30rpx"], ["paddingLeft", "30rpx"]]))], ["rate-grid", _pS(_uM([["display", "flex"], ["flexWrap", "wrap"], ["marginLeft", "-10rpx"], ["marginRight", "-10rpx"]]))], ["rate-item", _pS(_uM([["textAlign", "center"], ["flexGrow", 1], ["flexShrink", 1], ["flexBasis", "0%"], ["marginTop", 0], ["marginRight", "10rpx"], ["marginBottom", "20rpx"], ["marginLeft", "10rpx"]]))], ["rate-num", _pS(_uM([["fontSize", "32rpx"], ["fontWeight", "bold"], ["color", "#333333"], ["marginTop", "10rpx"], ["marginRight", 0], ["marginBottom", "10rpx"], ["marginLeft", 0]]))], ["rate-text", _pS(_uM([["fontSize", "24rpx"], ["color", "#666666"]]))], ["task-card", _pS(_uM([["backgroundColor", "#ffffff"], ["borderTopLeftRadius", "16rpx"], ["borderTopRightRadius", "16rpx"], ["borderBottomRightRadius", "16rpx"], ["borderBottomLeftRadius", "16rpx"], ["marginTop", "20rpx"], ["marginRight", "30rpx"], ["marginBottom", "20rpx"], ["marginLeft", "30rpx"], ["paddingTop", "30rpx"], ["paddingRight", "30rpx"], ["paddingBottom", "30rpx"], ["paddingLeft", "30rpx"]]))], ["task-title", _pS(_uM([["fontSize", "32rpx"], ["fontWeight", "bold"], ["color", "#333333"], ["marginBottom", "20rpx"]]))]])]

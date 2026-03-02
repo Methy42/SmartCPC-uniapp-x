@@ -63,14 +63,41 @@
 import { ref } from 'vue'
 
 // 年份选择
-const yearList = ref(['2023', '2024', '2025', '2026'])
+const yearList = ref<string[]>(['2023', '2024', '2025', '2026'])
 const selectedYear = ref('2025')
 const onYearChange = (val: any) => {
   console.log('选择年份：', val)
 }
 
+// 柱状图配置类型 - 修复内联对象字面量类型
+type XAxisConfig = {
+  disableGrid: boolean
+}
+
+type YAxisConfig = {
+  min: number
+  max: number
+}
+
+type ColumnOpts = {
+  color: string[]
+  padding: number[]
+  xAxis: XAxisConfig
+  yAxis: YAxisConfig
+}
+
+type SeriesItem = {
+  name: string
+  data: number[]
+}
+
+type ColumnData = {
+  categories: string[]
+  series: SeriesItem[]
+}
+
 // 柱状图配置
-const columnOpts = ref({
+const columnOpts = ref<ColumnOpts>({
   color: ['#C8102E'],
   padding: [15, 15, 0, 15],
   xAxis: {
@@ -81,7 +108,8 @@ const columnOpts = ref({
     max: 8
   }
 })
-const columnData = ref({
+
+const columnData = ref<ColumnData>({
   categories: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
   series: [{
     name: '开展次数',
@@ -89,12 +117,28 @@ const columnData = ref({
   }]
 })
 
+// 饼图配置类型
+type PieSeriesItem = {
+  name: string
+  data: number
+}
+
+type PieOpts = {
+  color: string[]
+  padding: number[]
+}
+
+type PieData = {
+  series: PieSeriesItem[]
+}
+
 // 饼图配置
-const pieOpts = ref({
+const pieOpts = ref<PieOpts>({
   color: ['#C8102E', '#FF8C00', '#1E90FF', '#9370DB', '#D3D3D3', '#F0E68C'],
   padding: [15, 15, 0, 15]
 })
-const pieData = ref({
+
+const pieData = ref<PieData>({
   series: [
     { name: '支部党员大会', data: 16 },
     { name: '支部委员会', data: 12 },
@@ -105,8 +149,15 @@ const pieData = ref({
   ]
 })
 
+// 参会率数据类型
+type RateItem = {
+  rate: number
+  name: string
+  color: string
+}
+
 // 参会率数据
-const rateList = ref([
+const rateList = ref<RateItem[]>([
   { rate: 98, name: '支部党员大会 参会率', color: '#C8102E' },
   { rate: 96, name: '支部委员会 参会率', color: '#FF8C00' },
   { rate: 95, name: '党小组会 参会率', color: '#1E90FF' },
@@ -115,13 +166,26 @@ const rateList = ref([
   { rate: 95, name: '支部活动 参会率', color: '#32CD32' }
 ])
 
+// 任务清单数据类型
+type TaskColumn = {
+  title: string
+  key: string
+}
+
+type TaskItem = {
+  id: number
+  name: string
+  status: string
+}
+
 // 任务清单数据
-const taskColumns = ref([
+const taskColumns = ref<TaskColumn[]>([
   { title: '序号', key: 'id' },
   { title: '任务名称', key: 'name' },
   { title: '完成状态', key: 'status' }
 ])
-const taskData = ref([
+
+const taskData = ref<TaskItem[]>([
   { id: 1, name: '党风廉政建设', status: '进行中' },
   { id: 2, name: '主题党日活动', status: '已完成' },
   { id: 3, name: '党员教育培训', status: '进行中' }
@@ -131,7 +195,9 @@ const taskData = ref([
 <style scoped>
 .container {
   background-color: #F5F5F5;
-  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
   padding-bottom: 100rpx;
 }
 
@@ -186,9 +252,10 @@ const taskData = ref([
 }
 
 .data-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20rpx;
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -10rpx;
+  margin-right: -10rpx;
 }
 
 .data-item {
@@ -196,6 +263,9 @@ const taskData = ref([
   padding: 20rpx;
   text-align: center;
   color: #fff;
+  flex: 1;
+  /* min-width: calc(33.333% - 20rpx); */
+  margin: 0 10rpx 20rpx 10rpx;
 }
 
 .data-item.red {
@@ -213,12 +283,10 @@ const taskData = ref([
 .data-num {
   font-size: 36rpx;
   font-weight: bold;
-  display: block;
 }
 
 .data-label {
   font-size: 24rpx;
-  display: block;
   margin-top: 10rpx;
 }
 
@@ -236,14 +304,12 @@ const taskData = ref([
   color: #333;
   text-align: center;
   margin-bottom: 20rpx;
-  display: block;
 }
 
 .chart-subtitle {
   font-size: 28rpx;
   color: #666;
   margin: 20rpx 0;
-  display: block;
 }
 
 /* 参会率卡片 */
@@ -255,13 +321,17 @@ const taskData = ref([
 }
 
 .rate-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20rpx;
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -10rpx;
+  margin-right: -10rpx;
 }
 
 .rate-item {
   text-align: center;
+  flex: 1;
+  /* min-width: calc(33.333% - 20rpx); */
+  margin: 0 10rpx 20rpx 10rpx;
 }
 
 .rate-num {
@@ -269,13 +339,11 @@ const taskData = ref([
   font-weight: bold;
   color: #333;
   margin: 10rpx 0;
-  display: block;
 }
 
 .rate-text {
   font-size: 24rpx;
   color: #666;
-  display: block;
 }
 
 /* 任务卡片 */
@@ -291,6 +359,5 @@ const taskData = ref([
   font-weight: bold;
   color: #333;
   margin-bottom: 20rpx;
-  display: block;
 }
 </style>

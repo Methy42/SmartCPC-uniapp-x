@@ -1,5 +1,11 @@
 import { ref } from 'vue'
 
+// 功能项类型
+type FuncItem = {
+  name: string
+  icon: string
+}
+
 // 功能列表数据
 
 const __sfc__ = defineComponent({
@@ -9,7 +15,7 @@ const __ins = getCurrentInstance()!;
 const _ctx = __ins.proxy as InstanceType<typeof __sfc__>;
 const _cache = __ins.renderCache;
 
-const funcList = ref([
+const funcList = ref<FuncItem[]>([
   { name: '支部党员大会', icon: '/static/icons/meeting1.png' },
   { name: '支部委员会', icon: '/static/icons/meeting2.png' },
   { name: '党小组会', icon: '/static/icons/meeting3.png' },
@@ -40,6 +46,7 @@ const _component_u_badge = resolveComponent("u-badge")
       ]),
       _cE("view", _uM({ class: "header-btns" }), [
         _cV(_component_u_button, _uM({
+          class: "header-btn",
           icon: "column-chart",
           text: "数据看板",
           size: "mini",
@@ -66,7 +73,7 @@ const _component_u_badge = resolveComponent("u-badge")
     _cE("view", _uM({ class: "func-grid" }), [
       _cE(Fragment, null, RenderHelpers.renderList(funcList.value, (item, index, __index, _cached): any => {
         return _cE("view", _uM({
-          class: "func-item",
+          class: _nC(["func-item", _uM({'func-odd': index % 2 === 0})]),
           key: index
         }), [
           _cE("image", _uM({
@@ -75,7 +82,7 @@ const _component_u_badge = resolveComponent("u-badge")
             mode: "widthFix"
           }), null, 8 /* PROPS */, ["src"]),
           _cE("text", _uM({ class: "func-text" }), _tD(item.name), 1 /* TEXT */)
-        ])
+        ], 2 /* CLASS */)
       }), 128 /* KEYED_FRAGMENT */)
     ]),
     _cE("view", _uM({ class: "footer" }), [
@@ -94,4 +101,4 @@ const _component_u_badge = resolveComponent("u-badge")
 
 })
 export default __sfc__
-const GenPagesIndexIndexStyles = [_uM([["container", _pS(_uM([["backgroundImage", "linear-gradient(#C8102E, #A80E26)"], ["backgroundColor", "rgba(0,0,0,0)"], ["paddingBottom", 0]]))], ["header", _pS(_uM([["display", "flex"], ["alignItems", "center"], ["paddingTop", "20rpx"], ["paddingRight", "30rpx"], ["paddingBottom", "20rpx"], ["paddingLeft", "30rpx"], ["color", "#ffffff"]]))], ["avatar", _pS(_uM([["width", "80rpx"], ["height", "80rpx"], ["marginRight", "20rpx"]]))], ["title", _pS(_uM([["display", "flex"], ["alignItems", "center"], ["flexGrow", 1], ["flexShrink", 1], ["flexBasis", "0%"]]))], ["party-icon", _pS(_uM([["width", "40rpx"], ["height", "40rpx"], ["marginRight", "10rpx"]]))], ["title-text", _pS(_uM([["fontSize", "36rpx"], ["fontWeight", "bold"], ["color", "#FFD700"]]))], ["header-btns", _pS(_uM([["display", "flex"], ["gap", "15rpx"]]))], ["func-grid", _pS(_uM([["gridTemplateColumns", "repeat(2, 1fr)"], ["gap", "30rpx"], ["paddingTop", "40rpx"], ["paddingRight", "50rpx"], ["paddingBottom", "40rpx"], ["paddingLeft", "50rpx"], ["flexGrow", 1], ["flexShrink", 1], ["flexBasis", "0%"]]))], ["func-item", _pS(_uM([["display", "flex"], ["flexDirection", "column"], ["alignItems", "center"], ["justifyContent", "center"], ["backgroundImage", "none"], ["backgroundColor", "rgba(255,255,255,0.2)"], ["borderTopLeftRadius", "20rpx"], ["borderTopRightRadius", "20rpx"], ["borderBottomRightRadius", "20rpx"], ["borderBottomLeftRadius", "20rpx"], ["paddingTop", "40rpx"], ["paddingRight", "20rpx"], ["paddingBottom", "40rpx"], ["paddingLeft", "20rpx"]]))], ["func-icon", _pS(_uM([["width", "80rpx"], ["height", "80rpx"], ["marginBottom", "20rpx"]]))], ["func-text", _pS(_uM([["fontSize", "32rpx"], ["color", "#ffffff"]]))], ["footer", _pS(_uM([["display", "flex"], ["justifyContent", "space-between"], ["alignItems", "center"], ["paddingTop", "20rpx"], ["paddingRight", "30rpx"], ["paddingBottom", "20rpx"], ["paddingLeft", "30rpx"]]))], ["copyright", _pS(_uM([["fontSize", "24rpx"], ["color", "#ffffff"]]))], ["share-btn", _pS(_uM([["width", "60rpx"], ["height", "60rpx"], ["backgroundImage", "none"], ["backgroundColor", "rgba(255,255,255,0.3)"]]))]])]
+const GenPagesIndexIndexStyles = [_uM([["container", _pS(_uM([["display", "flex"], ["flexDirection", "column"], ["backgroundImage", "linear-gradient(#C8102E, #A80E26)"], ["backgroundColor", "rgba(0,0,0,0)"], ["paddingBottom", 0], ["flexGrow", 1], ["flexShrink", 1], ["flexBasis", "0%"]]))], ["header", _pS(_uM([["display", "flex"], ["alignItems", "center"], ["paddingTop", "20rpx"], ["paddingRight", "30rpx"], ["paddingBottom", "20rpx"], ["paddingLeft", "30rpx"], ["color", "#ffffff"]]))], ["avatar", _pS(_uM([["width", "80rpx"], ["height", "80rpx"], ["borderTopLeftRadius", "40rpx"], ["borderTopRightRadius", "40rpx"], ["borderBottomRightRadius", "40rpx"], ["borderBottomLeftRadius", "40rpx"], ["marginRight", "20rpx"]]))], ["title", _pS(_uM([["display", "flex"], ["alignItems", "center"], ["flexGrow", 1], ["flexShrink", 1], ["flexBasis", "0%"]]))], ["party-icon", _pS(_uM([["width", "40rpx"], ["height", "40rpx"], ["marginRight", "10rpx"]]))], ["title-text", _pS(_uM([["fontSize", "36rpx"], ["fontWeight", "bold"], ["color", "#FFD700"]]))], ["header-btns", _pS(_uM([["display", "flex"]]))], ["header-btn", _pS(_uM([["marginRight:first-child", "15rpx"]]))], ["func-grid", _pS(_uM([["display", "flex"], ["flexWrap", "wrap"], ["paddingTop", "40rpx"], ["paddingRight", "50rpx"], ["paddingBottom", "40rpx"], ["paddingLeft", "50rpx"], ["flexGrow", 1], ["flexShrink", 1], ["flexBasis", "0%"]]))], ["func-item", _pS(_uM([["display", "flex"], ["flexDirection", "column"], ["alignItems", "center"], ["justifyContent", "center"], ["backgroundImage", "none"], ["backgroundColor", "rgba(255,255,255,0.2)"], ["borderTopLeftRadius", "20rpx"], ["borderTopRightRadius", "20rpx"], ["borderBottomRightRadius", "20rpx"], ["borderBottomLeftRadius", "20rpx"], ["paddingTop", "40rpx"], ["paddingRight", "20rpx"], ["paddingBottom", "40rpx"], ["paddingLeft", "20rpx"], ["width", "50%"], ["marginBottom", "30rpx"]]))], ["func-odd", _pS(_uM([["marginRight", "30rpx"]]))], ["func-icon", _pS(_uM([["width", "80rpx"], ["height", "80rpx"], ["marginBottom", "20rpx"]]))], ["func-text", _pS(_uM([["fontSize", "32rpx"], ["color", "#ffffff"]]))], ["footer", _pS(_uM([["display", "flex"], ["justifyContent", "space-between"], ["alignItems", "center"], ["paddingTop", "20rpx"], ["paddingRight", "30rpx"], ["paddingBottom", "20rpx"], ["paddingLeft", "30rpx"]]))], ["copyright", _pS(_uM([["fontSize", "24rpx"], ["color", "#ffffff"]]))], ["share-btn", _pS(_uM([["width", "60rpx"], ["height", "60rpx"], ["backgroundImage", "none"], ["backgroundColor", "rgba(255,255,255,0.3)"]]))]])]

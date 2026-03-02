@@ -31,7 +31,7 @@
         </view>
         
         <view class="btn-group">
-          <u-button text="参加" type="primary" size="mini" bg-color="#FF8C00"></u-button>
+          <u-button class="btn-group-btn" text="参加" type="primary" size="mini" bg-color="#FF8C00"></u-button>
           <u-button text="请假" type="default" size="mini" border-color="#FF8C00" color="#FF8C00"></u-button>
         </view>
       </view>
@@ -61,8 +61,15 @@ const tabList = ref([
 ])
 const activeTab = ref(0)
 
+// 往期活动数据类型
+type HistoryItem = {
+  title: string
+  subtitle: string
+  time: string
+}
+
 // 往期活动数据
-const historyList = ref([
+const historyList = ref<HistoryItem[]>([
   {
     title: '党支部主题党日活动（共建）',
     subtitle: '南水北调江苏水源公司赴淮阴区调研乡村振兴工作 慰问驻村干部',
@@ -75,7 +82,7 @@ const historyList = ref([
   },
   {
     title: '党支部主题党日活动',
-    subtitle: '数智科技公司党支部开展“深学讲话凝斗志 砥砺初心强信念”主题党日活动',
+    subtitle: '数智科技公司党支部开展"深学讲话凝斗志 砥砺初心强信念"主题党日活动',
     time: '活动时间：2025年9月12日，时间半天'
   }
 ])
@@ -85,7 +92,9 @@ const historyList = ref([
 /* 样式与三会一课页面基本一致，仅调整部分命名 */
 .container {
   background-color: #F5F5F5;
-  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
   padding-bottom: 100rpx;
 }
 
@@ -124,14 +133,12 @@ const historyList = ref([
   font-weight: bold;
   color: #333;
   margin-bottom: 10rpx;
-  display: block;
 }
 
 .activity-subtitle {
   font-size: 24rpx;
   color: #666;
   margin-bottom: 20rpx;
-  display: block;
   line-height: 1.5;
 }
 
@@ -151,7 +158,10 @@ const historyList = ref([
 .btn-group {
   display: flex;
   justify-content: flex-end;
-  gap: 20rpx;
   margin-top: 20rpx;
+}
+
+.btn-group-btn:first-child {
+  margin-right: 20rpx;
 }
 </style>

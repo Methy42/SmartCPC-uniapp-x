@@ -1,6 +1,13 @@
 import { ref } from 'vue'
 
 // 选项卡
+type HistoryItem = {
+  title: string
+  subtitle: string
+  time: string
+}
+
+// 往期活动数据
 
 const __sfc__ = defineComponent({
   __name: 'activityList',
@@ -15,8 +22,8 @@ const tabList = ref([
 ])
 const activeTab = ref(0)
 
-// 往期活动数据
-const historyList = ref([
+// 往期活动数据类型
+const historyList = ref<HistoryItem[]>([
   {
     title: '党支部主题党日活动（共建）',
     subtitle: '南水北调江苏水源公司赴淮阴区调研乡村振兴工作 慰问驻村干部',
@@ -29,7 +36,7 @@ const historyList = ref([
   },
   {
     title: '党支部主题党日活动',
-    subtitle: '数智科技公司党支部开展“深学讲话凝斗志 砥砺初心强信念”主题党日活动',
+    subtitle: '数智科技公司党支部开展"深学讲话凝斗志 砥砺初心强信念"主题党日活动',
     time: '活动时间：2025年9月12日，时间半天'
   }
 ])
@@ -91,6 +98,7 @@ const _component_u_button = resolveComponent("u-button")
             ]),
             _cE("view", _uM({ class: "btn-group" }), [
               _cV(_component_u_button, _uM({
+                class: "btn-group-btn",
                 text: "参加",
                 type: "primary",
                 size: "mini",
@@ -134,4 +142,4 @@ const _component_u_button = resolveComponent("u-button")
 
 })
 export default __sfc__
-const GenPagesActivityActivityListStyles = [_uM([["container", _pS(_uM([["backgroundColor", "#F5F5F5"], ["paddingBottom", "100rpx"]]))], ["page-header", _pS(_uM([["display", "flex"], ["alignItems", "center"], ["paddingTop", "20rpx"], ["paddingRight", "30rpx"], ["paddingBottom", "20rpx"], ["paddingLeft", "30rpx"], ["backgroundColor", "#ffffff"]]))], ["star-icon", _pS(_uM([["width", "40rpx"], ["height", "40rpx"], ["marginRight", "10rpx"]]))], ["page-title", _pS(_uM([["fontSize", "36rpx"], ["fontWeight", "bold"], ["color", "#333333"]]))], ["activity-list", _pS(_uM([["paddingTop", "20rpx"], ["paddingRight", "30rpx"], ["paddingBottom", "20rpx"], ["paddingLeft", "30rpx"]]))], ["activity-card", _pS(_uM([["backgroundColor", "#ffffff"], ["borderTopLeftRadius", "16rpx"], ["borderTopRightRadius", "16rpx"], ["borderBottomRightRadius", "16rpx"], ["borderBottomLeftRadius", "16rpx"], ["paddingTop", "30rpx"], ["paddingRight", "30rpx"], ["paddingBottom", "30rpx"], ["paddingLeft", "30rpx"], ["marginBottom", "20rpx"]]))], ["activity-title", _pS(_uM([["fontSize", "32rpx"], ["fontWeight", "bold"], ["color", "#333333"], ["marginBottom", "10rpx"]]))], ["activity-subtitle", _pS(_uM([["fontSize", "24rpx"], ["color", "#666666"], ["marginBottom", "20rpx"], ["lineHeight", 1.5]]))], ["activity-info", _pS(_uM([["display", "flex"], ["alignItems", "center"], ["marginBottom", "15rpx"]]))], ["activity-time", _pS(_uM([["display", "flex"], ["alignItems", "center"], ["marginBottom", "15rpx"]]))], ["info-text", _pS(_uM([["fontSize", "28rpx"], ["color", "#666666"], ["marginLeft", "10rpx"], ["flexGrow", 1], ["flexShrink", 1], ["flexBasis", "0%"]]))], ["time-text", _pS(_uM([["fontSize", "28rpx"], ["color", "#666666"], ["marginLeft", "10rpx"], ["flexGrow", 1], ["flexShrink", 1], ["flexBasis", "0%"]]))], ["btn-group", _pS(_uM([["display", "flex"], ["justifyContent", "flex-end"], ["gap", "20rpx"], ["marginTop", "20rpx"]]))]])]
+const GenPagesActivityActivityListStyles = [_uM([["container", _pS(_uM([["backgroundColor", "#F5F5F5"], ["display", "flex"], ["flexDirection", "column"], ["flexGrow", 1], ["flexShrink", 1], ["flexBasis", "0%"], ["paddingBottom", "100rpx"]]))], ["page-header", _pS(_uM([["display", "flex"], ["alignItems", "center"], ["paddingTop", "20rpx"], ["paddingRight", "30rpx"], ["paddingBottom", "20rpx"], ["paddingLeft", "30rpx"], ["backgroundColor", "#ffffff"]]))], ["star-icon", _pS(_uM([["width", "40rpx"], ["height", "40rpx"], ["marginRight", "10rpx"]]))], ["page-title", _pS(_uM([["fontSize", "36rpx"], ["fontWeight", "bold"], ["color", "#333333"]]))], ["activity-list", _pS(_uM([["paddingTop", "20rpx"], ["paddingRight", "30rpx"], ["paddingBottom", "20rpx"], ["paddingLeft", "30rpx"]]))], ["activity-card", _pS(_uM([["backgroundColor", "#ffffff"], ["borderTopLeftRadius", "16rpx"], ["borderTopRightRadius", "16rpx"], ["borderBottomRightRadius", "16rpx"], ["borderBottomLeftRadius", "16rpx"], ["paddingTop", "30rpx"], ["paddingRight", "30rpx"], ["paddingBottom", "30rpx"], ["paddingLeft", "30rpx"], ["marginBottom", "20rpx"]]))], ["activity-title", _pS(_uM([["fontSize", "32rpx"], ["fontWeight", "bold"], ["color", "#333333"], ["marginBottom", "10rpx"]]))], ["activity-subtitle", _pS(_uM([["fontSize", "24rpx"], ["color", "#666666"], ["marginBottom", "20rpx"], ["lineHeight", 1.5]]))], ["activity-info", _pS(_uM([["display", "flex"], ["alignItems", "center"], ["marginBottom", "15rpx"]]))], ["activity-time", _pS(_uM([["display", "flex"], ["alignItems", "center"], ["marginBottom", "15rpx"]]))], ["info-text", _pS(_uM([["fontSize", "28rpx"], ["color", "#666666"], ["marginLeft", "10rpx"], ["flexGrow", 1], ["flexShrink", 1], ["flexBasis", "0%"]]))], ["time-text", _pS(_uM([["fontSize", "28rpx"], ["color", "#666666"], ["marginLeft", "10rpx"], ["flexGrow", 1], ["flexShrink", 1], ["flexBasis", "0%"]]))], ["btn-group", _pS(_uM([["display", "flex"], ["justifyContent", "flex-end"], ["marginTop", "20rpx"]]))], ["btn-group-btn", _pS(_uM([["marginRight:first-child", "20rpx"]]))]])]

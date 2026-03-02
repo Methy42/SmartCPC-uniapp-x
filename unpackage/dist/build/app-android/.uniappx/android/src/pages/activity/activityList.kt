@@ -46,23 +46,7 @@ open class GenPagesActivityActivityList : BasePage {
                 }
             ))
             val activeTab = ref(0)
-            val historyList = ref(_uA(
-                object : UTSJSONObject() {
-                    var title = "党支部主题党日活动（共建）"
-                    var subtitle = "南水北调江苏水源公司赴淮阴区调研乡村振兴工作 慰问驻村干部"
-                    var time = "活动时间：2025年10月23日，时间半天"
-                },
-                object : UTSJSONObject() {
-                    var title = "“廉洁家风”主题党日活动"
-                    var subtitle = "清风浸润数智心 廉韵筑牢发展基——数智科技公司廉洁文化宣传教育月活动走深走实"
-                    var time = "活动时间：2025年9月23日，10:30 - 11:30"
-                },
-                object : UTSJSONObject() {
-                    var title = "党支部主题党日活动"
-                    var subtitle = "数智科技公司党支部开展“深学讲话凝斗志 砥砺初心强信念”主题党日活动"
-                    var time = "活动时间：2025年9月12日，时间半天"
-                }
-            ))
+            val historyList = ref(_uA<HistoryItem>(HistoryItem(title = "党支部主题党日活动（共建）", subtitle = "南水北调江苏水源公司赴淮阴区调研乡村振兴工作 慰问驻村干部", time = "活动时间：2025年10月23日，时间半天"), HistoryItem(title = "“廉洁家风”主题党日活动", subtitle = "清风浸润数智心 廉韵筑牢发展基——数智科技公司廉洁文化宣传教育月活动走深走实", time = "活动时间：2025年9月23日，10:30 - 11:30"), HistoryItem(title = "党支部主题党日活动", subtitle = "数智科技公司党支部开展\"深学讲话凝斗志 砥砺初心强信念\"主题党日活动", time = "活动时间：2025年9月12日，时间半天")))
             return fun(): Any? {
                 val _component_u_tabs = resolveComponent("u-tabs")
                 val _component_u_icon = resolveComponent("u-icon")
@@ -98,7 +82,7 @@ open class GenPagesActivityActivityList : BasePage {
                                     _cE("text", _uM("class" to "info-text"), "会议地点：311室")
                                 )),
                                 _cE("view", _uM("class" to "btn-group"), _uA(
-                                    _cV(_component_u_button, _uM("text" to "参加", "type" to "primary", "size" to "mini", "bg-color" to "#FF8C00")),
+                                    _cV(_component_u_button, _uM("class" to "btn-group-btn", "text" to "参加", "type" to "primary", "size" to "mini", "bg-color" to "#FF8C00")),
                                     _cV(_component_u_button, _uM("text" to "请假", "type" to "default", "size" to "mini", "border-color" to "#FF8C00", "color" to "#FF8C00"))
                                 ))
                             ))
@@ -130,7 +114,7 @@ open class GenPagesActivityActivityList : BasePage {
         }
         val styles0: Map<String, Map<String, Map<String, Any>>>
             get() {
-                return _uM("container" to _pS(_uM("backgroundColor" to "#F5F5F5", "paddingBottom" to "100rpx")), "page-header" to _pS(_uM("display" to "flex", "alignItems" to "center", "paddingTop" to "20rpx", "paddingRight" to "30rpx", "paddingBottom" to "20rpx", "paddingLeft" to "30rpx", "backgroundColor" to "#ffffff")), "star-icon" to _pS(_uM("width" to "40rpx", "height" to "40rpx", "marginRight" to "10rpx")), "page-title" to _pS(_uM("fontSize" to "36rpx", "fontWeight" to "bold", "color" to "#333333")), "activity-list" to _pS(_uM("paddingTop" to "20rpx", "paddingRight" to "30rpx", "paddingBottom" to "20rpx", "paddingLeft" to "30rpx")), "activity-card" to _pS(_uM("backgroundColor" to "#ffffff", "borderTopLeftRadius" to "16rpx", "borderTopRightRadius" to "16rpx", "borderBottomRightRadius" to "16rpx", "borderBottomLeftRadius" to "16rpx", "paddingTop" to "30rpx", "paddingRight" to "30rpx", "paddingBottom" to "30rpx", "paddingLeft" to "30rpx", "marginBottom" to "20rpx")), "activity-title" to _pS(_uM("fontSize" to "32rpx", "fontWeight" to "bold", "color" to "#333333", "marginBottom" to "10rpx")), "activity-subtitle" to _pS(_uM("fontSize" to "24rpx", "color" to "#666666", "marginBottom" to "20rpx", "lineHeight" to 1.5)), "activity-info" to _pS(_uM("display" to "flex", "alignItems" to "center", "marginBottom" to "15rpx")), "activity-time" to _pS(_uM("display" to "flex", "alignItems" to "center", "marginBottom" to "15rpx")), "info-text" to _pS(_uM("fontSize" to "28rpx", "color" to "#666666", "marginLeft" to "10rpx", "flexGrow" to 1, "flexShrink" to 1, "flexBasis" to "0%")), "time-text" to _pS(_uM("fontSize" to "28rpx", "color" to "#666666", "marginLeft" to "10rpx", "flexGrow" to 1, "flexShrink" to 1, "flexBasis" to "0%")), "btn-group" to _pS(_uM("display" to "flex", "justifyContent" to "flex-end", "gap" to "20rpx", "marginTop" to "20rpx")))
+                return _uM("container" to _pS(_uM("backgroundColor" to "#F5F5F5", "display" to "flex", "flexDirection" to "column", "flexGrow" to 1, "flexShrink" to 1, "flexBasis" to "0%", "paddingBottom" to "100rpx")), "page-header" to _pS(_uM("display" to "flex", "alignItems" to "center", "paddingTop" to "20rpx", "paddingRight" to "30rpx", "paddingBottom" to "20rpx", "paddingLeft" to "30rpx", "backgroundColor" to "#ffffff")), "star-icon" to _pS(_uM("width" to "40rpx", "height" to "40rpx", "marginRight" to "10rpx")), "page-title" to _pS(_uM("fontSize" to "36rpx", "fontWeight" to "bold", "color" to "#333333")), "activity-list" to _pS(_uM("paddingTop" to "20rpx", "paddingRight" to "30rpx", "paddingBottom" to "20rpx", "paddingLeft" to "30rpx")), "activity-card" to _pS(_uM("backgroundColor" to "#ffffff", "borderTopLeftRadius" to "16rpx", "borderTopRightRadius" to "16rpx", "borderBottomRightRadius" to "16rpx", "borderBottomLeftRadius" to "16rpx", "paddingTop" to "30rpx", "paddingRight" to "30rpx", "paddingBottom" to "30rpx", "paddingLeft" to "30rpx", "marginBottom" to "20rpx")), "activity-title" to _pS(_uM("fontSize" to "32rpx", "fontWeight" to "bold", "color" to "#333333", "marginBottom" to "10rpx")), "activity-subtitle" to _pS(_uM("fontSize" to "24rpx", "color" to "#666666", "marginBottom" to "20rpx", "lineHeight" to 1.5)), "activity-info" to _pS(_uM("display" to "flex", "alignItems" to "center", "marginBottom" to "15rpx")), "activity-time" to _pS(_uM("display" to "flex", "alignItems" to "center", "marginBottom" to "15rpx")), "info-text" to _pS(_uM("fontSize" to "28rpx", "color" to "#666666", "marginLeft" to "10rpx", "flexGrow" to 1, "flexShrink" to 1, "flexBasis" to "0%")), "time-text" to _pS(_uM("fontSize" to "28rpx", "color" to "#666666", "marginLeft" to "10rpx", "flexGrow" to 1, "flexShrink" to 1, "flexBasis" to "0%")), "btn-group" to _pS(_uM("display" to "flex", "justifyContent" to "flex-end", "marginTop" to "20rpx")), "btn-group-btn" to _pS(_uM("marginRight:first-child" to "20rpx")))
             }
         var inheritAttrs = true
         var inject: Map<String, Map<String, Any?>> = _uM()
