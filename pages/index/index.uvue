@@ -4,8 +4,7 @@
     <view class="header">
       <image class="avatar" src="/static/avatar.png" mode="aspectFill"></image>
       <view class="title">
-        <image class="party-icon" src="/static/party-icon.png" mode="widthFix"></image>
-        <text class="title-text">水源红·智慧党建</text>
+        <image src="/static/logo.png" mode="widthFix"></image>
       </view>
       <view class="header-btns">
         <u-button class="header-btn" icon="column-chart" text="数据看板" size="mini" type="text" color="#fff"></u-button>
@@ -55,7 +54,7 @@ const funcList = ref<FuncItem[]>([
 .container {
   display: flex;
   flex-direction: column;
-  background: linear-gradient(#C8102E, #A80E26);
+  background: url(/static/background/u2.jpg);
   padding-bottom: 0; /* 首页隐藏tabBar */
   flex: 1;
 }
