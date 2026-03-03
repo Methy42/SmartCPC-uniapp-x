@@ -1,0 +1,237 @@
+
+  type ShareElementOpenAnimationType =
+    'auto' |
+    'none' |
+    'slide-in-right' |
+    'slide-in-left' |
+    'slide-in-top' |
+    'slide-in-bottom' |
+    'fade-in' |
+    'pop-in' |
+    'zoom-out' |
+    'zoom-fade-out'
+
+  type ShareElementEasingFunctionType =
+    'ease' |
+    'ease-in' |
+    'ease-out' |
+    'ease-in-out' |
+    'linear'
+
+  type ShuttleOnType =
+    'from' |
+    'to'
+
+  import { ItemType } from '@/components/enum-data/enum-data-types'
+  const __sfc__ = defineComponent({
+    data() {
+      return {
+        transitionOnGesture: true,
+        shuttleOnPopType: 'to' as ShuttleOnType,
+        shuttleOnPushType: 'to' as ShuttleOnType,
+        shuttleOnTypeList: [
+          'from',
+          'to'
+        ],
+        openAnimationType: 'slide-in-right' as ShareElementOpenAnimationType,
+        openAnimationTypeList: [
+          'auto',
+          'none',
+          'slide-in-right',
+          'slide-in-left',
+          'slide-in-top',
+          'slide-in-bottom',
+          'fade-in',
+          'pop-in',
+          'zoom-out',
+          'zoom-fade-out'
+        ],
+        easingFunctionType: 'ease' as ShareElementEasingFunctionType,
+        easingFunctionTypeList: [
+          'ease',
+          'ease-in',
+          'ease-out',
+          'ease-in-out',
+          'linear'
+        ]
+      }
+    },
+    methods: {
+      openPage() {
+        uni.navigateTo({
+          animationType: this.openAnimationType,
+          url: "/pages/component/share-element/share-element-to?shuttleOnPush=" + this.shuttleOnPushType + "&transitionOnGesture=" + this.transitionOnGesture
+        })
+      },
+      gotoShareElementWithSwiper(){
+        uni.navigateTo({
+          url:'/pages/component/share-element/share-element-with-swiper'
+        })
+      },
+      changeTransitionOnGesture(checked : boolean) {
+        console.log(`changeTransitionOnGesture:${checked}`, " at pages/component/share-element/share-element.uvue:130")
+        this.transitionOnGesture = checked
+      },
+      handleOpenAnimationType(e : RadioGroupChangeEvent) {
+        this.openAnimationType = e.detail.value as ShareElementOpenAnimationType
+      },
+      handleEasingFunction(e : RadioGroupChangeEvent) {
+        this.easingFunctionType = e.detail.value as ShareElementEasingFunctionType
+      },
+      handleShuttleOnPopType(e : RadioGroupChangeEvent) {
+        this.shuttleOnPopType = e.detail.value as ShuttleOnType
+      },
+      handleShuttleOnPushType(e : RadioGroupChangeEvent) {
+        this.shuttleOnPushType = e.detail.value as ShuttleOnType
+      },
+    }
+  })
+
+export default __sfc__
+function GenPagesComponentShareElementShareElementRender(this: InstanceType<typeof __sfc__>): any | null {
+const _ctx = this
+const _cache = this.$.renderCache
+const _component_page_head = resolveEasyComponent("page-head",_easycom_page_head)
+const _component_boolean_data = resolveEasyComponent("boolean-data",_easycom_boolean_data)
+const _component_radio = resolveComponent("radio")
+const _component_radio_group = resolveComponent("radio-group")
+
+  return _cE(Fragment, null, [
+    _cV(_component_page_head, _uM({ title: "share-element" })),
+    _cE("view", _uM({ class: "main" }), [
+      _cE("share-element", _uM({
+        class: "share-element",
+        "share-key": "left",
+        "shuttle-on-pop": _ctx.shuttleOnPopType,
+        "transition-on-gesture": _ctx.transitionOnGesture,
+        "shuttle-on-push": _ctx.shuttleOnPushType,
+        "easing-function": _ctx.easingFunctionType,
+        onClick: () => {_ctx.openPage()}
+      }), [
+        _cE("image", _uM({
+          style: _nS(_uM({"width":"100px","height":"150px"})),
+          src: "https://web-ext-storage.dcloud.net.cn/hello-uni-app-x/drop-card-1.jpg"
+        }), null, 4 /* STYLE */)
+      ], 8 /* PROPS */, ["shuttle-on-pop", "transition-on-gesture", "shuttle-on-push", "easing-function", "onClick"])
+    ]),
+    _cE("button", _uM({
+      type: "primary",
+      onClick: _ctx.openPage,
+      class: "button"
+    }), " 打开share-element页面 ", 8 /* PROPS */, ["onClick"]),
+    _cE("scroll-view", _uM({
+      style: _nS(_uM({"flex":"1"}))
+    }), [
+      _cE("view", _uM({ class: "content" }), [
+        _cV(_component_boolean_data, _uM({
+          defaultValue: _ctx.transitionOnGesture,
+          title: "transition-on-gesture= true(仅iOS生效)",
+          onChange: _ctx.changeTransitionOnGesture
+        }), null, 8 /* PROPS */, ["defaultValue", "onChange"]),
+        _cE("text", _uM({ class: "uni-common-mt choose-property-title" }), "easing-function:"),
+        _cV(_component_radio_group, _uM({
+          class: "choose-property-type-radio-group",
+          onChange: _ctx.handleEasingFunction
+        }), _uM({
+          default: withSlotCtx((): any[] => [
+            _cE(Fragment, null, RenderHelpers.renderList(_ctx.easingFunctionTypeList, (item, __key, __index, _cached): any => {
+              return _cV(_component_radio, _uM({
+                class: "ml-10 uni-common-mt",
+                key: item,
+                value: item,
+                checked: _ctx.easingFunctionType == item
+              }), _uM({
+                default: withSlotCtx((): any[] => [_tD(item)]),
+                _: 2 /* DYNAMIC */
+              }), 1032 /* PROPS, DYNAMIC_SLOTS */, ["value", "checked"])
+            }), 128 /* KEYED_FRAGMENT */)
+          ]),
+          _: 1 /* STABLE */
+        }), 8 /* PROPS */, ["onChange"]),
+        _cE("text", _uM({ class: "uni-common-mt choose-property-title" }), "shuttle-on-push(仅iOS生效):"),
+        _cV(_component_radio_group, _uM({
+          class: "choose-property-type-radio-group",
+          onChange: _ctx.handleShuttleOnPushType
+        }), _uM({
+          default: withSlotCtx((): any[] => [
+            _cE(Fragment, null, RenderHelpers.renderList(_ctx.shuttleOnTypeList, (item, __key, __index, _cached): any => {
+              return _cV(_component_radio, _uM({
+                class: "ml-10 uni-common-mt",
+                key: item,
+                value: item,
+                checked: _ctx.shuttleOnPushType == item
+              }), _uM({
+                default: withSlotCtx((): any[] => [_tD(item)]),
+                _: 2 /* DYNAMIC */
+              }), 1032 /* PROPS, DYNAMIC_SLOTS */, ["value", "checked"])
+            }), 128 /* KEYED_FRAGMENT */)
+          ]),
+          _: 1 /* STABLE */
+        }), 8 /* PROPS */, ["onChange"]),
+        _cE("text", _uM({ class: "uni-common-mt choose-property-title" }), "shuttle-on-pop(仅iOS生效):"),
+        _cV(_component_radio_group, _uM({
+          class: "choose-property-type-radio-group",
+          onChange: _ctx.handleShuttleOnPopType
+        }), _uM({
+          default: withSlotCtx((): any[] => [
+            _cE(Fragment, null, RenderHelpers.renderList(_ctx.shuttleOnTypeList, (item, __key, __index, _cached): any => {
+              return _cV(_component_radio, _uM({
+                class: "ml-10 uni-common-mt",
+                key: item,
+                value: item,
+                checked: _ctx.shuttleOnPopType == item
+              }), _uM({
+                default: withSlotCtx((): any[] => [_tD(item)]),
+                _: 2 /* DYNAMIC */
+              }), 1032 /* PROPS, DYNAMIC_SLOTS */, ["value", "checked"])
+            }), 128 /* KEYED_FRAGMENT */)
+          ]),
+          _: 1 /* STABLE */
+        }), 8 /* PROPS */, ["onChange"]),
+        _cE("text", _uM({ class: "uni-common-mt choose-property-title" }), "animationType(页面动画降级):"),
+        _cV(_component_radio_group, _uM({
+          class: "choose-property-type-radio-group",
+          onChange: _ctx.handleOpenAnimationType
+        }), _uM({
+          default: withSlotCtx((): any[] => [
+            _cE(Fragment, null, RenderHelpers.renderList(_ctx.openAnimationTypeList, (item, __key, __index, _cached): any => {
+              return _cV(_component_radio, _uM({
+                class: "ml-10 uni-common-mt",
+                key: item,
+                value: item,
+                checked: _ctx.openAnimationType == item
+              }), _uM({
+                default: withSlotCtx((): any[] => [_tD(item)]),
+                _: 2 /* DYNAMIC */
+              }), 1032 /* PROPS, DYNAMIC_SLOTS */, ["value", "checked"])
+            }), 128 /* KEYED_FRAGMENT */)
+          ]),
+          _: 1 /* STABLE */
+        }), 8 /* PROPS */, ["onChange"])
+      ])
+    ], 4 /* STYLE */),
+    _cE("button", _uM({
+      onClick: _ctx.gotoShareElementWithSwiper,
+      class: "button"
+    }), " 打开share-element-with-swiper页面 ", 8 /* PROPS */, ["onClick"]),
+    _cE("view", _uM({
+      style: _nS(_uM({"height":"80px"}))
+    }), null, 4 /* STYLE */),
+    _cE("share-element", _uM({
+      class: "bottomWrap",
+      "share-key": "bottom",
+      onClick: () => {_ctx.openPage()},
+      transitionOnGesture: "true"
+    }), [
+      _cE("view", _uM({ class: "bottom" }), [
+        _cE("text", _uM({
+          style: _nS(_uM({"color":"white"}))
+        }), "share-element(底部固定)", 4 /* STYLE */)
+      ])
+    ], 8 /* PROPS */, ["onClick"])
+  ], 64 /* STABLE_FRAGMENT */)
+}
+const GenPagesComponentShareElementShareElementStyles = [_uM([["ml-10", _pS(_uM([["marginLeft", 10]]))], ["choose-property-title", _pS(_uM([["fontWeight", "bold"]]))], ["choose-property-type-radio-group", _pS(_uM([["flexDirection", "row"], ["flexWrap", "wrap"]]))], ["bottomWrap", _pS(_uM([["width", "100%"], ["bottom", 0], ["height", 80], ["position", "fixed"]]))], ["bottom", _pS(_uM([["width", "100%"], ["height", "100%"], ["alignItems", "center"], ["justifyContent", "center"], ["backgroundColor", "#007aff"]]))], ["main", _pS(_uM([["paddingTop", 5], ["paddingRight", 0], ["paddingBottom", 5], ["paddingLeft", 0], ["alignItems", "center"], ["justifyContent", "center"]]))]])]
+
+import _easycom_page_head from '@/components/page-head/page-head.vue'
+import _easycom_boolean_data from '@/components/boolean-data/boolean-data.vue'

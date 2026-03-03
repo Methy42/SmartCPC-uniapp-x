@@ -1,0 +1,58 @@
+const __sfc__ = defineComponent({});
+export default __sfc__;
+function GenPagesCSSBorderBorderWidthRender(this: InstanceType<typeof __sfc__>): any | null {
+    const _ctx = this;
+    const _cache = this.$.renderCache;
+    return _cE("scroll-view", _uM({
+        style: _nS(_uM({ "flex": "1" }))
+    }), [
+        _cE("view", _uM({
+            style: _nS(_uM({ "flex-grow": "1" }))
+        }), [
+            _cE("view", null, [
+                _cE("text", null, "border-width: 5px (without border-style)"),
+                _cE("view", _uM({
+                    class: "common",
+                    style: _nS(_uM({ "border-width": "5px" }))
+                }), null, 4 /* STYLE */)
+            ]),
+            _cE("view", null, [
+                _cE("text", null, "border-width: 5px"),
+                _cE("view", _uM({
+                    class: "common",
+                    style: _nS(_uM({ "border-width": "5px", "border-style": "solid" }))
+                }), null, 4 /* STYLE */)
+            ]),
+            _cE("view", null, [
+                _cE("text", null, "border-left-width: 5px"),
+                _cE("view", _uM({
+                    class: "common",
+                    style: _nS(_uM({ "border-left-width": "5px", "border-left-style": "solid" }))
+                }), null, 4 /* STYLE */)
+            ]),
+            _cE("view", null, [
+                _cE("text", null, "border-top-width: 10px"),
+                _cE("view", _uM({
+                    class: "common",
+                    style: _nS(_uM({ "border-top-width": "10px", "border-top-style": "solid" }))
+                }), null, 4 /* STYLE */)
+            ]),
+            _cE("view", null, [
+                _cE("text", null, "border-right-width: 15px"),
+                _cE("view", _uM({
+                    class: "common",
+                    style: _nS(_uM({ "border-right-width": "15px", "border-right-style": "solid" }))
+                }), null, 4 /* STYLE */)
+            ]),
+            _cE("view", null, [
+                _cE("text", null, "border-bottom-width: 20px"),
+                _cE("view", _uM({
+                    class: "common",
+                    style: _nS(_uM({ "border-bottom-width": "20px", "border-bottom-style": "solid" }))
+                }), null, 4 /* STYLE */)
+            ])
+        ], 4 /* STYLE */)
+    ], 4 /* STYLE */);
+}
+const GenPagesCSSBorderBorderWidthStyles = [_uM([["common", _pS(_uM([["width", 250], ["height", 250], ["backgroundColor", "#808080"]]))]])];
+//# sourceMappingURL=border-width.uvue.map

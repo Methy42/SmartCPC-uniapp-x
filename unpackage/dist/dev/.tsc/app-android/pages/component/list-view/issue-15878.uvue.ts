@@ -1,0 +1,47 @@
+
+  const __sfc__ = defineComponent({
+    data() {
+      return {
+        refresherTriggered: false
+      }
+    },
+    onLoad() {
+
+    },
+    methods: {
+      onRefresh() {
+        this.refresherTriggered = true
+        setTimeout(() => {
+          this.refresherTriggered = false
+        }, 5000)
+      }
+    }
+  })
+
+export default __sfc__
+function GenPagesComponentListViewIssue15878Render(this: InstanceType<typeof __sfc__>): any | null {
+const _ctx = this
+const _cache = this.$.renderCache
+  return _cE("view", _uM({
+    style: _nS(_uM({"flex":"1"}))
+  }), [
+    _cE("list-view", _uM({
+      style: _nS(_uM({"flex":"1"})),
+      "refresher-enabled": "true",
+      onRefresherrefresh: _ctx.onRefresh,
+      "refresher-triggered": _ctx.refresherTriggered,
+      "refresher-default-style": "none"
+    }), [
+      _cE(Fragment, null, RenderHelpers.renderList(1000, (item, __key, __index, _cached): any => {
+        return _cE("list-item", _uM({ class: "item" }), _tD(item), 1 /* TEXT */)
+      }), 64 /* STABLE_FRAGMENT */),
+      _cE("list-item", _uM({
+        class: "refresher",
+        slot: "refresher"
+      }), [
+        _cE("text", _uM({ class: "refresher-text" }), "自定义下拉刷新")
+      ])
+    ], 44 /* STYLE, PROPS, NEED_HYDRATION */, ["onRefresherrefresh", "refresher-triggered"])
+  ], 4 /* STYLE */)
+}
+const GenPagesComponentListViewIssue15878Styles = [_uM([["item", _pS(_uM([["height", 50]]))], ["refresher", _pS(_uM([["height", 45]]))], ["refresher-text", _pS(_uM([["lineHeight", "45px"], ["textAlign", "center"]]))]])]

@@ -1,0 +1,15 @@
+const __sfc__ = defineComponent({});
+export default __sfc__;
+function GenPagesComponentListViewListViewWrapperRender(this: InstanceType<typeof __sfc__>): any | null {
+    const _ctx = this;
+    const _cache = this.$.renderCache;
+    return _cE("list-view", null, [
+        _cE("list-item", null, "start"),
+        renderSlot(_ctx.$slots, "default"),
+        _cE("list-item", null, "middle"),
+        renderSlot(_ctx.$slots, "second"),
+        _cE("list-item", null, "end")
+    ]);
+}
+const GenPagesComponentListViewListViewWrapperStyles = [];
+//# sourceMappingURL=ListViewWrapper.uvue.map

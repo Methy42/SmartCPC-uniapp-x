@@ -23,7 +23,9 @@
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "水源红·智慧党建",
-				"navigationBarBackgroundColor": "#C8102E"
+				"navigationBarBackgroundColor": "#C8102E",
+				"navigationStyle": "custom",
+				"tabBar": false
 			}
 		},
 		{

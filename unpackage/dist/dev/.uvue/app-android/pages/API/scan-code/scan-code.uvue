@@ -1,0 +1,49 @@
+const __sfc__ = defineComponent({
+    data() {
+        return {
+            title: 'scanCode',
+            result: ''
+        };
+    },
+    methods: {
+        scan() {
+            uni.scanCode({
+                success: (res: ScanCodeSuccess) => {
+                    console.log('res: ', res, " at pages/API/scan-code/scan-code.uvue:27");
+                    this.result = res.result;
+                },
+                fail: (err: ScanCodeFail) => {
+                    console.log('err: ', err, " at pages/API/scan-code/scan-code.uvue:31");
+                    // 需要注意的是小程序扫码不需要申请相机权限
+                }
+            });
+        }
+    }
+});
+export default __sfc__;
+function GenPagesAPIScanCodeScanCodeRender(this: InstanceType<typeof __sfc__>): any | null {
+    const _ctx = this;
+    const _cache = this.$.renderCache;
+    const _component_page_head = resolveEasyComponent("page-head", _easycom_page_head);
+    return _cE("view", null, [
+        _cV(_component_page_head, _uM({ title: _ctx.title }), null, 8 /* PROPS */, ["title"]),
+        _cE("view", _uM({ class: "uni-padding-wrap uni-common-mt" }), [
+            _cE("view", _uM({ class: "uni-title" }), "扫码结果："),
+            isTrue(_ctx.result)
+                ? _cE("view", _uM({
+                    key: 0,
+                    class: "scan-result"
+                }), _tD(_ctx.result), 1 /* TEXT */)
+                : _cC("v-if", true),
+            _cE("view", _uM({ class: "uni-btn-v" }), [
+                _cE("button", _uM({
+                    type: "primary",
+                    onClick: _ctx.scan
+                }), "扫一扫", 8 /* PROPS */, ["onClick"])
+            ])
+        ])
+    ]);
+}
+const GenPagesAPIScanCodeScanCodeStyles = [_uM([["scan-result", _pS(_uM([["minHeight", 25], ["lineHeight", "25px"]]))]])];
+import _easycom_page_head from '@/components/page-head/page-head.vue';
+//# sourceMappingURL=scan-code.uvue.map

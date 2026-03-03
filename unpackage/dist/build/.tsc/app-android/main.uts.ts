@@ -415,7 +415,7 @@ import GenPagesCSSFunctionRgbaClass from './pages/CSS/function/rgba.uvue'
 import GenPagesCSSFunctionUrlClass from './pages/CSS/function/url.uvue'
 function definePageRoutes() {
 __uniRoutes.push({ path: "pages/login/login", component: GenPagesLoginLoginClass, meta: { isQuit: true } as UniPageMeta, style: _uM([["navigationBarTitleText","登录"],["navigationBarBackgroundColor","#C8102E"]]) } as UniPageRoute)
-__uniRoutes.push({ path: "pages/index/index", component: GenPagesIndexIndexClass, meta: { isQuit: false } as UniPageMeta, style: _uM([["navigationBarTitleText","水源红·智慧党建"],["navigationBarBackgroundColor","#C8102E"]]) } as UniPageRoute)
+__uniRoutes.push({ path: "pages/index/index", component: GenPagesIndexIndexClass, meta: { isQuit: false } as UniPageMeta, style: _uM([["navigationBarTitleText","水源红·智慧党建"],["navigationBarBackgroundColor","#C8102E"],["navigationStyle","custom"],["tabBar",false]]) } as UniPageRoute)
 __uniRoutes.push({ path: "pages/meeting/meetingList", component: GenPagesMeetingMeetingListClass, meta: { isQuit: false } as UniPageMeta, style: _uM([["navigationBarTitleText","三会一课"],["navigationBarBackgroundColor","#C8102E"]]) } as UniPageRoute)
 __uniRoutes.push({ path: "pages/activity/activityList", component: GenPagesActivityActivityListClass, meta: { isQuit: false } as UniPageMeta, style: _uM([["navigationBarTitleText","支部活动"],["navigationBarBackgroundColor","#C8102E"]]) } as UniPageRoute)
 __uniRoutes.push({ path: "pages/mine/mine", component: GenPagesMineMineClass, meta: { isQuit: false } as UniPageMeta, style: _uM([["navigationBarTitleText","个人中心"],["navigationBarBackgroundColor","#C8102E"]]) } as UniPageRoute)

@@ -1,0 +1,37 @@
+
+	const __sfc__ = defineComponent({
+		data() {
+			return {
+				text: "<h2>uni-app x，终极跨平台方案</h2>"
+			}
+		},
+		methods: {
+
+		}
+	})
+
+export default __sfc__
+function GenPagesComponentRichTextRichTextListRender(this: InstanceType<typeof __sfc__>): any | null {
+const _ctx = this
+const _cache = this.$.renderCache
+  return _cE("view", _uM({
+    style: _nS(_uM({"flex":"1"}))
+  }), [
+    _cE("list-view", _uM({
+      style: _nS(_uM({"flex":"1"}))
+    }), [
+      _cE(Fragment, null, RenderHelpers.renderList(5, (index, __key, __index, _cached): any => {
+        return _cE("list-item", _uM({
+          type: "1",
+          name: index
+        }), [
+          _cE("rich-text", _uM({ nodes: _ctx.text }), null, 8 /* PROPS */, ["nodes"]),
+          _cE("text", _uM({
+            style: _nS(_uM({"height":"150px"}))
+          }), _tD(index), 5 /* TEXT, STYLE */)
+        ], 8 /* PROPS */, ["name"])
+      }), 64 /* STABLE_FRAGMENT */)
+    ], 4 /* STYLE */)
+  ], 4 /* STYLE */)
+}
+const GenPagesComponentRichTextRichTextListStyles = []

@@ -1,0 +1,46 @@
+
+  const __sfc__ = defineComponent({
+    data() {
+      return {
+        item_count: 10,
+        src: 'https://qiniu-web-assets.dcloud.net.cn/video/sample/2minute-demo.mp4',
+        isTesting: false
+      }
+    },
+    methods: {
+      onPause(e : UniEvent) {
+        console.log(JSON.stringify(e), " at pages/component/list-view/list-view-multiplex-video.uvue:27");
+      },
+      onScrollTolower(_ : ScrollToLowerEvent) {
+        setTimeout(() => {
+          if (this.isTesting && this.item_count >= 10) {
+            return
+          }
+          this.item_count += 10
+        }, 300)
+      },
+    }
+  })
+
+export default __sfc__
+function GenPagesComponentListViewListViewMultiplexVideoRender(this: InstanceType<typeof __sfc__>): any | null {
+const _ctx = this
+const _cache = this.$.renderCache
+  return _cE("list-view", _uM({
+    class: "list",
+    onScrolltolower: _ctx.onScrollTolower
+  }), [
+    _cE(Fragment, null, RenderHelpers.renderList(_ctx.item_count, (_, index, __index, _cached): any => {
+      return _cE("list-item", _uM({ class: "list-item" }), [
+        _cE("text", null, "第" + _tD(index + 1) + "个视频", 1 /* TEXT */),
+        _cE("video", _uM({
+          class: "video",
+          src: _ctx.src,
+          controls: true,
+          onPause: _ctx.onPause
+        }), null, 40 /* PROPS, NEED_HYDRATION */, ["src", "onPause"])
+      ])
+    }), 256 /* UNKEYED_FRAGMENT */)
+  ], 40 /* PROPS, NEED_HYDRATION */, ["onScrolltolower"])
+}
+const GenPagesComponentListViewListViewMultiplexVideoStyles = [_uM([["list", _pS(_uM([["flexGrow", 1], ["flexShrink", 1], ["flexBasis", "0%"]]))], ["list-item", _pS(_uM([["backgroundColor", "#FFFFFF"], ["marginBottom", 30]]))], ["video", _pS(_uM([["width", "100%"], ["height", 200]]))]])]

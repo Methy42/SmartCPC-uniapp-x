@@ -1,0 +1,1 @@
+{"version":3,"sources":["pages/CSS/layout/child-width.uvue"],"sourcesContent":["<template>\r\n  <view id=\"child_box\" class=\"box child_box\"></view>\r\n</template>\r\n\r\n<style>\r\n  .box {\r\n    width: 100px;\r\n    height: 100px;\r\n    background-color: red;\r\n  }\r\n</style>\r\n"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;eACE,IAAkD,QAAA,IAA5C,QAAG,aAAY,WAAM"}

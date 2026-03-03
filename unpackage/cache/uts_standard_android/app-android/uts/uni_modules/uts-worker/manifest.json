@@ -1,0 +1,20 @@
+{
+  "version": "1",
+  "env": {
+    "compilerVersion": "4.87"
+  },
+  "files": {
+    "../../workers/helloWorkerTask.uts": {
+      "md5": "622c126d715480402015feb010901d57"
+    },
+    "utssdk/index.uts": {
+      "md5": "56d07f896e9a624b5344ed2b0fd449fb"
+    },
+    "utssdk/interface.uts": {
+      "md5": "211d5a9b4fa7df9d205e16e2c986142c"
+    },
+    "package.json": {
+      "md5": "49e7dc0d9829446e0efd6235291e1caa"
+    }
+  }
+}

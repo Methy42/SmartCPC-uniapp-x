@@ -1,0 +1,82 @@
+const __sfc__ = defineComponent({});
+export default __sfc__;
+function GenPagesCSSBorderBorderRadiusRender(this: InstanceType<typeof __sfc__>): any | null {
+    const _ctx = this;
+    const _cache = this.$.renderCache;
+    return _cE("scroll-view", _uM({
+        style: _nS(_uM({ "flex": "1" }))
+    }), [
+        _cE("view", _uM({
+            style: _nS(_uM({ "flex-grow": "1" }))
+        }), [
+            _cE("view", null, [
+                _cE("text", null, "border-radius: 10px"),
+                _cE("view", _uM({
+                    class: "common",
+                    style: _nS(_uM({ "border-radius": "10px" }))
+                }), null, 4 /* STYLE */)
+            ]),
+            _cE("view", null, [
+                _cE("text", null, "border-top-left-radius: 10px"),
+                _cE("view", _uM({
+                    class: "common",
+                    style: _nS(_uM({ "border-top-left-radius": "10px" }))
+                }), null, 4 /* STYLE */)
+            ]),
+            _cE("view", null, [
+                _cE("text", null, "border-top-right-radius: 10px"),
+                _cE("view", _uM({
+                    class: "common",
+                    style: _nS(_uM({ "border-top-right-radius": "10px" }))
+                }), null, 4 /* STYLE */)
+            ]),
+            _cE("view", null, [
+                _cE("text", null, "border-bottom-left-radius: 10px"),
+                _cE("view", _uM({
+                    class: "common",
+                    style: _nS(_uM({ "border-bottom-left-radius": "10px" }))
+                }), null, 4 /* STYLE */)
+            ]),
+            _cE("view", null, [
+                _cE("text", null, "border-bottom-right-radius: 10px"),
+                _cE("view", _uM({
+                    class: "common",
+                    style: _nS(_uM({ "border-bottom-right-radius": "10px" }))
+                }), null, 4 /* STYLE */)
+            ]),
+            _cE("view", null, [
+                _cE("text", null, "border-radius: 250px（与长宽相同形成正圆）"),
+                _cE("view", _uM({
+                    class: "common",
+                    style: _nS(_uM({ "border-radius": "250px" }))
+                }), null, 4 /* STYLE */)
+            ]),
+            _cE("view", null, [
+                _cE("text", null, "border-radius: 10px（包含子视图）"),
+                _cE("view", _uM({
+                    class: "common",
+                    style: _nS(_uM({ "margin-left": "5px", "border-radius": "10px" }))
+                }), [
+                    _cE("view", _uM({
+                        style: _nS(_uM({ "background-color": "wheat", "width": "100%", "height": "20px" }))
+                    }), null, 4 /* STYLE */)
+                ], 4 /* STYLE */)
+            ]),
+            _cE("view", _uM({
+                style: _nS(_uM({ "margin-top": "10px" }))
+            }), [
+                _cE("text", null, "border-bottom-left-radius: 10px \nborder-bottom-right-radius: 10px \n(包含子视图）"),
+                _cE("view", _uM({
+                    class: "common",
+                    style: _nS(_uM({ "margin-left": "5px", "border-top-left-radius": "10px", "border-top-right-radius": "10px" }))
+                }), [
+                    _cE("view", _uM({
+                        style: _nS(_uM({ "background-color": "wheat", "width": "100%", "height": "20px" }))
+                    }), null, 4 /* STYLE */)
+                ], 4 /* STYLE */)
+            ], 4 /* STYLE */)
+        ], 4 /* STYLE */)
+    ], 4 /* STYLE */);
+}
+const GenPagesCSSBorderBorderRadiusStyles = [_uM([["common", _pS(_uM([["width", 250], ["height", 250], ["backgroundColor", "#808080"]]))]])];
+//# sourceMappingURL=border-radius.uvue.map

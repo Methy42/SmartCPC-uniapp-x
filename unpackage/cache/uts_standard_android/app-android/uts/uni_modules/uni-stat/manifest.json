@@ -1,0 +1,53 @@
+{
+  "version": "1",
+  "env": {
+    "compilerVersion": "4.87"
+  },
+  "files": {
+    "plugin.uts": {
+      "md5": "2307a7f9536d092e8836c80238e723a4"
+    },
+    "utssdk/common/config.uts": {
+      "md5": "7031da4ff55ccbb3729fc8015b0ac3c5"
+    },
+    "utssdk/common/core/report.uts": {
+      "md5": "14ddfb6d677061bd86bcf8322f781df9"
+    },
+    "utssdk/common/core/stat-type.uts": {
+      "md5": "ae5e99ed0a73e47fe552cdd7522285de"
+    },
+    "utssdk/common/core/stat.uts": {
+      "md5": "65b5c02aac7c652473c674d85fd9c173"
+    },
+    "utssdk/common/index.uts": {
+      "md5": "f60d8aaf78381c0a00a0ceb82cad3615"
+    },
+    "utssdk/common/utils/db.uts": {
+      "md5": "8fa3f83463ad755f3c32ca7b785ec1af"
+    },
+    "utssdk/common/utils/index.uts": {
+      "md5": "b56863144d5862cc0c6bfc67003ff15f"
+    },
+    "utssdk/common/utils/pageInfo.uts": {
+      "md5": "82363af5a25e0fc7c9e64d002d238114"
+    },
+    "utssdk/common/utils/pageTime.uts": {
+      "md5": "86e9f3e53d4c99b215e81847c8fa693f"
+    },
+    "utssdk/index.uts": {
+      "md5": "254fa5cf618602a2dc4efff436ae8689"
+    },
+    "utssdk/interface.uts": {
+      "md5": "59588c6d3aac3d62d80df5f2523b1632"
+    },
+    "utssdk/unierror.uts": {
+      "md5": "686da70fa2fc6eaa9030ad84a69e276b"
+    },
+    "package.json": {
+      "md5": "cfff8ba029e30228ebd530c8742e88ec"
+    },
+    "utssdk/app-android/config.json": {
+      "md5": "c443b04d0fc26b0a5a4573a78e0082a1"
+    }
+  }
+}

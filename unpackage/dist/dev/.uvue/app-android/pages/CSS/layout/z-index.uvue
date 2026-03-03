@@ -1,0 +1,90 @@
+const __sfc__ = defineComponent({
+    data() {
+        return {
+            zIndex: 5,
+            // 自动化测试
+            autoTest: false
+        };
+    },
+    methods: {
+        changeZIndex(zIndex: number) {
+            this.zIndex = 20;
+            (this.$refs['view'] as UniElement).style.setProperty('z-index', zIndex);
+        }
+    }
+});
+export default __sfc__;
+function GenPagesCSSLayoutZIndexRender(this: InstanceType<typeof __sfc__>): any | null {
+    const _ctx = this;
+    const _cache = this.$.renderCache;
+    return _cE(Fragment, null, [
+        _cE("view", _uM({
+            style: _nS(_uM({ "flex-grow": "1" }))
+        }), [
+            _cE("view", _uM({
+                style: _nS(_uM({ "position": "absolute", "z-index": "0" }))
+            }), [
+                _cE("view", _uM({ class: "common fixed default" }), [
+                    _cE("text", null, "position: fixed"),
+                    _cE("text", null, "z-index: 10")
+                ]),
+                _cE("view", _uM({ class: "common fixed specified" }), [
+                    _cE("text", null, "position: fixed"),
+                    _cE("text", null, "z-index: 5")
+                ]),
+                _cE("view", _uM({ class: "common fixed floor" }), [
+                    _cE("text", null, "position: fixed"),
+                    _cE("text", null, "z-index: -1")
+                ])
+            ], 4 /* STYLE */),
+            _cE("view", _uM({
+                style: _nS(_uM({ "top": "250px" }))
+            }), [
+                _cE("view", _uM({
+                    class: "common",
+                    style: _nS(_uM({ "background-color": "red", "z-index": "10" }))
+                }), [
+                    _cE("text", null, "z-index: 10")
+                ], 4 /* STYLE */),
+                _cE("view", _uM({
+                    ref: "view",
+                    class: "common",
+                    style: _nS(_uM({ "background-color": "green", "z-index": "5", "top": "-37px", "left": "87px" })),
+                    onClick: () => { _ctx.changeZIndex(20); }
+                }), [
+                    _cE("text", null, "z-index: " + _tD(_ctx.zIndex), 1 /* TEXT */),
+                    _cE("text", null, "点击修改z-index")
+                ], 12 /* STYLE, PROPS */, ["onClick"]),
+                _cE("view", _uM({
+                    class: "common",
+                    style: _nS(_uM({ "background-color": "blue", "top": "-75px", "left": "175px" }))
+                }), [
+                    _cE("text", null, "z-index: 0")
+                ], 4 /* STYLE */)
+            ], 4 /* STYLE */),
+            _cE("view", null, [
+                _cE("view", null, [
+                    _cE("view", _uM({
+                        class: "common fixed popup",
+                        style: _nS(_uM({ "background-color": "aqua", "z-index": "5" }))
+                    }), [
+                        _cE("text", null, "position: fixed"),
+                        _cE("text", null, "z-index: 5")
+                    ], 4 /* STYLE */)
+                ])
+            ])
+        ], 4 /* STYLE */),
+        isTrue(_ctx.autoTest)
+            ? _cE("view", _uM({ key: 0 }), [
+                _cE("view", _uM({
+                    style: _nS(_uM({ "z-index": "1", "position": "fixed" }))
+                }), "111", 4 /* STYLE */),
+                _cE("view", _uM({
+                    style: _nS(_uM({ "width": "750rpx" }))
+                }), "222", 4 /* STYLE */)
+            ])
+            : _cC("v-if", true)
+    ], 64 /* STABLE_FRAGMENT */);
+}
+const GenPagesCSSLayoutZIndexStyles = [_uM([["common", _pS(_uM([["width", 125], ["height", 125], ["justifyContent", "center"], ["alignItems", "center"]]))], ["fixed", _pS(_uM([["position", "fixed"]]))], ["default", _pS(_uM([["backgroundColor", "#FF0000"], ["zIndex", 10], ["top", "var(--uni-safe-area-inset-top)"], ["left", "var(--uni-safe-area-inset-left)"]]))], ["specified", _pS(_uM([["backgroundColor", "#008000"], ["zIndex", 5], ["top", 87], ["left", 87]]))], ["floor", _pS(_uM([["backgroundColor", "#D2691E"], ["top", 250], ["left", 175], ["zIndex", -1]]))], ["popup", _pS(_uM([["top", 320], ["left", 87], ["height", 40]]))]])];
+//# sourceMappingURL=z-index.uvue.map

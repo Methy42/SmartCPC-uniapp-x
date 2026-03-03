@@ -1,0 +1,35 @@
+const __sfc__ = defineComponent({
+    data() {
+        return {
+            enterOptionsString: '',
+            testResult: false
+        };
+    },
+    onReady() {
+        const app = getApp();
+        const appOnShow = app.globalData.onShowOption;
+        const onShowOption = uni.getEnterOptionsSync();
+        this.enterOptionsString = JSON.stringify(onShowOption, null, 2);
+        this.testResult = (onShowOption.path == appOnShow.path && onShowOption.appScheme == appOnShow.appScheme && onShowOption.appLink == appOnShow.appLink);
+    }
+});
+export default __sfc__;
+function GenPagesAPIGetEnterOptionsSyncGetEnterOptionsSyncRender(this: InstanceType<typeof __sfc__>): any | null {
+    const _ctx = this;
+    const _cache = this.$.renderCache;
+    const _component_page_head = resolveEasyComponent("page-head", _easycom_page_head);
+    return _cE(Fragment, null, [
+        _cV(_component_page_head, _uM({ title: "getEnterOptionsSync" })),
+        _cE("view", _uM({ class: "uni-padding-wrap" }), [
+            _cE("view", _uM({ class: "uni-common-mt" }), [
+                _cE("text", null, "应用本次启动路径："),
+                _cE("text", _uM({
+                    style: _nS(_uM({ "margin-top": "5px" }))
+                }), _tD(_ctx.enterOptionsString), 5 /* TEXT, STYLE */)
+            ])
+        ])
+    ], 64 /* STABLE_FRAGMENT */);
+}
+const GenPagesAPIGetEnterOptionsSyncGetEnterOptionsSyncStyles = [];
+import _easycom_page_head from '@/components/page-head/page-head.vue';
+//# sourceMappingURL=get-enter-options-sync.uvue.map

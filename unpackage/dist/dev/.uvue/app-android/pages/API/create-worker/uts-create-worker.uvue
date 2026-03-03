@@ -1,0 +1,169 @@
+import { onWorkerError, createWorkers, sendWorkerMessage, onWorkerMessage, destroyWorker, UTSWorkerAddListenerOptions, UTSWorkerReceiveEventCallback, UTSWorkerSendWorkerMessageOptions, UTSWorkerErrorOptions } from "@/uni_modules/uts-worker";
+const __sfc__ = defineComponent({
+    __name: 'uts-create-worker',
+    setup(__props, __setupCtx: SetupContext) {
+        const __expose = __setupCtx.expose;
+        const __ins = getCurrentInstance()!;
+        const _ctx = __ins.proxy as InstanceType<typeof __sfc__>;
+        const _cache = __ins.renderCache;
+        const created_boolean = ref(false);
+        const workerStatus = ref('none'); // none, created, destroyed
+        const isListening = ref(false);
+        const logs = ref([] as Array<UTSJSONObject>);
+        const inputValue = ref('1'); // 默认值为1
+        const taskResult = ref('');
+        const statusText = computed((): string => {
+            switch (workerStatus.value) {
+                case 'none': return '未创建';
+                case 'created': return '已创建';
+                case 'destroyed': return '已销毁';
+                default: return '未知';
+            }
+        });
+        // 添加日志方法
+        function addLog(message: string, type: string = 'info') {
+            const now = new Date();
+            const timeStr = `${now.getHours().toString(10).padStart(2, '0')}:${now.getMinutes().toString(10).padStart(2, '0')}:${now.getSeconds().toString(10).padStart(2, '0')}`;
+            const logItem = { __$originalPosition: new UTSSourceMapPosition("logItem", "pages/API/create-worker/uts-create-worker.uvue", 62, 11),
+                message: `[${timeStr}] ${message}`,
+                type: type,
+                time: timeStr
+            } as UTSJSONObject;
+            logs.value.unshift(logItem);
+            // 限制日志数量
+            if (logs.value.length > 50) {
+                logs.value = logs.value.slice(0, 50);
+            }
+        }
+        // 创建Worker
+        function create() {
+            createWorkers();
+            workerStatus.value = 'created';
+            addLog('Worker创建成功', 'success');
+            created_boolean.value = true;
+            // 添加消息监听
+            onWorkerMessage({
+                success: (res: any) => {
+                    const result = (UTSAndroid.consoleDebugError(JSON.parse(JSON.stringify(res)), " at pages/API/create-worker/uts-create-worker.uvue:84") as UTSJSONObject).getAny('result') as UTSJSONObject;
+                    const resultData = result.getString('data');
+                    taskResult.value = resultData as string;
+                    inputValue.value = taskResult.value;
+                    addLog(`收到WorkerTask返回: ${resultData}`, 'receive');
+                }
+            } as UTSWorkerAddListenerOptions);
+            // 添加错误监听
+            onWorkerError({
+                success: (error: any) => {
+                    const errorMsg = (error as UTSJSONObject).getString('message');
+                    addLog(`Worker错误: ${errorMsg}`, 'error');
+                    console.log("Worker错误:", error, " at pages/API/create-worker/uts-create-worker.uvue:97");
+                }
+            } as UTSWorkerErrorOptions);
+        }
+        // 向workerTask发送消息
+        function sendMessage() {
+            // 检查输入值
+            if (inputValue.value == '') {
+                addLog('请输入有效的数字', 'warning');
+                return;
+            }
+            const options = {
+                data: inputValue.value,
+                needReply: true
+            } as UTSWorkerSendWorkerMessageOptions;
+            sendWorkerMessage(options);
+            addLog(`发送值到WorkerTask: ${inputValue.value}`, 'send');
+        }
+        // 销毁Worker
+        function destory() {
+            destroyWorker();
+            workerStatus.value = 'destroyed';
+            isListening.value = false;
+            addLog('Worker已销毁', 'warning');
+            created_boolean.value = false;
+        }
+        // 清空日志
+        function clearLogs() {
+            logs.value = [];
+        }
+        function test_resetInputValue() {
+            inputValue.value = '1';
+        }
+        function test_taskResult(): string {
+            return taskResult.value;
+        }
+        onUnload(() => {
+            destory();
+        });
+        __expose({
+            test_resetInputValue,
+            create,
+            sendMessage,
+            test_taskResult
+        });
+        return (): any | null => {
+            return _cE("scroll-view", _uM({ class: "container" }), [
+                _cE("view", _uM({ class: "status-section" }), [
+                    _cE("text", _uM({ class: "status-label" }), "Worker状态: "),
+                    _cE("text", _uM({ class: "status-text" }), _tD(unref(statusText)), 1 /* TEXT */)
+                ]),
+                _cE("view", _uM({ class: "button-group" }), [
+                    _cE("text", _uM({ class: "description-text" }), "操作步骤：1.创建Worker 2.发送数据测试（消息监听已在创建Worker时添加）"),
+                    _cE("button", _uM({
+                        class: "btn",
+                        type: "primary",
+                        disabled: unref(created_boolean),
+                        onClick: create
+                    }), "UTS插件中创建Worker", 8 /* PROPS */, ["disabled"]),
+                    _cE("button", _uM({
+                        class: "btn",
+                        onClick: destory,
+                        disabled: unref(workerStatus) != 'created'
+                    }), "UTS插件中销毁Worker", 8 /* PROPS */, ["disabled"])
+                ]),
+                _cE("view", _uM({ class: "input-section" }), [
+                    _cE("text", _uM({ class: "section-title" }), "输入测试值:"),
+                    _cE("text", _uM({ class: "description-text" }), "点击发送按钮后，会将输入值传给WorkerTask，在子线程执行+1操作后返回结果"),
+                    _cE("input", _uM({
+                        class: "input-field",
+                        modelValue: unref(inputValue),
+                        onInput: ($event: UniInputEvent) => { trySetRefValue(inputValue, $event.detail.value); },
+                        type: "number",
+                        placeholder: "请输入数字"
+                    }), null, 40 /* PROPS, NEED_HYDRATION */, ["modelValue"]),
+                    _cE("button", _uM({
+                        class: "btn",
+                        type: "primary",
+                        onClick: sendMessage,
+                        disabled: unref(workerStatus) != 'created'
+                    }), "通过UTS插件发送到WorkerTask (值+1)", 8 /* PROPS */, ["disabled"])
+                ]),
+                _cE("view", _uM({ class: "log-section" }), [
+                    _cE("text", _uM({ class: "section-title" }), "通信日志:"),
+                    _cE("scroll-view", _uM({
+                        class: "log-container",
+                        "scroll-y": "true"
+                    }), [
+                        _cE(Fragment, null, RenderHelpers.renderList(unref(logs), (log, index, __index, _cached): any => {
+                            return _cE("view", _uM({
+                                key: index,
+                                class: "log-item"
+                            }), [
+                                _cE("text", _uM({
+                                    class: _nC(['log-text', log["type"]])
+                                }), _tD(log["message"]), 3 /* TEXT, CLASS */)
+                            ]);
+                        }), 128 /* KEYED_FRAGMENT */)
+                    ]),
+                    _cE("button", _uM({
+                        onClick: clearLogs,
+                        class: "btn clear-btn"
+                    }), "清空日志")
+                ])
+            ]);
+        };
+    }
+});
+export default __sfc__;
+const GenPagesAPICreateWorkerUtsCreateWorkerStyles = [_uM([["container", _pS(_uM([["flexGrow", 1], ["flexShrink", 1], ["flexBasis", "0%"], ["paddingTop", 10], ["paddingRight", 10], ["paddingBottom", 10], ["paddingLeft", 10]]))], ["status-section", _pS(_uM([["display", "flex"], ["alignItems", "center"], ["justifyContent", "center"], ["marginBottom", 20], ["paddingTop", 10], ["paddingRight", 10], ["paddingBottom", 10], ["paddingLeft", 10], ["backgroundColor", "#ffffff"], ["borderTopLeftRadius", 8], ["borderTopRightRadius", 8], ["borderBottomRightRadius", 8], ["borderBottomLeftRadius", 8]]))], ["status-label", _pS(_uM([["fontSize", 16], ["color", "#666666"]]))], ["status-text", _pS(_uM([["fontSize", 16], ["fontWeight", "bold"], ["marginLeft", 8]]))], ["button-group", _pS(_uM([["flexDirection", "column"], ["marginBottom", 20]]))], ["input-section", _pS(_uM([["marginBottom", 20], ["paddingTop", 15], ["paddingRight", 15], ["paddingBottom", 15], ["paddingLeft", 15], ["backgroundColor", "#ffffff"], ["borderTopLeftRadius", 8], ["borderTopRightRadius", 8], ["borderBottomRightRadius", 8], ["borderBottomLeftRadius", 8]]))], ["input-field", _pS(_uM([["width", "100%"], ["paddingTop", 12], ["paddingRight", 12], ["paddingBottom", 12], ["paddingLeft", 12], ["borderTopWidth", 1], ["borderRightWidth", 1], ["borderBottomWidth", 1], ["borderLeftWidth", 1], ["borderTopStyle", "solid"], ["borderRightStyle", "solid"], ["borderBottomStyle", "solid"], ["borderLeftStyle", "solid"], ["borderTopColor", "#dddddd"], ["borderRightColor", "#dddddd"], ["borderBottomColor", "#dddddd"], ["borderLeftColor", "#dddddd"], ["borderTopLeftRadius", 6], ["borderTopRightRadius", 6], ["borderBottomRightRadius", 6], ["borderBottomLeftRadius", 6], ["fontSize", 16], ["marginTop", 10], ["marginRight", 0], ["marginBottom", 10], ["marginLeft", 0], ["backgroundColor", "#ffffff"]]))], ["btn", _pS(_uM([["marginBottom", 10], ["paddingTop", 5], ["paddingRight", 10], ["paddingBottom", 5], ["paddingLeft", 10], ["borderTopLeftRadius", 6], ["borderTopRightRadius", 6], ["borderBottomRightRadius", 6], ["borderBottomLeftRadius", 6], ["fontSize", 14], ["textAlign", "center"]]))], ["log-section", _pS(_uM([["backgroundColor", "#ffffff"], ["borderTopLeftRadius", 8], ["borderTopRightRadius", 8], ["borderBottomRightRadius", 8], ["borderBottomLeftRadius", 8], ["paddingTop", 15], ["paddingRight", 15], ["paddingBottom", 15], ["paddingLeft", 15]]))], ["section-title", _pS(_uM([["fontSize", 18], ["fontWeight", "bold"], ["color", "#333333"], ["marginBottom", 10]]))], ["log-container", _pS(_uM([["height", 300], ["borderTopWidth", 1], ["borderRightWidth", 1], ["borderBottomWidth", 1], ["borderLeftWidth", 1], ["borderTopStyle", "solid"], ["borderRightStyle", "solid"], ["borderBottomStyle", "solid"], ["borderLeftStyle", "solid"], ["borderTopColor", "#dddddd"], ["borderRightColor", "#dddddd"], ["borderBottomColor", "#dddddd"], ["borderLeftColor", "#dddddd"], ["borderTopLeftRadius", 4], ["borderTopRightRadius", 4], ["borderBottomRightRadius", 4], ["borderBottomLeftRadius", 4], ["paddingTop", 10], ["paddingRight", 10], ["paddingBottom", 10], ["paddingLeft", 10], ["marginTop", 10], ["marginRight", 0], ["marginBottom", 10], ["marginLeft", 0], ["backgroundColor", "#fafafa"]]))], ["log-item", _pS(_uM([["marginBottom", 5]]))], ["log-text", _uM([["", _uM([["fontSize", 12], ["lineHeight", 1.4]])], [".info", _uM([["color", "#2196F3"]])], [".success", _uM([["color", "#4CAF50"]])], [".warning", _uM([["color", "#ff9800"]])], [".error", _uM([["color", "#f44336"]])], [".send", _uM([["color", "#9C27B0"]])], [".receive", _uM([["color", "#009688"]])]])], ["clear-btn", _pS(_uM([["backgroundColor", "#ff9800"], ["fontSize", 12], ["paddingTop", 8], ["paddingRight", 12], ["paddingBottom", 8], ["paddingLeft", 12], ["color", "#ffffff"], ["borderTopLeftRadius", 4], ["borderTopRightRadius", 4], ["borderBottomRightRadius", 4], ["borderBottomLeftRadius", 4], ["textAlign", "center"]]))], ["description-text", _pS(_uM([["fontSize", 14], ["color", "#666666"], ["lineHeight", 1.4], ["marginBottom", 10]]))], ["ios-tip-section", _pS(_uM([["marginBottom", 15], ["paddingTop", 12], ["paddingRight", 12], ["paddingBottom", 12], ["paddingLeft", 12], ["backgroundColor", "#fff3cd"], ["borderTopWidth", 1], ["borderRightWidth", 1], ["borderBottomWidth", 1], ["borderLeftWidth", 1], ["borderTopStyle", "solid"], ["borderRightStyle", "solid"], ["borderBottomStyle", "solid"], ["borderLeftStyle", "solid"], ["borderTopColor", "#ffeaa7"], ["borderRightColor", "#ffeaa7"], ["borderBottomColor", "#ffeaa7"], ["borderLeftColor", "#ffeaa7"], ["borderTopLeftRadius", 8], ["borderTopRightRadius", 8], ["borderBottomRightRadius", 8], ["borderBottomLeftRadius", 8]]))], ["ios-tip-text", _pS(_uM([["fontSize", 14], ["color", "#856404"], ["lineHeight", 1.4]]))]])];
+//# sourceMappingURL=uts-create-worker.uvue.map

@@ -1472,6 +1472,8 @@ val pages = _uA<UTSJSONObject>(object : UTSJSONObject() {
     var style = object : UTSJSONObject() {
         var navigationBarTitleText = "水源红·智慧党建"
         var navigationBarBackgroundColor = "#C8102E"
+        var navigationStyle = "custom"
+        var tabBar = false
     }
 }, object : UTSJSONObject() {
     var path = "pages/meeting/meetingList"
@@ -16081,7 +16083,7 @@ open class UniAppConfig : io.dcloud.uniapp.appframe.AppConfig {
 }
 fun definePageRoutes() {
     __uniRoutes.push(UniPageRoute(path = "pages/login/login", component = GenPagesLoginLoginClass, meta = UniPageMeta(isQuit = true), style = _uM("navigationBarTitleText" to "登录", "navigationBarBackgroundColor" to "#C8102E")))
-    __uniRoutes.push(UniPageRoute(path = "pages/index/index", component = GenPagesIndexIndexClass, meta = UniPageMeta(isQuit = false), style = _uM("navigationBarTitleText" to "水源红·智慧党建", "navigationBarBackgroundColor" to "#C8102E")))
+    __uniRoutes.push(UniPageRoute(path = "pages/index/index", component = GenPagesIndexIndexClass, meta = UniPageMeta(isQuit = false), style = _uM("navigationBarTitleText" to "水源红·智慧党建", "navigationBarBackgroundColor" to "#C8102E", "navigationStyle" to "custom", "tabBar" to false)))
     __uniRoutes.push(UniPageRoute(path = "pages/meeting/meetingList", component = GenPagesMeetingMeetingListClass, meta = UniPageMeta(isQuit = false), style = _uM("navigationBarTitleText" to "三会一课", "navigationBarBackgroundColor" to "#C8102E")))
     __uniRoutes.push(UniPageRoute(path = "pages/activity/activityList", component = GenPagesActivityActivityListClass, meta = UniPageMeta(isQuit = false), style = _uM("navigationBarTitleText" to "支部活动", "navigationBarBackgroundColor" to "#C8102E")))
     __uniRoutes.push(UniPageRoute(path = "pages/mine/mine", component = GenPagesMineMineClass, meta = UniPageMeta(isQuit = false), style = _uM("navigationBarTitleText" to "个人中心", "navigationBarBackgroundColor" to "#C8102E")))

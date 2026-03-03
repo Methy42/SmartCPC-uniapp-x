@@ -1,0 +1,31 @@
+const __sfc__ = defineComponent({})
+export default __sfc__
+function GenPagesCSSTextTextAlignRender(this: InstanceType<typeof __sfc__>): any | null {
+const _ctx = this
+const _cache = this.$.renderCache
+  return _cE("view", _uM({
+    style: _nS(_uM({"flex-grow":"1"}))
+  }), [
+    _cE("view", _uM({
+      style: _nS(_uM({"height":"250px","background-color":"gray","justify-content":"center","align-items":"center"}))
+    }), [
+      _cE("text", _uM({
+        class: "common",
+        style: _nS(_uM({"text-align":"left"}))
+      }), "text-align: left", 4 /* STYLE */),
+      _cE("text", _uM({
+        class: "common",
+        style: _nS(_uM({"text-align":"center"}))
+      }), "text-align: center", 4 /* STYLE */),
+      _cE("text", _uM({
+        class: "common2",
+        style: _nS(_uM({"text-align":"center"}))
+      }), "text-align: center", 4 /* STYLE */),
+      _cE("text", _uM({
+        class: "common",
+        style: _nS(_uM({"text-align":"right"}))
+      }), "text-align: right", 4 /* STYLE */)
+    ], 4 /* STYLE */)
+  ], 4 /* STYLE */)
+}
+const GenPagesCSSTextTextAlignStyles = [_uM([["common", _pS(_uM([["width", 250], ["fontSize", 20]]))], ["common2", _pS(_uM([["minWidth", 250], ["fontSize", 20]]))]])]

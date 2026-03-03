@@ -1,0 +1,21 @@
+const __sfc__ = defineComponent({});
+export default __sfc__;
+function GenPagesCSSLayoutMinHeightRender(this: InstanceType<typeof __sfc__>): any | null {
+    const _ctx = this;
+    const _cache = this.$.renderCache;
+    return _cE("view", _uM({
+        style: _nS(_uM({ "flex-grow": "1" }))
+    }), [
+        _cE("view", null, [
+            _cE("text", null, "min-height: 250px"),
+            _cE("view", _uM({
+                class: "common",
+                style: _nS(_uM({ "min-height": "250px" }))
+            }), [
+                _cE("text", null, "height: 50px")
+            ], 4 /* STYLE */)
+        ])
+    ], 4 /* STYLE */);
+}
+const GenPagesCSSLayoutMinHeightStyles = [_uM([["common", _pS(_uM([["width", 250], ["height", 50], ["backgroundColor", "#FF0000"], ["justifyContent", "center"], ["alignItems", "center"]]))]])];
+//# sourceMappingURL=min-height.uvue.map

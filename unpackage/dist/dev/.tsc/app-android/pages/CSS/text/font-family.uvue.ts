@@ -1,0 +1,57 @@
+
+  const __sfc__ = defineComponent({
+    data() {
+      return {
+        uniIcon: '\ue100',
+      }
+    },
+    methods: {
+      openUniIcon() {
+        uni.navigateTo({
+          url: '/pages/CSS/text/font-family-icon'
+        })
+      }
+    }
+  })
+
+export default __sfc__
+function GenPagesCSSTextFontFamilyRender(this: InstanceType<typeof __sfc__>): any | null {
+const _ctx = this
+const _cache = this.$.renderCache
+  return _cE(Fragment, null, [
+    _cE("view", _uM({ class: "uni-padding-wrap" }), [
+      _cE("text", _uM({
+        class: "common",
+        style: _nS(_uM({"font-family":"monospace"}))
+      }), "font-family: monospace", 4 /* STYLE */),
+      _cE("text", _uM({
+        class: "common",
+        style: _nS(_uM({"font-family":"cursive"}))
+      }), "font-family: cursive", 4 /* STYLE */),
+      _cE("text", _uM({
+        class: "common",
+        style: _nS(_uM({"font-family":"AlimamaDaoLiTiTTF"}))
+      }), "font-family: 阿里妈妈刀隶体-ttf（网络字体下载后生效）", 4 /* STYLE */),
+      _cE("text", _uM({
+        class: "common",
+        style: _nS(_uM({"font-family":"AlimamaDaoLiTiOTF"}))
+      }), "font-family: 阿里妈妈刀隶体-otf", 4 /* STYLE */),
+      _cE("text", _uM({
+        class: "common",
+        style: _nS(_uM({"font-family":"AlimamaDaoLiTiOTF","font-weight":"bold","font-style":"italic"}))
+      }), "font-family: 阿里妈妈刀隶体-otf（粗斜体）", 4 /* STYLE */),
+      _cE("text", _uM({
+        style: _nS(_uM({"font-family":"UniFontFamily"}))
+      }), "style 加载非 static 目录字体文件：" + _tD(_ctx.uniIcon), 5 /* TEXT, STYLE */)
+    ]),
+    _cE("view", _uM({
+      style: _nS(_uM({"margin":"24px 12px"}))
+    }), [
+      _cE("button", _uM({
+        type: "default",
+        onClick: _ctx.openUniIcon
+      }), "内置字体图标uni-icon示例", 8 /* PROPS */, ["onClick"])
+    ], 4 /* STYLE */)
+  ], 64 /* STABLE_FRAGMENT */)
+}
+const GenPagesCSSTextFontFamilyStyles = [_uM([["common", _pS(_uM([["fontSize", 20], ["lineHeight", "40px"]]))], ["@FONT-FACE", _uM([["0", _uM([["fontFamily", "AlimamaDaoLiTiTTF"], ["src", "url('https://qiniu-web-assets.dcloud.net.cn/uni-app-x/static/font/AlimamaDaoLiTi.ttf')"]])], ["1", _uM([["fontFamily", "AlimamaDaoLiTiOTF"], ["src", "url('/static/font/AlimamaDaoLiTi.otf')"]])], ["2", _uM([["fontFamily", "UniFontFamily"], ["src", "url('/assets/uni.173d2b94.ttf')"]])]])]])]

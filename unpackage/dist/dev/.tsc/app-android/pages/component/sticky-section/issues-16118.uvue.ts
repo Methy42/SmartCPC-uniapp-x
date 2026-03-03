@@ -1,0 +1,73 @@
+
+
+	type ItemGroup = { __$originalPosition?: UTSSourceMapPosition<"ItemGroup", "pages/component/sticky-section/issues-16118.uvue", 23, 7>;
+		title : string
+	}
+  const __sfc__ = defineComponent({
+    data() {
+        return {
+          groupItems: [] as ItemGroup[],
+          contentVisible: false
+        }
+    },
+    methods: {
+      switchDisplay() {
+      	if (this.contentVisible) {
+      		this.contentVisible = false
+      	} else {
+      		this.contentVisible = true
+      	}
+
+      	if (this.contentVisible) {
+      		setTimeout(() => {
+      			this.groupItems = [{
+      				title: 'sticky-header'
+      			}] as ItemGroup[]
+      		}, 200)
+      	} else {
+      		setTimeout(() => { // 面板隐藏，释放内存
+      			this.groupItems = []
+      		}, 200)
+      	}
+      }
+    }
+  })
+
+
+export default __sfc__
+function GenPagesComponentStickySectionIssues16118Render(this: InstanceType<typeof __sfc__>): any | null {
+const _ctx = this
+const _cache = this.$.renderCache
+  return _cE("scroll-view", _uM({
+    style: _nS(_uM({"flex":"1"}))
+  }), [
+    _cE("button", _uM({ onClick: _ctx.switchDisplay }), "显示内容", 8 /* PROPS */, ["onClick"]),
+    withDirectives(_cE("view", _uM({
+      style: _nS(_uM({"flex":"1"}))
+    }), [
+      _cE("list-view", _uM({
+        style: _nS(_uM({"height":"200px"}))
+      }), [
+        _cE(Fragment, null, RenderHelpers.renderList(_ctx.groupItems, (group, _, __index, _cached): any => {
+          return _cE("sticky-section", null, [
+            _cE("sticky-header", _uM({
+              style: _nS(_uM({"background-color":"antiquewhite"}))
+            }), [
+              _cE("text", _uM({ class: "group-title" }), _tD(group.title), 1 /* TEXT */)
+            ], 4 /* STYLE */),
+            _cE("list-item", _uM({ class: "content-group" }), [
+              _cE("view", _uM({ class: "content-box" }), [
+                _cE(Fragment, null, RenderHelpers.renderList(20, (index, __key, __index, _cached): any => {
+                  return _cE("text", _uM({ class: "item" }), _tD(index) + " item信息", 1 /* TEXT */)
+                }), 64 /* STABLE_FRAGMENT */)
+              ])
+            ])
+          ])
+        }), 256 /* UNKEYED_FRAGMENT */)
+      ], 4 /* STYLE */)
+    ], 4 /* STYLE */), [
+      [vShow, _ctx.contentVisible]
+    ])
+  ], 4 /* STYLE */)
+}
+const GenPagesComponentStickySectionIssues16118Styles = [_uM([["group-title", _pS(_uM([["fontWeight", "bold"], ["fontSize", 14], ["color", "#4B515A"], ["paddingTop", 8], ["paddingRight", 0], ["paddingBottom", 8], ["paddingLeft", 0], ["backgroundColor", "#FFFFFF"]]))], ["content-group", _pS(_uM([["flexDirection", "row"], ["flexWrap", "wrap"]]))], ["content-box", _pS(_uM([["width", "100%"], ["position", "relative"]]))], ["item", _pS(_uM([["paddingTop", 10], ["paddingRight", 0], ["paddingBottom", 10], ["paddingLeft", 0], ["backgroundColor", "#efeda7"]]))]])]

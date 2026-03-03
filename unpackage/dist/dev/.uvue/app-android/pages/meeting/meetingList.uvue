@@ -1,0 +1,97 @@
+import { ref } from 'vue';
+// 选项卡数据
+const __sfc__ = defineComponent({
+    __name: 'meetingList',
+    setup(__props) {
+        const __ins = getCurrentInstance()!;
+        const _ctx = __ins.proxy as InstanceType<typeof __sfc__>;
+        const _cache = __ins.renderCache;
+        const tabList = ref([
+            { name: '待开会议' },
+            { name: '已开会议' }
+        ]);
+        const activeTab = ref(0);
+        return (): any | null => {
+            const _component_u_tabs = resolveComponent("u-tabs");
+            const _component_u_icon = resolveComponent("u-icon");
+            const _component_u_button = resolveComponent("u-button");
+            const _component_u_empty = resolveComponent("u-empty");
+            return _cE("view", _uM({ class: "container" }), [
+                _cE("view", _uM({ class: "page-header" }), [
+                    _cE("image", _uM({
+                        class: "star-icon",
+                        src: "/static/star.png",
+                        mode: "widthFix"
+                    })),
+                    _cE("text", _uM({ class: "page-title" }), "三会一课")
+                ]),
+                _cV(_component_u_tabs, _uM({
+                    list: tabList.value,
+                    modelValue: activeTab.value,
+                    "onUpdate:modelValue": ($event: number) => { (activeTab).value = $event; },
+                    "active-color": "#FF8C00",
+                    "inactive-color": "#666",
+                    "bg-color": "#F5F5F5"
+                }), null, 8 /* PROPS */, ["list", "modelValue", "onUpdate:modelValue"]),
+                activeTab.value === 0
+                    ? _cE("view", _uM({
+                        key: 0,
+                        class: "meeting-list"
+                    }), [
+                        _cE("view", _uM({ class: "meeting-card" }), [
+                            _cE("text", _uM({ class: "meeting-title" }), "11月份党支部委员会支部大会"),
+                            _cE("view", _uM({ class: "meeting-info" }), [
+                                _cV(_component_u_icon, _uM({
+                                    name: "calendar",
+                                    size: "24",
+                                    color: "#666"
+                                })),
+                                _cE("text", _uM({ class: "info-text" }), "会议时间：2025年11月17日 星期四 9:30 ~ 11:30")
+                            ]),
+                            _cE("view", _uM({ class: "meeting-info" }), [
+                                _cV(_component_u_icon, _uM({
+                                    name: "people",
+                                    size: "24",
+                                    color: "#666"
+                                })),
+                                _cE("text", _uM({ class: "info-text" }), "会议组织：数智公司党支部")
+                            ]),
+                            _cE("view", _uM({ class: "meeting-info" }), [
+                                _cV(_component_u_icon, _uM({
+                                    name: "location",
+                                    size: "24",
+                                    color: "#666"
+                                })),
+                                _cE("text", _uM({ class: "info-text" }), "会议地点：311室")
+                            ]),
+                            _cE("view", _uM({ class: "btn-group" }), [
+                                _cV(_component_u_button, _uM({
+                                    class: "btn-group-btn",
+                                    text: "参加",
+                                    type: "primary",
+                                    size: "mini",
+                                    "bg-color": "#FF8C00"
+                                })),
+                                _cV(_component_u_button, _uM({
+                                    text: "请假",
+                                    type: "default",
+                                    size: "mini",
+                                    "border-color": "#FF8C00",
+                                    color: "#FF8C00"
+                                }))
+                            ])
+                        ])
+                    ])
+                    : _cE("view", _uM({
+                        key: 1,
+                        class: "meeting-list"
+                    }), [
+                        _cV(_component_u_empty, _uM({ text: "暂无已开会议记录" }))
+                    ])
+            ]);
+        };
+    }
+});
+export default __sfc__;
+const GenPagesMeetingMeetingListStyles = [_uM([["container", _pS(_uM([["backgroundColor", "#F5F5F5"], ["display", "flex"], ["flexDirection", "column"], ["flexGrow", 1], ["flexShrink", 1], ["flexBasis", "0%"], ["paddingBottom", "100rpx"]]))], ["page-header", _pS(_uM([["display", "flex"], ["alignItems", "center"], ["paddingTop", "20rpx"], ["paddingRight", "30rpx"], ["paddingBottom", "20rpx"], ["paddingLeft", "30rpx"], ["backgroundColor", "#ffffff"]]))], ["star-icon", _pS(_uM([["width", "40rpx"], ["height", "40rpx"], ["marginRight", "10rpx"]]))], ["page-title", _pS(_uM([["fontSize", "36rpx"], ["fontWeight", "bold"], ["color", "#333333"]]))], ["meeting-list", _pS(_uM([["paddingTop", "20rpx"], ["paddingRight", "30rpx"], ["paddingBottom", "20rpx"], ["paddingLeft", "30rpx"]]))], ["meeting-card", _pS(_uM([["backgroundColor", "#ffffff"], ["borderTopLeftRadius", "16rpx"], ["borderTopRightRadius", "16rpx"], ["borderBottomRightRadius", "16rpx"], ["borderBottomLeftRadius", "16rpx"], ["paddingTop", "30rpx"], ["paddingRight", "30rpx"], ["paddingBottom", "30rpx"], ["paddingLeft", "30rpx"]]))], ["meeting-title", _pS(_uM([["fontSize", "32rpx"], ["fontWeight", "bold"], ["color", "#333333"], ["marginBottom", "20rpx"]]))], ["meeting-info", _pS(_uM([["display", "flex"], ["alignItems", "center"], ["marginBottom", "15rpx"]]))], ["info-text", _pS(_uM([["fontSize", "28rpx"], ["color", "#666666"], ["marginLeft", "10rpx"], ["flexGrow", 1], ["flexShrink", 1], ["flexBasis", "0%"]]))], ["btn-group", _pS(_uM([["display", "flex"], ["justifyContent", "flex-end"], ["marginTop", "20rpx"]]))], ["btn-group-btn", _pS(_uM([["marginRight:first-child", "20rpx"]]))]])];
+//# sourceMappingURL=meetingList.uvue.map

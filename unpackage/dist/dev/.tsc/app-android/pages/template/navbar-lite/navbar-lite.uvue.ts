@@ -1,0 +1,218 @@
+
+  import { state, setLifeCycleNum } from '@/store/index.uts'
+  const __sfc__ = defineComponent({
+    data() {
+      return {
+        title: 'Hello uni-app',
+        isLeft: false,
+        navigationBarTextColor: '#000',
+        indexView: 0,
+        inputBottom: '0px'
+      }
+    },
+    methods: {
+      onClick() {
+        this.isLeft = !this.isLeft
+      },
+      setNavigationBarColor1() {
+        uni.setNavigationBarColor({
+          frontColor: '#ffffff',
+          backgroundColor: '#0000',
+          success: () => {
+            this.navigationBarTextColor = '#fff'
+            console.log('setNavigationBarColor success', " at pages/template/navbar-lite/navbar-lite.uvue:69")
+            this.setLifeCycleNum(state.lifeCycleNum + 1)
+          },
+          fail: () => {
+            console.log('setNavigationBarColor fail', " at pages/template/navbar-lite/navbar-lite.uvue:73")
+            this.setLifeCycleNum(state.lifeCycleNum - 1)
+          },
+          complete: () => {
+            console.log('setNavigationBarColor complete', " at pages/template/navbar-lite/navbar-lite.uvue:77")
+            this.setLifeCycleNum(state.lifeCycleNum + 1)
+          }
+        })
+      },
+      setNavigationBarColor2() {
+        uni.setNavigationBarColor({
+          frontColor: '#000000',
+          backgroundColor: '#0000',
+          success: () => {
+            this.navigationBarTextColor = '#000'
+            console.log('setNavigationBarColor success', " at pages/template/navbar-lite/navbar-lite.uvue:88")
+            this.setLifeCycleNum(state.lifeCycleNum + 1)
+          },
+          fail: () => {
+            console.log('setNavigationBarColor fail', " at pages/template/navbar-lite/navbar-lite.uvue:92")
+            this.setLifeCycleNum(state.lifeCycleNum - 1)
+          },
+          complete: () => {
+            console.log('setNavigationBarColor complete', " at pages/template/navbar-lite/navbar-lite.uvue:96")
+            this.setLifeCycleNum(state.lifeCycleNum + 1)
+          }
+        })
+      },
+      ChangeView(e:UniRadioGroupChangeEvent){
+        this.indexView = parseInt(e.detail.value)
+      },
+      onInputBlur(_:UniInputBlurEvent) {
+        this.inputBottom = '0px';
+      },
+      onInputKeyboardChange(e:UniInputKeyboardHeightChangeEvent) {
+        let height = e.detail.height;
+
+
+
+
+
+        this.inputBottom = `${height}px`;
+      },
+      // 自动化测试
+      getLifeCycleNum() : number {
+        return state.lifeCycleNum
+      },
+      // 自动化测试
+      setLifeCycleNum(num : number) {
+        setLifeCycleNum(num)
+      }
+    },
+    onReady() {
+    },
+    onResize() {
+    }
+  })
+
+export default __sfc__
+function GenPagesTemplateNavbarLiteNavbarLiteRender(this: InstanceType<typeof __sfc__>): any | null {
+const _ctx = this
+const _cache = this.$.renderCache
+const _component_uni_navbar_lite = resolveEasyComponent("uni-navbar-lite",_easycom_uni_navbar_lite)
+const _component_radio = resolveComponent("radio")
+const _component_radio_group = resolveComponent("radio-group")
+
+  return _cE("view", _uM({ class: "content" }), [
+    _cV(_component_uni_navbar_lite, _uM({
+      "status-bar": true,
+      stat: "",
+      title: _ctx.title,
+      "is-left": _ctx.isLeft,
+      "text-color": _ctx.navigationBarTextColor
+    }), null, 8 /* PROPS */, ["title", "is-left", "text-color"]),
+    _cE("view", _uM({
+      class: "content-item",
+      onClick: _ctx.onClick
+    }), [
+      _cE("text", null, "点击此处，将标题切换为" + _tD(_ctx.isLeft?'居中':'左侧') + "显示", 1 /* TEXT */)
+    ], 8 /* PROPS */, ["onClick"]),
+    _cE("view", _uM({
+      class: "content-item",
+      onClick: _ctx.setNavigationBarColor1
+    }), [
+      _cE("text", null, "设置自定义导航栏前景色白色")
+    ], 8 /* PROPS */, ["onClick"]),
+    _cE("view", _uM({
+      class: "content-item",
+      onClick: _ctx.setNavigationBarColor2
+    }), [
+      _cE("text", null, "设置自定义导航栏前景色黑色")
+    ], 8 /* PROPS */, ["onClick"]),
+    _cE("view", _uM({
+      style: _nS(_uM({"align-items":"center","height":"60px"}))
+    }), [
+      _cE("text", null, "测试输入框上推页面"),
+      _cV(_component_radio_group, _uM({
+        onChange: _ctx.ChangeView,
+        style: _nS(_uM({"flex-direction":"row"}))
+      }), _uM({
+        default: withSlotCtx((): any[] => [
+          _cV(_component_radio, _uM({
+            value: "0",
+            checked: true
+          }), _uM({
+            default: withSlotCtx((): any[] => [
+              _cE("text", null, "scroll-view")
+            ]),
+            _: 1 /* STABLE */
+          })),
+          _cV(_component_radio, _uM({ value: "1" }), _uM({
+            default: withSlotCtx((): any[] => [
+              _cE("text", null, "list-view")
+            ]),
+            _: 1 /* STABLE */
+          })),
+          _cV(_component_radio, _uM({ value: "2" }), _uM({
+            default: withSlotCtx((): any[] => [
+              _cE("text", null, "web-view")
+            ]),
+            _: 1 /* STABLE */
+          }))
+        ]),
+        _: 1 /* STABLE */
+      }), 8 /* PROPS */, ["onChange", "style"])
+    ], 4 /* STYLE */),
+    _ctx.indexView==0
+      ? _cE("scroll-view", _uM({
+          key: 0,
+          class: "scroll-view",
+          "scroll-y": true,
+          "refresher-enabled": false
+        }), [
+          _cE(Fragment, null, RenderHelpers.renderList(10, (item, __key, __index, _cached): any => {
+            return _cE("view", _uM({ class: "content-item" }), [
+              _cE("view", _uM({ class: "cell-item" }), [
+                _cE("text", _uM({ class: "text" }), "内容：" + _tD(item), 1 /* TEXT */),
+                _cE("input", _uM({
+                  class: "text",
+                  style: _nS(_uM({"margin-top":"8px"})),
+                  placeholder: "备注输入框:"
+                }), null, 4 /* STYLE */)
+              ])
+            ])
+          }), 64 /* STABLE_FRAGMENT */)
+        ])
+      : _cC("v-if", true),
+    _ctx.indexView==1
+      ? _cE("list-view", _uM({
+          key: 1,
+          class: "scroll-view"
+        }), [
+          _cE(Fragment, null, RenderHelpers.renderList(10, (item, __key, __index, _cached): any => {
+            return _cE("list-item", _uM({ class: "content-item" }), [
+              _cE("view", _uM({ class: "cell-item" }), [
+                _cE("text", _uM({ class: "text" }), "列表项内容：" + _tD(item), 1 /* TEXT */),
+                _cE("input", _uM({
+                  class: "text",
+                  style: _nS(_uM({"margin-top":"8px"})),
+                  placeholder: "备注输入框:"
+                }), null, 4 /* STYLE */)
+              ])
+            ])
+          }), 64 /* STABLE_FRAGMENT */)
+        ])
+      : _cC("v-if", true),
+    _ctx.indexView==2
+      ? _cE("web-view", _uM({
+          key: 2,
+          src: "/hybrid/html/local.html",
+          id: "webv",
+          class: "scroll-view"
+        }))
+      : _cC("v-if", true),
+    _cE("view", _uM({
+      class: "bottomInput",
+      style: _nS(_uM({bottom: _ctx.inputBottom}))
+    }), [
+      _cE("input", _uM({
+        id: "input",
+        style: _nS(_uM({"background-color":"white"})),
+        placeholder: "滚动视图外底部输入框，焦点时手动控制显示位置",
+        "adjust-position": false,
+        onBlur: _ctx.onInputBlur,
+        onKeyboardheightchange: _ctx.onInputKeyboardChange
+      }), null, 44 /* STYLE, PROPS, NEED_HYDRATION */, ["onBlur", "onKeyboardheightchange"])
+    ], 4 /* STYLE */)
+  ])
+}
+const GenPagesTemplateNavbarLiteNavbarLiteStyles = [_uM([["content", _pS(_uM([["display", "flex"], ["flexDirection", "column"], ["flexGrow", 1], ["flexShrink", 1], ["flexBasis", "0%"]]))], ["scroll-view", _pS(_uM([["flexGrow", 1], ["flexShrink", 1], ["flexBasis", "0%"], ["backgroundColor", "#f5f5f5"], ["paddingTop", 5], ["paddingRight", 0], ["paddingBottom", 5], ["paddingLeft", 0]]))], ["content-item", _pS(_uM([["paddingTop", 15], ["paddingRight", 15], ["paddingBottom", 15], ["paddingLeft", 15], ["marginTop", 5], ["marginRight", 10], ["marginBottom", 5], ["marginLeft", 10], ["backgroundColor", "#ffffff"], ["borderTopLeftRadius", 5], ["borderTopRightRadius", 5], ["borderBottomRightRadius", 5], ["borderBottomLeftRadius", 5]]))], ["cell-item", _pS(_uM([["display", "flex"], ["flexDirection", "column"]]))], ["text", _pS(_uM([["fontSize", 14], ["color", "#666666"]]))], ["bottomInput", _pS(_uM([["position", "relative"], ["zIndex", 1000], ["paddingTop", 0], ["paddingRight", 5], ["paddingBottom", 0], ["paddingLeft", 5], ["marginBottom", "var(--uni-safe-area-inset-bottom)"]]))]])]
+
+import _easycom_uni_navbar_lite from '@/components/uni-navbar-lite/uni-navbar-lite.uvue'

@@ -1,0 +1,23 @@
+{
+  "version": "1",
+  "env": {
+    "compilerVersion": "4.87"
+  },
+  "files": {
+    "utssdk/app-android/index.uts": {
+      "md5": "4f764acc51633467b7d6e91c166e189b"
+    },
+    "utssdk/interface.uts": {
+      "md5": "f8862928608e1fe9962d5fad2a2d71f3"
+    },
+    "utssdk/unierror.uts": {
+      "md5": "71b68db8b04e3af8b3b523cbf4b58d06"
+    },
+    "package.json": {
+      "md5": "39a346ef8e082c79f7ea4a5e91af5048"
+    },
+    "utssdk/app-android/config.json": {
+      "md5": "643b2980a54aaca20ecd07d593fb4099"
+    }
+  }
+}

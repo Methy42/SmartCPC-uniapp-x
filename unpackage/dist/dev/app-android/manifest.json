@@ -1,0 +1,30 @@
+{
+  "id": "__UNI__2A1DFEF",
+  "name": "SmartCPC-uniapp-x",
+  "description": "",
+  "version": {
+    "name": "1.9.8",
+    "code": 10908
+  },
+  "uni-app-x": {
+    "compilerVersion": "4.87"
+  },
+  "app-android": {
+    "distribute": {
+      "modules": {},
+      "icons": {
+        "xxhdpi": "package/icon144.png",
+        "xxxhdpi": "package/icon192.png"
+      },
+      "splashScreens": {
+        "default": {}
+      },
+      "_uni-app-x_": {
+        "pageOrientation": "portrait"
+      },
+      "globalStyle": {
+        "pageOrientation": "portrait"
+      }
+    }
+  }
+}

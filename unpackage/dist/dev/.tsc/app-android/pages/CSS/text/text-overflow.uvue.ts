@@ -1,0 +1,81 @@
+
+  const __sfc__ = defineComponent({
+    data() {
+      return {
+        multiLineText: 'HBuilderX，轻巧、极速，极客编辑器；uni-app x，终极跨平台方案；uts，大一统语言',
+        singleLineText: 'uts，大一统语言（单行文本）'
+      }
+    }
+  })
+
+export default __sfc__
+function GenPagesCSSTextTextOverflowRender(this: InstanceType<typeof __sfc__>): any | null {
+const _ctx = this
+const _cache = this.$.renderCache
+  return _cE("view", _uM({
+    style: _nS(_uM({"flex-grow":"1"}))
+  }), [
+    _cE("view", _uM({
+      style: _nS(_uM({"height":"500px","padding":"0 30px","background-color":"gray","justify-content":"center"}))
+    }), [
+      _cE("view", _uM({ class: "margin-bottom-10" }), [
+        _cE("text", _uM({ class: "font-weight-bold" }), "text-overflow:clip white-space:nowrap"),
+        _cE("text", _uM({
+          class: "font-size-20",
+          style: _nS(_uM({"text-overflow":"clip","white-space":"nowrap"}))
+        }), _tD(_ctx.multiLineText), 5 /* TEXT, STYLE */)
+      ]),
+      _cE("view", _uM({ class: "margin-bottom-10" }), [
+        _cE("text", _uM({ class: "font-weight-bold" }), "text-overflow:ellipsis white-space:nowrap"),
+        _cE("text", _uM({
+          class: "font-size-20",
+          style: _nS(_uM({"text-overflow":"ellipsis","white-space":"nowrap"}))
+        }), _tD(_ctx.singleLineText), 5 /* TEXT, STYLE */),
+        _cE("text", _uM({
+          class: "font-size-20",
+          style: _nS(_uM({"text-overflow":"ellipsis","white-space":"nowrap"}))
+        }), _tD(_ctx.multiLineText), 5 /* TEXT, STYLE */)
+      ]),
+      _cE("view", _uM({ class: "margin-bottom-10" }), [
+        _cE("text", _uM({ class: "font-weight-bold" }), "white-space:normal"),
+        _cE("text", _uM({
+          class: "font-size-20",
+          style: _nS(_uM({"white-space":"normal"}))
+        }), _tD(_ctx.multiLineText), 5 /* TEXT, STYLE */)
+      ]),
+      _cE("view", _uM({
+        class: "margin-bottom-10",
+        style: _nS(_uM({"overflow":"visible"}))
+      }), [
+        _cE("text", _uM({ class: "font-weight-bold" }), "white-space: nowrap"),
+        _cE("text", _uM({
+          class: "font-size-20",
+          style: _nS(_uM({"white-space":"nowrap","align-self":"flex-start"}))
+        }), _tD(_ctx.multiLineText), 5 /* TEXT, STYLE */)
+      ], 4 /* STYLE */),
+      _cE("view", _uM({ class: "margin-bottom-10" }), [
+        _cE("text", _uM({ class: "font-weight-bold" }), "任意宽度截断（100px、200px、300px）"),
+        _cE("text", _uM({
+          class: "font-size-20",
+          style: _nS(_uM({"text-overflow":"ellipsis","white-space":"nowrap","width":"100px"}))
+        }), _tD(_ctx.multiLineText), 5 /* TEXT, STYLE */),
+        _cE("text", _uM({
+          class: "font-size-20",
+          style: _nS(_uM({"text-overflow":"ellipsis","white-space":"nowrap","width":"200px"}))
+        }), _tD(_ctx.multiLineText), 5 /* TEXT, STYLE */),
+        _cE("text", _uM({
+          class: "font-size-20",
+          style: _nS(_uM({"text-overflow":"ellipsis","white-space":"nowrap","width":"300px"}))
+        }), _tD(_ctx.multiLineText), 5 /* TEXT, STYLE */)
+      ]),
+      _cE("view", _uM({ class: "margin-bottom-10" }), [
+        _cE("text", _uM({ class: "font-weight-bold" }), "lines:1 text-overflow:ellipsis"),
+        _cE("text", _uM({
+          class: "font-size-20",
+          style: _nS(_uM({"text-overflow":"ellipsis","lines":"1"}))
+        }), _tD(_ctx.multiLineText), 5 /* TEXT, STYLE */)
+      ])
+    ], 4 /* STYLE */)
+  ], 4 /* STYLE */)
+}
+const GenPagesCSSTextTextOverflowStyles = [_uM([["font-size-20", _pS(_uM([["fontSize", 20]]))], ["font-weight-bold", _pS(_uM([["fontWeight", "bold"]]))], ["margin-bottom-10", _pS(_uM([["marginBottom", 10]]))]])]

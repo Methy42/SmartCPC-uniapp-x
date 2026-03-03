@@ -1,0 +1,71 @@
+const __sfc__ = defineComponent({
+    data() {
+        return {
+            title: 'pageScrollTo',
+        };
+    },
+    methods: {
+        scrollTo() {
+            uni.pageScrollTo({
+                scrollTop: 100,
+                duration: 300,
+                success: () => {
+                    console.log('success', " at pages/API/page-scroll-to/page-scroll-to.uvue:39");
+                },
+            });
+        },
+        scrollToElement() {
+            uni.pageScrollTo({
+                selector: '.custom-element',
+                duration: 300,
+                success: () => {
+                    console.log('success', " at pages/API/page-scroll-to/page-scroll-to.uvue:48");
+                },
+            });
+        },
+    },
+});
+export default __sfc__;
+function GenPagesAPIPageScrollToPageScrollToRender(this: InstanceType<typeof __sfc__>): any | null {
+    const _ctx = this;
+    const _cache = this.$.renderCache;
+    const _component_page_head = resolveEasyComponent("page-head", _easycom_page_head);
+    return _cE("scroll-view", _uM({
+        style: _nS(_uM({ "flex": "1" })),
+        "scroll-with-animation": "true"
+    }), [
+        _cE("view", _uM({ class: "uni-padding-wrap" }), [
+            _cV(_component_page_head, _uM({ title: _ctx.title }), null, 8 /* PROPS */, ["title"]),
+            _cE("button", _uM({
+                type: "default",
+                class: "btn-scrollTo",
+                onClick: _ctx.scrollTo
+            }), " scrollTo ", 8 /* PROPS */, ["onClick"]),
+            _cE("button", _uM({
+                type: "default",
+                class: "btn-scrollToElement",
+                onClick: _ctx.scrollToElement
+            }), " scrollToElement ", 8 /* PROPS */, ["onClick"]),
+            _cE(Fragment, null, RenderHelpers.renderList(10, (_, index, __index, _cached): any => {
+                return _cE("view", _uM({
+                    class: "uni-list",
+                    key: index
+                }), [
+                    _cE("view", _uM({ class: "uni-list-cell list-item" }), _tD(index), 1 /* TEXT */)
+                ]);
+            }), 64 /* STABLE_FRAGMENT */),
+            _cE("view", _uM({ class: "custom-element" }), "scrollTo-custom-element"),
+            _cE(Fragment, null, RenderHelpers.renderList(10, (_, index2, __index, _cached): any => {
+                return _cE("view", _uM({
+                    class: "uni-list",
+                    key: index2
+                }), [
+                    _cE("view", _uM({ class: "uni-list-cell list-item" }), _tD(index2), 1 /* TEXT */)
+                ]);
+            }), 64 /* STABLE_FRAGMENT */)
+        ])
+    ], 4 /* STYLE */);
+}
+const GenPagesAPIPageScrollToPageScrollToStyles = [_uM([["list-item", _pS(_uM([["height", 100], ["paddingLeft", 30]]))]])];
+import _easycom_page_head from '@/components/page-head/page-head.vue';
+//# sourceMappingURL=page-scroll-to.uvue.map

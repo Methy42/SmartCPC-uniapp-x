@@ -1,0 +1,44 @@
+
+  const __sfc__ = defineComponent({
+    data() {
+      return {
+        scrollTop: 0
+      }
+    },
+    onLoad() {
+
+    },
+    onReady() {
+    },
+    methods: {
+      toNextPage() {
+        uni.navigateTo({
+          url: '/pages/component/list-view/list-view'
+        })
+      },
+      getScrollTop() {
+        return (this.$refs['list'] as UniListViewElement).scrollTop
+      },
+      setScrollTop(top: number) {
+        (this.$refs['list'] as UniListViewElement).scrollTop = top
+      }
+    }
+  })
+
+export default __sfc__
+function GenPagesComponentListViewIssue16938Render(this: InstanceType<typeof __sfc__>): any | null {
+const _ctx = this
+const _cache = this.$.renderCache
+  return _cE("list-view", _uM({
+    ref: "list",
+    style: _nS(_uM({"flex":"1"}))
+  }), [
+    _cE(Fragment, null, RenderHelpers.renderList(1000, (item, __key, __index, _cached): any => {
+      return _cE("list-item", _uM({
+        class: "item",
+        onClick: _ctx.toNextPage
+      }), _tD(item) + "点击跳转下一页 ", 9 /* TEXT, PROPS */, ["onClick"])
+    }), 64 /* STABLE_FRAGMENT */)
+  ], 4 /* STYLE */)
+}
+const GenPagesComponentListViewIssue16938Styles = [_uM([["item", _pS(_uM([["height", 100]]))]])]

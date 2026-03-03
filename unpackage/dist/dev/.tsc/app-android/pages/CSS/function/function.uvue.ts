@@ -1,0 +1,44 @@
+
+	const __sfc__ = defineComponent({
+		data() {
+			return {
+        safeareaInsetTop: 0,
+        safeareaInsetLeft: 0,
+        safeareaInsetRight: 0,
+        safeareaInsetBottom: 0,
+			}
+		},
+		methods: {
+
+		},
+    onReady() {
+      this.safeareaInsetTop=this.$page.safeAreaInsets.top;
+      this.safeareaInsetLeft=this.$page.safeAreaInsets.left;
+      this.safeareaInsetRight=this.$page.safeAreaInsets.right;
+      this.safeareaInsetBottom=this.$page.safeAreaInsets.bottom;
+    },
+    onResize() {
+      this.safeareaInsetTop=this.$page.safeAreaInsets.top;
+      this.safeareaInsetLeft=this.$page.safeAreaInsets.left;
+      this.safeareaInsetRight=this.$page.safeAreaInsets.right;
+      this.safeareaInsetBottom=this.$page.safeAreaInsets.bottom;
+    }
+	})
+
+export default __sfc__
+function GenPagesCSSFunctionFunctionRender(this: InstanceType<typeof __sfc__>): any | null {
+const _ctx = this
+const _cache = this.$.renderCache
+  return _cE("view", _uM({ class: "padding-safe-area-inset" }), [
+    _cE("view", _uM({ class: "text-background" }), "我在状态栏下边"),
+    _cE("view", _uM({ class: "content" }), [
+      _cE("text", null, "此页面使用env()函数适配安全区域，仅在app平台生效。"),
+      _cE("text", null, "safe-area-inset-top: " + _tD(_ctx.safeareaInsetTop) + "px", 1 /* TEXT */),
+      _cE("text", null, "safe-area-inset-left: " + _tD(_ctx.safeareaInsetLeft) + "px", 1 /* TEXT */),
+      _cE("text", null, "safe-area-inset-right: " + _tD(_ctx.safeareaInsetRight) + "px", 1 /* TEXT */),
+      _cE("text", null, "safe-area-inset-bottom: " + _tD(_ctx.safeareaInsetBottom) + "px", 1 /* TEXT */)
+    ]),
+    _cE("view", _uM({ class: "text-background" }), "我在导航栏上边")
+  ])
+}
+const GenPagesCSSFunctionFunctionStyles = [_uM([["text-background", _pS(_uM([["backgroundColor", "#FF0000"]]))], ["padding-safe-area-inset", _pS(_uM([["flexGrow", 1], ["flexShrink", 1], ["flexBasis", "0%"], ["justifyContent", "space-between"], ["paddingTop", "env(safe-area-inset-top,0px)"], ["paddingLeft", "env(safe-area-inset-left,0px)"], ["paddingRight", "env(safe-area-inset-right,0px)"], ["paddingBottom", "env(safe-area-inset-bottom,0px)"]]))], ["content", _pS(_uM([["paddingTop", 20], ["paddingRight", 20], ["paddingBottom", 20], ["paddingLeft", 20]]))]])]

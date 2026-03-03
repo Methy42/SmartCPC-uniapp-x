@@ -1,0 +1,181 @@
+import _easycom_page_head from '@/components/page-head/page-head.vue'
+import _easycom_custom_recycle_view_buttons from '@/components/custom-recycle-view-buttons/custom-recycle-view-buttons.uvue'
+import _easycom_uni_recycle_item from '@/uni_modules/uni-recycle-view/components/uni-recycle-item/uni-recycle-item.uvue'
+import _easycom_uni_recycle_view from '@/uni_modules/uni-recycle-view/components/uni-recycle-view/uni-recycle-view.uvue'
+import {
+    LayoutItem
+  } from '@/uni_modules/uni-recycle-view/common/types.uts'
+  type Item = { __$originalPosition?: UTSSourceMapPosition<"Item", "pages/template/custom-long-list/custom-long-list.uvue", 45, 8>;
+    img : string,
+    name : string,
+    info : string,
+    tags : string[]
+  }
+  
+const __sfc__ = defineComponent({
+  __name: 'custom-long-list',
+  setup(__props) {
+const __ins = getCurrentInstance()!;
+const _ctx = __ins.proxy as InstanceType<typeof __sfc__>;
+const _cache = __ins.renderCache;
+
+  const title = ref('自定义复用滚动列表')
+  const list = reactive<Item[]>([] as Item[])
+
+  const refresherEnabled = ref(true)
+  const refresherTriggered = ref(false)
+  const hasMore = ref(true)
+  // 常用中文字符Unicode范围: 0x4E00 - 0x9FFF
+  const minCode = 0x4E00;
+  const maxCode = 0x9FFF;
+  const codeRange = maxCode - minCode
+
+  function generateChineseString(index: number, length = 4) {
+    let result = '';
+    for (let i = 0; i < length; i++) {
+      const code = (index * length + i) % codeRange + minCode;
+      result += String.fromCharCode(code);
+    }
+    return result;
+  }
+
+  function loadData() {
+    for (var i = 0; i < 200; i++) {
+      const index = list.length
+      const tags : string[] = []
+      const tagCount = 4
+      for (let i = 0; i < tagCount; i++) {
+        tags.push(generateChineseString(index * tagCount + i, 4))
+      }
+      list.push({
+        img: `https://web-ext-storage.dcloud.net.cn/hello-uni-app-x/drop-card-${index % 3 + 1}.jpg`,
+        name: 'Name_' + index,
+        info: 'Info_' + index,
+        tags
+      } as Item)
+    }
+  }
+
+  onMounted(() => {
+    loadData()
+  })
+
+  function onRefresherRefresh() {
+    refresherTriggered.value = true
+    setTimeout(() => {
+      list.splice(0, list.length)
+      loadData()
+      refresherTriggered.value = false
+    }, 1000)
+  }
+
+  function onScrollToLower() {
+    if (list.length >= 5000) {
+      hasMore.value = false
+    } else {
+      loadData()
+    }
+  }
+
+return (): any | null => {
+
+const _component_page_head = resolveEasyComponent("page-head",_easycom_page_head)
+const _component_navigator = resolveComponent("navigator")
+const _component_custom_recycle_view_buttons = resolveEasyComponent("custom-recycle-view-buttons",_easycom_custom_recycle_view_buttons)
+const _component_uni_recycle_item = resolveEasyComponent("uni-recycle-item",_easycom_uni_recycle_item)
+const _component_uni_recycle_view = resolveEasyComponent("uni-recycle-view",_easycom_uni_recycle_view)
+
+  return _cE("view", _uM({
+    style: _nS(_uM({"flex":"1"}))
+  }), [
+    _cV(_component_page_head, _uM({ title: unref(title) }), null, 8 /* PROPS */, ["title"]),
+    _cE("view", _uM({ class: "tips" }), "滚动期间对子组件回收复用。此示例限制列表子项固定高度。注意回收复用引发的副作用，详情参考custom-recycle-view-buttons组件内的错误用法。"),
+    _cV(_component_uni_recycle_view, _uM({
+      itemHeight: 140,
+      list: unref(list),
+      style: _nS(_uM({"flex":"1"})),
+      onScrolltolower: onScrollToLower,
+      onRefresherrefresh: onRefresherRefresh,
+      "refresher-enabled": unref(refresherEnabled),
+      "refresher-triggered": unref(refresherTriggered)
+    }), _uM({
+      default: withScopedSlotCtx((slotProps: Record<string, any | null>): any[] => {
+      const layoutItems = slotProps["layoutItems"]
+      const items = slotProps["items"]
+      return [
+        _cE(Fragment, null, RenderHelpers.renderList((items as Item[]), (item, index, __index, _cached): any => {
+          return _cV(_component_uni_recycle_item, _uM({
+            key: (layoutItems as LayoutItem[])[index].id,
+            offset: (layoutItems as LayoutItem[])[index].offset
+          }), _uM({
+            default: withSlotCtx((): any[] => [
+              _cE("view", _uM({ class: "item-wrapper" }), [
+                _cV(_component_navigator, _uM({
+                  "hover-stay-time": 0,
+                  url: '/pages/template/custom-long-list/detail?name='+item.name
+                }), _uM({
+                  default: withSlotCtx((): any[] => [
+                    _cE("view", _uM({ class: "item-content" }), [
+                      _cE("image", _uM({
+                        class: "item-image",
+                        src: item.img,
+                        mode: "aspectFill"
+                      }), null, 8 /* PROPS */, ["src"]),
+                      _cE("view", _uM({ class: "item-text" }), [
+                        _cE("view", null, [
+                          _cE("text", _uM({ class: "item-name" }), _tD(item.name), 1 /* TEXT */)
+                        ]),
+                        _cE("view", null, [
+                          _cE("text", _uM({ class: "item-info" }), _tD(item.name.length % 2 == 0 ? "name长度为偶数" : "name长度为奇数"), 1 /* TEXT */)
+                        ]),
+                        _cE("view", null, [
+                          _cE("text", _uM({ class: "item-info" }), _tD(item.info), 1 /* TEXT */)
+                        ]),
+                        _cE("view", null, [
+                          _cE("text", _uM({ class: "item-info" }), _tD(item.info.length % 2 == 0 ? "info长度为偶数" : "info长度为奇数"), 1 /* TEXT */)
+                        ]),
+                        _cE("view", null, [
+                          _cE("text", _uM({ class: "item-info" }), _tD((item.info.length +item.name.length) % 2 == 0 ? "name+info长度为偶数" : "name+info长度为奇数"), 1 /* TEXT */)
+                        ]),
+                        item.tags.length > 0
+                          ? _cE("view", _uM({
+                              key: 0,
+                              class: "item-tags"
+                            }), [
+                              _cE("text", _uM({ class: "item-info" }), "随机tag："),
+                              _cE(Fragment, null, RenderHelpers.renderList(item.tags, (tag, index, __index, _cached): any => {
+                                return _cE("text", _uM({
+                                  class: "item-tag",
+                                  key: index
+                                }), _tD(tag), 1 /* TEXT */)
+                              }), 128 /* KEYED_FRAGMENT */)
+                            ])
+                          : _cC("v-if", true)
+                      ])
+                    ])
+                  ]),
+                  _: 2 /* DYNAMIC */
+                }), 1032 /* PROPS, DYNAMIC_SLOTS */, ["url"]),
+                _cV(_component_custom_recycle_view_buttons, _uM({
+                  name: item.name
+                }), null, 8 /* PROPS */, ["name"])
+              ])
+            ]),
+            _: 2 /* DYNAMIC */
+          }), 1032 /* PROPS, DYNAMIC_SLOTS */, ["offset"])
+        }), 128 /* KEYED_FRAGMENT */)
+      ]}),
+      "load-more": withSlotCtx((): any[] => [
+        _cE("view", _uM({ class: "load-more" }), [
+          _cE("text", _uM({ class: "load-more-text" }), _tD(unref(hasMore) ? "加载中..." : "没有更多"), 1 /* TEXT */)
+        ])
+      ]),
+      _: 1 /* STABLE */
+    }), 8 /* PROPS */, ["list", "style", "refresher-enabled", "refresher-triggered"])
+  ], 4 /* STYLE */)
+}
+}
+
+})
+export default __sfc__
+const GenPagesTemplateCustomLongListCustomLongListStyles = [_uM([["tips", _pS(_uM([["marginTop", 10], ["marginRight", 10], ["marginBottom", 10], ["marginLeft", 10], ["borderTopLeftRadius", 5], ["borderTopRightRadius", 5], ["borderBottomRightRadius", 5], ["borderBottomLeftRadius", 5], ["paddingTop", 10], ["paddingRight", 10], ["paddingBottom", 10], ["paddingLeft", 10], ["backgroundColor", "#FFFFFF"]]))], ["item-wrapper", _pS(_uM([["height", 140], ["justifyContent", "center"], ["boxSizing", "border-box"], ["borderBottomWidth", 1], ["borderBottomStyle", "solid"], ["borderBottomColor", "#cccccc"], ["paddingTop", 0], ["paddingRight", 15], ["paddingBottom", 0], ["paddingLeft", 15]]))], ["item-content", _pS(_uM([["display", "flex"], ["flexDirection", "row"], ["alignItems", "flex-start"]]))], ["item-image", _pS(_uM([["width", 80], ["height", 80]]))], ["item-text", _pS(_uM([["flexDirection", "column"], ["marginLeft", 5]]))], ["item-name", _pS(_uM([["fontSize", 14]]))], ["item-info", _pS(_uM([["fontSize", 12], ["color", "#999999"]]))], ["item-tags", _pS(_uM([["display", "flex"], ["flexDirection", "row"], ["alignItems", "center"]]))], ["item-tag", _pS(_uM([["backgroundColor", "#F0F8FF"], ["color", "#999999"], ["borderTopWidth", 1], ["borderRightWidth", 1], ["borderBottomWidth", 1], ["borderLeftWidth", 1], ["borderTopStyle", "solid"], ["borderRightStyle", "solid"], ["borderBottomStyle", "solid"], ["borderLeftStyle", "solid"], ["borderTopColor", "#999999"], ["borderRightColor", "#999999"], ["borderBottomColor", "#999999"], ["borderLeftColor", "#999999"], ["borderTopLeftRadius", 3], ["borderTopRightRadius", 3], ["borderBottomRightRadius", 3], ["borderBottomLeftRadius", 3], ["paddingTop", 0], ["paddingRight", 2], ["paddingBottom", 0], ["paddingLeft", 2], ["fontSize", 12], ["lineHeight", "16px"], ["marginRight", 2]]))], ["load-more-text", _pS(_uM([["color", "#cccccc"], ["fontSize", 12], ["textAlign", "center"], ["lineHeight", "50px"]]))]])]

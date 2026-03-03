@@ -1,0 +1,63 @@
+const __sfc__ = defineComponent({});
+export default __sfc__;
+function GenPagesComponentMatchMediaMatchMediaRender(this: InstanceType<typeof __sfc__>): any | null {
+    const _ctx = this;
+    const _cache = this.$.renderCache;
+    return _cE("view", _uM({ class: "container" }), [
+        _cE("view", _uM({ class: "section" }), [
+            _cE("text", _uM({ class: "subtitle" }), "基础条件匹配"),
+            _cE("match-media", _uM({ "min-width": "400" }), [
+                _cE("view", _uM({ class: "demo-box" }), "屏幕宽度 ≥ 400px 时显示")
+            ]),
+            _cE("match-media", _uM({ "max-width": "600" }), [
+                _cE("view", _uM({ class: "demo-box" }), "屏幕宽度 ≤ 600px 时显示")
+            ]),
+            _cE("match-media", _uM({ width: "375" }), [
+                _cE("view", _uM({ class: "demo-box" }), "屏幕宽度 = 375px 时显示")
+            ]),
+            _cE("match-media", _uM({ "min-height": "600" }), [
+                _cE("view", _uM({ class: "demo-box" }), "屏幕高度 ≥ 600px 时显示")
+            ]),
+            _cE("match-media", _uM({ "max-height": "800" }), [
+                _cE("view", _uM({ class: "demo-box" }), "屏幕高度 ≤ 800px 时显示")
+            ]),
+            _cE("match-media", _uM({ height: "667" }), [
+                _cE("view", _uM({ class: "demo-box" }), "屏幕高度 = 667px 时显示")
+            ]),
+            _cE("match-media", _uM({ orientation: "portrait" }), [
+                _cE("view", _uM({ class: "demo-box" }), "竖屏 时显示")
+            ]),
+            _cE("match-media", _uM({ orientation: "landscape" }), [
+                _cE("view", _uM({ class: "demo-box" }), "横屏 时显示")
+            ])
+        ]),
+        _cE("view", _uM({ class: "section" }), [
+            _cE("text", _uM({ class: "subtitle" }), "组合条件匹配"),
+            _cE("match-media", _uM({
+                "min-width": "500",
+                "max-width": "1000",
+                orientation: "landscape"
+            }), [
+                _cE("view", _uM({ class: "demo-box" }), "横屏 且宽度在 500px ~ 1000px 时显示")
+            ]),
+            _cE("match-media", _uM({
+                "min-height": "200",
+                "max-height": "800",
+                orientation: "portrait"
+            }), [
+                _cE("view", _uM({ class: "demo-box" }), "竖屏 且高度在 200px ~ 800px 时显示")
+            ]),
+            _cE("match-media", _uM({
+                "min-width": "300",
+                "max-width": "900",
+                "min-height": "400",
+                "max-height": "800",
+                orientation: "portrait"
+            }), [
+                _cE("view", _uM({ class: "demo-box" }), "竖屏 且宽度在 300px ~ 900px，高度在 400px ~ 800px 时显示")
+            ])
+        ])
+    ]);
+}
+const GenPagesComponentMatchMediaMatchMediaStyles = [_uM([["container", _pS(_uM([["paddingTop", 20], ["paddingRight", 20], ["paddingBottom", 20], ["paddingLeft", 20]]))], ["section", _pS(_uM([["paddingTop", 5]]))], ["subtitle", _pS(_uM([["fontSize", 20], ["fontWeight", "bold"], ["marginBottom", 5]]))], ["demo-box", _pS(_uM([["paddingTop", 5], ["paddingRight", 0], ["paddingBottom", 5], ["paddingLeft", 0]]))]])];
+//# sourceMappingURL=match-media.uvue.map

@@ -1,0 +1,124 @@
+
+  const __sfc__ = defineComponent({
+    data() {
+      return {
+        title: 'dialog 5',
+        pageBody : null as UniPageBody | null,
+        safeAreaInsets: null as UniSafeAreaInsets | null,
+        width: null as number | null,
+        height: null as number | null,
+        statusBarHeight: null as number | null,
+      }
+    },
+    onShow() {
+      console.log('dialog 5 onShow', " at pages/API/dialog-page/dialog-5.uvue:48")
+    },
+    onReady(){
+      const currentPage = this.$page
+      this.pageBody = currentPage.pageBody;
+      this.safeAreaInsets = currentPage.safeAreaInsets
+
+      this.width = currentPage.width
+      this.height = currentPage.height
+      this.statusBarHeight = currentPage.statusBarHeight
+
+    },
+    onUnload() {
+      console.log('dialog 5 onUnload', " at pages/API/dialog-page/dialog-5.uvue:61")
+    },
+    methods: {
+      closeThisDialog() {
+        uni.closeDialogPage({
+          dialogPage: this.$page,
+          success(res) {
+            console.log('closeThisDialog success', res, " at pages/API/dialog-page/dialog-5.uvue:68")
+          },
+          fail(err) {
+            console.log('closeThisDialog fail', err, " at pages/API/dialog-page/dialog-5.uvue:71")
+          },
+          complete(res) {
+            console.log('closeThisDialog complete', res, " at pages/API/dialog-page/dialog-5.uvue:74")
+          }
+        })
+      }
+    }
+  })
+
+export default __sfc__
+function GenPagesAPIDialogPageDialog5Render(this: InstanceType<typeof __sfc__>): any | null {
+const _ctx = this
+const _cache = this.$.renderCache
+  return _cE("view", _uM({ class: "dialog-container" }), [
+    _cE("view", _uM({ class: "dialog-content" }), [
+      _cE("text", null, "title: " + _tD(_ctx.title), 1 /* TEXT */),
+      _ctx.pageBody != null
+        ? _cE("view", _uM({
+            key: 0,
+            class: "uni-common-mt flex-row"
+          }), [
+            "pageBody: { top: ",
+            _cE("text", _uM({ id: "page-body-top" }), _tD(_ctx.pageBody!.top), 1 /* TEXT */),
+            ", right: ",
+            _cE("text", _uM({ id: "page-body-right" }), _tD(_ctx.pageBody!.right), 1 /* TEXT */),
+            ", bottom: ",
+            _cE("text", _uM({ id: "page-body-bottom" }), _tD(_ctx.pageBody!.bottom), 1 /* TEXT */),
+            ", left: ",
+            _cE("text", _uM({ id: "page-body-left" }), _tD(_ctx.pageBody!.left), 1 /* TEXT */),
+            ", width: ",
+            _cE("text", _uM({ id: "page-body-width" }), _tD(_ctx.pageBody!.width), 1 /* TEXT */),
+            ", height: ",
+            _cE("text", _uM({ id: "page-body-height" }), _tD(_ctx.pageBody!.height), 1 /* TEXT */),
+            " } "
+          ])
+        : _cC("v-if", true),
+      _ctx.safeAreaInsets != null
+        ? _cE("view", _uM({
+            key: 1,
+            class: "uni-common-mt flex-row"
+          }), [
+            "safeAreaInsets: { top: ",
+            _cE("text", _uM({ id: "page-safe-area-insets-top" }), _tD(_ctx.safeAreaInsets!.top), 1 /* TEXT */),
+            ", right: ",
+            _cE("text", _uM({ id: "page-safe-area-insets-right" }), _tD(_ctx.safeAreaInsets!.right), 1 /* TEXT */),
+            ", bottom: ",
+            _cE("text", _uM({ id: "page-safe-area-insets-bottom" }), _tD(_ctx.safeAreaInsets!.bottom), 1 /* TEXT */),
+            ", left: ",
+            _cE("text", _uM({ id: "page-safe-area-insets-left" }), _tD(_ctx.safeAreaInsets!.left), 1 /* TEXT */),
+            "} "
+          ])
+        : _cC("v-if", true),
+      _ctx.width != null
+        ? _cE("view", _uM({
+            key: 2,
+            class: "uni-common-mt flex-row"
+          }), [
+            "width: ",
+            _cE("text", null, _tD(_ctx.width!), 1 /* TEXT */)
+          ])
+        : _cC("v-if", true),
+      _ctx.height != null
+        ? _cE("view", _uM({
+            key: 3,
+            class: "uni-common-mt flex-row"
+          }), [
+            "height: ",
+            _cE("text", null, _tD(_ctx.height!), 1 /* TEXT */)
+          ])
+        : _cC("v-if", true),
+      _ctx.statusBarHeight != null
+        ? _cE("view", _uM({
+            key: 4,
+            class: "uni-common-mt flex-row"
+          }), [
+            "statusBarHeight: ",
+            _cE("text", null, _tD(_ctx.statusBarHeight!), 1 /* TEXT */)
+          ])
+        : _cC("v-if", true),
+      _cE("button", _uM({
+        class: "mt-10",
+        onClick: _ctx.closeThisDialog
+      }), " closeThisDialog ", 8 /* PROPS */, ["onClick"])
+    ])
+  ])
+}
+const GenPagesAPIDialogPageDialog5Styles = [_uM([["dialog-container", _pS(_uM([["width", "100%"], ["height", "100%"], ["backgroundColor", "rgba(0,0,0,0.3)"], ["display", "flex"], ["justifyContent", "center"], ["alignItems", "center"]]))], ["dialog-content", _pS(_uM([["width", "80%"], ["paddingTop", 10], ["paddingRight", 10], ["paddingBottom", 10], ["paddingLeft", 10], ["backgroundColor", "#ffffff"], ["borderTopLeftRadius", 6], ["borderTopRightRadius", 6], ["borderBottomRightRadius", 6], ["borderBottomLeftRadius", 6]]))], ["mt-10", _pS(_uM([["marginTop", 10]]))], ["flex-row", _pS(_uM([["flexDirection", "row"], ["flexWrap", "wrap"]]))]])]

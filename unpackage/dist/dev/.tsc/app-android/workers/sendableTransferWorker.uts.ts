@@ -1,0 +1,31 @@
+export class HelloWorkerTask extends WorkerTaskImpl {
+  //constructor
+  constructor() {
+    super();
+    //初始化操作
+    __f__('log','at workers/sendableTransferWorker.uts:6',"[WorkerTask] HelloWorkerTask 构造器初始化");
+  }
+
+  //实现入口函数
+  override entry() {
+    //Worker启动时的入口函数
+    __f__('log','at workers/sendableTransferWorker.uts:12',"[WorkerTask] HelloWorkerTask 启动完成，等待主线程消息");
+  }
+
+  //接收主线程发送的消息
+  override onMessage(message : any) {
+    __f__('log','at workers/sendableTransferWorker.uts:17','[WorkerTask] 收到主线程消息: ', JSON.stringify(message));
+
+
+
+
+
+    this.sendReply(message);
+  }
+
+  // 发送回复消息
+  private sendReply(message : any) {
+    __f__('log','at workers/sendableTransferWorker.uts:28','[WorkerTask] 发送回复消息');
+    this.postMessage(message);
+  }
+}

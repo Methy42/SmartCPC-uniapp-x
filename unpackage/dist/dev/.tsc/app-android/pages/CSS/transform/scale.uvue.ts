@@ -1,0 +1,77 @@
+const __sfc__ = defineComponent({})
+export default __sfc__
+function GenPagesCSSTransformScaleRender(this: InstanceType<typeof __sfc__>): any | null {
+const _ctx = this
+const _cache = this.$.renderCache
+  return _cE("scroll-view", _uM({ class: "page" }), [
+    _cE("view", _uM({ class: "scale-container" }), [
+      _cE("view", _uM({ class: "trace" }), [
+        _cE("view", _uM({ class: "base reserve" }), [
+          _cE("text", _uM({ class: "reserve-text" }), "scaleX(0.6)"),
+          _cE("text", _uM({ class: "reserve-text" }), "转变前位置")
+        ]),
+        _cE("view", _uM({ class: "base reserve" }), [
+          _cE("text", _uM({ class: "reserve-text" }), "scaleY(0.8)"),
+          _cE("text", _uM({ class: "reserve-text" }), "转变前位置")
+        ]),
+        _cE("view", _uM({ class: "base reserve" }), [
+          _cE("text", _uM({ class: "reserve-text" }), "scale(0.8,0.8)"),
+          _cE("text", _uM({ class: "reserve-text" }), "转变前位置")
+        ]),
+        _cE("view", _uM({ class: "base reserve" }), [
+          _cE("text", _uM({ class: "reserve-text" }), "scaleX(-1)"),
+          _cE("text", _uM({ class: "reserve-text" }), "转变前位置")
+        ]),
+        _cE("view", _uM({ class: "base reserve" }), [
+          _cE("text", _uM({ class: "reserve-text" }), "scaleY(-1)"),
+          _cE("text", _uM({ class: "reserve-text" }), "转变前位置")
+        ])
+      ]),
+      _cE("view", _uM({
+        class: "base transform",
+        style: _nS(_uM({"transform":"scaleX(0.6)"}))
+      }), [
+        _cE("text", null, "scaleX(0.6)"),
+        _cE("text", null, "转变后位置")
+      ], 4 /* STYLE */),
+      _cE("view", _uM({
+        class: "base transform",
+        style: _nS(_uM({"transform":"scaleY(0.6)"}))
+      }), [
+        _cE("text", null, "scaleY(0.6)"),
+        _cE("text", null, "转变后位置")
+      ], 4 /* STYLE */),
+      _cE("view", _uM({
+        class: "base transform",
+        style: _nS(_uM({"transform":"scale(1.2,1.2)"}))
+      }), [
+        _cE("text", null, "scale(1.2,1.2)"),
+        _cE("text", null, "转变后位置")
+      ], 4 /* STYLE */),
+      _cE("view", _uM({
+        class: "base transform",
+        style: _nS(_uM({"transform":"scaleX(-1)"}))
+      }), [
+        _cE("text", null, "scaleX(-1)"),
+        _cE("text", null, "转变后位置")
+      ], 4 /* STYLE */),
+      _cE("view", _uM({
+        class: "base transform",
+        style: _nS(_uM({"transform":"scaleY(-1)"}))
+      }), [
+        _cE("text", null, "scaleY(-1)"),
+        _cE("text", null, "转变后位置")
+      ], 4 /* STYLE */),
+      _cE("view", _uM({
+        class: "base",
+        style: _nS(_uM({"width":"auto"}))
+      }), [
+        _cE("text", null, "通过scaleY(0.5)实现0.5px的线"),
+        _cE("view", _uM({
+          style: _nS(_uM({"width":"200px","height":"1px","background-color":"#000","transform":"scaleY(0.5)"}))
+        }), null, 4 /* STYLE */)
+      ], 4 /* STYLE */)
+    ])
+  ])
+}
+const GenPagesCSSTransformScaleStyles = [_uM([["page", _pS(_uM([["flexGrow", 1], ["flexShrink", 1], ["flexBasis", "0%"]]))], ["scale-container", _pS(_uM([["display", "flex"], ["alignItems", "center"]]))], ["trace", _pS(_uM([["position", "absolute"], ["top", 0], ["left", 0], ["width", "100%"], ["alignItems", "center"]]))], ["base", _pS(_uM([["marginTop", 10], ["marginRight", 10], ["marginBottom", 10], ["marginLeft", 10], ["width", 150], ["height", 150], ["alignItems", "center"], ["justifyContent", "center"]]))], ["reserve", _pS(_uM([["borderTopWidth", 1], ["borderRightWidth", 1], ["borderBottomWidth", 1], ["borderLeftWidth", 1], ["borderTopStyle", "dotted"], ["borderRightStyle", "dotted"], ["borderBottomStyle", "dotted"], ["borderLeftStyle", "dotted"], ["borderTopColor", "#558888"], ["borderRightColor", "#558888"], ["borderBottomColor", "#558888"], ["borderLeftColor", "#558888"], ["backgroundColor", "#DDDDDD"]]))], ["reserve-text", _pS(_uM([["color", "#CCCCCC"]]))], ["transform", _pS(_uM([["borderTopWidth", 1], ["borderRightWidth", 1], ["borderBottomWidth", 1], ["borderLeftWidth", 1], ["borderTopStyle", "solid"], ["borderRightStyle", "solid"], ["borderBottomStyle", "solid"], ["borderLeftStyle", "solid"], ["borderTopColor", "#0000FF"], ["borderRightColor", "#0000FF"], ["borderBottomColor", "#0000FF"], ["borderLeftColor", "#0000FF"], ["backgroundColor", "rgba(0,255,255,0.5)"]]))]])]

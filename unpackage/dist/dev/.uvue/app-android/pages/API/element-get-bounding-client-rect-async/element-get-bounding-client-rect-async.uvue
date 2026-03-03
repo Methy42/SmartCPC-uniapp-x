@@ -1,0 +1,110 @@
+type DomRectType = {
+    __$originalPosition?: UTSSourceMapPosition<"DomRectType", "pages/API/element-get-bounding-client-rect-async/element-get-bounding-client-rect-async.uvue", 50, 8>;
+    x: number;
+    y: number;
+    left: number;
+    top: number;
+    right: number;
+    bottom: number;
+    width: number;
+    height: number;
+};
+const __sfc__ = defineComponent({
+    data() {
+        return {
+            title: 'getBoundingClientRectAsync',
+            rectInfo: {
+                x: 0,
+                y: 0,
+                width: 0,
+                height: 0,
+                left: 0,
+                top: 0,
+                right: 0,
+                bottom: 0,
+            } as DomRectType,
+        };
+    },
+    methods: {
+        getBoundingClientRectAsync() {
+            (this.$refs["rect-test"] as UniElement).getBoundingClientRectAsync()!.then((rect: DOMRect) => {
+                this.rectInfo = {
+                    x: rect.x,
+                    y: rect.y,
+                    width: rect.width,
+                    height: rect.height,
+                    left: rect.left,
+                    top: rect.top,
+                    right: rect.right,
+                    bottom: rect.bottom,
+                } as DomRectType;
+                ;
+            });
+        }
+    }
+});
+export default __sfc__;
+function GenPagesAPIElementGetBoundingClientRectAsyncElementGetBoundingClientRectAsyncRender(this: InstanceType<typeof __sfc__>): any | null {
+    const _ctx = this;
+    const _cache = this.$.renderCache;
+    const _component_page_head = resolveEasyComponent("page-head", _easycom_page_head);
+    return _cE("scroll-view", _uM({ class: "page-scroll-view" }), [
+        _cE("view", _uM({
+            class: "page",
+            id: "page"
+        }), [
+            _cV(_component_page_head, _uM({ title: _ctx.title }), null, 8 /* PROPS */, ["title"]),
+            _cE("button", _uM({
+                class: "btn btn-get-all-node-info",
+                onClick: _ctx.getBoundingClientRectAsync
+            }), "getBoundingClientRectAsync", 8 /* PROPS */, ["onClick"]),
+            _cE("view", _uM({
+                id: "rect-test",
+                ref: "rect-test",
+                class: "rect-test"
+            }), null, 512 /* NEED_PATCH */),
+            isTrue(_ctx.rectInfo)
+                ? _cE("view", _uM({
+                    key: 0,
+                    class: "rect-info"
+                }), [
+                    _cE("view", _uM({ class: "node-info-item" }), [
+                        _cE("text", _uM({ class: "node-info-item-k" }), "x: "),
+                        _cE("text", _uM({ class: "node-info-item-v" }), _tD(_ctx.rectInfo.x), 1 /* TEXT */)
+                    ]),
+                    _cE("view", _uM({ class: "node-info-item" }), [
+                        _cE("text", _uM({ class: "node-info-item-k" }), "y: "),
+                        _cE("text", _uM({ class: "node-info-item-v" }), _tD(_ctx.rectInfo.y), 1 /* TEXT */)
+                    ]),
+                    _cE("view", _uM({ class: "node-info-item" }), [
+                        _cE("text", _uM({ class: "node-info-item-k" }), "width: "),
+                        _cE("text", _uM({ class: "node-info-item-v" }), _tD(_ctx.rectInfo.width), 1 /* TEXT */)
+                    ]),
+                    _cE("view", _uM({ class: "node-info-item" }), [
+                        _cE("text", _uM({ class: "node-info-item-k" }), "height: "),
+                        _cE("text", _uM({ class: "node-info-item-v" }), _tD(_ctx.rectInfo.height), 1 /* TEXT */)
+                    ]),
+                    _cE("view", _uM({ class: "node-info-item" }), [
+                        _cE("text", _uM({ class: "node-info-item-k" }), "left: "),
+                        _cE("text", _uM({ class: "node-info-item-v" }), _tD(_ctx.rectInfo.left), 1 /* TEXT */)
+                    ]),
+                    _cE("view", _uM({ class: "node-info-item" }), [
+                        _cE("text", _uM({ class: "node-info-item-k" }), "top: "),
+                        _cE("text", _uM({ class: "node-info-item-v" }), _tD(_ctx.rectInfo.top), 1 /* TEXT */)
+                    ]),
+                    _cE("view", _uM({ class: "node-info-item" }), [
+                        _cE("text", _uM({ class: "node-info-item-k" }), "right: "),
+                        _cE("text", _uM({ class: "node-info-item-v" }), _tD(_ctx.rectInfo.right), 1 /* TEXT */)
+                    ]),
+                    _cE("view", _uM({ class: "node-info-item" }), [
+                        _cE("text", _uM({ class: "node-info-item-k" }), "bottom: "),
+                        _cE("text", _uM({ class: "node-info-item-v" }), _tD(_ctx.rectInfo.bottom), 1 /* TEXT */)
+                    ])
+                ])
+                : _cC("v-if", true)
+        ])
+    ]);
+}
+const GenPagesAPIElementGetBoundingClientRectAsyncElementGetBoundingClientRectAsyncStyles = [_uM([["page", _pS(_uM([["paddingTop", 15], ["paddingRight", 15], ["paddingBottom", 15], ["paddingLeft", 15]]))], ["btn", _pS(_uM([["marginTop", 15]]))], ["rect-test", _pS(_uM([["marginTop", 15], ["height", 100], ["backgroundColor", "#1E90FF"]]))], ["rect-info", _pS(_uM([["marginTop", 15], ["flexDirection", "column"]]))], ["node-info-item", _pS(_uM([["flexDirection", "row"]]))], ["node-info-item-k", _pS(_uM([["width", 72], ["lineHeight", 2]]))], ["node-info-item-v", _pS(_uM([["fontWeight", "bold"], ["lineHeight", 2]]))]])];
+import _easycom_page_head from '@/components/page-head/page-head.vue';
+//# sourceMappingURL=element-get-bounding-client-rect-async.uvue.map
