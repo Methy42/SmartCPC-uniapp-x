@@ -15,6 +15,7 @@ import kotlin.properties.Delegates
 import io.dcloud.uniapp.extapi.createVideoContext as uni_createVideoContext
 import io.dcloud.uniapp.extapi.getWindowInfo as uni_getWindowInfo
 import io.dcloud.uniapp.extapi.navigateBack as uni_navigateBack
+import io.dcloud.uniapp.framework.onShow
 open class GenPagesTemplateSwiperVerticalVideoSwiperVerticalVideo : BasePage {
     constructor(__ins: ComponentInternalInstance, __renderer: String?) : super(__ins, __renderer) {
         onLoad(fun(_: OnLoadOptions) {

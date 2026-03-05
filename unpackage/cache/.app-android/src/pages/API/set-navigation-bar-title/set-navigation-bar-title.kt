@@ -12,6 +12,7 @@ import io.dcloud.uts.Map
 import io.dcloud.uts.Set
 import io.dcloud.uts.UTSAndroid
 import kotlin.properties.Delegates
+import io.dcloud.uniapp.framework.onShow
 import io.dcloud.uniapp.extapi.setNavigationBarTitle as uni_setNavigationBarTitle
 open class GenPagesAPISetNavigationBarTitleSetNavigationBarTitle : BasePage {
     constructor(__ins: ComponentInternalInstance, __renderer: String?) : super(__ins, __renderer) {

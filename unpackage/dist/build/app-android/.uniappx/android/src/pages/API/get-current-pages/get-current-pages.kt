@@ -13,6 +13,7 @@ import io.dcloud.uts.Set
 import io.dcloud.uts.UTSAndroid
 import kotlin.properties.Delegates
 import io.dcloud.uniapp.extapi.navigateTo as uni_navigateTo
+import io.dcloud.uniapp.framework.onShow
 import io.dcloud.uniapp.extapi.showToast as uni_showToast
 import io.dcloud.uniapp.extapi.startPullDownRefresh as uni_startPullDownRefresh
 import io.dcloud.uniapp.extapi.stopPullDownRefresh as uni_stopPullDownRefresh

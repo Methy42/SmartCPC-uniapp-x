@@ -13,6 +13,7 @@ import io.dcloud.uts.Set
 import io.dcloud.uts.UTSAndroid
 import kotlin.properties.Delegates
 import io.dcloud.uniapp.extapi.getClipboardData as uni_getClipboardData
+import io.dcloud.uniapp.framework.onShow
 import io.dcloud.uniapp.extapi.setClipboardData as uni_setClipboardData
 import io.dcloud.uniapp.extapi.showModal as uni_showModal
 import io.dcloud.uniapp.extapi.showToast as uni_showToast

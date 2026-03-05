@@ -28,13 +28,13 @@ const __sfc__ = defineComponent({
                 captureStatus.value = '检测到截屏';
                 console.log('检测到用户截屏', res, " at pages/API/capture-screen/capture-screen.uvue:44");
             };
-            uni.onUserCaptureScreen(captureCallback.value!);
+            uni.onUserCaptureScreen(captureCallback.value);
             captureStatus.value = '正在监听';
             console.log('开始监听截屏', " at pages/API/capture-screen/capture-screen.uvue:48");
         };
         const stopCaptureListener = () => {
             if (captureCallback.value != null) {
-                uni.offUserCaptureScreen(captureCallback.value!);
+                uni.offUserCaptureScreen(captureCallback.value);
                 captureStatus.value = '未监听';
                 console.log('停止监听截屏', " at pages/API/capture-screen/capture-screen.uvue:55");
             }

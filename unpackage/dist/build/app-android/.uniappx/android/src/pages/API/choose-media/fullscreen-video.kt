@@ -15,6 +15,7 @@ import kotlin.properties.Delegates
 import io.dcloud.uniapp.extapi.`$emit` as uni__emit
 import io.dcloud.uniapp.extapi.`$once` as uni__once
 import io.dcloud.uniapp.extapi.navigateBack as uni_navigateBack
+import io.dcloud.uniapp.framework.onShow
 open class GenPagesAPIChooseMediaFullscreenVideo : BasePage {
     constructor(__ins: ComponentInternalInstance, __renderer: String?) : super(__ins, __renderer) {
         onLoad(fun(_: OnLoadOptions) {

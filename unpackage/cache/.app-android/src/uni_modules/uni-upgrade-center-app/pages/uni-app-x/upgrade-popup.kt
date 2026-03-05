@@ -22,6 +22,7 @@ import io.dcloud.uniapp.extapi.downloadFile as uni_downloadFile
 import io.dcloud.uniapp.extapi.getStorageSync as uni_getStorageSync
 import io.dcloud.uniapp.extapi.installApk as uni_installApk
 import io.dcloud.uniapp.extapi.navigateBack as uni_navigateBack
+import io.dcloud.uniapp.framework.onShow
 import uts.sdk.modules.utsOpenSchema.openSchema as utsOpenSchema
 import uts.sdk.modules.utsOpenSchema.openSchema
 import io.dcloud.uniapp.extapi.showModal as uni_showModal

@@ -14,6 +14,7 @@ import io.dcloud.uts.UTSAndroid
 import kotlin.properties.Delegates
 import io.dcloud.uniapp.extapi.createWebviewContext as uni_createWebviewContext
 import io.dcloud.uniapp.extapi.getElementById as uni_getElementById
+import io.dcloud.uniapp.framework.onShow
 import io.dcloud.uniapp.extapi.showModal as uni_showModal
 open class GenPagesComponentWebViewWebViewWebViewLocal : BasePage {
     constructor(__ins: ComponentInternalInstance, __renderer: String?) : super(__ins, __renderer) {

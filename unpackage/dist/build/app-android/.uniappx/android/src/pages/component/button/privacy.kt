@@ -15,6 +15,7 @@ import kotlin.properties.Delegates
 import io.dcloud.uniapp.extapi.closeDialogPage as uni_closeDialogPage
 import io.dcloud.uniapp.extapi.offPrivacyAuthorizationChange as uni_offPrivacyAuthorizationChange
 import io.dcloud.uniapp.extapi.onPrivacyAuthorizationChange as uni_onPrivacyAuthorizationChange
+import io.dcloud.uniapp.framework.onShow
 import uts.sdk.modules.utsOpenSchema.openSchema
 import io.dcloud.uniapp.extapi.resetPrivacyAuthorization as uni_resetPrivacyAuthorization
 import io.dcloud.uniapp.extapi.showToast as uni_showToast

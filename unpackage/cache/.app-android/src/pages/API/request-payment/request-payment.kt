@@ -14,6 +14,7 @@ import io.dcloud.uts.UTSAndroid
 import kotlin.properties.Delegates
 import io.dcloud.uniapp.extapi.getAppBaseInfo as uni_getAppBaseInfo
 import io.dcloud.uniapp.extapi.hideLoading as uni_hideLoading
+import io.dcloud.uniapp.framework.onShow
 import io.dcloud.uniapp.extapi.request as uni_request
 import io.dcloud.uniapp.extapi.requestPayment as uni_requestPayment
 import io.dcloud.uniapp.extapi.showLoading as uni_showLoading

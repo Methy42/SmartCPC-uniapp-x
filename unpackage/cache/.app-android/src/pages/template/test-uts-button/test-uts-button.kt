@@ -13,6 +13,7 @@ import io.dcloud.uts.Set
 import io.dcloud.uts.UTSAndroid
 import kotlin.properties.Delegates
 import uts.sdk.modules.utsButton.UtsButtonComponent
+import io.dcloud.uniapp.framework.onShow
 open class GenPagesTemplateTestUtsButtonTestUtsButton : BasePage {
     constructor(__ins: ComponentInternalInstance, __renderer: String?) : super(__ins, __renderer) {
         onLoad(fun(_: OnLoadOptions) {

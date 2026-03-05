@@ -15,6 +15,7 @@ import kotlin.properties.Delegates
 import io.dcloud.uniapp.extapi.clearStorageSync as uni_clearStorageSync
 import io.dcloud.uniapp.extapi.getStorageInfoSync as uni_getStorageInfoSync
 import io.dcloud.uniapp.extapi.getStorageSync as uni_getStorageSync
+import io.dcloud.uniapp.framework.onShow
 import io.dcloud.uniapp.extapi.removeStorageSync as uni_removeStorageSync
 import io.dcloud.uniapp.extapi.setStorageSync as uni_setStorageSync
 import io.dcloud.uniapp.extapi.showModal as uni_showModal

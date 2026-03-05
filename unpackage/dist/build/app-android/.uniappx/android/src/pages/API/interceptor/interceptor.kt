@@ -14,6 +14,7 @@ import io.dcloud.uts.UTSAndroid
 import kotlin.properties.Delegates
 import io.dcloud.uniapp.extapi.addInterceptor as uni_addInterceptor
 import io.dcloud.uniapp.extapi.navigateTo as uni_navigateTo
+import io.dcloud.uniapp.framework.onShow
 import io.dcloud.uniapp.extapi.removeInterceptor as uni_removeInterceptor
 import io.dcloud.uniapp.extapi.showToast as uni_showToast
 import io.dcloud.uniapp.extapi.switchTab as uni_switchTab

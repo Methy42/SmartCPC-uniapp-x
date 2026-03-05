@@ -14,6 +14,7 @@ import io.dcloud.uts.UTSAndroid
 import kotlin.properties.Delegates
 import uts.sdk.modules.uniGetbatteryinfo.GetBatteryInfoOptions as GetBatteryInfoOptions
 import uts.sdk.modules.uniGetbatteryinfo.getBatteryInfo as uni_getBatteryInfo
+import io.dcloud.uniapp.framework.onShow
 import io.dcloud.uniapp.extapi.showModal as uni_showModal
 open class GenPagesAPIGetBatteryInfoGetBatteryInfo : BasePage {
     constructor(__ins: ComponentInternalInstance, __renderer: String?) : super(__ins, __renderer) {

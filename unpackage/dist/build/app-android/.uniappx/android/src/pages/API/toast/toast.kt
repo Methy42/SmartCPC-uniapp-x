@@ -14,6 +14,7 @@ import io.dcloud.uts.UTSAndroid
 import kotlin.properties.Delegates
 import io.dcloud.uniapp.extapi.getWindowInfo as uni_getWindowInfo
 import io.dcloud.uniapp.extapi.hideToast as uni_hideToast
+import io.dcloud.uniapp.framework.onShow
 import io.dcloud.uniapp.extapi.showToast as uni_showToast
 open class GenPagesAPIToastToast : BasePage {
     constructor(__ins: ComponentInternalInstance, __renderer: String?) : super(__ins, __renderer) {

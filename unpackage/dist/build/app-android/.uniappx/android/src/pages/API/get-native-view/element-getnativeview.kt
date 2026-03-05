@@ -16,6 +16,7 @@ import uts.sdk.modules.utsGetNativeView.checkWebViewNativeView
 import uts.sdk.modules.utsGetNativeView.checkInputNativeView
 import uts.sdk.modules.utsGetNativeView.checkTextareaNativeView
 import uts.sdk.modules.utsGetNativeView.checkViewNativeView
+import io.dcloud.uniapp.framework.onShow
 import io.dcloud.uniapp.extapi.showToast as uni_showToast
 open class GenPagesAPIGetNativeViewElementGetnativeview : BasePage {
     constructor(__ins: ComponentInternalInstance, __renderer: String?) : super(__ins, __renderer) {

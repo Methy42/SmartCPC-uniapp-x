@@ -16,6 +16,7 @@ import io.dcloud.uniapp.extapi.chooseVideo as uni_chooseVideo
 import io.dcloud.uniapp.extapi.compressVideo as uni_compressVideo
 import io.dcloud.uniapp.extapi.getVideoInfo as uni_getVideoInfo
 import io.dcloud.uniapp.extapi.hideLoading as uni_hideLoading
+import io.dcloud.uniapp.framework.onShow
 import io.dcloud.uniapp.extapi.showLoading as uni_showLoading
 import io.dcloud.uniapp.extapi.showModal as uni_showModal
 import io.dcloud.uniapp.extapi.showToast as uni_showToast

@@ -15,6 +15,7 @@ import kotlin.properties.Delegates
 import io.dcloud.uniapp.extapi.getSystemInfoSync as uni_getSystemInfoSync
 import io.dcloud.uniapp.extapi.hideActionSheet as uni_hideActionSheet
 import io.dcloud.uniapp.extapi.navigateBack as uni_navigateBack
+import io.dcloud.uniapp.framework.onShow
 import io.dcloud.uniapp.extapi.setAppTheme as uni_setAppTheme
 import io.dcloud.uniapp.extapi.showActionSheet as uni_showActionSheet
 import io.dcloud.uniapp.extapi.showToast as uni_showToast

@@ -13,6 +13,7 @@ import io.dcloud.uts.Set
 import io.dcloud.uts.UTSAndroid
 import kotlin.properties.Delegates
 import uts.sdk.modules.uniOpenLocation.OpenLocationOptions as OpenLocationOptions__1
+import io.dcloud.uniapp.framework.onShow
 import uts.sdk.modules.uniOpenLocation.openLocation as uni_openLocation
 open class GenPagesAPIOpenLocationOpenLocation : BasePage {
     constructor(__ins: ComponentInternalInstance, __renderer: String?) : super(__ins, __renderer) {

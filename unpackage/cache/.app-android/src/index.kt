@@ -85,7 +85,7 @@ fun tryConnectSocket(host: String, port: String, id: String): UTSPromise<SocketT
 fun initRuntimeSocketService(): UTSPromise<Boolean> {
     val hosts: String = "172.19.84.237,172.17.122.10,127.0.0.1"
     val port: String = "8090"
-    val id: String = "app-android_GQ63jj"
+    val id: String = "app-android_-QinVx"
     if (hosts == "" || port == "" || id == "") {
         return UTSPromise.resolve(false)
     }
@@ -823,58 +823,6 @@ val GenPagesLoginLoginClass = CreateVueComponent(GenPagesLoginLogin::class.java,
     return GenPagesLoginLogin(instance, renderer)
 }
 )
-open class FuncItem (
-    @JsonNotNull
-    open var name: String,
-    @JsonNotNull
-    open var icon: String,
-) : UTSReactiveObject(), IUTSSourceMap {
-    override fun `__$getOriginalPosition`(): UTSSourceMapPosition? {
-        return UTSSourceMapPosition("FuncItem", "pages/index/index.uvue", 52, 6)
-    }
-    override fun __v_create(__v_isReadonly: Boolean, __v_isShallow: Boolean, __v_skip: Boolean): UTSReactiveObject {
-        return FuncItemReactiveObject(this, __v_isReadonly, __v_isShallow, __v_skip)
-    }
-}
-class FuncItemReactiveObject : FuncItem, IUTSReactive<FuncItem> {
-    override var __v_raw: FuncItem
-    override var __v_isReadonly: Boolean
-    override var __v_isShallow: Boolean
-    override var __v_skip: Boolean
-    constructor(__v_raw: FuncItem, __v_isReadonly: Boolean, __v_isShallow: Boolean, __v_skip: Boolean) : super(name = __v_raw.name, icon = __v_raw.icon) {
-        this.__v_raw = __v_raw
-        this.__v_isReadonly = __v_isReadonly
-        this.__v_isShallow = __v_isShallow
-        this.__v_skip = __v_skip
-    }
-    override fun __v_clone(__v_isReadonly: Boolean, __v_isShallow: Boolean, __v_skip: Boolean): FuncItemReactiveObject {
-        return FuncItemReactiveObject(this.__v_raw, __v_isReadonly, __v_isShallow, __v_skip)
-    }
-    override var name: String
-        get() {
-            return _tRG(__v_raw, "name", __v_raw.name, __v_isReadonly, __v_isShallow)
-        }
-        set(value) {
-            if (!__v_canSet("name")) {
-                return
-            }
-            val oldValue = __v_raw.name
-            __v_raw.name = value
-            _tRS(__v_raw, "name", oldValue, value)
-        }
-    override var icon: String
-        get() {
-            return _tRG(__v_raw, "icon", __v_raw.icon, __v_isReadonly, __v_isShallow)
-        }
-        set(value) {
-            if (!__v_canSet("icon")) {
-                return
-            }
-            val oldValue = __v_raw.icon
-            __v_raw.icon = value
-            _tRS(__v_raw, "icon", oldValue, value)
-        }
-}
 val GenPagesIndexIndexClass = CreateVueComponent(GenPagesIndexIndex::class.java, fun(): VueComponentOptions {
     return VueComponentOptions(type = "page", name = "", inheritAttrs = GenPagesIndexIndex.inheritAttrs, inject = GenPagesIndexIndex.inject, props = GenPagesIndexIndex.props, propsNeedCastKeys = GenPagesIndexIndex.propsNeedCastKeys, emits = GenPagesIndexIndex.emits, components = GenPagesIndexIndex.components, styles = GenPagesIndexIndex.styles, setup = fun(props: ComponentPublicInstance): Any? {
         return GenPagesIndexIndex.setup(props as GenPagesIndexIndex)
@@ -971,6 +919,17 @@ val GenPagesActivityActivityListClass = CreateVueComponent(GenPagesActivityActiv
     return GenPagesActivityActivityList(instance, renderer)
 }
 )
+open class TableItem (
+    @JsonNotNull
+    open var label: String,
+    open var value: String? = null,
+    @JsonNotNull
+    open var colspan: Number,
+) : UTSObject(), IUTSSourceMap {
+    override fun `__$getOriginalPosition`(): UTSSourceMapPosition? {
+        return UTSSourceMapPosition("TableItem", "pages/mine/mine.uvue", 73, 6)
+    }
+}
 val GenPagesMineMineClass = CreateVueComponent(GenPagesMineMine::class.java, fun(): VueComponentOptions {
     return VueComponentOptions(type = "page", name = "", inheritAttrs = GenPagesMineMine.inheritAttrs, inject = GenPagesMineMine.inject, props = GenPagesMineMine.props, propsNeedCastKeys = GenPagesMineMine.propsNeedCastKeys, emits = GenPagesMineMine.emits, components = GenPagesMineMine.components, styles = GenPagesMineMine.styles, setup = fun(props: ComponentPublicInstance): Any? {
         return GenPagesMineMine.setup(props as GenPagesMineMine)
@@ -1632,8 +1591,10 @@ val pages = _uA<UTSJSONObject>(object : UTSJSONObject() {
 }, object : UTSJSONObject() {
     var path = "pages/mine/mine"
     var style = object : UTSJSONObject() {
-        var navigationBarTitleText = "个人中心"
+        var navigationBarTitleText = "水源红·智慧党建"
         var navigationBarBackgroundColor = "#C8102E"
+        var navigationStyle = "custom"
+        var tabBar = false
     }
 }, object : UTSJSONObject() {
     var path = "pages/statistics/statistics"
@@ -3814,7 +3775,7 @@ val subPackages = _uA<UTSJSONObject>(object : UTSJSONObject() {
         }
     )
 })
-val globalStyle: UTSJSONObject = object : UTSJSONObject(UTSSourceMapPosition("globalStyle", "pages.json.uts", 2477, 14)) {
+val globalStyle: UTSJSONObject = object : UTSJSONObject(UTSSourceMapPosition("globalStyle", "pages.json.uts", 2479, 14)) {
     var pageOrientation = "portrait"
     var navigationBarTitleText = "Hello uniapp x"
     var navigationBarTextStyle = "@navigationBarTextStyle"
@@ -3823,7 +3784,7 @@ val globalStyle: UTSJSONObject = object : UTSJSONObject(UTSSourceMapPosition("gl
     var backgroundColor = "@backgroundColor"
     var backgroundTextStyle = "@backgroundTextStyle"
 }
-val tabBar: UTSJSONObject = object : UTSJSONObject(UTSSourceMapPosition("tabBar", "pages.json.uts", 2486, 14)) {
+val tabBar: UTSJSONObject = object : UTSJSONObject(UTSSourceMapPosition("tabBar", "pages.json.uts", 2488, 14)) {
     var backgroundColor = "#F5F5F5"
     var color = "#666"
     var selectedColor = "#C8102E"
@@ -3863,7 +3824,7 @@ val tabBar: UTSJSONObject = object : UTSJSONObject(UTSSourceMapPosition("tabBar"
         }
     )
 }
-val condition: UTSJSONObject = object : UTSJSONObject(UTSSourceMapPosition("condition", "pages.json.uts", 2526, 14)) {
+val condition: UTSJSONObject = object : UTSJSONObject(UTSSourceMapPosition("condition", "pages.json.uts", 2528, 14)) {
     var current: Number = 0
     var list = _uA(
         object : UTSJSONObject() {
@@ -16654,7 +16615,7 @@ fun definePageRoutes() {
     __uniRoutes.push(UniPageRoute(path = "pages/index/index", component = GenPagesIndexIndexClass, meta = UniPageMeta(isQuit = false), style = _uM("navigationBarTitleText" to "水源红·智慧党建", "navigationBarBackgroundColor" to "#C8102E", "navigationStyle" to "custom", "tabBar" to false)))
     __uniRoutes.push(UniPageRoute(path = "pages/meeting/meetingList", component = GenPagesMeetingMeetingListClass, meta = UniPageMeta(isQuit = false), style = _uM("navigationBarTitleText" to "三会一课", "navigationBarBackgroundColor" to "#C8102E")))
     __uniRoutes.push(UniPageRoute(path = "pages/activity/activityList", component = GenPagesActivityActivityListClass, meta = UniPageMeta(isQuit = false), style = _uM("navigationBarTitleText" to "支部活动", "navigationBarBackgroundColor" to "#C8102E")))
-    __uniRoutes.push(UniPageRoute(path = "pages/mine/mine", component = GenPagesMineMineClass, meta = UniPageMeta(isQuit = false), style = _uM("navigationBarTitleText" to "个人中心", "navigationBarBackgroundColor" to "#C8102E")))
+    __uniRoutes.push(UniPageRoute(path = "pages/mine/mine", component = GenPagesMineMineClass, meta = UniPageMeta(isQuit = false), style = _uM("navigationBarTitleText" to "水源红·智慧党建", "navigationBarBackgroundColor" to "#C8102E", "navigationStyle" to "custom", "tabBar" to false)))
     __uniRoutes.push(UniPageRoute(path = "pages/statistics/statistics", component = GenPagesStatisticsStatisticsClass, meta = UniPageMeta(isQuit = false), style = _uM("navigationBarTitleText" to "数据看板", "navigationBarBackgroundColor" to "#C8102E")))
     __uniRoutes.push(UniPageRoute(path = "pages/tabBar/component", component = GenPagesTabBarComponentClass, meta = UniPageMeta(isQuit = false), style = _uM("navigationBarTitleText" to "内置组件", "backgroundColorContent" to "@tabBarPagebackgroundColorContent")))
     __uniRoutes.push(UniPageRoute(path = "pages/component/view/view", component = GenPagesComponentViewViewClass, meta = UniPageMeta(isQuit = false), style = _uM("navigationBarTitleText" to "view | 基本视图容器")))

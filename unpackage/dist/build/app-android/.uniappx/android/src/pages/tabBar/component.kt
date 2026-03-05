@@ -16,6 +16,7 @@ import io.dcloud.uniapp.extapi.getPrivacySetting as uni_getPrivacySetting
 import io.dcloud.uniapp.extapi.navigateTo as uni_navigateTo
 import io.dcloud.uniapp.extapi.offPrivacyAuthorizationChange as uni_offPrivacyAuthorizationChange
 import io.dcloud.uniapp.extapi.onPrivacyAuthorizationChange as uni_onPrivacyAuthorizationChange
+import io.dcloud.uniapp.framework.onShow
 import io.dcloud.uniapp.extapi.reLaunch as uni_reLaunch
 import io.dcloud.uniapp.extapi.showTabBar as uni_showTabBar
 open class GenPagesTabBarComponent : BasePage {

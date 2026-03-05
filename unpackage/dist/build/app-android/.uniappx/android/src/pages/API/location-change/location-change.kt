@@ -17,6 +17,7 @@ import io.dcloud.uniapp.extapi.offLocationChange as uni_offLocationChange
 import io.dcloud.uniapp.extapi.offLocationChangeError as uni_offLocationChangeError
 import io.dcloud.uniapp.extapi.onLocationChange as uni_onLocationChange
 import io.dcloud.uniapp.extapi.onLocationChangeError as uni_onLocationChangeError
+import io.dcloud.uniapp.framework.onShow
 import io.dcloud.uniapp.extapi.showToast as uni_showToast
 import io.dcloud.uniapp.extapi.startLocationUpdate as uni_startLocationUpdate
 import io.dcloud.uniapp.extapi.startLocationUpdateBackground as uni_startLocationUpdateBackground

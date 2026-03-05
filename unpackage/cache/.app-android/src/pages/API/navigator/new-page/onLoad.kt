@@ -15,6 +15,7 @@ import kotlin.properties.Delegates
 import io.dcloud.uniapp.extapi.hideLoading as uni_hideLoading
 import io.dcloud.uniapp.extapi.navigateBack as uni_navigateBack
 import io.dcloud.uniapp.extapi.navigateTo as uni_navigateTo
+import io.dcloud.uniapp.framework.onShow
 import io.dcloud.uniapp.extapi.reLaunch as uni_reLaunch
 import io.dcloud.uniapp.extapi.redirectTo as uni_redirectTo
 import io.dcloud.uniapp.extapi.showActionSheet as uni_showActionSheet

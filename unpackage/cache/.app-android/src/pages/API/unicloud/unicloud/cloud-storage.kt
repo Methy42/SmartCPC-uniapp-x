@@ -14,6 +14,7 @@ import io.dcloud.uts.UTSAndroid
 import kotlin.properties.Delegates
 import io.dcloud.uniapp.extapi.chooseImage as uni_chooseImage
 import io.dcloud.uniapp.extapi.hideLoading as uni_hideLoading
+import io.dcloud.uniapp.framework.onShow
 import io.dcloud.uniapp.extapi.showLoading as uni_showLoading
 import io.dcloud.uniapp.extapi.showModal as uni_showModal
 open class GenPagesAPIUnicloudUnicloudCloudStorage : BasePage {

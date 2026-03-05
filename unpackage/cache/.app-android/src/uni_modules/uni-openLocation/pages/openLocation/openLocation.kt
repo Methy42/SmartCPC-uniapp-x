@@ -24,6 +24,7 @@ import io.dcloud.uniapp.extapi.getSystemInfoSync as uni_getSystemInfoSync
 import io.dcloud.uniapp.extapi.getWindowInfo as uni_getWindowInfo
 import io.dcloud.uniapp.extapi.onAppThemeChange as uni_onAppThemeChange
 import io.dcloud.uniapp.extapi.onOsThemeChange as uni_onOsThemeChange
+import io.dcloud.uniapp.framework.onShow
 import uts.sdk.modules.utsOpenSchema.openSchema
 import io.dcloud.uniapp.extapi.showActionSheet as uni_showActionSheet
 import io.dcloud.uniapp.extapi.showToast as uni_showToast

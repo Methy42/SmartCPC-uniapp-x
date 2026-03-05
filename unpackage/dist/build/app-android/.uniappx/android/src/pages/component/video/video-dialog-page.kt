@@ -14,6 +14,7 @@ import io.dcloud.uts.UTSAndroid
 import kotlin.properties.Delegates
 import io.dcloud.uniapp.extapi.closeDialogPage as uni_closeDialogPage
 import io.dcloud.uniapp.extapi.createVideoContext as uni_createVideoContext
+import io.dcloud.uniapp.framework.onShow
 open class GenPagesComponentVideoVideoDialogPage : BasePage {
     constructor(__ins: ComponentInternalInstance, __renderer: String?) : super(__ins, __renderer) {
         onLoad(fun(_: OnLoadOptions) {

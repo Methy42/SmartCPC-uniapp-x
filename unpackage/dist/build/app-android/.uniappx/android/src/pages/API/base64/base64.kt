@@ -14,6 +14,7 @@ import io.dcloud.uts.UTSAndroid
 import kotlin.properties.Delegates
 import io.dcloud.uniapp.extapi.arrayBufferToBase64 as uni_arrayBufferToBase64
 import io.dcloud.uniapp.extapi.base64ToArrayBuffer as uni_base64ToArrayBuffer
+import io.dcloud.uniapp.framework.onShow
 import io.dcloud.uniapp.extapi.showToast as uni_showToast
 open class GenPagesAPIBase64Base64 : BasePage {
     constructor(__ins: ComponentInternalInstance, __renderer: String?) : super(__ins, __renderer) {

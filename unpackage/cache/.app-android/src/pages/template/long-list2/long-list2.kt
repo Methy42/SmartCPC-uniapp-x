@@ -12,6 +12,7 @@ import io.dcloud.uts.Map
 import io.dcloud.uts.Set
 import io.dcloud.uts.UTSAndroid
 import kotlin.properties.Delegates
+import io.dcloud.uniapp.framework.onShow
 import io.dcloud.uniapp.extapi.stopPullDownRefresh as uni_stopPullDownRefresh
 open class GenPagesTemplateLongList2LongList2 : BasePage {
     constructor(__ins: ComponentInternalInstance, __renderer: String?) : super(__ins, __renderer) {

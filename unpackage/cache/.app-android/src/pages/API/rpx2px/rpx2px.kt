@@ -13,6 +13,7 @@ import io.dcloud.uts.Set
 import io.dcloud.uts.UTSAndroid
 import kotlin.properties.Delegates
 import io.dcloud.uniapp.extapi.getWindowInfo as uni_getWindowInfo
+import io.dcloud.uniapp.framework.onShow
 import io.dcloud.uniapp.extapi.rpx2px as uni_rpx2px
 open class GenPagesAPIRpx2pxRpx2px : BasePage {
     constructor(__ins: ComponentInternalInstance, __renderer: String?) : super(__ins, __renderer) {

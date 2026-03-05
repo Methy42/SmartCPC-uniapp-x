@@ -13,6 +13,7 @@ import io.dcloud.uts.Set
 import io.dcloud.uts.UTSAndroid
 import kotlin.properties.Delegates
 import io.dcloud.uniapp.extapi.navigateTo as uni_navigateTo
+import io.dcloud.uniapp.framework.onShow
 import io.dcloud.uniapp.extapi.setNavigationBarColor as uni_setNavigationBarColor
 open class GenPagesAPISetNavigationBarColorSetNavigationBarColor : BasePage {
     constructor(__ins: ComponentInternalInstance, __renderer: String?) : super(__ins, __renderer) {

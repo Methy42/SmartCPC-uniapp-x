@@ -14,6 +14,7 @@ import io.dcloud.uts.UTSAndroid
 import kotlin.properties.Delegates
 import io.dcloud.uniapp.extapi.getAppBaseInfo as uni_getAppBaseInfo
 import io.dcloud.uniapp.extapi.getFacialRecognitionMetaInfo as uni_getFacialRecognitionMetaInfo
+import io.dcloud.uniapp.framework.onShow
 import io.dcloud.uniapp.extapi.showModal as uni_showModal
 import io.dcloud.uniapp.extapi.startFacialRecognitionVerify as uni_startFacialRecognitionVerify
 open class GenPagesAPIFacialRecognitionMetaInfoFacialRecognitionMetaInfo : BasePage {

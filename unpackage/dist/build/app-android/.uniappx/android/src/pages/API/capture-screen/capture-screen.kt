@@ -16,6 +16,7 @@ import uts.sdk.modules.uniUsercapturescreen.OnUserCaptureScreenCallbackResult
 import uts.sdk.modules.uniUsercapturescreen.SetUserCaptureScreenSuccess
 import uts.sdk.modules.uniUsercapturescreen.SetUserCaptureScreenOptions as SetUserCaptureScreenOptions
 import uts.sdk.modules.uniUsercapturescreen.offUserCaptureScreen as uni_offUserCaptureScreen
+import io.dcloud.uniapp.framework.onShow
 import uts.sdk.modules.uniUsercapturescreen.onUserCaptureScreen as uni_onUserCaptureScreen
 import uts.sdk.modules.uniUsercapturescreen.setUserCaptureScreen as uni_setUserCaptureScreen
 open class GenPagesAPICaptureScreenCaptureScreen : BasePage {

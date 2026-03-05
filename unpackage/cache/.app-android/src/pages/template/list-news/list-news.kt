@@ -15,6 +15,7 @@ import kotlin.properties.Delegates
 import io.dcloud.uniapp.extapi.getDeviceInfo as uni_getDeviceInfo
 import io.dcloud.uniapp.extapi.getWindowInfo as uni_getWindowInfo
 import io.dcloud.uniapp.extapi.navigateTo as uni_navigateTo
+import io.dcloud.uniapp.framework.onShow
 import io.dcloud.uniapp.extapi.request as uni_request
 import io.dcloud.uniapp.extapi.showModal as uni_showModal
 open class GenPagesTemplateListNewsListNews : BasePage {

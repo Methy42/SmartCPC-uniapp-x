@@ -13,6 +13,7 @@ import io.dcloud.uts.Set
 import io.dcloud.uts.UTSAndroid
 import kotlin.properties.Delegates
 import uts.sdk.modules.nativeButton.createNativeButtonContext
+import io.dcloud.uniapp.framework.onShow
 import io.dcloud.uniapp.extapi.openDialogPage as uni_openDialogPage
 import io.dcloud.uniapp.extapi.showToast as uni_showToast
 open class GenPagesComponentNativeViewNativeView : BasePage {

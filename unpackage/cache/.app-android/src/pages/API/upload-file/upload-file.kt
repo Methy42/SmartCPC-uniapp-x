@@ -16,6 +16,7 @@ import io.dcloud.uniapp.extapi.chooseImage as uni_chooseImage
 import io.dcloud.uniapp.extapi.downloadFile as uni_downloadFile
 import io.dcloud.uniapp.extapi.env as uni_env
 import io.dcloud.uniapp.extapi.hideLoading as uni_hideLoading
+import io.dcloud.uniapp.framework.onShow
 import io.dcloud.uniapp.extapi.request as uni_request
 import io.dcloud.uniapp.extapi.showLoading as uni_showLoading
 import io.dcloud.uniapp.extapi.showModal as uni_showModal

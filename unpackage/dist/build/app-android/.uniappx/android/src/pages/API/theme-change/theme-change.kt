@@ -17,6 +17,7 @@ import io.dcloud.uniapp.extapi.offAppThemeChange as uni_offAppThemeChange
 import io.dcloud.uniapp.extapi.offOsThemeChange as uni_offOsThemeChange
 import io.dcloud.uniapp.extapi.onAppThemeChange as uni_onAppThemeChange
 import io.dcloud.uniapp.extapi.onOsThemeChange as uni_onOsThemeChange
+import io.dcloud.uniapp.framework.onShow
 import io.dcloud.uniapp.extapi.setAppTheme as uni_setAppTheme
 import io.dcloud.uniapp.extapi.showToast as uni_showToast
 open class GenPagesAPIThemeChangeThemeChange : BasePage {

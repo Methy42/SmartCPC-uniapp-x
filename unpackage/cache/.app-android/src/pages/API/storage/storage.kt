@@ -19,6 +19,7 @@ import io.dcloud.uniapp.extapi.getStorageInfo as uni_getStorageInfo
 import io.dcloud.uniapp.extapi.getStorageInfoSync as uni_getStorageInfoSync
 import io.dcloud.uniapp.extapi.getStorageSync as uni_getStorageSync
 import io.dcloud.uniapp.extapi.navigateTo as uni_navigateTo
+import io.dcloud.uniapp.framework.onShow
 import io.dcloud.uniapp.extapi.removeStorage as uni_removeStorage
 import io.dcloud.uniapp.extapi.removeStorageSync as uni_removeStorageSync
 import io.dcloud.uniapp.extapi.setStorage as uni_setStorage

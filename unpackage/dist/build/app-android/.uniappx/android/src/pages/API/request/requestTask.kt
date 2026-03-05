@@ -13,6 +13,7 @@ import io.dcloud.uts.Set
 import io.dcloud.uts.UTSAndroid
 import kotlin.properties.Delegates
 import io.dcloud.uniapp.extapi.hideLoading as uni_hideLoading
+import io.dcloud.uniapp.framework.onShow
 import io.dcloud.uniapp.extapi.request as uni_request
 import io.dcloud.uniapp.extapi.showModal as uni_showModal
 open class GenPagesAPIRequestRequestTask : BasePage {

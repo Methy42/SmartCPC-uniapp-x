@@ -17,6 +17,7 @@ import io.dcloud.uniapp.extapi.chooseImage as uni_chooseImage
 import io.dcloud.uniapp.extapi.env as uni_env
 import io.dcloud.uniapp.extapi.getFileSystemManager as uni_getFileSystemManager
 import io.dcloud.uniapp.extapi.navigateTo as uni_navigateTo
+import io.dcloud.uniapp.framework.onShow
 open class GenPagesAPIGetFileSystemManagerGetFileSystemManager : BasePage {
     constructor(__ins: ComponentInternalInstance, __renderer: String?) : super(__ins, __renderer) {
         onLoad(fun(_: OnLoadOptions) {

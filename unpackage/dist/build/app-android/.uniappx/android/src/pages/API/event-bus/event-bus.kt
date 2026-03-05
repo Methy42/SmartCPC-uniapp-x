@@ -16,6 +16,7 @@ import io.dcloud.uniapp.extapi.`$emit` as uni__emit
 import io.dcloud.uniapp.extapi.`$off` as uni__off
 import io.dcloud.uniapp.extapi.`$on` as uni__on
 import io.dcloud.uniapp.extapi.`$once` as uni__once
+import io.dcloud.uniapp.framework.onShow
 open class GenPagesAPIEventBusEventBus : BasePage {
     constructor(__ins: ComponentInternalInstance, __renderer: String?) : super(__ins, __renderer) {
         onLoad(fun(_: OnLoadOptions) {

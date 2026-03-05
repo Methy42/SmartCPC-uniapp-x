@@ -13,6 +13,7 @@ import io.dcloud.uts.Set
 import io.dcloud.uts.UTSAndroid
 import kotlin.properties.Delegates
 import io.dcloud.uniapp.extapi.chooseImage as uni_chooseImage
+import io.dcloud.uniapp.framework.onShow
 import io.dcloud.uniapp.extapi.previewImage as uni_previewImage
 import io.dcloud.uniapp.extapi.showToast as uni_showToast
 open class GenPagesAPIPreviewImagePreviewImage : BasePage {

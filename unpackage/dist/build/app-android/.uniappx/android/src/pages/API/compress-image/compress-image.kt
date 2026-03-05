@@ -18,6 +18,7 @@ import io.dcloud.uniapp.extapi.compressImage as uni_compressImage
 import io.dcloud.uniapp.extapi.getFileSystemManager as uni_getFileSystemManager
 import io.dcloud.uniapp.extapi.getImageInfo as uni_getImageInfo
 import io.dcloud.uniapp.extapi.hideLoading as uni_hideLoading
+import io.dcloud.uniapp.framework.onShow
 import io.dcloud.uniapp.extapi.showLoading as uni_showLoading
 import io.dcloud.uniapp.extapi.showModal as uni_showModal
 import io.dcloud.uniapp.extapi.showToast as uni_showToast

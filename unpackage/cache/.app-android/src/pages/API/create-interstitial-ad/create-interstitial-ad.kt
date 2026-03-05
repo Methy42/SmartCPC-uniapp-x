@@ -13,6 +13,7 @@ import io.dcloud.uts.Set
 import io.dcloud.uts.UTSAndroid
 import kotlin.properties.Delegates
 import io.dcloud.uniapp.extapi.createInterstitialAd as uni_createInterstitialAd
+import io.dcloud.uniapp.framework.onShow
 open class GenPagesAPICreateInterstitialAdCreateInterstitialAd : BasePage {
     constructor(__ins: ComponentInternalInstance, __renderer: String?) : super(__ins, __renderer) {
         onLoad(fun(_: OnLoadOptions) {

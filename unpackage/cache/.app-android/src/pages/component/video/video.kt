@@ -18,6 +18,7 @@ import io.dcloud.uniapp.extapi.createVideoContext as uni_createVideoContext
 import io.dcloud.uniapp.extapi.downloadFile as uni_downloadFile
 import io.dcloud.uniapp.extapi.getElementById as uni_getElementById
 import io.dcloud.uniapp.extapi.getWindowInfo as uni_getWindowInfo
+import io.dcloud.uniapp.framework.onShow
 import io.dcloud.uniapp.extapi.openDialogPage as uni_openDialogPage
 open class GenPagesComponentVideoVideo : BasePage {
     constructor(__ins: ComponentInternalInstance, __renderer: String?) : super(__ins, __renderer) {

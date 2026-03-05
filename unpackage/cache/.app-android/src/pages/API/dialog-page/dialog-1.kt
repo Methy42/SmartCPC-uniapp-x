@@ -15,6 +15,7 @@ import kotlin.properties.Delegates
 import io.dcloud.uniapp.extapi.closeDialogPage as uni_closeDialogPage
 import io.dcloud.uniapp.extapi.navigateBack as uni_navigateBack
 import io.dcloud.uniapp.extapi.navigateTo as uni_navigateTo
+import io.dcloud.uniapp.framework.onShow
 import io.dcloud.uniapp.extapi.openDialogPage as uni_openDialogPage
 import io.dcloud.uniapp.extapi.showToast as uni_showToast
 open class GenPagesAPIDialogPageDialog1 : BasePage {

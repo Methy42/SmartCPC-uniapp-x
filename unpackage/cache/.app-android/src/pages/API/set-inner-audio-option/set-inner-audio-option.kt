@@ -14,6 +14,7 @@ import io.dcloud.uts.UTSAndroid
 import kotlin.properties.Delegates
 import io.dcloud.uniapp.extapi.createInnerAudioContext as uni_createInnerAudioContext
 import io.dcloud.uniapp.extapi.getBackgroundAudioManager as uni_getBackgroundAudioManager
+import io.dcloud.uniapp.framework.onShow
 import io.dcloud.uniapp.extapi.setInnerAudioOption as uni_setInnerAudioOption
 open class GenPagesAPISetInnerAudioOptionSetInnerAudioOption : BasePage {
     constructor(__ins: ComponentInternalInstance, __renderer: String?) : super(__ins, __renderer) {

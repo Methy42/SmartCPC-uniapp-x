@@ -12,6 +12,7 @@ import io.dcloud.uts.Map
 import io.dcloud.uts.Set
 import io.dcloud.uts.UTSAndroid
 import kotlin.properties.Delegates
+import io.dcloud.uniapp.framework.onShow
 import uts.sdk.modules.utsWorker.onWorkerError
 import uts.sdk.modules.utsWorker.createWorkers
 import uts.sdk.modules.utsWorker.sendWorkerMessage

@@ -15,6 +15,7 @@ import kotlin.properties.Delegates
 import io.dcloud.uniapp.extapi.`$off` as uni__off
 import io.dcloud.uniapp.extapi.`$on` as uni__on
 import io.dcloud.uniapp.extapi.navigateTo as uni_navigateTo
+import io.dcloud.uniapp.framework.onShow
 import io.dcloud.uniapp.extapi.stopPullDownRefresh as uni_stopPullDownRefresh
 open class GenPagesComponentUnicloudDbUnicloudDbContactsList : BasePage {
     constructor(__ins: ComponentInternalInstance, __renderer: String?) : super(__ins, __renderer) {

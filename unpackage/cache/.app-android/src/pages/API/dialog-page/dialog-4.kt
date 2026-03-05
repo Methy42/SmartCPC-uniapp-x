@@ -13,6 +13,7 @@ import io.dcloud.uts.Set
 import io.dcloud.uts.UTSAndroid
 import kotlin.properties.Delegates
 import io.dcloud.uniapp.extapi.closeDialogPage as uni_closeDialogPage
+import io.dcloud.uniapp.framework.onShow
 import io.dcloud.uniapp.extapi.openDialogPage as uni_openDialogPage
 open class GenPagesAPIDialogPageDialog4 : BasePage {
     constructor(__ins: ComponentInternalInstance, __renderer: String?) : super(__ins, __renderer) {

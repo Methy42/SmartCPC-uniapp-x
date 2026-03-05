@@ -16,6 +16,7 @@ import uts.sdk.modules.utsGetNativeView.canWebViewGoBack
 import uts.sdk.modules.utsGetNativeView.canWebViewGoForward
 import uts.sdk.modules.utsGetNativeView.hasNativeView
 import io.dcloud.uniapp.extapi.getElementById as uni_getElementById
+import io.dcloud.uniapp.framework.onShow
 import io.dcloud.uniapp.extapi.showModal as uni_showModal
 open class GenPagesComponentWebViewWebView : BasePage {
     constructor(__ins: ComponentInternalInstance, __renderer: String?) : super(__ins, __renderer) {

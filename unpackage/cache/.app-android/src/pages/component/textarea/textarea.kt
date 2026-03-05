@@ -14,6 +14,7 @@ import io.dcloud.uts.UTSAndroid
 import kotlin.properties.Delegates
 import io.dcloud.uniapp.extapi.getElementById as uni_getElementById
 import io.dcloud.uniapp.extapi.getSystemInfoSync as uni_getSystemInfoSync
+import io.dcloud.uniapp.framework.onShow
 open class GenPagesComponentTextareaTextarea : BasePage {
     constructor(__ins: ComponentInternalInstance, __renderer: String?) : super(__ins, __renderer) {
         onLoad(fun(_: OnLoadOptions) {

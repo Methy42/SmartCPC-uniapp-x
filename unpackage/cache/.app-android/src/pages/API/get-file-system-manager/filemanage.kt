@@ -15,6 +15,7 @@ import kotlin.properties.Delegates
 import io.dcloud.uniapp.extapi.env as uni_env
 import io.dcloud.uniapp.extapi.getElementById as uni_getElementById
 import io.dcloud.uniapp.extapi.getFileSystemManager as uni_getFileSystemManager
+import io.dcloud.uniapp.framework.onShow
 import io.dcloud.uniapp.extapi.openDocument as uni_openDocument
 import io.dcloud.uniapp.extapi.previewImage as uni_previewImage
 import io.dcloud.uniapp.extapi.showModal as uni_showModal

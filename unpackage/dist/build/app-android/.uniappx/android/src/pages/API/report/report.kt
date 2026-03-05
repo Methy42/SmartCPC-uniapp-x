@@ -14,6 +14,7 @@ import io.dcloud.uts.UTSAndroid
 import kotlin.properties.Delegates
 import uts.sdk.modules.uniStat.ReportOptions as ReportOptions
 import io.dcloud.uniapp.extapi.getLaunchOptionsSync as uni_getLaunchOptionsSync
+import io.dcloud.uniapp.framework.onShow
 import uts.sdk.modules.uniStat.report as uni_report
 open class GenPagesAPIReportReport : BasePage {
     constructor(__ins: ComponentInternalInstance, __renderer: String?) : super(__ins, __renderer) {

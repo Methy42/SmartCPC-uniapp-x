@@ -15,6 +15,7 @@ import kotlin.properties.Delegates
 import io.dcloud.uniapp.extapi.getNetworkType as uni_getNetworkType
 import io.dcloud.uniapp.extapi.offNetworkStatusChange as uni_offNetworkStatusChange
 import io.dcloud.uniapp.extapi.onNetworkStatusChange as uni_onNetworkStatusChange
+import io.dcloud.uniapp.framework.onShow
 open class GenPagesAPINetworkStatusChangeNetworkStatusChange : BasePage {
     constructor(__ins: ComponentInternalInstance, __renderer: String?) : super(__ins, __renderer) {
         onLoad(fun(_: OnLoadOptions) {

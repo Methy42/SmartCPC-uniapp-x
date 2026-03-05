@@ -15,6 +15,7 @@ import kotlin.properties.Delegates
 import io.dcloud.uniapp.extapi.hideKeyboard as uni_hideKeyboard
 import io.dcloud.uniapp.extapi.offKeyboardHeightChange as uni_offKeyboardHeightChange
 import io.dcloud.uniapp.extapi.onKeyboardHeightChange as uni_onKeyboardHeightChange
+import io.dcloud.uniapp.framework.onShow
 open class GenPagesAPIKeyboardKeyboard : BasePage {
     constructor(__ins: ComponentInternalInstance, __renderer: String?) : super(__ins, __renderer) {
         onLoad(fun(_: OnLoadOptions) {

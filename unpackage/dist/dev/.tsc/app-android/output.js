@@ -1,6 +1,7 @@
 'use strict';
 
 require('vue');
+require('@dcloudio/uni-app');
 require('android.view.ViewGroup');
 require('java.io.FileInputStream');
 

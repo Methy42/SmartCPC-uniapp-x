@@ -44,8 +44,10 @@ export const pages = [
 	{
 		path: "pages/mine/mine",
 		style: {
-			navigationBarTitleText: "个人中心",
-			navigationBarBackgroundColor: "#C8102E"
+			navigationBarTitleText: "水源红·智慧党建",
+			navigationBarBackgroundColor: "#C8102E",
+			navigationStyle: "custom",
+			tabBar: false
 		}
 	},
 	{

@@ -16,6 +16,7 @@ import io.dcloud.uniapp.extapi.`$emit` as uni__emit
 import io.dcloud.uniapp.extapi.`$once` as uni__once
 import io.dcloud.uniapp.extapi.chooseMedia as uni_chooseMedia
 import io.dcloud.uniapp.extapi.navigateTo as uni_navigateTo
+import io.dcloud.uniapp.framework.onShow
 import io.dcloud.uniapp.extapi.previewImage as uni_previewImage
 import io.dcloud.uniapp.extapi.showActionSheet as uni_showActionSheet
 import io.dcloud.uniapp.extapi.showToast as uni_showToast

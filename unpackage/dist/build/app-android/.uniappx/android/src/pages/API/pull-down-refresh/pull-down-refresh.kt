@@ -12,6 +12,7 @@ import io.dcloud.uts.Map
 import io.dcloud.uts.Set
 import io.dcloud.uts.UTSAndroid
 import kotlin.properties.Delegates
+import io.dcloud.uniapp.framework.onShow
 import io.dcloud.uniapp.extapi.startPullDownRefresh as uni_startPullDownRefresh
 import io.dcloud.uniapp.extapi.stopPullDownRefresh as uni_stopPullDownRefresh
 open class GenPagesAPIPullDownRefreshPullDownRefresh : BasePage {

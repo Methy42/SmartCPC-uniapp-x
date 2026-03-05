@@ -14,6 +14,7 @@ import io.dcloud.uts.UTSAndroid
 import kotlin.properties.Delegates
 import io.dcloud.uniapp.extapi.chooseFile as uni_chooseFile
 import io.dcloud.uniapp.extapi.createInnerAudioContext as uni_createInnerAudioContext
+import io.dcloud.uniapp.framework.onShow
 import io.dcloud.uniapp.extapi.previewImage as uni_previewImage
 open class GenPagesAPIChooseFileChooseFile : BasePage {
     constructor(__ins: ComponentInternalInstance, __renderer: String?) : super(__ins, __renderer) {

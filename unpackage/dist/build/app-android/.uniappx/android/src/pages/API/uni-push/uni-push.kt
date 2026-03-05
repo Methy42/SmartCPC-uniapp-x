@@ -21,6 +21,7 @@ import io.dcloud.uniapp.extapi.hideLoading as uni_hideLoading
 import io.dcloud.uniapp.extapi.hideToast as uni_hideToast
 import io.dcloud.uniapp.extapi.offPushMessage as uni_offPushMessage
 import io.dcloud.uniapp.extapi.onPushMessage as uni_onPushMessage
+import io.dcloud.uniapp.framework.onShow
 import io.dcloud.uniapp.extapi.setAppBadgeNumber as uni_setAppBadgeNumber
 import io.dcloud.uniapp.extapi.showLoading as uni_showLoading
 import io.dcloud.uniapp.extapi.showModal as uni_showModal

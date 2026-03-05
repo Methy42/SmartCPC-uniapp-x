@@ -16,6 +16,7 @@ import io.dcloud.uniapp.extapi.chooseImage as uni_chooseImage
 import io.dcloud.uniapp.extapi.chooseVideo as uni_chooseVideo
 import io.dcloud.uniapp.extapi.getElementById as uni_getElementById
 import io.dcloud.uniapp.extapi.hideToast as uni_hideToast
+import io.dcloud.uniapp.framework.onShow
 import io.dcloud.uniapp.extapi.shareWithSystem as uni_shareWithSystem
 import io.dcloud.uniapp.extapi.showToast as uni_showToast
 open class GenPagesAPIShareWithSystemShareWithSystem : BasePage {

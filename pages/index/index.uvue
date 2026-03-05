@@ -8,9 +8,6 @@
       <!-- 左侧头像 -->
       <view class="nav-avatar-container">
         <image class="nav-avatar" src="/static/login-avatar.png" mode="aspectFill"></image>
-        <view class="avatar-decoration">
-          <image class="decoration-star" src="/static/star.png" mode="widthFix"></image>
-        </view>
       </view>
       
       <!-- 右侧功能菜单 -->
@@ -29,40 +26,74 @@
       </view>
     </view>
 
+    <view class="index-logo-container">
+      <image class="index-logo" src="/static/index-logo.png" mode="aspectFit"></image>
+    </view>
+
     <!-- 功能网格 -->
     <view class="func-grid">
-      <view class="func-item" :class="{'func-odd': index % 2 === 0}" v-for="(item, index) in funcList" :key="index" @click="onFuncClick(item.name)">
-        <image class="func-icon" :src="item.icon" mode="widthFix"></image>
-        <text class="func-text">{{ item.name }}</text>
+      <!-- 第一行 -->
+      <view class="func-row">
+        <view class="func-item" @click="onFuncClick('支部党员大会')">
+          <image class="func-icon" src="/static/icons/party_meeting.svg" mode="widthFix"></image>
+          <text class="func-text">支部党员大会</text>
+        </view>
+        <view class="func-item" @click="onFuncClick('支部委员会')">
+          <image class="func-icon" src="/static/icons/branch_committee.svg" mode="widthFix"></image>
+          <text class="func-text">支部委员会</text>
+        </view>
+      </view>
+      
+      <!-- 第二行 -->
+      <view class="func-row">
+        <view class="func-item" @click="onFuncClick('党小组会')">
+          <image class="func-icon" src="/static/icons/party_cell.svg" mode="widthFix"></image>
+          <text class="func-text">党小组会</text>
+        </view>
+        <view class="func-item" @click="onFuncClick('党课')">
+          <image class="func-icon" src="/static/icons/party_lecture.svg" mode="widthFix"></image>
+          <text class="func-text">党课</text>
+        </view>
+      </view>
+      
+      <!-- 第三行 -->
+      <view class="func-row">
+        <view class="func-item" @click="onFuncClick('理论学习')">
+          <image class="func-icon" src="/static/icons/theory_study.svg" mode="widthFix"></image>
+          <text class="func-text">理论学习</text>
+        </view>
+        <view class="func-item" @click="onFuncClick('支部活动')">
+          <image class="func-icon" src="/static/icons/branch_activity.svg" mode="widthFix"></image>
+          <text class="func-text">支部活动</text>
+        </view>
       </view>
     </view>
 
     <!-- 底部版权 -->
     <view class="footer">
-      <text class="copyright">技术支持：南水北调（江苏）数智科技有限公司</text>
-      <u-button class="share-btn" shape="circle" icon="share" size="mini" type="primary"></u-button>
+      <view class="footer-content">
+        <text class="copyright">技术支持：南水北调（江苏）数智科技有限公司</text>
+        <view class="share-icon-container">
+          <image class="share-icon" src="/static/icons/link_icon.svg" mode="widthFix"></image>
+        </view>
+      </view>
     </view>
   </view>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onShow } from '@dcloudio/uni-app'
 
-// 功能项类型
-type FuncItem = {
-  name: string
-  icon: string
-}
-
-// 功能列表数据
-const funcList = ref<FuncItem[]>([
-  { name: '支部党员大会', icon: '/static/icons/party_meeting.svg' },
-  { name: '支部委员会', icon: '/static/icons/branch_committee.svg' },
-  { name: '党小组会', icon: '/static/icons/party_cell.svg' },
-  { name: '党课', icon: '/static/icons/party_lecture.svg' },
-  { name: '理论学习', icon: '/static/icons/theory_study.svg' },
-  { name: '支部活动', icon: '/static/icons/branch_activity.svg' }
-])
+// 在 onShow 中隐藏 tabBar
+onShow(() => {
+  // #ifdef APP-PLUS
+  uni.hideTabBar({
+    fail: (err) => {
+      console.log('隐藏 tabBar 失败（可能已在隐藏状态或不在 tabBar 页面）', err)
+    }
+  })
+  // #endif
+})
 
 // 导航到统计页面
 const navigateToStatistics = () => {
@@ -146,7 +177,6 @@ const onFuncClick = (name: string) => {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  border: 2rpx solid #FFD700; /* 金色描边 */
   box-sizing: border-box;
 }
 
@@ -245,9 +275,16 @@ const onFuncClick = (name: string) => {
 /* 功能网格 */
 .func-grid {
   display: flex;
-  flex-wrap: wrap;
-  padding: 40rpx 50rpx;
+  flex-direction: column;
+  padding: 20rpx 50rpx;
   flex: 1;
+}
+
+.func-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 30rpx;
 }
 
 .func-item {
@@ -258,12 +295,9 @@ const onFuncClick = (name: string) => {
   background: rgba(255, 255, 255, 0.2);
   border-radius: 20rpx;
   padding: 40rpx 20rpx;
-  width: 50%; /* 改为固定50%，避免calc */
-  margin-bottom: 30rpx;
-}
-
-.func-odd {
-  margin-right: 30rpx; /* 替代 gap */
+  width: 48%;
+  min-height: 200rpx;
+  box-sizing: border-box;
 }
 
 .func-icon {
@@ -280,19 +314,48 @@ const onFuncClick = (name: string) => {
 /* 底部版权 */
 .footer {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   padding: 20rpx 30rpx;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
 }
 
 .copyright {
   font-size: 24rpx;
   color: #fff;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
-.share-btn {
-  width: 60rpx;
-  height: 60rpx;
-  background: rgba(255, 255, 255, 0.3);
+.share-icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 50%;
+  background-color: #d38c54;
+  margin-left: 10rpx;
+  flex-shrink: 0;
+}
+
+.share-icon {
+  width: 24rpx;
+  height: 24rpx;
+}
+
+.index-logo-container {
+  display: flex;           /* 启用 Flex 布局 */
+  justify-content: center; /* 水平居中（主轴居中） */
+  align-items: center;     /* 垂直居中（交叉轴居中） */
 }
 </style>

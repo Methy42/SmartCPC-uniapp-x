@@ -17,6 +17,7 @@ import io.dcloud.uniapp.extapi.connectSocket as uni_connectSocket
 import io.dcloud.uniapp.extapi.getDeviceInfo as uni_getDeviceInfo
 import io.dcloud.uniapp.extapi.hideLoading as uni_hideLoading
 import io.dcloud.uniapp.extapi.navigateTo as uni_navigateTo
+import io.dcloud.uniapp.framework.onShow
 import io.dcloud.uniapp.extapi.onSocketClose as uni_onSocketClose
 import io.dcloud.uniapp.extapi.onSocketError as uni_onSocketError
 import io.dcloud.uniapp.extapi.onSocketMessage as uni_onSocketMessage

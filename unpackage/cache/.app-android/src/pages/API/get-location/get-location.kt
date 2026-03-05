@@ -15,6 +15,7 @@ import kotlin.properties.Delegates
 import io.dcloud.uniapp.extapi.getLocation as uni_getLocation
 import io.dcloud.uniapp.extapi.getProviderSync as uni_getProviderSync
 import io.dcloud.uniapp.extapi.hideLoading as uni_hideLoading
+import io.dcloud.uniapp.framework.onShow
 import io.dcloud.uniapp.extapi.showLoading as uni_showLoading
 import io.dcloud.uniapp.extapi.showToast as uni_showToast
 open class GenPagesAPIGetLocationGetLocation : BasePage {
