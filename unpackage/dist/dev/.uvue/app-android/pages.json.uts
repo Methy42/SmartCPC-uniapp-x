@@ -30,8 +30,10 @@ export const pages = [
     {
         path: "pages/meeting/meetingList",
         style: {
-            navigationBarTitleText: "三会一课",
-            navigationBarBackgroundColor: "#C8102E"
+            navigationBarTitleText: "水源红·智慧党建",
+            navigationBarBackgroundColor: "#C8102E",
+            navigationStyle: "custom",
+            tabBar: false
         }
     },
     {
@@ -48,6 +50,20 @@ export const pages = [
             navigationBarBackgroundColor: "#C8102E",
             navigationStyle: "custom",
             tabBar: false
+        }
+    },
+    {
+        path: "pages/mine/personal-info",
+        style: {
+            navigationBarTitleText: "个人资料",
+            navigationBarBackgroundColor: "#C8102E"
+        }
+    },
+    {
+        path: "pages/mine/change-password",
+        style: {
+            navigationBarTitleText: "修改密码",
+            navigationBarBackgroundColor: "#C8102E"
         }
     },
     {

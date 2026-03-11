@@ -1,20 +1,18 @@
 <template>
   <view class="container">
+    <image class="background-image" src="/static/background/u2.jpg" mode="aspectFill"></image>
     <!-- 登录头部 -->
     <view class="header">
-      <image class="logo" src="/static/party-icon.png" mode="aspectFit"></image>
-      <text class="title">水源红·智慧党建</text>
-      <text class="subtitle">党员教育管理平台</text>
+      <image class="logo" src="/static/index-logo.png" mode="aspectFit"></image>
     </view>
 
     <!-- 登录表单 -->
     <view class="form">
       <view class="form-item">
-        <image src="/static/avatar.png" style="width: 24px; height: 24px; margin-right: 30rpx;" mode="aspectFit"></image>
         <input 
           class="input" 
           type="text" 
-          :value="username"
+          v-model="username"
           placeholder="请输入账号/手机号" 
           placeholder-class="placeholder"
         />
@@ -25,7 +23,7 @@
         <input 
           class="input" 
           type="password" 
-          :value="password" 
+          v-model="password" 
           placeholder="请输入密码" 
           placeholder-class="placeholder"
           password
@@ -44,10 +42,10 @@
         style="background-color: #C8102E; color: white; border-radius: 100rpx; height: 100rpx; font-size: 36rpx; font-weight: bold; margin-top: 40rpx;"
       >登录</button>
 
-      <view class="tips">
+      <!-- <view class="tips">
         <text class="tip-text">默认账号：党员账号/手机号</text>
         <text class="tip-text">默认密码：123456</text>
-      </view>
+      </view> -->
     </view>
 
     <!-- 底部说明 -->
@@ -61,6 +59,11 @@
 // 使用选项式API避免导入问题
 import { ref } from 'vue'
 import { setUserInfo, UserInfo } from '@/store/index.uts'
+
+type RequestResult = {
+  statusCode: number,
+  data: any
+}
 
 export default {
   setup() {
@@ -83,14 +86,7 @@ export default {
   },
   
   methods: {
-    // 输入事件处理 - 修复类型和访问方式
-    // onUsernameInput(e: { detail: { value: string } }) {
-    //   this.username = e.detail.value
-    // },
     
-    // onPasswordInput(e: { detail: { value: string } }) {
-    //   this.password = e.detail.value
-    // },
     
     onRememberChange() {
       this.remember = !this.remember
@@ -113,12 +109,12 @@ export default {
           this.remember = true
           const savedUsername = uni.getStorageSync('login_username')
           const savedPassword = uni.getStorageSync('login_password')
-          // if (savedUsername != null) {
-          //   this.username = String(savedUsername)
-          // }
-          // if (savedPassword != null) {
-          //   this.password = String(savedPassword)
-          // }
+          if (savedUsername != null) {
+            this.username = (savedUsername as string)
+          }
+          if (savedPassword != null) {
+            this.password = (savedPassword as string)
+          }
         }
       } catch (e) {
         console.error('读取记住密码失败:', e)
@@ -126,7 +122,93 @@ export default {
     },
     
     async handleLogin() {
-      
+      if (this.isEmpty(this.username) || this.isEmpty(this.password)) {
+        uni.showToast({ title: '请输入账号和密码', icon: 'none' })
+        return
+      }
+      this.loading = true
+      try {
+        const res = await new Promise<RequestResult>((resolve, reject) => {
+          uni.request({
+            url: 'http://43.248.97.247:36680/api/oauth/Party/Login',
+            method: 'POST',
+            header: { 'Content-Type': 'application/json' },
+            data: {
+              account: this.username,
+              password: this.password,
+              grant_type: 'party_password'
+            },
+            success: (r) => {
+              const rStr = JSON.stringify(r as any)
+              const ro = JSON.parse(rStr) as UTSJSONObject
+              const sc = (ro['statusCode'] as number) ?? 0
+              const datRaw = ro['data']
+              const datSafe = (datRaw != null) ? datRaw : ({} as UTSJSONObject)
+              resolve({ statusCode: sc, data: datSafe } as RequestResult)
+            },
+            fail: (err) => reject(err)
+          })
+        })
+        const ok: boolean = res.statusCode === 200
+        if (!ok) {
+          uni.showToast({ title: '登录失败', icon: 'none' })
+          return
+        }
+        const body: any = res.data
+        const bodyObj = body as UTSJSONObject
+        let token: string = ''
+        if (bodyObj != null) {
+          const t1 = bodyObj['token'] as string | null
+          const hasT1: boolean = (t1 != null) && ((t1 as string).length > 0)
+          if (hasT1) {
+            token = t1 as string
+          } else {
+            const at = bodyObj['access_token'] as string | null
+            const hasAt: boolean = (at != null) && ((at as string).length > 0)
+            if (hasAt) {
+              token = at as string
+            } else {
+              const inner = bodyObj['data'] as UTSJSONObject | null
+              if (inner != null) {
+                const it = inner['token'] as string | null
+                const hasIt: boolean = (it != null) && ((it as string).length > 0)
+                if (hasIt) {
+                  token = it as string
+                } else {
+                  const iat = inner['access_token'] as string | null
+                  const hasIat: boolean = (iat != null) && ((iat as string).length > 0)
+                  if (hasIat) {
+                    token = iat as string
+                  }
+                }
+              }
+            }
+          }
+        }
+        const user: UserInfo = {
+          id: '',
+          username: this.username,
+          name: '',
+          token: token
+        }
+        setUserInfo(user)
+        uni.setStorageSync('user_token', token)
+        uni.setStorageSync('user_info', JSON.stringify(user))
+        if (this.remember) {
+          uni.setStorageSync('remember_password', true)
+          uni.setStorageSync('login_username', this.username)
+          uni.setStorageSync('login_password', this.password)
+        } else {
+          uni.removeStorageSync('remember_password')
+          uni.removeStorageSync('login_username')
+          uni.removeStorageSync('login_password')
+        }
+        uni.switchTab({ url: '/pages/index/index' })
+      } catch (e) {
+        uni.showToast({ title: '网络异常', icon: 'none' })
+      } finally {
+        this.loading = false
+      }
     }
   }
 }
@@ -136,9 +218,18 @@ export default {
 .container {
   display: flex;
   flex-direction: column;
-  background: linear-gradient(135deg, #C8102E 0%, #A80E26 100%);
+  background-color: transparent;
   flex: 1;
   padding: 80rpx 60rpx;
+}
+
+.background-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
 }
 
 .header {
@@ -149,7 +240,7 @@ export default {
 }
 
 .logo {
-  width: 120rpx;
+  width: 360rpx;
   height: 120rpx;
   margin-bottom: 30rpx;
 }
@@ -175,14 +266,15 @@ export default {
 
 .form-item {
   display: flex;
+  flex-direction: row;
   align-items: center;
   border-bottom: 2rpx solid #eee;
-  padding: 40rpx 0;
+  padding: 10rpx 0;
   margin-bottom: 40rpx;
 }
 
 .form-item:last-child {
-  border-bottom: none;
+  border-bottom: 0rpx solid rgba(0, 0, 0, 0);
   margin-bottom: 0;
 }
 

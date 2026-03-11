@@ -11,87 +11,495 @@ const __sfc__ = defineComponent({
             { name: '已开会议' }
         ]);
         const activeTab = ref(0);
+        const showJoinModal = ref(false);
+        const attendType = ref<'onsite' | 'video'>('onsite');
+        const joined = ref(false);
+        function openJoinModal() {
+            showJoinModal.value = true;
+        }
+        function closeJoinModal() {
+            showJoinModal.value = false;
+        }
+        function confirmJoin() {
+            showJoinModal.value = false;
+            joined.value = true;
+            uni.showToast({ title: '已报名参加', icon: 'success' });
+        }
+        const showLeaveModal = ref(false);
+        const leaveReason = ref('');
+        function openLeaveModal() {
+            showLeaveModal.value = true;
+        }
+        function closeLeaveModal() {
+            showLeaveModal.value = false;
+        }
+        function submitLeave() {
+            showLeaveModal.value = false;
+            uni.showToast({ title: '已提交请假', icon: 'success' });
+        }
+        function onLeaveInput(e: UniInputEvent) {
+            leaveReason.value = e.detail.value;
+        }
+        const showSignatureModal = ref(false);
+        let signatureCanvasEl: UniCanvasElement | null = null;
+        let signature2d: CanvasRenderingContext2D | null = null;
+        function openSignatureModal() {
+            showSignatureModal.value = true;
+            try {
+                const pages = getCurrentPages();
+                const currentPage = pages[pages.length - 1];
+                currentPage.setPageStyle({ pageOrientation: 'landscape' } as UTSJSONObject);
+            }
+            catch (_: any) { }
+            setTimeout(() => {
+                signatureCanvasEl = uni.getElementById('signature-canvas') as UniCanvasElement;
+                if (signatureCanvasEl != null) {
+                    signature2d = signatureCanvasEl.getContext('2d')!;
+                    const dpr = uni.getWindowInfo().pixelRatio;
+                    const rect = signatureCanvasEl.getBoundingClientRect();
+                    signatureCanvasEl.width = rect.width * dpr;
+                    signatureCanvasEl.height = rect.height * dpr;
+                    signature2d!.scale(dpr, dpr);
+                    signature2d!.lineWidth = 3;
+                    signature2d!.strokeStyle = '#333';
+                }
+            }, 50);
+        }
+        function closeSignatureModal() {
+            showSignatureModal.value = false;
+            try {
+                const pages = getCurrentPages();
+                const currentPage = pages[pages.length - 1];
+                currentPage.setPageStyle({ pageOrientation: 'portrait' } as UTSJSONObject);
+            }
+            catch (_: any) { }
+        }
+        let drawing = false;
+        function sigStart(e: UniTouchEvent) {
+            if (signature2d == null || signatureCanvasEl == null) {
+                return;
+            }
+            drawing = true;
+            const t = e.touches[0];
+            const rect = signatureCanvasEl.getBoundingClientRect();
+            const x = t.clientX - rect.left;
+            const y = t.clientY - rect.top;
+            signature2d!.beginPath();
+            signature2d!.moveTo(x, y);
+        }
+        function sigMove(e: UniTouchEvent) {
+            if (signature2d == null || signatureCanvasEl == null || drawing === false) {
+                return;
+            }
+            const t = e.touches[0];
+            const rect = signatureCanvasEl.getBoundingClientRect();
+            const x = t.clientX - rect.left;
+            const y = t.clientY - rect.top;
+            signature2d!.lineTo(x, y);
+            signature2d!.stroke();
+        }
+        function sigEnd() {
+            drawing = false;
+        }
+        function sigClear() {
+            if (signature2d == null || signatureCanvasEl == null) {
+                return;
+            }
+            signature2d!.clearRect(0, 0, signatureCanvasEl.width, signatureCanvasEl.height);
+        }
         return (): any | null => {
-            const _component_u_tabs = resolveComponent("u-tabs");
-            const _component_u_icon = resolveComponent("u-icon");
-            const _component_u_button = resolveComponent("u-button");
-            const _component_u_empty = resolveComponent("u-empty");
-            return _cE("view", _uM({ class: "container" }), [
-                _cE("view", _uM({ class: "page-header" }), [
+            return _cE(Fragment, null, [
+                _cE("view", _uM({ class: "container" }), [
                     _cE("image", _uM({
-                        class: "star-icon",
-                        src: "/static/star.png",
-                        mode: "widthFix"
+                        class: "background-image",
+                        src: "/static/background/u2.jpg",
+                        mode: "aspectFill"
                     })),
-                    _cE("text", _uM({ class: "page-title" }), "三会一课")
+                    _cE("view", _uM({ class: "custom-navbar" }), [
+                        _cE("view", _uM({ class: "nav-avatar-container" }), [
+                            _cE("image", _uM({
+                                class: "nav-avatar",
+                                src: "/static/login-avatar.png",
+                                mode: "aspectFill"
+                            }))
+                        ]),
+                        _cE("view", _uM({ class: "nav-right-buttons" }), [
+                            _cE("view", _uM({ class: "nav-message-btn" }), [
+                                _cE("text", _uM({ class: "message-text" }), "消息"),
+                                _cE("view", _uM({ class: "message-badge" }), "4")
+                            ])
+                        ])
+                    ]),
+                    _cE("view", _uM({ class: "content-container" }), [
+                        _cE("view", _uM({ class: "content-title-container" }), [
+                            _cE("image", _uM({
+                                class: "content-title-background",
+                                src: "/static/mine-title-background.png",
+                                mode: "aspectFit"
+                            })),
+                            _cE("text", _uM({ class: "content-title-text" }), "三会一课")
+                        ]),
+                        _cE("view", _uM({ class: "tabs-bar" }), [
+                            _cE("view", _uM({
+                                class: _nC(["tab-item", activeTab.value === 0 ? 'tab-active-left' : 'tab-inactive-left']),
+                                onClick: () => { activeTab.value = 0; }
+                            }), [
+                                _cE("text", _uM({ class: "tab-text" }), "待开会议")
+                            ], 10 /* CLASS, PROPS */, ["onClick"]),
+                            _cE("view", _uM({
+                                class: _nC(["tab-item", activeTab.value === 1 ? 'tab-active-right' : 'tab-inactive-right']),
+                                onClick: () => { activeTab.value = 1; }
+                            }), [
+                                _cE("text", _uM({ class: "tab-text" }), "已开会议")
+                            ], 10 /* CLASS, PROPS */, ["onClick"])
+                        ]),
+                        activeTab.value === 0
+                            ? _cE("view", _uM({
+                                key: 0,
+                                class: "meeting-list"
+                            }), [
+                                _cE("view", _uM({ class: "meeting-card" }), [
+                                    _cE("text", _uM({ class: "meeting-title" }), "11月份党支部委员会支部大会"),
+                                    _cE("view", _uM({ class: "meeting-info" }), [
+                                        _cE("image", _uM({
+                                            class: "info-icon",
+                                            src: "/static/icons/meeting_management.svg",
+                                            mode: "widthFix"
+                                        })),
+                                        _cE("text", _uM({ class: "info-text" }), "会议时间：2025年11月17日 星期四 9:30 ~ 11:30")
+                                    ]),
+                                    _cE("view", _uM({ class: "meeting-info" }), [
+                                        _cE("image", _uM({
+                                            class: "info-icon",
+                                            src: "/static/icons/organization.svg",
+                                            mode: "widthFix"
+                                        })),
+                                        _cE("text", _uM({ class: "info-text" }), "会议组织：数智公司党支部")
+                                    ]),
+                                    _cE("view", _uM({ class: "meeting-info" }), [
+                                        _cE("image", _uM({
+                                            class: "info-icon",
+                                            src: "/static/icons/location.svg",
+                                            mode: "widthFix"
+                                        })),
+                                        _cE("text", _uM({ class: "info-text" }), "会议地点：311室")
+                                    ]),
+                                    _cE("view", _uM({ class: "btn-group" }), [
+                                        isTrue(!joined.value)
+                                            ? _cE("view", _uM({
+                                                key: 0,
+                                                class: "action-btn action-primary",
+                                                onClick: openJoinModal
+                                            }), [
+                                                _cE("text", null, "参加")
+                                            ])
+                                            : _cE("view", _uM({
+                                                key: 1,
+                                                class: "action-btn action-wait",
+                                                onClick: openSignatureModal
+                                            }), [
+                                                _cE("text", null, "待签到")
+                                            ]),
+                                        _cE("view", _uM({
+                                            class: "action-btn action-outline",
+                                            onClick: openLeaveModal
+                                        }), [
+                                            _cE("text", null, "请假")
+                                        ])
+                                    ]),
+                                    isTrue(joined.value)
+                                        ? _cE("text", _uM({
+                                            key: 0,
+                                            class: "checkin-tips"
+                                        }), "会前5分钟可签到")
+                                        : _cC("v-if", true)
+                                ])
+                            ])
+                            : _cE("view", _uM({
+                                key: 1,
+                                class: "meeting-list"
+                            }), [
+                                _cE("view", _uM({ class: "meeting-card" }), [
+                                    _cE("text", _uM({ class: "meeting-title" }), "11月份党支部委员会支部大会"),
+                                    _cE("view", _uM({ class: "meeting-info" }), [
+                                        _cE("image", _uM({
+                                            class: "info-icon",
+                                            src: "/static/icons/meeting_management.svg",
+                                            mode: "widthFix"
+                                        })),
+                                        _cE("text", _uM({ class: "info-text" }), "会议时间：2025年11月10日 星期三 9:30 ~ 11:30")
+                                    ]),
+                                    _cE("view", _uM({ class: "meeting-info" }), [
+                                        _cE("image", _uM({
+                                            class: "info-icon",
+                                            src: "/static/icons/organization.svg",
+                                            mode: "widthFix"
+                                        })),
+                                        _cE("text", _uM({ class: "info-text" }), "会议组织：数智公司党支部")
+                                    ]),
+                                    _cE("view", _uM({ class: "meeting-info" }), [
+                                        _cE("image", _uM({
+                                            class: "info-icon",
+                                            src: "/static/icons/location.svg",
+                                            mode: "widthFix"
+                                        })),
+                                        _cE("text", _uM({ class: "info-text" }), "会议地点：311室")
+                                    ]),
+                                    _cE("view", _uM({ class: "btn-group" }), [
+                                        _cE("view", _uM({ class: "action-btn action-success" }), "会议纪要")
+                                    ])
+                                ]),
+                                _cE("view", _uM({ class: "meeting-card" }), [
+                                    _cE("text", _uM({ class: "meeting-title" }), "11月份党支部党员活动"),
+                                    _cE("view", _uM({ class: "meeting-info" }), [
+                                        _cE("image", _uM({
+                                            class: "info-icon",
+                                            src: "/static/icons/meeting_management.svg",
+                                            mode: "widthFix"
+                                        })),
+                                        _cE("text", _uM({ class: "info-text" }), "会议时间：2025年11月12日 星期四 9:30 ~ 11:30")
+                                    ]),
+                                    _cE("view", _uM({ class: "meeting-info" }), [
+                                        _cE("image", _uM({
+                                            class: "info-icon",
+                                            src: "/static/icons/organization.svg",
+                                            mode: "widthFix"
+                                        })),
+                                        _cE("text", _uM({ class: "info-text" }), "会议组织：数智公司党支部")
+                                    ]),
+                                    _cE("view", _uM({ class: "meeting-info" }), [
+                                        _cE("image", _uM({
+                                            class: "info-icon",
+                                            src: "/static/icons/location.svg",
+                                            mode: "widthFix"
+                                        })),
+                                        _cE("text", _uM({ class: "info-text" }), "会议地点：311室")
+                                    ]),
+                                    _cE("view", _uM({ class: "btn-group" }), [
+                                        _cE("view", _uM({ class: "action-btn action-success" }), "会议记录")
+                                    ])
+                                ]),
+                                _cE("view", _uM({ class: "meeting-card" }), [
+                                    _cE("text", _uM({ class: "meeting-title" }), "讨论接收预备党员支部大会"),
+                                    _cE("view", _uM({ class: "meeting-info" }), [
+                                        _cE("image", _uM({
+                                            class: "info-icon",
+                                            src: "/static/icons/meeting_management.svg",
+                                            mode: "widthFix"
+                                        })),
+                                        _cE("text", _uM({ class: "info-text" }), "会议时间：2025年11月15日 星期二 9:30 ~ 11:30")
+                                    ]),
+                                    _cE("view", _uM({ class: "meeting-info" }), [
+                                        _cE("image", _uM({
+                                            class: "info-icon",
+                                            src: "/static/icons/organization.svg",
+                                            mode: "widthFix"
+                                        })),
+                                        _cE("text", _uM({ class: "info-text" }), "会议组织：数智公司党支部")
+                                    ]),
+                                    _cE("view", _uM({ class: "meeting-info" }), [
+                                        _cE("image", _uM({
+                                            class: "info-icon",
+                                            src: "/static/icons/location.svg",
+                                            mode: "widthFix"
+                                        })),
+                                        _cE("text", _uM({ class: "info-text" }), "会议地点：311室")
+                                    ]),
+                                    _cE("view", _uM({ class: "btn-group" }), [
+                                        _cE("view", _uM({ class: "action-btn action-success" }), "会议记录")
+                                    ])
+                                ])
+                            ])
+                    ])
                 ]),
-                _cV(_component_u_tabs, _uM({
-                    list: tabList.value,
-                    modelValue: activeTab.value,
-                    "onUpdate:modelValue": ($event: number) => { (activeTab).value = $event; },
-                    "active-color": "#FF8C00",
-                    "inactive-color": "#666",
-                    "bg-color": "#F5F5F5"
-                }), null, 8 /* PROPS */, ["list", "modelValue", "onUpdate:modelValue"]),
-                activeTab.value === 0
+                isTrue(showJoinModal.value)
                     ? _cE("view", _uM({
                         key: 0,
-                        class: "meeting-list"
+                        class: "modal-mask"
                     }), [
-                        _cE("view", _uM({ class: "meeting-card" }), [
-                            _cE("text", _uM({ class: "meeting-title" }), "11月份党支部委员会支部大会"),
-                            _cE("view", _uM({ class: "meeting-info" }), [
-                                _cV(_component_u_icon, _uM({
-                                    name: "calendar",
-                                    size: "24",
-                                    color: "#666"
-                                })),
-                                _cE("text", _uM({ class: "info-text" }), "会议时间：2025年11月17日 星期四 9:30 ~ 11:30")
+                        _cE("view", _uM({ class: "modal-card" }), [
+                            _cE("text", _uM({ class: "modal-title" }), "12月份党支部党课"),
+                            _cE("view", _uM({ class: "modal-section" }), [
+                                _cE("view", _uM({ class: "meeting-info" }), [
+                                    _cE("image", _uM({
+                                        class: "info-icon",
+                                        src: "/static/icons/meeting_management.svg",
+                                        mode: "widthFix"
+                                    })),
+                                    _cE("text", _uM({ class: "info-text" }), "会议时间：2025年12月10日 星期三 9:30 ~ 11:30")
+                                ]),
+                                _cE("view", _uM({ class: "meeting-info" }), [
+                                    _cE("image", _uM({
+                                        class: "info-icon",
+                                        src: "/static/icons/organization.svg",
+                                        mode: "widthFix"
+                                    })),
+                                    _cE("text", _uM({ class: "info-text" }), "会议组织：数智公司党支部")
+                                ]),
+                                _cE("view", _uM({ class: "meeting-info" }), [
+                                    _cE("image", _uM({
+                                        class: "info-icon",
+                                        src: "/static/icons/location.svg",
+                                        mode: "widthFix"
+                                    })),
+                                    _cE("text", _uM({ class: "info-text" }), "会议地点：311室")
+                                ])
                             ]),
-                            _cE("view", _uM({ class: "meeting-info" }), [
-                                _cV(_component_u_icon, _uM({
-                                    name: "people",
-                                    size: "24",
-                                    color: "#666"
-                                })),
-                                _cE("text", _uM({ class: "info-text" }), "会议组织：数智公司党支部")
+                            _cE("view", _uM({ class: "modal-section" }), [
+                                _cE("view", _uM({ class: "topic-row" }), [
+                                    _cE("view", _uM({ class: "topic-icon-wrapper" }), [
+                                        _cE("image", _uM({
+                                            class: "topic-icon",
+                                            src: "/static/icons/topic.svg",
+                                            mode: "widthFix"
+                                        })),
+                                        _cE("view", _uM({ class: "topic-icon-center" }), [
+                                            _cE("text", _uM({ class: "topic-badge-text" }), "议题")
+                                        ])
+                                    ]),
+                                    _cE("text", _uM({ class: "topic-text" }), "深入学习贯彻党的二十大精神")
+                                ]),
+                                _cE("view", _uM({ class: "file-row" }), [
+                                    _cE("image", _uM({
+                                        class: "file-icon",
+                                        src: "/static/icons/pdf.png",
+                                        mode: "widthFix"
+                                    })),
+                                    _cE("text", _uM({ class: "file-name" }), "12月份党支部委员会会议消息.pdf · 1MB")
+                                ])
                             ]),
-                            _cE("view", _uM({ class: "meeting-info" }), [
-                                _cV(_component_u_icon, _uM({
-                                    name: "location",
-                                    size: "24",
-                                    color: "#666"
-                                })),
-                                _cE("text", _uM({ class: "info-text" }), "会议地点：311室")
+                            _cE("view", _uM({ class: "modal-section attend-row" }), [
+                                _cE("text", _uM({ class: "attend-label" }), "参会形式："),
+                                _cE("view", _uM({
+                                    class: "radio-option",
+                                    onClick: () => { attendType.value = 'onsite'; }
+                                }), [
+                                    _cE("view", _uM({
+                                        class: _nC(["radio-dot", attendType.value === 'onsite' ? 'active' : ''])
+                                    }), null, 2 /* CLASS */),
+                                    _cE("text", null, "现场参会")
+                                ], 8 /* PROPS */, ["onClick"]),
+                                _cE("view", _uM({
+                                    class: "radio-option",
+                                    onClick: () => { attendType.value = 'video'; }
+                                }), [
+                                    _cE("view", _uM({
+                                        class: _nC(["radio-dot", attendType.value === 'video' ? 'active' : ''])
+                                    }), null, 2 /* CLASS */),
+                                    _cE("text", null, "视频参会")
+                                ], 8 /* PROPS */, ["onClick"])
                             ]),
-                            _cE("view", _uM({ class: "btn-group" }), [
-                                _cV(_component_u_button, _uM({
-                                    class: "btn-group-btn",
-                                    text: "参加",
-                                    type: "primary",
-                                    size: "mini",
-                                    "bg-color": "#FF8C00"
-                                })),
-                                _cV(_component_u_button, _uM({
-                                    text: "请假",
-                                    type: "default",
-                                    size: "mini",
-                                    "border-color": "#FF8C00",
-                                    color: "#FF8C00"
-                                }))
+                            _cE("view", _uM({ class: "modal-btns" }), [
+                                _cE("view", _uM({
+                                    class: "action-btn btn-join",
+                                    onClick: confirmJoin
+                                }), "参加"),
+                                _cE("view", _uM({
+                                    class: "action-btn btn-cancel",
+                                    onClick: closeJoinModal
+                                }), "取消")
                             ])
                         ])
                     ])
-                    : _cE("view", _uM({
+                    : _cC("v-if", true),
+                isTrue(showSignatureModal.value)
+                    ? _cE("view", _uM({
                         key: 1,
-                        class: "meeting-list"
+                        class: "signature-mask"
                     }), [
-                        _cV(_component_u_empty, _uM({ text: "暂无已开会议记录" }))
+                        _cE("view", _uM({ class: "signature-card" }), [
+                            _cE("view", _uM({ class: "signature-header" }), [
+                                _cE("text", _uM({ class: "signature-title" }), "在线签名"),
+                                _cE("view", _uM({
+                                    class: "signature-close",
+                                    onClick: closeSignatureModal
+                                }), "✕")
+                            ]),
+                            _cE("view", _uM({ class: "signature-body" }), [
+                                _cE("canvas", _uM({
+                                    id: "signature-canvas",
+                                    class: "signature-canvas"
+                                })),
+                                _cE("view", _uM({
+                                    class: "signature-overlay",
+                                    onTouchstart: sigStart,
+                                    onTouchmove: sigMove,
+                                    onTouchend: sigEnd
+                                }), null, 32 /* NEED_HYDRATION */),
+                                _cE("text", _uM({ class: "signature-placeholder" }), "请在此处签名")
+                            ]),
+                            _cE("view", _uM({ class: "signature-actions" }), [
+                                _cE("view", _uM({
+                                    class: "action-btn action-primary",
+                                    onClick: sigClear
+                                }), "撤回"),
+                                _cE("view", _uM({
+                                    class: "action-btn action-outline",
+                                    onClick: sigClear
+                                }), "重签")
+                            ])
+                        ])
                     ])
-            ]);
+                    : _cC("v-if", true),
+                isTrue(showLeaveModal.value)
+                    ? _cE("view", _uM({
+                        key: 2,
+                        class: "modal-mask"
+                    }), [
+                        _cE("view", _uM({ class: "modal-card" }), [
+                            _cE("text", _uM({ class: "modal-title" }), "12月份党支部党课"),
+                            _cE("view", _uM({ class: "modal-section" }), [
+                                _cE("view", _uM({ class: "meeting-info" }), [
+                                    _cE("image", _uM({
+                                        class: "info-icon",
+                                        src: "/static/icons/meeting_management.svg",
+                                        mode: "widthFix"
+                                    })),
+                                    _cE("text", _uM({ class: "info-text" }), "会议时间：2025年12月10日 星期三 9:30 ~ 11:30")
+                                ]),
+                                _cE("view", _uM({ class: "meeting-info" }), [
+                                    _cE("image", _uM({
+                                        class: "info-icon",
+                                        src: "/static/icons/organization.svg",
+                                        mode: "widthFix"
+                                    })),
+                                    _cE("text", _uM({ class: "info-text" }), "会议组织：数智公司党支部")
+                                ]),
+                                _cE("view", _uM({ class: "meeting-info" }), [
+                                    _cE("image", _uM({
+                                        class: "info-icon",
+                                        src: "/static/icons/location.svg",
+                                        mode: "widthFix"
+                                    })),
+                                    _cE("text", _uM({ class: "info-text" }), "会议地点：311室")
+                                ])
+                            ]),
+                            _cE("view", _uM({ class: "modal-section" }), [
+                                _cE("text", _uM({ class: "reason-label" }), "请假事由"),
+                                _cE("textarea", _uM({
+                                    class: "reason-textarea",
+                                    value: leaveReason.value,
+                                    onInput: onLeaveInput,
+                                    placeholder: "请输入请假原因"
+                                }), null, 40 /* PROPS, NEED_HYDRATION */, ["value"])
+                            ]),
+                            _cE("view", _uM({ class: "modal-btns" }), [
+                                _cE("view", _uM({
+                                    class: "action-btn btn-join",
+                                    onClick: submitLeave
+                                }), "提交"),
+                                _cE("view", _uM({
+                                    class: "action-btn btn-cancel",
+                                    onClick: closeLeaveModal
+                                }), "取消")
+                            ])
+                        ])
+                    ])
+                    : _cC("v-if", true)
+            ], 64 /* STABLE_FRAGMENT */);
         };
     }
 });
 export default __sfc__;
-const GenPagesMeetingMeetingListStyles = [_uM([["container", _pS(_uM([["backgroundColor", "#F5F5F5"], ["display", "flex"], ["flexDirection", "column"], ["flexGrow", 1], ["flexShrink", 1], ["flexBasis", "0%"], ["paddingBottom", "100rpx"]]))], ["page-header", _pS(_uM([["display", "flex"], ["alignItems", "center"], ["paddingTop", "20rpx"], ["paddingRight", "30rpx"], ["paddingBottom", "20rpx"], ["paddingLeft", "30rpx"], ["backgroundColor", "#ffffff"]]))], ["star-icon", _pS(_uM([["width", "40rpx"], ["height", "40rpx"], ["marginRight", "10rpx"]]))], ["page-title", _pS(_uM([["fontSize", "36rpx"], ["fontWeight", "bold"], ["color", "#333333"]]))], ["meeting-list", _pS(_uM([["paddingTop", "20rpx"], ["paddingRight", "30rpx"], ["paddingBottom", "20rpx"], ["paddingLeft", "30rpx"]]))], ["meeting-card", _pS(_uM([["backgroundColor", "#ffffff"], ["borderTopLeftRadius", "16rpx"], ["borderTopRightRadius", "16rpx"], ["borderBottomRightRadius", "16rpx"], ["borderBottomLeftRadius", "16rpx"], ["paddingTop", "30rpx"], ["paddingRight", "30rpx"], ["paddingBottom", "30rpx"], ["paddingLeft", "30rpx"]]))], ["meeting-title", _pS(_uM([["fontSize", "32rpx"], ["fontWeight", "bold"], ["color", "#333333"], ["marginBottom", "20rpx"]]))], ["meeting-info", _pS(_uM([["display", "flex"], ["alignItems", "center"], ["marginBottom", "15rpx"]]))], ["info-text", _pS(_uM([["fontSize", "28rpx"], ["color", "#666666"], ["marginLeft", "10rpx"], ["flexGrow", 1], ["flexShrink", 1], ["flexBasis", "0%"]]))], ["btn-group", _pS(_uM([["display", "flex"], ["justifyContent", "flex-end"], ["marginTop", "20rpx"]]))], ["btn-group-btn", _pS(_uM([["marginRight:first-child", "20rpx"]]))]])];
+const GenPagesMeetingMeetingListStyles = [_uM([["container", _pS(_uM([["backgroundColor", "#F5F5F5"], ["display", "flex"], ["flexDirection", "column"], ["flexGrow", 1], ["flexShrink", 1], ["flexBasis", "0%"], ["paddingBottom", "100rpx"], ["position", "relative"]]))], ["background-image", _pS(_uM([["position", "absolute"], ["top", 0], ["left", 0], ["width", "100%"], ["height", "100%"], ["zIndex", -1]]))], ["custom-navbar", _pS(_uM([["display", "flex"], ["flexDirection", "row"], ["justifyContent", "space-between"], ["alignItems", "center"], ["paddingTop", "var(--status-bar-height, 40rpx)"], ["paddingRight", "30rpx"], ["paddingBottom", "20rpx"], ["paddingLeft", "30rpx"], ["height", "100rpx"], ["width", "100%"], ["boxSizing", "border-box"], ["flexWrap", "nowrap"], ["whiteSpace", "nowrap"]]))], ["nav-avatar-container", _pS(_uM([["position", "relative"], ["width", "70rpx"], ["height", "70rpx"], ["flexShrink", 0]]))], ["nav-avatar", _pS(_uM([["width", "100%"], ["height", "100%"], ["boxSizing", "border-box"]]))], ["nav-right-buttons", _pS(_uM([["display", "flex"], ["flexDirection", "row"], ["alignItems", "center"], ["flexShrink", 0], ["flexWrap", "nowrap"]]))], ["nav-message-btn", _pS(_uM([["position", "relative"], ["borderTopLeftRadius", "20rpx"], ["borderTopRightRadius", "20rpx"], ["borderBottomRightRadius", "20rpx"], ["borderBottomLeftRadius", "20rpx"], ["paddingTop", 0], ["paddingRight", "40rpx"], ["paddingBottom", 0], ["paddingLeft", 0], ["color", "#ffffff"], ["fontSize", "28rpx"], ["fontFamily", "sans-serif"], ["whiteSpace", "nowrap"], ["flexShrink", 0]]))], ["message-text", _pS(_uM([["color", "#ffffff"], ["fontSize", "28rpx"], ["whiteSpace", "nowrap"]]))], ["message-badge", _pS(_uM([["position", "absolute"], ["right", 0], ["width", "36rpx"], ["height", "36rpx"], ["backgroundColor", "#FF6B35"], ["display", "flex"], ["alignItems", "center"], ["justifyContent", "center"], ["color", "#ffffff"], ["fontSize", "22rpx"], ["fontWeight", "bold"]]))], ["content-container", _pS(_uM([["width", "90%"], ["marginTop", "20rpx"], ["marginRight", "auto"], ["marginBottom", "auto"], ["marginLeft", "auto"], ["paddingTop", "20rpx"], ["paddingRight", "0rpx"], ["paddingBottom", "20rpx"], ["paddingLeft", "0rpx"], ["backgroundColor", "#f9e1ce"], ["overflow", "visible"]]))], ["content-title-container", _pS(_uM([["position", "relative"], ["width", "70%"], ["height", "80rpx"], ["display", "flex"], ["justifyContent", "center"], ["overflow", "visible"]]))], ["content-title-background", _pS(_uM([["position", "absolute"], ["top", 0], ["left", "-60rpx"], ["width", "100%"], ["height", "100%"], ["zIndex", 1], ["overflow", "visible"]]))], ["content-title-text", _pS(_uM([["position", "relative"], ["zIndex", 2], ["fontSize", "28rpx"], ["color", "#FFEAD2"], ["fontWeight", "bold"], ["textAlign", "left"], ["paddingTop", "10rpx"], ["paddingRight", "60rpx"], ["paddingBottom", "10rpx"], ["paddingLeft", "60rpx"]]))], ["tabs-bar", _pS(_uM([["display", "flex"], ["flexDirection", "row"], ["paddingTop", 0], ["paddingRight", "30rpx"], ["paddingBottom", 0], ["paddingLeft", "30rpx"], ["marginTop", "10rpx"], ["marginBottom", "10rpx"]]))], ["tab-item", _pS(_uM([["flexGrow", 1], ["flexShrink", 1], ["flexBasis", "0%"], ["height", "64rpx"], ["borderTopLeftRadius", "12rpx"], ["borderTopRightRadius", "12rpx"], ["borderBottomRightRadius", "12rpx"], ["borderBottomLeftRadius", "12rpx"], ["alignItems", "center"], ["justifyContent", "center"], ["display", "flex"]]))], ["tab-text", _uM([["", _uM([["fontSize", "28rpx"]])], [".tab-active-left ", _uM([["color", "#FFFFFF"]])], [".tab-inactive-left ", _uM([["color", "#7A6154"]])], [".tab-active-right ", _uM([["color", "#FFFFFF"]])], [".tab-inactive-right ", _uM([["color", "#7A6154"]])]])], ["tab-active-left", _pS(_uM([["backgroundColor", "#e2a65c"], ["color", "#ffffff"], ["marginRight", "10rpx"]]))], ["tab-inactive-left", _pS(_uM([["backgroundColor", "#e2c9aafd"], ["marginRight", "10rpx"], ["opacity", 0.8]]))], ["tab-active-right", _pS(_uM([["backgroundColor", "#e2a65c"], ["marginLeft", "10rpx"]]))], ["tab-inactive-right", _pS(_uM([["backgroundColor", "#e2c9aafd"], ["marginLeft", "10rpx"], ["opacity", 0.85]]))], ["meeting-list", _pS(_uM([["paddingTop", "20rpx"], ["paddingRight", "30rpx"], ["paddingBottom", "20rpx"], ["paddingLeft", "30rpx"]]))], ["meeting-card", _pS(_uM([["backgroundColor", "#ffffff"], ["borderTopLeftRadius", "20rpx"], ["borderTopRightRadius", "20rpx"], ["borderBottomRightRadius", "20rpx"], ["borderBottomLeftRadius", "20rpx"], ["paddingTop", "30rpx"], ["paddingRight", "30rpx"], ["paddingBottom", "30rpx"], ["paddingLeft", "30rpx"], ["boxShadow", "0 10rpx 20rpx rgba(0,0,0,0.08)"], ["borderTopWidth", "1rpx"], ["borderRightWidth", "1rpx"], ["borderBottomWidth", "1rpx"], ["borderLeftWidth", "1rpx"], ["borderTopStyle", "solid"], ["borderRightStyle", "solid"], ["borderBottomStyle", "solid"], ["borderLeftStyle", "solid"], ["borderTopColor", "#e6e6e6"], ["borderRightColor", "#e6e6e6"], ["borderBottomColor", "#e6e6e6"], ["borderLeftColor", "#e6e6e6"], ["position", "relative"], ["marginBottom", "15rpx"]]))], ["meeting-title", _pS(_uM([["fontSize", "32rpx"], ["fontWeight", "bold"], ["color", "#333333"], ["marginBottom", "20rpx"]]))], ["meeting-info", _pS(_uM([["display", "flex"], ["flexDirection", "row"], ["alignItems", "center"], ["justifyContent", "flex-start"], ["marginBottom", "15rpx"]]))], ["info-icon", _pS(_uM([["width", "24rpx"], ["height", "24rpx"], ["marginRight", "10rpx"], ["flexShrink", 0]]))], ["info-text", _pS(_uM([["fontSize", "24rpx"], ["color", "#666666"], ["marginLeft", 0], ["flexGrow", 1], ["flexShrink", 1], ["flexBasis", "0%"], ["lineHeight", "32rpx"]]))], ["btn-group", _pS(_uM([["display", "flex"], ["flexDirection", "row"], ["flexWrap", "nowrap"], ["justifyContent", "flex-end"], ["marginTop", "20rpx"], ["position", "absolute"], ["bottom", "15rpx"], ["right", "15rpx"], ["overflow", "visible"]]))], ["btn-group-btn", _pS(_uM([["marginRight:first-child", "20rpx"]]))], ["action-btn", _pS(_uM([["height", "54rpx"], ["borderTopLeftRadius", "12rpx"], ["borderTopRightRadius", "12rpx"], ["borderBottomRightRadius", "12rpx"], ["borderBottomLeftRadius", "12rpx"], ["alignItems", "center"], ["justifyContent", "center"], ["paddingTop", 0], ["paddingRight", "24rpx"], ["paddingBottom", 0], ["paddingLeft", "24rpx"], ["fontSize", "26rpx"], ["whiteSpace", "nowrap"], ["flexGrow", 0], ["flexShrink", 0], ["flexBasis", "auto"]]))], ["action-primary", _pS(_uM([["backgroundColor", "#D8A243"], ["color", "#ffffff"], ["marginRight", "20rpx"]]))], ["action-outline", _pS(_uM([["borderTopWidth", "2rpx"], ["borderRightWidth", "2rpx"], ["borderBottomWidth", "2rpx"], ["borderLeftWidth", "2rpx"], ["borderTopStyle", "solid"], ["borderRightStyle", "solid"], ["borderBottomStyle", "solid"], ["borderLeftStyle", "solid"], ["borderTopColor", "#D8A243"], ["borderRightColor", "#D8A243"], ["borderBottomColor", "#D8A243"], ["borderLeftColor", "#D8A243"], ["color", "#D8A243"], ["backgroundColor", "rgba(0,0,0,0)"]]))], ["action-success", _pS(_uM([["backgroundColor", "#74CF69"], ["color", "#ffffff"]]))], ["action-wait", _pS(_uM([["backgroundColor", "#dd3333"], ["color", "#ffffff"], ["marginRight", "20rpx"]]))], ["checkin-tips", _pS(_uM([["fontSize", "22rpx"], ["color", "#999999"], ["marginTop", "10rpx"], ["textAlign", "right"]]))], ["modal-mask", _pS(_uM([["position", "fixed"], ["top", 0], ["left", 0], ["width", "100%"], ["height", "100%"], ["backgroundColor", "rgba(0,0,0,0.4)"], ["display", "flex"], ["alignItems", "center"], ["justifyContent", "center"], ["zIndex", 1000]]))], ["modal-card", _pS(_uM([["width", "88%"], ["backgroundColor", "#ffffff"], ["borderTopLeftRadius", "20rpx"], ["borderTopRightRadius", "20rpx"], ["borderBottomRightRadius", "20rpx"], ["borderBottomLeftRadius", "20rpx"], ["paddingTop", "30rpx"], ["paddingRight", "30rpx"], ["paddingBottom", "30rpx"], ["paddingLeft", "30rpx"]]))], ["modal-title", _pS(_uM([["fontSize", "32rpx"], ["fontWeight", "bold"], ["color", "#333333"], ["marginBottom", "20rpx"]]))], ["modal-section", _pS(_uM([["marginTop", "20rpx"], ["paddingTop", "20rpx"], ["borderTopWidth", "1rpx"], ["borderTopStyle", "solid"], ["borderTopColor", "#eeeeee"]]))], ["topic-row", _pS(_uM([["display", "flex"], ["flexDirection", "row"], ["alignItems", "center"], ["fontSize", "28rpx"]]))], ["topic-icon-wrapper", _pS(_uM([["position", "relative"], ["width", "44rpx"], ["height", "44rpx"], ["marginRight", "12rpx"]]))], ["topic-icon", _pS(_uM([["width", "100%"], ["height", "100%"]]))], ["topic-icon-center", _pS(_uM([["position", "absolute"], ["top", 0], ["left", 0], ["width", "100%"], ["height", "100%"], ["display", "flex"], ["alignItems", "center"], ["justifyContent", "center"]]))], ["topic-badge-text", _pS(_uM([["color", "#dd3333"], ["fontSize", "22rpx"], ["fontWeight", "bold"]]))], ["topic-text", _pS(_uM([["color", "#333333"], ["fontSize", "28rpx"]]))], ["file-row", _pS(_uM([["display", "flex"], ["flexDirection", "row"], ["alignItems", "center"], ["justifyContent", "flex-start"], ["flexWrap", "nowrap"], ["marginTop", "16rpx"]]))], ["file-icon", _pS(_uM([["width", "36rpx"], ["height", "36rpx"], ["marginRight", "12rpx"]]))], ["file-name", _pS(_uM([["fontSize", "28rpx"], ["color", "#333333"], ["flexGrow", 0], ["flexShrink", 1], ["flexBasis", "auto"], ["whiteSpace", "nowrap"]]))], ["attend-row", _pS(_uM([["display", "flex"], ["flexDirection", "row"], ["alignItems", "center"], ["marginTop", "16rpx"]]))], ["attend-label", _pS(_uM([["fontSize", "28rpx"], ["color", "#333333"], ["marginRight", "20rpx"]]))], ["radio-option", _pS(_uM([["flexDirection", "row"], ["alignItems", "center"], ["marginRight", "30rpx"]]))], ["radio-dot", _uM([["", _uM([["width", "28rpx"], ["height", "28rpx"], ["borderTopLeftRadius", "28rpx"], ["borderTopRightRadius", "28rpx"], ["borderBottomRightRadius", "28rpx"], ["borderBottomLeftRadius", "28rpx"], ["borderTopWidth", "2rpx"], ["borderRightWidth", "2rpx"], ["borderBottomWidth", "2rpx"], ["borderLeftWidth", "2rpx"], ["borderTopStyle", "solid"], ["borderRightStyle", "solid"], ["borderBottomStyle", "solid"], ["borderLeftStyle", "solid"], ["borderTopColor", "#dd3333"], ["borderRightColor", "#dd3333"], ["borderBottomColor", "#dd3333"], ["borderLeftColor", "#dd3333"], ["marginRight", "8rpx"]])], [".active", _uM([["backgroundColor", "#dd3333"]])]])], ["modal-btns", _pS(_uM([["display", "flex"], ["flexDirection", "row"], ["flexWrap", "nowrap"], ["justifyContent", "center"], ["alignItems", "center"], ["marginTop", "30rpx"]]))], ["btn-join", _pS(_uM([["backgroundColor", "#dd3333"], ["color", "#ffffff"], ["marginRight", "20rpx"]]))], ["btn-cancel", _pS(_uM([["borderTopWidth", "2rpx"], ["borderRightWidth", "2rpx"], ["borderBottomWidth", "2rpx"], ["borderLeftWidth", "2rpx"], ["borderTopStyle", "solid"], ["borderRightStyle", "solid"], ["borderBottomStyle", "solid"], ["borderLeftStyle", "solid"], ["borderTopColor", "#D8A243"], ["borderRightColor", "#D8A243"], ["borderBottomColor", "#D8A243"], ["borderLeftColor", "#D8A243"], ["color", "#D8A243"], ["backgroundColor", "rgba(0,0,0,0)"]]))], ["reason-label", _pS(_uM([["fontSize", "28rpx"], ["color", "#333333"], ["marginBottom", "12rpx"]]))], ["reason-textarea", _pS(_uM([["width", "100%"], ["minHeight", "200rpx"], ["borderTopWidth", "2rpx"], ["borderRightWidth", "2rpx"], ["borderBottomWidth", "2rpx"], ["borderLeftWidth", "2rpx"], ["borderTopStyle", "solid"], ["borderRightStyle", "solid"], ["borderBottomStyle", "solid"], ["borderLeftStyle", "solid"], ["borderTopColor", "#e6e6e6"], ["borderRightColor", "#e6e6e6"], ["borderBottomColor", "#e6e6e6"], ["borderLeftColor", "#e6e6e6"], ["borderTopLeftRadius", "12rpx"], ["borderTopRightRadius", "12rpx"], ["borderBottomRightRadius", "12rpx"], ["borderBottomLeftRadius", "12rpx"], ["paddingTop", "16rpx"], ["paddingRight", "16rpx"], ["paddingBottom", "16rpx"], ["paddingLeft", "16rpx"], ["fontSize", "28rpx"], ["color", "#333333"], ["boxSizing", "border-box"]]))], ["signature-mask", _pS(_uM([["position", "fixed"], ["top", 0], ["left", 0], ["width", "100%"], ["height", "100%"], ["backgroundColor", "rgba(0,0,0,0.4)"], ["display", "flex"], ["alignItems", "center"], ["justifyContent", "center"], ["zIndex", 1100]]))], ["signature-card", _pS(_uM([["backgroundColor", "#ffffff"], ["borderTopLeftRadius", "20rpx"], ["borderTopRightRadius", "20rpx"], ["borderBottomRightRadius", "20rpx"], ["borderBottomLeftRadius", "20rpx"], ["paddingTop", "12rpx"], ["paddingRight", "12rpx"], ["paddingBottom", "12rpx"], ["paddingLeft", "12rpx"], ["display", "flex"], ["flexDirection", "column"]]))], ["signature-header", _pS(_uM([["display", "flex"], ["flexDirection", "row"], ["justifyContent", "space-between"], ["alignItems", "center"]]))], ["signature-title", _pS(_uM([["fontSize", "32rpx"], ["fontWeight", "bold"]]))], ["signature-close", _pS(_uM([["fontSize", "32rpx"]]))], ["signature-body", _pS(_uM([["flexGrow", 1], ["flexShrink", 1], ["flexBasis", "0%"], ["marginTop", "10rpx"], ["position", "relative"], ["display", "flex"], ["justifyContent", "center"], ["alignItems", "center"]]))], ["signature-canvas", _pS(_uM([["width", "100%"], ["backgroundColor", "#ffffff"], ["borderTopWidth", "2rpx"], ["borderRightWidth", "2rpx"], ["borderBottomWidth", "2rpx"], ["borderLeftWidth", "2rpx"], ["borderTopStyle", "solid"], ["borderRightStyle", "solid"], ["borderBottomStyle", "solid"], ["borderLeftStyle", "solid"], ["borderTopColor", "#e6e6e6"], ["borderRightColor", "#e6e6e6"], ["borderBottomColor", "#e6e6e6"], ["borderLeftColor", "#e6e6e6"], ["borderTopLeftRadius", "16rpx"], ["borderTopRightRadius", "16rpx"], ["borderBottomRightRadius", "16rpx"], ["borderBottomLeftRadius", "16rpx"]]))], ["signature-overlay", _pS(_uM([["position", "absolute"], ["width", "100%"]]))], ["signature-placeholder", _pS(_uM([["position", "absolute"], ["color", "#cccccc"]]))], ["signature-actions", _pS(_uM([["display", "flex"], ["flexDirection", "row"], ["justifyContent", "center"], ["alignItems", "center"], ["marginTop", "20rpx"]]))]])];
 //# sourceMappingURL=meetingList.uvue.map

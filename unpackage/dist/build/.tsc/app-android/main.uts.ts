@@ -59,6 +59,8 @@ import GenPagesIndexIndexClass from './pages/index/index.uvue'
 import GenPagesMeetingMeetingListClass from './pages/meeting/meetingList.uvue'
 import GenPagesActivityActivityListClass from './pages/activity/activityList.uvue'
 import GenPagesMineMineClass from './pages/mine/mine.uvue'
+import GenPagesMinePersonalInfoClass from './pages/mine/personal-info.uvue'
+import GenPagesMineChangePasswordClass from './pages/mine/change-password.uvue'
 import GenPagesStatisticsStatisticsClass from './pages/statistics/statistics.uvue'
 import GenPagesTabBarComponentClass from './pages/tabBar/component.uvue'
 import GenPagesComponentViewViewClass from './pages/component/view/view.uvue'
@@ -416,9 +418,11 @@ import GenPagesCSSFunctionUrlClass from './pages/CSS/function/url.uvue'
 function definePageRoutes() {
 __uniRoutes.push({ path: "pages/login/login", component: GenPagesLoginLoginClass, meta: { isQuit: true } as UniPageMeta, style: _uM([["navigationBarTitleText","登录"],["navigationBarBackgroundColor","#C8102E"]]) } as UniPageRoute)
 __uniRoutes.push({ path: "pages/index/index", component: GenPagesIndexIndexClass, meta: { isQuit: false } as UniPageMeta, style: _uM([["navigationBarTitleText","水源红·智慧党建"],["navigationBarBackgroundColor","#C8102E"],["navigationStyle","custom"],["tabBar",false]]) } as UniPageRoute)
-__uniRoutes.push({ path: "pages/meeting/meetingList", component: GenPagesMeetingMeetingListClass, meta: { isQuit: false } as UniPageMeta, style: _uM([["navigationBarTitleText","三会一课"],["navigationBarBackgroundColor","#C8102E"]]) } as UniPageRoute)
+__uniRoutes.push({ path: "pages/meeting/meetingList", component: GenPagesMeetingMeetingListClass, meta: { isQuit: false } as UniPageMeta, style: _uM([["navigationBarTitleText","水源红·智慧党建"],["navigationBarBackgroundColor","#C8102E"],["navigationStyle","custom"],["tabBar",false]]) } as UniPageRoute)
 __uniRoutes.push({ path: "pages/activity/activityList", component: GenPagesActivityActivityListClass, meta: { isQuit: false } as UniPageMeta, style: _uM([["navigationBarTitleText","支部活动"],["navigationBarBackgroundColor","#C8102E"]]) } as UniPageRoute)
 __uniRoutes.push({ path: "pages/mine/mine", component: GenPagesMineMineClass, meta: { isQuit: false } as UniPageMeta, style: _uM([["navigationBarTitleText","水源红·智慧党建"],["navigationBarBackgroundColor","#C8102E"],["navigationStyle","custom"],["tabBar",false]]) } as UniPageRoute)
+__uniRoutes.push({ path: "pages/mine/personal-info", component: GenPagesMinePersonalInfoClass, meta: { isQuit: false } as UniPageMeta, style: _uM([["navigationBarTitleText","个人资料"],["navigationBarBackgroundColor","#C8102E"]]) } as UniPageRoute)
+__uniRoutes.push({ path: "pages/mine/change-password", component: GenPagesMineChangePasswordClass, meta: { isQuit: false } as UniPageMeta, style: _uM([["navigationBarTitleText","修改密码"],["navigationBarBackgroundColor","#C8102E"]]) } as UniPageRoute)
 __uniRoutes.push({ path: "pages/statistics/statistics", component: GenPagesStatisticsStatisticsClass, meta: { isQuit: false } as UniPageMeta, style: _uM([["navigationBarTitleText","数据看板"],["navigationBarBackgroundColor","#C8102E"]]) } as UniPageRoute)
 __uniRoutes.push({ path: "pages/tabBar/component", component: GenPagesTabBarComponentClass, meta: { isQuit: false } as UniPageMeta, style: _uM([["navigationBarTitleText","内置组件"],["backgroundColorContent","@tabBarPagebackgroundColorContent"]]) } as UniPageRoute)
 __uniRoutes.push({ path: "pages/component/view/view", component: GenPagesComponentViewViewClass, meta: { isQuit: false } as UniPageMeta, style: _uM([["navigationBarTitleText","view | 基本视图容器"]]) } as UniPageRoute)

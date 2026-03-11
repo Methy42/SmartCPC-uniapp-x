@@ -509,6 +509,9 @@ val getAgreePrivacy = fun(): Boolean? {
     return null
 }
 val state = reactive(State(lifeCycleNum = 0, statusBarHeight = 0, devicePixelRatio = 1, eventCallbackNum = 0, noMatchLeftWindow = true, active = "componentPage", leftWinActive = "/pages/component/view/view", safeArea = SafeArea(top = 0, right = 0, bottom = 0, left = 0, width = 0, height = 0), agreeToPrivacy = getAgreePrivacy(), allowCapture = true, isDarkMode = false, netless = false, userInfo = null))
+val setUserInfo = fun(userInfo: UserInfo?){
+    state.userInfo = userInfo
+}
 val setLifeCycleNum = fun(num: Number){
     state.lifeCycleNum = num
 }
@@ -722,6 +725,12 @@ val GenAppClass = CreateVueAppComponent(GenApp::class.java, fun(): VueComponentO
     return GenApp(instance)
 }
 )
+open class RequestResult (
+    @JsonNotNull
+    open var statusCode: Number,
+    @JsonNotNull
+    open var data: Any,
+) : UTSObject()
 val GenPagesLoginLoginClass = CreateVueComponent(GenPagesLoginLogin::class.java, fun(): VueComponentOptions {
     return VueComponentOptions(type = "page", name = "", inheritAttrs = GenPagesLoginLogin.inheritAttrs, inject = GenPagesLoginLogin.inject, props = GenPagesLoginLogin.props, propsNeedCastKeys = GenPagesLoginLogin.propsNeedCastKeys, emits = GenPagesLoginLogin.emits, components = GenPagesLoginLogin.components, styles = GenPagesLoginLogin.styles, setup = fun(): Any? {
         return GenPagesLoginLogin.setup()
@@ -833,6 +842,33 @@ val GenPagesMineMineClass = CreateVueComponent(GenPagesMineMine::class.java, fun
 }
 , fun(instance, renderer): GenPagesMineMine {
     return GenPagesMineMine(instance, renderer)
+}
+)
+open class TableItem (
+    @JsonNotNull
+    open var label: String,
+    open var value: String? = null,
+    @JsonNotNull
+    open var colspan: Number,
+) : UTSObject()
+val GenPagesMinePersonalInfoClass = CreateVueComponent(GenPagesMinePersonalInfo::class.java, fun(): VueComponentOptions {
+    return VueComponentOptions(type = "page", name = "", inheritAttrs = GenPagesMinePersonalInfo.inheritAttrs, inject = GenPagesMinePersonalInfo.inject, props = GenPagesMinePersonalInfo.props, propsNeedCastKeys = GenPagesMinePersonalInfo.propsNeedCastKeys, emits = GenPagesMinePersonalInfo.emits, components = GenPagesMinePersonalInfo.components, styles = GenPagesMinePersonalInfo.styles, setup = fun(props: ComponentPublicInstance): Any? {
+        return GenPagesMinePersonalInfo.setup(props as GenPagesMinePersonalInfo)
+    }
+    )
+}
+, fun(instance, renderer): GenPagesMinePersonalInfo {
+    return GenPagesMinePersonalInfo(instance, renderer)
+}
+)
+val GenPagesMineChangePasswordClass = CreateVueComponent(GenPagesMineChangePassword::class.java, fun(): VueComponentOptions {
+    return VueComponentOptions(type = "page", name = "", inheritAttrs = GenPagesMineChangePassword.inheritAttrs, inject = GenPagesMineChangePassword.inject, props = GenPagesMineChangePassword.props, propsNeedCastKeys = GenPagesMineChangePassword.propsNeedCastKeys, emits = GenPagesMineChangePassword.emits, components = GenPagesMineChangePassword.components, styles = GenPagesMineChangePassword.styles, setup = fun(props: ComponentPublicInstance): Any? {
+        return GenPagesMineChangePassword.setup(props as GenPagesMineChangePassword)
+    }
+    )
+}
+, fun(instance, renderer): GenPagesMineChangePassword {
+    return GenPagesMineChangePassword(instance, renderer)
 }
 )
 open class XAxisConfig (
@@ -1429,8 +1465,10 @@ val pages = _uA<UTSJSONObject>(object : UTSJSONObject() {
 }, object : UTSJSONObject() {
     var path = "pages/meeting/meetingList"
     var style = object : UTSJSONObject() {
-        var navigationBarTitleText = "三会一课"
+        var navigationBarTitleText = "水源红·智慧党建"
         var navigationBarBackgroundColor = "#C8102E"
+        var navigationStyle = "custom"
+        var tabBar = false
     }
 }, object : UTSJSONObject() {
     var path = "pages/activity/activityList"
@@ -1445,6 +1483,18 @@ val pages = _uA<UTSJSONObject>(object : UTSJSONObject() {
         var navigationBarBackgroundColor = "#C8102E"
         var navigationStyle = "custom"
         var tabBar = false
+    }
+}, object : UTSJSONObject() {
+    var path = "pages/mine/personal-info"
+    var style = object : UTSJSONObject() {
+        var navigationBarTitleText = "个人资料"
+        var navigationBarBackgroundColor = "#C8102E"
+    }
+}, object : UTSJSONObject() {
+    var path = "pages/mine/change-password"
+    var style = object : UTSJSONObject() {
+        var navigationBarTitleText = "修改密码"
+        var navigationBarBackgroundColor = "#C8102E"
     }
 }, object : UTSJSONObject() {
     var path = "pages/statistics/statistics"
@@ -16037,9 +16087,11 @@ open class UniAppConfig : io.dcloud.uniapp.appframe.AppConfig {
 fun definePageRoutes() {
     __uniRoutes.push(UniPageRoute(path = "pages/login/login", component = GenPagesLoginLoginClass, meta = UniPageMeta(isQuit = true), style = _uM("navigationBarTitleText" to "登录", "navigationBarBackgroundColor" to "#C8102E")))
     __uniRoutes.push(UniPageRoute(path = "pages/index/index", component = GenPagesIndexIndexClass, meta = UniPageMeta(isQuit = false), style = _uM("navigationBarTitleText" to "水源红·智慧党建", "navigationBarBackgroundColor" to "#C8102E", "navigationStyle" to "custom", "tabBar" to false)))
-    __uniRoutes.push(UniPageRoute(path = "pages/meeting/meetingList", component = GenPagesMeetingMeetingListClass, meta = UniPageMeta(isQuit = false), style = _uM("navigationBarTitleText" to "三会一课", "navigationBarBackgroundColor" to "#C8102E")))
+    __uniRoutes.push(UniPageRoute(path = "pages/meeting/meetingList", component = GenPagesMeetingMeetingListClass, meta = UniPageMeta(isQuit = false), style = _uM("navigationBarTitleText" to "水源红·智慧党建", "navigationBarBackgroundColor" to "#C8102E", "navigationStyle" to "custom", "tabBar" to false)))
     __uniRoutes.push(UniPageRoute(path = "pages/activity/activityList", component = GenPagesActivityActivityListClass, meta = UniPageMeta(isQuit = false), style = _uM("navigationBarTitleText" to "支部活动", "navigationBarBackgroundColor" to "#C8102E")))
     __uniRoutes.push(UniPageRoute(path = "pages/mine/mine", component = GenPagesMineMineClass, meta = UniPageMeta(isQuit = false), style = _uM("navigationBarTitleText" to "水源红·智慧党建", "navigationBarBackgroundColor" to "#C8102E", "navigationStyle" to "custom", "tabBar" to false)))
+    __uniRoutes.push(UniPageRoute(path = "pages/mine/personal-info", component = GenPagesMinePersonalInfoClass, meta = UniPageMeta(isQuit = false), style = _uM("navigationBarTitleText" to "个人资料", "navigationBarBackgroundColor" to "#C8102E")))
+    __uniRoutes.push(UniPageRoute(path = "pages/mine/change-password", component = GenPagesMineChangePasswordClass, meta = UniPageMeta(isQuit = false), style = _uM("navigationBarTitleText" to "修改密码", "navigationBarBackgroundColor" to "#C8102E")))
     __uniRoutes.push(UniPageRoute(path = "pages/statistics/statistics", component = GenPagesStatisticsStatisticsClass, meta = UniPageMeta(isQuit = false), style = _uM("navigationBarTitleText" to "数据看板", "navigationBarBackgroundColor" to "#C8102E")))
     __uniRoutes.push(UniPageRoute(path = "pages/tabBar/component", component = GenPagesTabBarComponentClass, meta = UniPageMeta(isQuit = false), style = _uM("navigationBarTitleText" to "内置组件", "backgroundColorContent" to "@tabBarPagebackgroundColorContent")))
     __uniRoutes.push(UniPageRoute(path = "pages/component/view/view", component = GenPagesComponentViewViewClass, meta = UniPageMeta(isQuit = false), style = _uM("navigationBarTitleText" to "view | 基本视图容器")))

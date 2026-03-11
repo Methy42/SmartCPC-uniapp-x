@@ -64,13 +64,13 @@ open class GenPagesAPICaptureScreenCaptureScreen : BasePage {
                     captureStatus.value = "检测到截屏"
                     console.log("检测到用户截屏", res, " at pages/API/capture-screen/capture-screen.uvue:44")
                 }
-                uni_onUserCaptureScreen(captureCallback.value)
+                uni_onUserCaptureScreen(captureCallback.value!!)
                 captureStatus.value = "正在监听"
                 console.log("开始监听截屏", " at pages/API/capture-screen/capture-screen.uvue:48")
             }
             val stopCaptureListener = fun(){
                 if (captureCallback.value != null) {
-                    uni_offUserCaptureScreen(captureCallback.value)
+                    uni_offUserCaptureScreen(captureCallback.value!!)
                     captureStatus.value = "未监听"
                     console.log("停止监听截屏", " at pages/API/capture-screen/capture-screen.uvue:55")
                 }

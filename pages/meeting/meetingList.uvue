@@ -1,44 +1,220 @@
 <template>
   <view class="container">
-    <!-- 顶部标题栏 -->
-    <view class="page-header">
-      <image class="star-icon" src="/static/star.png" mode="widthFix"></image>
-      <text class="page-title">三会一课</text>
-    </view>
-
-    <!-- 选项卡 -->
-    <u-tabs :list="tabList" v-model="activeTab" active-color="#FF8C00" inactive-color="#666" bg-color="#F5F5F5"></u-tabs>
-
-    <!-- 待开会议列表 -->
-    <view class="meeting-list" v-if="activeTab === 0">
-      <view class="meeting-card">
-        <text class="meeting-title">11月份党支部委员会支部大会</text>
-        
-        <view class="meeting-info">
-          <u-icon name="calendar" size="24" color="#666"></u-icon>
-          <text class="info-text">会议时间：2025年11月17日 星期四 9:30 ~ 11:30</text>
-        </view>
-        
-        <view class="meeting-info">
-          <u-icon name="people" size="24" color="#666"></u-icon>
-          <text class="info-text">会议组织：数智公司党支部</text>
-        </view>
-        
-        <view class="meeting-info">
-          <u-icon name="location" size="24" color="#666"></u-icon>
-          <text class="info-text">会议地点：311室</text>
-        </view>
-        
-        <view class="btn-group">
-          <u-button class="btn-group-btn" text="参加" type="primary" size="mini" bg-color="#FF8C00"></u-button>
-          <u-button text="请假" type="default" size="mini" border-color="#FF8C00" color="#FF8C00"></u-button>
+    <image class="background-image" src="/static/background/u2.jpg" mode="aspectFill"></image>
+    <view class="custom-navbar">
+      <view class="nav-avatar-container">
+        <image class="nav-avatar" src="/static/login-avatar.png" mode="aspectFill"></image>
+      </view>
+      <view class="nav-right-buttons">
+        <view class="nav-message-btn">
+          <text class="message-text">消息</text>
+          <view class="message-badge">4</view>
         </view>
       </view>
     </view>
 
-    <!-- 已开会议列表（示例） -->
-    <view class="meeting-list" v-else>
-      <u-empty text="暂无已开会议记录"></u-empty>
+    <view class="content-container">
+      <view class="content-title-container">
+        <image class="content-title-background" src="/static/mine-title-background.png" mode="aspectFit"></image>
+        <text class="content-title-text">三会一课</text>
+      </view>
+
+      <view class="tabs-bar">
+        <view class="tab-item" :class="activeTab===0 ? 'tab-active-left' : 'tab-inactive-left'" @tap="activeTab=0">
+          <text class="tab-text">待开会议</text>
+        </view>
+        <view class="tab-item" :class="activeTab===1 ? 'tab-active-right' : 'tab-inactive-right'" @tap="activeTab=1">
+          <text class="tab-text">已开会议</text>
+        </view>
+      </view>
+
+      <view class="meeting-list" v-if="activeTab === 0">
+        <view class="meeting-card">
+          <text class="meeting-title">11月份党支部委员会支部大会</text>
+          <view class="meeting-info">
+            <image class="info-icon" src="/static/icons/meeting_management.svg" mode="widthFix"></image>
+            <text class="info-text">会议时间：2025年11月17日 星期四 9:30 ~ 11:30</text>
+          </view>
+          <view class="meeting-info">
+            <image class="info-icon" src="/static/icons/organization.svg" mode="widthFix"></image>
+            <text class="info-text">会议组织：数智公司党支部</text>
+          </view>
+          <view class="meeting-info">
+            <image class="info-icon" src="/static/icons/location.svg" mode="widthFix"></image>
+            <text class="info-text">会议地点：311室</text>
+          </view>
+          <view class="btn-group">
+            <view v-if="!joined" class="action-btn action-primary" @tap="openJoinModal"><text>参加</text></view>
+            <view v-else class="action-btn action-wait" @tap="openSignatureModal"><text>待签到</text></view>
+            <view class="action-btn action-outline" @tap="openLeaveModal"><text>请假</text></view>
+          </view>
+          <text v-if="joined" class="checkin-tips">会前5分钟可签到</text>
+        </view>
+      </view>
+
+      <view class="meeting-list" v-else>
+        <view class="meeting-card">
+          <text class="meeting-title">11月份党支部委员会支部大会</text>
+          <view class="meeting-info">
+            <image class="info-icon" src="/static/icons/meeting_management.svg" mode="widthFix"></image>
+            <text class="info-text">会议时间：2025年11月10日 星期三 9:30 ~ 11:30</text>
+          </view>
+          <view class="meeting-info">
+            <image class="info-icon" src="/static/icons/organization.svg" mode="widthFix"></image>
+            <text class="info-text">会议组织：数智公司党支部</text>
+          </view>
+          <view class="meeting-info">
+            <image class="info-icon" src="/static/icons/location.svg" mode="widthFix"></image>
+            <text class="info-text">会议地点：311室</text>
+          </view>
+          <view class="btn-group">
+            <view class="action-btn action-success">会议纪要</view>
+          </view>
+        </view>
+
+        <view class="meeting-card">
+          <text class="meeting-title">11月份党支部党员活动</text>
+          <view class="meeting-info">
+            <image class="info-icon" src="/static/icons/meeting_management.svg" mode="widthFix"></image>
+            <text class="info-text">会议时间：2025年11月12日 星期四 9:30 ~ 11:30</text>
+          </view>
+          <view class="meeting-info">
+            <image class="info-icon" src="/static/icons/organization.svg" mode="widthFix"></image>
+            <text class="info-text">会议组织：数智公司党支部</text>
+          </view>
+          <view class="meeting-info">
+            <image class="info-icon" src="/static/icons/location.svg" mode="widthFix"></image>
+            <text class="info-text">会议地点：311室</text>
+          </view>
+          <view class="btn-group">
+            <view class="action-btn action-success">会议记录</view>
+          </view>
+        </view>
+
+        <view class="meeting-card">
+          <text class="meeting-title">讨论接收预备党员支部大会</text>
+          <view class="meeting-info">
+            <image class="info-icon" src="/static/icons/meeting_management.svg" mode="widthFix"></image>
+            <text class="info-text">会议时间：2025年11月15日 星期二 9:30 ~ 11:30</text>
+          </view>
+          <view class="meeting-info">
+            <image class="info-icon" src="/static/icons/organization.svg" mode="widthFix"></image>
+            <text class="info-text">会议组织：数智公司党支部</text>
+          </view>
+          <view class="meeting-info">
+            <image class="info-icon" src="/static/icons/location.svg" mode="widthFix"></image>
+            <text class="info-text">会议地点：311室</text>
+          </view>
+          <view class="btn-group">
+            <view class="action-btn action-success">会议记录</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="modal-mask" v-if="showJoinModal">
+    <view class="modal-card">
+      <text class="modal-title">12月份党支部党课</text>
+
+      <view class="modal-section">
+        <view class="meeting-info">
+          <image class="info-icon" src="/static/icons/meeting_management.svg" mode="widthFix"></image>
+          <text class="info-text">会议时间：2025年12月10日 星期三 9:30 ~ 11:30</text>
+        </view>
+        <view class="meeting-info">
+          <image class="info-icon" src="/static/icons/organization.svg" mode="widthFix"></image>
+          <text class="info-text">会议组织：数智公司党支部</text>
+        </view>
+        <view class="meeting-info">
+          <image class="info-icon" src="/static/icons/location.svg" mode="widthFix"></image>
+          <text class="info-text">会议地点：311室</text>
+        </view>
+      </view>
+
+      <view class="modal-section">
+        <view class="topic-row">
+          <view class="topic-icon-wrapper">
+            <image class="topic-icon" src="/static/icons/topic.svg" mode="widthFix"></image>
+            <view class="topic-icon-center">
+              <text class="topic-badge-text">议题</text>
+            </view>
+          </view>
+          <text class="topic-text">深入学习贯彻党的二十大精神</text>
+        </view>
+        <view class="file-row">
+          <image class="file-icon" src="/static/icons/pdf.png" mode="widthFix"></image>
+          <text class="file-name">12月份党支部委员会会议消息.pdf · 1MB</text>
+        </view>
+      </view>
+
+      <view class="modal-section attend-row">
+        <text class="attend-label">参会形式：</text>
+        <view class="radio-option" @tap="attendType='onsite'">
+          <view class="radio-dot" :class="attendType==='onsite' ? 'active' : ''"></view>
+          <text>现场参会</text>
+        </view>
+        <view class="radio-option" @tap="attendType='video'">
+          <view class="radio-dot" :class="attendType==='video' ? 'active' : ''"></view>
+          <text>视频参会</text>
+        </view>
+      </view>
+
+      <view class="modal-btns">
+        <view class="action-btn btn-join" @tap="confirmJoin">参加</view>
+        <view class="action-btn btn-cancel" @tap="closeJoinModal">取消</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="signature-mask" v-if="showSignatureModal">
+    <view class="signature-card">
+      <view class="signature-header">
+        <text class="signature-title">在线签名</text>
+        <view class="signature-close" @tap="closeSignatureModal">✕</view>
+      </view>
+      <view class="signature-body">
+        <canvas id="signature-canvas" class="signature-canvas"></canvas>
+        <view class="signature-overlay"
+          @touchstart="sigStart"
+          @touchmove="sigMove"
+          @touchend="sigEnd"></view>
+        <text class="signature-placeholder">请在此处签名</text>
+      </view>
+      <view class="signature-actions">
+        <view class="action-btn action-primary" @tap="sigClear">撤回</view>
+        <view class="action-btn action-outline" @tap="sigClear">重签</view>
+      </view>
+    </view>
+  </view>
+  <view class="modal-mask" v-if="showLeaveModal">
+    <view class="modal-card">
+      <text class="modal-title">12月份党支部党课</text>
+
+      <view class="modal-section">
+        <view class="meeting-info">
+          <image class="info-icon" src="/static/icons/meeting_management.svg" mode="widthFix"></image>
+          <text class="info-text">会议时间：2025年12月10日 星期三 9:30 ~ 11:30</text>
+        </view>
+        <view class="meeting-info">
+          <image class="info-icon" src="/static/icons/organization.svg" mode="widthFix"></image>
+          <text class="info-text">会议组织：数智公司党支部</text>
+        </view>
+        <view class="meeting-info">
+          <image class="info-icon" src="/static/icons/location.svg" mode="widthFix"></image>
+          <text class="info-text">会议地点：311室</text>
+        </view>
+      </view>
+
+      <view class="modal-section">
+        <text class="reason-label">请假事由</text>
+        <textarea class="reason-textarea" :value="leaveReason" @input="onLeaveInput" placeholder="请输入请假原因"></textarea>
+      </view>
+
+      <view class="modal-btns">
+        <view class="action-btn btn-join" @tap="submitLeave">提交</view>
+        <view class="action-btn btn-cancel" @tap="closeLeaveModal">取消</view>
+      </view>
     </view>
   </view>
 </template>
@@ -52,6 +228,98 @@ const tabList = ref([
   { name: '已开会议' }
 ])
 const activeTab = ref(0)
+
+const showJoinModal = ref(false)
+const attendType = ref<'onsite' | 'video'>('onsite')
+const joined = ref(false)
+function openJoinModal() {
+  showJoinModal.value = true
+}
+function closeJoinModal() {
+  showJoinModal.value = false
+}
+function confirmJoin() {
+  showJoinModal.value = false
+  joined.value = true
+  uni.showToast({ title: '已报名参加', icon: 'success' })
+}
+
+const showLeaveModal = ref(false)
+const leaveReason = ref('')
+function openLeaveModal() {
+  showLeaveModal.value = true
+}
+function closeLeaveModal() {
+  showLeaveModal.value = false
+}
+function submitLeave() {
+  showLeaveModal.value = false
+  uni.showToast({ title: '已提交请假', icon: 'success' })
+}
+
+function onLeaveInput(e: UniInputEvent) {
+  leaveReason.value = e.detail.value
+}
+
+const showSignatureModal = ref(false)
+let signatureCanvasEl: UniCanvasElement | null = null
+let signature2d: CanvasRenderingContext2D | null = null
+function openSignatureModal() {
+  showSignatureModal.value = true
+  try {
+    const pages = getCurrentPages()
+    const currentPage = pages[pages.length - 1]
+    currentPage.setPageStyle({ pageOrientation: 'landscape' } as UTSJSONObject)
+  } catch (_) {}
+  setTimeout(() => {
+    signatureCanvasEl = uni.getElementById('signature-canvas') as UniCanvasElement
+    if (signatureCanvasEl !== null) {
+      signature2d = signatureCanvasEl.getContext('2d')!
+      const dpr = uni.getWindowInfo().pixelRatio
+      const rect = signatureCanvasEl.getBoundingClientRect()
+      signatureCanvasEl.width = rect.width * dpr
+      signatureCanvasEl.height = rect.height * dpr
+      signature2d!.scale(dpr, dpr)
+      signature2d!.lineWidth = 3
+      signature2d!.strokeStyle = '#333'
+    }
+  }, 50)
+}
+function closeSignatureModal() {
+  showSignatureModal.value = false
+  try {
+    const pages = getCurrentPages()
+    const currentPage = pages[pages.length - 1]
+    currentPage.setPageStyle({ pageOrientation: 'portrait' } as UTSJSONObject)
+  } catch (_) {}
+}
+let drawing = false
+function sigStart(e: UniTouchEvent) {
+  if (signature2d === null || signatureCanvasEl === null) { return }
+  drawing = true
+  const t = e.touches[0]
+  const rect = signatureCanvasEl.getBoundingClientRect()
+  const x = t.clientX - rect.left
+  const y = t.clientY - rect.top
+  signature2d!.beginPath()
+  signature2d!.moveTo(x, y)
+}
+function sigMove(e: UniTouchEvent) {
+  if (signature2d === null || signatureCanvasEl === null || drawing === false) { return }
+  const t = e.touches[0]
+  const rect = signatureCanvasEl.getBoundingClientRect()
+  const x = t.clientX - rect.left
+  const y = t.clientY - rect.top
+  signature2d!.lineTo(x, y)
+  signature2d!.stroke()
+}
+function sigEnd() {
+  drawing = false
+}
+function sigClear() {
+  if (signature2d === null || signatureCanvasEl === null) { return }
+  signature2d!.clearRect(0, 0, signatureCanvasEl.width, signatureCanvasEl.height)
+}
 </script>
 
 <style scoped>
@@ -60,29 +328,179 @@ const activeTab = ref(0)
   display: flex;
   flex-direction: column;
   flex: 1;
-  padding-bottom: 100rpx; /* 给tabBar留空间 */
+  padding-bottom: 100rpx;
+  position: relative;
 }
 
-/* 页面标题 */
-.page-header {
+.background-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.custom-navbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: var(--status-bar-height, 40rpx);
+  padding-right: 30rpx;
+  padding-bottom: 20rpx;
+  padding-left: 30rpx;
+  height: 100rpx;
+  width: 100%;
+  box-sizing: border-box;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+
+.nav-avatar-container {
+  position: relative;
+  width: 70rpx;
+  height: 70rpx;
+  flex-shrink: 0;
+}
+
+.nav-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  box-sizing: border-box;
+}
+
+.nav-right-buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-shrink: 0;
+  flex-wrap: nowrap;
+}
+
+.nav-message-btn {
+  position: relative;
+  border-radius: 20rpx;
+  padding: 0;
+  padding-right: 40rpx;
+  color: #fff;
+  font-size: 28rpx;
+  font-family: sans-serif;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.message-text {
+  color: #fff;
+  font-size: 28rpx;
+  white-space: nowrap;
+}
+
+.message-badge {
+  position: absolute;
+  right: 0;
+  width: 36rpx;
+  height: 36rpx;
+  background-color: #FF6B35;
+  border-radius: 50%;
   display: flex;
   align-items: center;
-  padding: 20rpx 30rpx;
-  background-color: #fff;
+  justify-content: center;
+  color: #fff;
+  font-size: 22rpx;
+  font-weight: bold;
 }
 
-.star-icon {
-  width: 40rpx;
-  height: 40rpx;
+.content-container {
+  width: 90%;
+  margin: auto;
+  margin-top: 20rpx;
+  padding: 20rpx 0rpx;
+  background-color: #f9e1ce;
+  overflow: visible;
+}
+
+.content-title-container {
+  position: relative;
+  width: 70%;
+  height: 80rpx;
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  overflow: visible;
+}
+
+.content-title-background {
+  position: absolute;
+  top: 0;
+  left: -60rpx;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  overflow: visible;
+}
+
+.content-title-text {
+  position: relative;
+  z-index: 2;
+  font-size: 28rpx;
+  color: #FFEAD2;
+  font-weight: bold;
+  text-align: left;
+  padding: 10rpx 60rpx;
+}
+
+.tabs-bar {
+  display: flex;
+  flex-direction: row;
+  padding: 0 30rpx;
+  margin-top: 10rpx;
+  margin-bottom: 10rpx;
+}
+.tab-item {
+  flex: 1;
+  height: 64rpx;
+  border-radius: 12rpx;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+.tab-text {
+  font-size: 28rpx;
+  font-weight: 600;
+}
+.tab-active-left {
+  background-color: #e2a65c;
+  color: #fff;
   margin-right: 10rpx;
 }
-
-.page-title {
-  font-size: 36rpx;
-  font-weight: bold;
-  color: #333;
+.tab-active-left .tab-text {
+  color: #FFF;
 }
-
+.tab-inactive-left {
+  background-color: #e2c9aafd;
+  margin-right: 10rpx;
+  opacity: 0.8;
+}
+.tab-inactive-left .tab-text{
+  color: #7A6154;
+}
+.tab-active-right {
+  background-color: #e2a65c;
+  margin-left: 10rpx;
+}
+.tab-active-right .tab-text {
+  color: #FFF;
+}
+.tab-inactive-right {
+  background-color: #e2c9aafd;
+  margin-left: 10rpx;
+  opacity: 0.85;
+}
+.tab-inactive-right .tab-text {
+  color: #7A6154;
+}
 /* 会议列表 */
 .meeting-list {
   padding: 20rpx 30rpx;
@@ -90,8 +508,12 @@ const activeTab = ref(0)
 
 .meeting-card {
   background-color: #fff;
-  border-radius: 16rpx;
+  border-radius: 20rpx;
   padding: 30rpx;
+  box-shadow: 0 10rpx 20rpx rgba(0,0,0,0.08);
+  border: 1rpx solid #e6e6e6;
+  position: relative;
+  margin-bottom: 15rpx;
 }
 
 .meeting-title {
@@ -103,24 +525,300 @@ const activeTab = ref(0)
 
 .meeting-info {
   display: flex;
+  flex-direction: row;
   align-items: center;
+  justify-content: flex-start;
   margin-bottom: 15rpx;
 }
 
+.info-icon {
+  width: 24rpx;
+  height: 24rpx;
+  margin-right: 10rpx;
+  flex-shrink: 0;
+}
+
 .info-text {
-  font-size: 28rpx;
+  font-size: 24rpx;
   color: #666;
-  margin-left: 10rpx;
+  margin-left: 0;
   flex: 1;
+  line-height: 32rpx;
 }
 
 .btn-group {
   display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
   justify-content: flex-end;
   margin-top: 20rpx;
+  position: absolute;
+  bottom: 15rpx;
+  right: 15rpx;
+  overflow: visible;
 }
 
 .btn-group-btn:first-child {
   margin-right: 20rpx;
+}
+
+.action-btn {
+  height: 54rpx;
+  border-radius: 12rpx;
+  align-items: center;
+  justify-content: center;
+  display: inline-flex;
+  padding: 0 24rpx;
+  font-size: 26rpx;
+  font-weight: 600;
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+.action-primary {
+  background-color: #D8A243;
+  color: #fff;
+  margin-right: 20rpx;
+}
+.action-primary text {
+  color: #fff;
+}
+.action-outline {
+  border: 2rpx solid #D8A243;
+  color: #D8A243;
+  background-color: transparent;
+}
+.action-outline text {
+  color: #D8A243;
+}
+.action-success {
+  background-color: #74CF69;
+  color: #fff;
+}
+.action-success text {
+  color: #fff;
+}
+.action-wait {
+  background-color: #d33;
+  color: #fff;
+  margin-right: 20rpx;
+}
+.action-wait text {
+  color: #fff;
+}
+.checkin-tips {
+  font-size: 22rpx;
+  color: #999;
+  margin-top: 10rpx;
+  text-align: right;
+}
+.modal-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.modal-card {
+  width: 88%;
+  background-color: #fff;
+  border-radius: 20rpx;
+  padding: 30rpx;
+}
+.modal-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+}
+.modal-section {
+  margin-top: 20rpx;
+  padding-top: 20rpx;
+  border-top: 1rpx solid #eee;
+}
+.topic-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 28rpx;
+}
+.topic-icon-wrapper {
+  position: relative;
+  width: 44rpx;
+  height: 44rpx;
+  margin-right: 12rpx;
+}
+.topic-icon {
+  width: 100%;
+  height: 100%;
+}
+.topic-icon-center {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.topic-badge-text {
+  color: #d33;
+  font-size: 22rpx;
+  font-weight: bold;
+}
+.topic-text {
+  color: #333;
+  font-size: 28rpx;
+}
+.file-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  margin-top: 16rpx;
+}
+.file-icon {
+  width: 36rpx;
+  height: 36rpx;
+  margin-right: 12rpx;
+}
+.file-name {
+  font-size: 28rpx;
+  color: #333;
+  flex: 0 1 auto;
+  white-space: nowrap;
+}
+.attend-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 16rpx;
+}
+.attend-label {
+  font-size: 28rpx;
+  color: #333;
+  margin-right: 20rpx;
+}
+.radio-option {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  margin-right: 30rpx;
+}
+.radio-dot {
+  width: 28rpx;
+  height: 28rpx;
+  border-radius: 28rpx;
+  border: 2rpx solid #d33;
+  margin-right: 8rpx;
+}
+.radio-dot.active {
+  background-color: #d33;
+}
+.modal-btns {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30rpx;
+}
+.btn-join {
+  background-color: #d33;
+  color: #fff;
+  margin-right: 20rpx;
+}
+.btn-cancel {
+  border: 2rpx solid #D8A243;
+  color: #D8A243;
+  background-color: transparent;
+}
+
+.reason-label {
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 12rpx;
+}
+.reason-textarea {
+  width: 100%;
+  min-height: 200rpx;
+  border: 2rpx solid #e6e6e6;
+  border-radius: 12rpx;
+  padding: 16rpx;
+  font-size: 28rpx;
+  color: #333;
+  box-sizing: border-box;
+}
+
+.signature-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1100;
+}
+.signature-card {
+  width: 98vw;
+  height: 86vh;
+  background-color: #fff;
+  border-radius: 20rpx;
+  padding: 12rpx;
+  display: flex;
+  flex-direction: column;
+}
+.signature-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.signature-title {
+  font-size: 32rpx;
+  font-weight: bold;
+}
+.signature-close {
+  font-size: 32rpx;
+}
+.signature-body {
+  flex: 1;
+  margin-top: 10rpx;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.signature-canvas {
+  width: 100%;
+  height: 78vh;
+  background-color: #fff;
+  border: 2rpx solid #e6e6e6;
+  border-radius: 16rpx;
+}
+.signature-overlay {
+  position: absolute;
+  width: 100%;
+  height: 78vh;
+}
+.signature-placeholder {
+  position: absolute;
+  color: #ccc;
+}
+.signature-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20rpx;
 }
 </style>

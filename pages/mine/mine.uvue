@@ -31,36 +31,40 @@
         <text class="content-title-text">个人中心</text>
       </view>
 
-      <view class="info-container">
-        <view class="user-avatar-container">
-          <image class="user-avatar" src="/static/user-avatar.jpg" mode="aspectFit"></image>
+      <view class="profile-card">
+        <view class="avatar-circle">
+          <image class="profile-avatar" src="/static/avatar.png" mode="aspectFill"></image>
         </view>
-        <view class="user-name-container">
+        <view class="profile-info">
           <view class="name-id-row">
             <text class="name">李绍丽</text>
-            <view class="id-container"><text class="id">党员</text></view>
+            <view class="id-chip"><text class="id">党员</text></view>
           </view>
-          <view class="party-branch-row">
-            <text>所在党组织：数智公司党支部</text>
-          </view>
+          <text class="branch-text">所在党组织：数智公司党支部</text>
         </view>
       </view>
 
-      <view class="divider"></view>
-
-      <view class="info-table-container">
-        <view class="info-table">
-          <!-- 循环渲染表格项 -->
-          <view v-for="(item, index) in tableData" class="info-table-row" :key="index" :style="{ width: `${ 25 * (item.colspan + 1) }%` }">
-            <!-- 标签单元格（固定占1列，25%宽度） -->
-            <view class="table-label" :style="{ width: `${ 100 / (item.colspan + 1) }%` }">
-              <text>{{ item.label }}</text>
-            </view>
-            <!-- 内容单元格（通过colspan控制占比） -->
-            <view class="table-value" :style="{ width: `${ 100 - (100 / (item.colspan + 1)) }%` }">
-              <text>{{ item.value != null ? item.value : '-' }}</text>
-            </view>
+      <view class="menu-card">
+        <view class="menu-item" @tap="goPersonalInfo">
+          <view class="menu-left">
+            <image class="menu-icon" src="/static/icons/user-info.svg" mode="widthFix"></image>
+            <text class="menu-text">个人资料</text>
           </view>
+          <image class="menu-arrow" src="/static/icons/arrow-right.png" mode="aspectFit"></image>
+        </view>
+        <view class="menu-item" @tap="goChangePassword">
+          <view class="menu-left">
+            <image class="menu-icon" src="/static/icons/changepassword.svg" mode="widthFix"></image>
+            <text class="menu-text">修改密码</text>
+          </view>
+          <image class="menu-arrow" src="/static/icons/arrow-right.png" mode="aspectFit"></image>
+        </view>
+        <view class="menu-item" @tap="logout" style="border-bottom: none;">
+          <view class="menu-left">
+            <image class="menu-icon" src="/static/icons/logout.svg" mode="widthFix"></image>
+            <text class="menu-text">退出登录</text>
+          </view>
+          <image class="menu-arrow" src="/static/icons/arrow-right.png" mode="aspectFit"></image>
         </view>
       </view>
     </view>
@@ -68,33 +72,34 @@
 </template>
 
 <script setup lang="uts">
-// 暂无业务逻辑
+import { onShow } from '@dcloudio/uni-app'
 
-type TableItem = {
-  label: string
-  value: string | null
-  colspan: number
+onShow(() => {
+  const t = uni.getStorageSync('user_token')
+  const hasToken: boolean = (t != null) && ((t as string).length > 0)
+  if (hasToken === false) {
+    uni.reLaunch({
+      url: '/pages/login/login'
+    })
+  }
+})
+
+function goPersonalInfo() {
+  uni.navigateTo({
+    url: '/pages/mine/personal-info'
+  })
 }
-
-const tableData: TableItem[] = [
-  { label: '性别', value: '女', colspan: 1 },
-  { label: '出生年月', value: '1993-06-01', colspan: 1 },
-  { label: '民族', value: '汉族', colspan: 1 },
-  { label: '婚姻状况', value: '已婚', colspan: 1 },
-  { label: '学历学位', value: '研究生', colspan: 1 },
-  { label: '籍贯', value: '山西平遥', colspan: 1 },
-  { label: '政治面貌', value: '正式党员', colspan: 1 },
-  { label: '入党时间', value: '2012-11-01', colspan: 1 },
-  { label: '党龄', value: '13年3月', colspan: 1 },
-  { label: '党内职务', value: '党员', colspan: 1 },
-  { label: '所在单位', value: '南水北调（江苏）数智科技公司', colspan: 3 },
-  { label: '所在部门', value: '综合部', colspan: 1 },
-  { label: '参加工作时间', value: '2018-07-01', colspan: 1 },
-  { label: '岗位', value: '行政管理', colspan: 3 },
-  { label: '参加培训时间', value: '2012-11-01', colspan: 1 },
-  { label: '培训机构', value: null, colspan: 1 },
-  { label: '家庭住址', value: '山西平遥', colspan: 3 },
-]
+function goChangePassword() {
+  uni.navigateTo({
+    url: '/pages/mine/change-password'
+  })
+}
+function logout() {
+  uni.clearStorageSync()
+  uni.reLaunch({
+    url: '/pages/login/login'
+  })
+}
 </script>
 
 <style scoped>
@@ -272,33 +277,39 @@ const tableData: TableItem[] = [
   padding: 10rpx 60rpx;
 }
 
-.info-container {
-  width: 90%;
-  height: 900rpx;
-  margin: auto;
+.profile-card{
   background-color: #fff;
-  border-radius: 25rpx;
-  position: relative;
+  border-radius: 24rpx;
+  margin: 20rpx 40rpx;
+  padding: 32rpx 28rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 28rpx;
 }
-
-.user-avatar-container {
-  width: 120px;
-  height: 160px;
-  position: absolute;
-  top: 40rpx;
-  left: 40rpx;
+.profile-avatar{
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 60rpx;
+  object-fit: cover;
 }
-
-.user-avatar {
-  width: 100%;
-  height: 100%;
+.avatar-circle{
+  width: 90rpx;
+  height: 90rpx;
+  border-radius: 75rpx;
+  border: 1rpx solid #FF6B35;
+  background-color: #fde9d8;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  box-shadow: 0 6rpx 16rpx rgba(0,0,0,0.08);
+  margin-right: 10rpx;
 }
-
-.user-name-container {
-  position: absolute;
-  overflow: visible;
-  left: 220rpx;
-  top: 100rpx;
+.profile-info{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
 }
 
 .name-id-row {
@@ -312,7 +323,7 @@ const tableData: TableItem[] = [
   font-weight: bold;
 }
 
-.name-id-row .id-container {
+.name-id-row .id-chip {
   width: 100rpx;
   height: 40rpx;
   border-width: 1px;
@@ -324,79 +335,55 @@ const tableData: TableItem[] = [
   margin-left: 10rpx;
 }
 
-.name-id-row .id-container .id {
+.name-id-row .id-chip .id {
+  font-size: 20rpx;
   color: #BA3131;
   margin-top: 8rpx;
-  margin-left: 20rpx;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.party-branch-row {
-
+.branch-text{
+  font-size: 28rpx;
+  color: #444;
 }
 
-.divider {
-  position: absolute;
-  height: 1rpx;
-  background-color: #766756;
-  top: 360rpx;
-  left: 80rpx;
-  right: 80rpx;
+.menu-card{
+  margin: 20rpx 40rpx 40rpx;
+  background-color: #fff;
+  border-radius: 24rpx;
+  padding: 10rpx 0;
 }
-
-.info-table-container {
-  position: absolute;
-  overflow: visible;
-  top: 360rpx;
-  left: 80rpx;
-  right: 80rpx;
-}
-
-.info-table {
-  width: 100%;
-  display: flex;
+.menu-item{
+  display:flex;
   flex-direction: row;
-  flex-wrap: wrap;
-  box-sizing: border-box;
-  border: 1rpx solid #e8e4d9;
-  border-right: none;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28rpx 24rpx;
+  border-bottom: 1rpx solid #eee1d0;
+}
+.menu-item:last-child{
   border-bottom: none;
-  margin: 20rpx 0;
 }
-
-.info-table-row {
-  display: flex;
+.menu-left{
+  display:flex;
   flex-direction: row;
-}
-
-/* 标签单元格通用样式 */
-.table-label {
-  width: 50%;
-  min-height: 50rpx;
-  display: inline-flex;
   align-items: center;
-  padding: 10rpx 24rpx;
-  box-sizing: border-box;
-  background-color: #f9f6f0;
-  border-right: 1rpx solid #e8e4d9;
-  border-bottom: 1rpx solid #e8e4d9;
-  font-size: 30rpx;
-  color: #333;
-  font-weight: 500;
+  gap: 20rpx;
 }
-
-/* 内容单元格通用样式 */
-.table-value {
-  min-height: 50rpx;
-  display: inline-flex;
-  align-items: center;
-  padding: 10rpx 24rpx;
-  box-sizing: border-box;
-  background-color: #ffffff;
-  border-right: 1rpx solid #e8e4d9;
-  border-bottom: 1rpx solid #e8e4d9;
-  font-size: 30rpx;
-  color: #333;
-  white-space: normal;
-  word-break: break-all;
+.menu-icon{
+  width: 36rpx;
+  height: 36rpx;
+  margin-right: 15rpx;
+  border-radius: 0;
+}
+.menu-text{
+  font-size: 32rpx;
+  color: #533f26;
+}
+.menu-arrow{
+  width: 24rpx;
+  height: 24rpx;
+  opacity: 0.6;
 }
 </style>

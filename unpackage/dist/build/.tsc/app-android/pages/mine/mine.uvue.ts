@@ -1,3 +1,5 @@
+import { onShow } from '@dcloudio/uni-app'
+
 
 const __sfc__ = defineComponent({
   __name: 'mine',
@@ -6,7 +8,32 @@ const __ins = getCurrentInstance()!;
 const _ctx = __ins.proxy as InstanceType<typeof __sfc__>;
 const _cache = __ins.renderCache;
 
-// 暂无业务逻辑
+onShow(() => {
+  const t = uni.getStorageSync('user_token')
+  const hasToken: boolean = (t != null) && ((t as string).length > 0)
+  if (hasToken === false) {
+    uni.reLaunch({
+      url: '/pages/login/login'
+    })
+  }
+})
+
+function goPersonalInfo() {
+  uni.navigateTo({
+    url: '/pages/mine/personal-info'
+  })
+}
+function goChangePassword() {
+  uni.navigateTo({
+    url: '/pages/mine/change-password'
+  })
+}
+function logout() {
+  uni.clearStorageSync()
+  uni.reLaunch({
+    url: '/pages/login/login'
+  })
+}
 
 return (): any | null => {
 
@@ -47,15 +74,80 @@ return (): any | null => {
         })),
         _cE("text", _uM({ class: "content-title-text" }), "个人中心")
       ]),
-      _cE("view", _uM({ class: "info-container" }), [
-        _cE("view", _uM({ class: "user-avatar-container" }), [
+      _cE("view", _uM({ class: "profile-card" }), [
+        _cE("view", _uM({ class: "avatar-circle" }), [
           _cE("image", _uM({
-            class: "user-avatar",
-            src: "/static/user-avatar.jpg",
+            class: "profile-avatar",
+            src: "/static/avatar.png",
+            mode: "aspectFill"
+          }))
+        ]),
+        _cE("view", _uM({ class: "profile-info" }), [
+          _cE("view", _uM({ class: "name-id-row" }), [
+            _cE("text", _uM({ class: "name" }), "李绍丽"),
+            _cE("view", _uM({ class: "id-chip" }), [
+              _cE("text", _uM({ class: "id" }), "党员")
+            ])
+          ]),
+          _cE("text", _uM({ class: "branch-text" }), "所在党组织：数智公司党支部")
+        ])
+      ]),
+      _cE("view", _uM({ class: "menu-card" }), [
+        _cE("view", _uM({
+          class: "menu-item",
+          onClick: goPersonalInfo
+        }), [
+          _cE("view", _uM({ class: "menu-left" }), [
+            _cE("image", _uM({
+              class: "menu-icon",
+              src: "/static/icons/user-info.svg",
+              mode: "widthFix"
+            })),
+            _cE("text", _uM({ class: "menu-text" }), "个人资料")
+          ]),
+          _cE("image", _uM({
+            class: "menu-arrow",
+            src: "/static/icons/arrow-right.png",
             mode: "aspectFit"
           }))
         ]),
-        _cE("view", _uM({ class: "user-name-container" }))
+        _cE("view", _uM({
+          class: "menu-item",
+          onClick: goChangePassword
+        }), [
+          _cE("view", _uM({ class: "menu-left" }), [
+            _cE("image", _uM({
+              class: "menu-icon",
+              src: "/static/icons/changepassword.svg",
+              mode: "widthFix"
+            })),
+            _cE("text", _uM({ class: "menu-text" }), "修改密码")
+          ]),
+          _cE("image", _uM({
+            class: "menu-arrow",
+            src: "/static/icons/arrow-right.png",
+            mode: "aspectFit"
+          }))
+        ]),
+        _cE("view", _uM({
+          class: "menu-item",
+          onClick: logout,
+          style: _nS(_uM({"border-bottom":"none"}))
+        }), [
+          _cE("view", _uM({ class: "menu-left" }), [
+            _cE("image", _uM({
+              class: "menu-icon",
+              src: "/static/icons/logout.svg",
+              mode: "widthFix"
+            })),
+            _cE("text", _uM({ class: "menu-text" }), "退出登录")
+          ]),
+          _cE("image", _uM({
+            class: "menu-arrow",
+            src: "/static/icons/arrow-right.png",
+            mode: "aspectFit"
+          }))
+        ], 4 /* STYLE */)
       ])
     ])
   ])
@@ -64,4 +156,4 @@ return (): any | null => {
 
 })
 export default __sfc__
-const GenPagesMineMineStyles = [_uM([["container", _pS(_uM([["backgroundColor", "#F5F5F5"], ["display", "flex"], ["flexDirection", "column"], ["flexGrow", 1], ["flexShrink", 1], ["flexBasis", "0%"], ["paddingBottom", "100rpx"]]))], ["background-image", _pS(_uM([["position", "absolute"], ["top", 0], ["left", 0], ["width", "100%"], ["height", "100%"], ["zIndex", -1]]))], ["custom-navbar", _pS(_uM([["display", "flex"], ["flexDirection", "row"], ["justifyContent", "space-between"], ["alignItems", "center"], ["paddingTop", "var(--status-bar-height, 40rpx)"], ["paddingRight", "30rpx"], ["paddingBottom", "20rpx"], ["paddingLeft", "30rpx"], ["height", "100rpx"], ["width", "100%"], ["boxSizing", "border-box"], ["flexWrap", "nowrap"], ["whiteSpace", "nowrap"]]))], ["nav-avatar-container", _pS(_uM([["position", "relative"], ["width", "70rpx"], ["height", "70rpx"], ["flexShrink", 0]]))], ["nav-avatar", _pS(_uM([["width", "100%"], ["height", "100%"], ["boxSizing", "border-box"]]))], ["avatar-decoration", _pS(_uM([["position", "absolute"], ["top", "-5rpx"], ["right", "-5rpx"], ["width", "25rpx"], ["height", "25rpx"]]))], ["decoration-star", _pS(_uM([["width", "100%"], ["height", "100%"]]))], ["nav-logo-container", _pS(_uM([["display", "flex"], ["justifyContent", "center"], ["alignItems", "center"]]))], ["nav-right-buttons", _pS(_uM([["display", "flex"], ["flexDirection", "row"], ["alignItems", "center"], ["flexShrink", 0], ["flexWrap", "nowrap"]]))], ["nav-dashboard-btn", _pS(_uM([["display", "flex"], ["flexDirection", "row"], ["alignItems", "center"], ["color", "#ffffff"], ["fontSize", "26rpx"], ["fontFamily", "sans-serif"], ["marginRight", "20rpx"], ["whiteSpace", "nowrap"], ["flexShrink", 0]]))], ["dashboard-icon", _pS(_uM([["width", "32rpx"], ["height", "32rpx"], ["marginRight", "8rpx"], ["color", "#ffffff"], ["flexShrink", 0]]))], ["nav-message-btn", _pS(_uM([["position", "relative"], ["borderTopLeftRadius", "20rpx"], ["borderTopRightRadius", "20rpx"], ["borderBottomRightRadius", "20rpx"], ["borderBottomLeftRadius", "20rpx"], ["paddingTop", 0], ["paddingRight", "40rpx"], ["paddingBottom", 0], ["paddingLeft", 0], ["color", "#ffffff"], ["fontSize", "28rpx"], ["fontFamily", "sans-serif"], ["whiteSpace", "nowrap"], ["flexShrink", 0]]))], ["message-text", _pS(_uM([["color", "#ffffff"], ["fontSize", "28rpx"], ["whiteSpace", "nowrap"]]))], ["message-badge", _pS(_uM([["position", "absolute"], ["right", 0], ["width", "36rpx"], ["height", "36rpx"], ["backgroundColor", "#FF6B35"], ["display", "flex"], ["alignItems", "center"], ["justifyContent", "center"], ["color", "#ffffff"], ["fontSize", "22rpx"], ["fontWeight", "bold"]]))], ["content-container", _pS(_uM([["width", "90%"], ["marginTop", "20rpx"], ["marginRight", "auto"], ["marginBottom", "auto"], ["marginLeft", "auto"], ["paddingTop", "20rpx"], ["paddingRight", "0rpx"], ["paddingBottom", "20rpx"], ["paddingLeft", "0rpx"], ["backgroundColor", "#f9e1ce"]]))], ["content-title-container", _pS(_uM([["position", "relative"], ["width", "70%"], ["height", "80rpx"], ["display", "flex"], ["justifyContent", "center"], ["overflow", "visible"]]))], ["content-title-background", _pS(_uM([["position", "absolute"], ["top", 0], ["left", "-60rpx"], ["width", "100%"], ["height", "100%"], ["zIndex", 1], ["overflow", "visible"]]))], ["content-title-text", _pS(_uM([["position", "relative"], ["zIndex", 2], ["fontSize", "28rpx"], ["color", "#FFEAD2"], ["fontWeight", "bold"], ["textAlign", "left"], ["paddingTop", "10rpx"], ["paddingRight", "60rpx"], ["paddingBottom", "10rpx"], ["paddingLeft", "60rpx"]]))], ["info-container", _pS(_uM([["width", "90%"], ["height", "400rpx"], ["marginTop", "auto"], ["marginRight", "auto"], ["marginBottom", "auto"], ["marginLeft", "auto"], ["backgroundColor", "#ffffff"], ["borderTopLeftRadius", "25rpx"], ["borderTopRightRadius", "25rpx"], ["borderBottomRightRadius", "25rpx"], ["borderBottomLeftRadius", "25rpx"], ["position", "relative"]]))], ["user-avatar-container", _pS(_uM([["width", 120], ["height", 160], ["position", "absolute"], ["top", "40rpx"], ["left", "40rpx"]]))], ["user-avatar", _pS(_uM([["width", "100%"], ["height", "100%"]]))]])]
+const GenPagesMineMineStyles = [_uM([["container", _pS(_uM([["backgroundColor", "#F5F5F5"], ["display", "flex"], ["flexDirection", "column"], ["flexGrow", 1], ["flexShrink", 1], ["flexBasis", "0%"], ["paddingBottom", "100rpx"]]))], ["background-image", _pS(_uM([["position", "absolute"], ["top", 0], ["left", 0], ["width", "100%"], ["height", "100%"], ["zIndex", -1]]))], ["custom-navbar", _pS(_uM([["display", "flex"], ["flexDirection", "row"], ["justifyContent", "space-between"], ["alignItems", "center"], ["paddingTop", "var(--status-bar-height, 40rpx)"], ["paddingRight", "30rpx"], ["paddingBottom", "20rpx"], ["paddingLeft", "30rpx"], ["height", "100rpx"], ["width", "100%"], ["boxSizing", "border-box"], ["flexWrap", "nowrap"], ["whiteSpace", "nowrap"]]))], ["nav-avatar-container", _pS(_uM([["position", "relative"], ["width", "70rpx"], ["height", "70rpx"], ["flexShrink", 0]]))], ["nav-avatar", _pS(_uM([["width", "100%"], ["height", "100%"], ["boxSizing", "border-box"]]))], ["avatar-decoration", _pS(_uM([["position", "absolute"], ["top", "-5rpx"], ["right", "-5rpx"], ["width", "25rpx"], ["height", "25rpx"]]))], ["decoration-star", _pS(_uM([["width", "100%"], ["height", "100%"]]))], ["nav-logo-container", _pS(_uM([["display", "flex"], ["justifyContent", "center"], ["alignItems", "center"]]))], ["nav-right-buttons", _pS(_uM([["display", "flex"], ["flexDirection", "row"], ["alignItems", "center"], ["flexShrink", 0], ["flexWrap", "nowrap"]]))], ["nav-dashboard-btn", _pS(_uM([["display", "flex"], ["flexDirection", "row"], ["alignItems", "center"], ["color", "#ffffff"], ["fontSize", "26rpx"], ["fontFamily", "sans-serif"], ["marginRight", "20rpx"], ["whiteSpace", "nowrap"], ["flexShrink", 0]]))], ["dashboard-icon", _pS(_uM([["width", "32rpx"], ["height", "32rpx"], ["marginRight", "8rpx"], ["color", "#ffffff"], ["flexShrink", 0]]))], ["nav-message-btn", _pS(_uM([["position", "relative"], ["borderTopLeftRadius", "20rpx"], ["borderTopRightRadius", "20rpx"], ["borderBottomRightRadius", "20rpx"], ["borderBottomLeftRadius", "20rpx"], ["paddingTop", 0], ["paddingRight", "40rpx"], ["paddingBottom", 0], ["paddingLeft", 0], ["color", "#ffffff"], ["fontSize", "28rpx"], ["fontFamily", "sans-serif"], ["whiteSpace", "nowrap"], ["flexShrink", 0]]))], ["message-text", _pS(_uM([["color", "#ffffff"], ["fontSize", "28rpx"], ["whiteSpace", "nowrap"]]))], ["message-badge", _pS(_uM([["position", "absolute"], ["right", 0], ["width", "36rpx"], ["height", "36rpx"], ["backgroundColor", "#FF6B35"], ["display", "flex"], ["alignItems", "center"], ["justifyContent", "center"], ["color", "#ffffff"], ["fontSize", "22rpx"], ["fontWeight", "bold"]]))], ["content-container", _pS(_uM([["width", "90%"], ["marginTop", "20rpx"], ["marginRight", "auto"], ["marginBottom", "auto"], ["marginLeft", "auto"], ["paddingTop", "20rpx"], ["paddingRight", "0rpx"], ["paddingBottom", "20rpx"], ["paddingLeft", "0rpx"], ["backgroundColor", "#f9e1ce"], ["overflow", "visible"]]))], ["content-title-container", _pS(_uM([["position", "relative"], ["width", "70%"], ["height", "80rpx"], ["display", "flex"], ["justifyContent", "center"], ["overflow", "visible"]]))], ["content-title-background", _pS(_uM([["position", "absolute"], ["top", 0], ["left", "-60rpx"], ["width", "100%"], ["height", "100%"], ["zIndex", 1], ["overflow", "visible"]]))], ["content-title-text", _pS(_uM([["position", "relative"], ["zIndex", 2], ["fontSize", "28rpx"], ["color", "#FFEAD2"], ["fontWeight", "bold"], ["textAlign", "left"], ["paddingTop", "10rpx"], ["paddingRight", "60rpx"], ["paddingBottom", "10rpx"], ["paddingLeft", "60rpx"]]))], ["profile-card", _pS(_uM([["backgroundColor", "#ffffff"], ["borderTopLeftRadius", "24rpx"], ["borderTopRightRadius", "24rpx"], ["borderBottomRightRadius", "24rpx"], ["borderBottomLeftRadius", "24rpx"], ["marginTop", "20rpx"], ["marginRight", "40rpx"], ["marginBottom", "20rpx"], ["marginLeft", "40rpx"], ["paddingTop", "32rpx"], ["paddingRight", "28rpx"], ["paddingBottom", "32rpx"], ["paddingLeft", "28rpx"], ["display", "flex"], ["flexDirection", "row"], ["alignItems", "center"], ["gap", "28rpx"]]))], ["profile-avatar", _pS(_uM([["width", "60rpx"], ["height", "60rpx"], ["borderTopLeftRadius", "60rpx"], ["borderTopRightRadius", "60rpx"], ["borderBottomRightRadius", "60rpx"], ["borderBottomLeftRadius", "60rpx"], ["objectFit", "cover"]]))], ["avatar-circle", _pS(_uM([["width", "90rpx"], ["height", "90rpx"], ["borderTopLeftRadius", "75rpx"], ["borderTopRightRadius", "75rpx"], ["borderBottomRightRadius", "75rpx"], ["borderBottomLeftRadius", "75rpx"], ["borderTopWidth", "1rpx"], ["borderRightWidth", "1rpx"], ["borderBottomWidth", "1rpx"], ["borderLeftWidth", "1rpx"], ["borderTopStyle", "solid"], ["borderRightStyle", "solid"], ["borderBottomStyle", "solid"], ["borderLeftStyle", "solid"], ["borderTopColor", "#FF6B35"], ["borderRightColor", "#FF6B35"], ["borderBottomColor", "#FF6B35"], ["borderLeftColor", "#FF6B35"], ["backgroundColor", "#fde9d8"], ["alignItems", "center"], ["justifyContent", "center"], ["display", "flex"], ["boxShadow", "0 6rpx 16rpx rgba(0,0,0,0.08)"], ["marginRight", "10rpx"]]))], ["profile-info", _pS(_uM([["flexGrow", 1], ["flexShrink", 1], ["flexBasis", "0%"], ["display", "flex"], ["flexDirection", "column"], ["gap", "12rpx"]]))], ["name-id-row", _pS(_uM([["display", "flex"], ["flexDirection", "row"], ["gap", "10rpx"]]))], ["name", _uM([[".name-id-row ", _uM([["fontSize", "36rpx"], ["fontWeight", "bold"]])]])], ["id-chip", _uM([[".name-id-row ", _uM([["width", "100rpx"], ["height", "40rpx"], ["borderTopWidth", 1], ["borderRightWidth", 1], ["borderBottomWidth", 1], ["borderLeftWidth", 1], ["borderTopStyle", "solid"], ["borderRightStyle", "solid"], ["borderBottomStyle", "solid"], ["borderLeftStyle", "solid"], ["borderTopColor", "#b66161"], ["borderRightColor", "#b66161"], ["borderBottomColor", "#b66161"], ["borderLeftColor", "#b66161"], ["borderTopLeftRadius", "38rpx"], ["borderTopRightRadius", "38rpx"], ["borderBottomRightRadius", "38rpx"], ["borderBottomLeftRadius", "38rpx"], ["backgroundColor", "#fff1f1"], ["textAlign", "center"], ["marginLeft", "10rpx"]])]])], ["id", _uM([[".name-id-row .id-chip ", _uM([["fontSize", "20rpx"], ["color", "#BA3131"], ["marginTop", "8rpx"], ["marginLeft", "auto"], ["marginRight", "auto"]])]])], ["branch-text", _pS(_uM([["fontSize", "28rpx"], ["color", "#444444"]]))], ["menu-card", _pS(_uM([["marginTop", "20rpx"], ["marginRight", "40rpx"], ["marginBottom", "40rpx"], ["marginLeft", "40rpx"], ["backgroundColor", "#ffffff"], ["borderTopLeftRadius", "24rpx"], ["borderTopRightRadius", "24rpx"], ["borderBottomRightRadius", "24rpx"], ["borderBottomLeftRadius", "24rpx"], ["paddingTop", "10rpx"], ["paddingRight", 0], ["paddingBottom", "10rpx"], ["paddingLeft", 0]]))], ["menu-item", _pS(_uM([["display", "flex"], ["flexDirection", "row"], ["alignItems", "center"], ["justifyContent", "space-between"], ["paddingTop", "28rpx"], ["paddingRight", "24rpx"], ["paddingBottom", "28rpx"], ["paddingLeft", "24rpx"], ["borderBottomWidth", "1rpx"], ["borderBottomStyle", "solid"], ["borderBottomColor", "#eee1d0"], ["borderBottomWidth:last-child", "medium"], ["borderBottomStyle:last-child", "none"], ["borderBottomColor:last-child", "#000000"]]))], ["menu-left", _pS(_uM([["display", "flex"], ["flexDirection", "row"], ["alignItems", "center"], ["gap", "20rpx"]]))], ["menu-icon", _pS(_uM([["width", "36rpx"], ["height", "36rpx"], ["marginRight", "15rpx"], ["borderTopLeftRadius", 0], ["borderTopRightRadius", 0], ["borderBottomRightRadius", 0], ["borderBottomLeftRadius", 0]]))], ["menu-text", _pS(_uM([["fontSize", "32rpx"], ["color", "#533f26"]]))], ["menu-arrow", _pS(_uM([["width", "24rpx"], ["height", "24rpx"], ["opacity", 0.6]]))]])]
