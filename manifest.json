@@ -34,15 +34,6 @@
 	"app": {
 		"distribute": {
 			"modules": {
-				"uni-location": {
-					"system": {},
-					"tencent": {}
-				},
-				"uni-ad": {},
-				"uni-push": {},
-				"uni-map": {
-					"tencent": {}
-				}
 			},
 			"icons": {
 				"ios": {
@@ -62,7 +53,6 @@
 				"uni-location": {
 					"system": {}
 				},
-				"uni-push": {},
 				"uni-map": {
 					"tencent": {}
 				},
@@ -128,14 +118,6 @@
 	"app-ios": {
 		"distribute": {
 			"modules": {
-				"uni-location": {
-					"system": {},
-					"tencent": {}
-				},
-				"uni-push": {},
-				"uni-map": {
-					"tencent": {}
-				}
 			},
 			"icons": {
 				"appstore": "D:/origin.png"

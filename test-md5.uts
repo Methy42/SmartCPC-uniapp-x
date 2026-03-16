@@ -1,0 +1,20 @@
+// 测试MD5函数 - 使用自定义MD5实现
+import { md5 } from '@/utils/aes-new.uts'
+
+console.error('[test-md5] 开始测试自定义MD5函数')
+const testStr = '123456'
+const md5Result = md5(testStr)
+console.error('[test-md5] 测试字符串:', testStr)
+console.error('[test-md5] 自定义MD5结果:', md5Result)
+
+// 测试AES加密
+import { doubleEncryptWithTimestamp } from '@/utils/aes-new.uts'
+
+const keyBase64 = 'RVk4V2VQdmpNNUdHd1F6bg=='
+console.error('[test-md5] 密钥Base64:', keyBase64)
+console.error('[test-md5] 开始测试双重加密...')
+const encrypted = doubleEncryptWithTimestamp('123456', keyBase64)
+console.error('[test-md5] 双重加密结果:', encrypted)
+console.error('[test-md5] 注意：字符串"123456"的MD5应为:e10adc3949ba59abbe56e057f20f883e')
+console.error('[test-md5] 自定义MD5结果应为:e10adc3949ba59abbe56e057f20f883e')
+console.error('[test-md5] 测试结果:', md5Result === 'e10adc3949ba59abbe56e057f20f883e' ? '✓ 通过' : '✗ 失败')

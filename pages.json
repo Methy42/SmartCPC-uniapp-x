@@ -1898,15 +1898,6 @@
 			}
 		},
 		// #endif
-		// #ifdef APP-ANDROID || APP-IOS || WEB || MP-WEIXIN || APP-HARMONY
-		{
-			"path": "pages/API/uni-push/uni-push",
-			"group": "1,16,0",
-			"style": {
-				"navigationBarTitleText": "uni-push示例"
-			}
-		},
-		// #endif
 		// #ifdef APP-ANDROID || APP-IOS || WEB
 		{
 			"path": "pages/API/report/report",
@@ -4041,16 +4032,6 @@
 						{
 							"id": "api.share.shareWithSystem",
 							"name": "uni.shareWithSystem"
-						}
-					]
-				},
-				{
-					"id": "api.push",
-					"name": "推送",
-					"children": [
-						{
-							"id": "api.push.uni-push",
-							"name": "push"
 						}
 					]
 				},
