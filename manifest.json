@@ -1,5 +1,5 @@
 {
-	"name": "SmartCPC-uniapp-x",
+	"name": "水源红·智慧党建",
 	"appid": "__UNI__2A1DFEF",
 	"description": "",
 	"versionName": "1.9.8",
@@ -83,7 +83,7 @@
 			},
 			"icons": {
 				"foreground": "package/D-1024.png",
-				"background": "package/background-white.png"
+				"background": "D:/origin.png"
 			},
 			"splashScreens": {
 				"startWindowIcon": "package/icon256.png"
@@ -111,12 +111,18 @@
 		"distribute": {
 			"modules": {},
 			"icons": {
-				"xxhdpi": "package/icon144.png",
-				"xxxhdpi": "package/icon192.png"
+				"xxhdpi": "D:/origin.png",
+				"xxxhdpi": "D:/origin.png",
+				"hdpi": "D:/origin.png",
+				"xhdpi": "D:/origin.png"
 			},
 			"splashScreens": {
 				"default": {}
-			}
+			},
+			"permissions": [
+				"<uses-permission android:name=\"android.permission.INTERNET\"/>",
+				""
+			]
 		}
 	},
 	"app-ios": {
@@ -132,7 +138,7 @@
 				}
 			},
 			"icons": {
-				"appstore": "package/icon1024.png"
+				"appstore": "D:/origin.png"
 			},
 			"splashScreens": {}
 		}

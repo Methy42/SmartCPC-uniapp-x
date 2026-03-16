@@ -19,7 +19,6 @@
       </view>
       
       <view class="form-item">
-        <image src="/static/lock-icon.png" style="width: 24px; height: 24px; margin-right: 30rpx;" mode="aspectFit"></image>
         <input 
           class="input" 
           type="password" 
@@ -59,11 +58,7 @@
 // 使用选项式API避免导入问题
 import { ref } from 'vue'
 import { setUserInfo, UserInfo } from '@/store/index.uts'
-
-type RequestResult = {
-  statusCode: number,
-  data: any
-}
+import { doubleEncryptWithTimestamp } from '@/utils/aes-new.uts'
 
 export default {
   setup() {
@@ -86,8 +81,6 @@ export default {
   },
   
   methods: {
-    
-    
     onRememberChange() {
       this.remember = !this.remember
     },
@@ -105,7 +98,7 @@ export default {
     initRememberPassword() {
       try {
         const rememberFlag = uni.getStorageSync('remember_password')
-        if (rememberFlag === true) {
+        if (rememberFlag == true) {
           this.remember = true
           const savedUsername = uni.getStorageSync('login_username')
           const savedPassword = uni.getStorageSync('login_password')
@@ -121,6 +114,23 @@ export default {
       }
     },
     
+    // 简单的base64验证函数
+    isValidBase64(str: string): boolean {
+      if (str == null || str.length === 0) {
+        return false
+      }
+      // base64字符串应该只包含字母、数字、+、/、=，并且长度应该是4的倍数
+      const base64Regex = /^[A-Za-z0-9+/]*={0,2}$/
+      if (!base64Regex.test(str)) {
+        return false
+      }
+      // 长度检查
+      if (str.length % 4 !== 0) {
+        return false
+      }
+      return true
+    },
+    
     async handleLogin() {
       if (this.isEmpty(this.username) || this.isEmpty(this.password)) {
         uni.showToast({ title: '请输入账号和密码', icon: 'none' })
@@ -128,63 +138,96 @@ export default {
       }
       this.loading = true
       try {
-        const res = await new Promise<RequestResult>((resolve, reject) => {
-          uni.request({
-            url: 'http://43.248.97.247:36680/api/oauth/Party/Login',
-            method: 'POST',
-            header: { 'Content-Type': 'application/json' },
-            data: {
-              account: this.username,
-              password: this.password,
-              grant_type: 'party_password'
-            },
-            success: (r) => {
-              const rStr = JSON.stringify(r as any)
-              const ro = JSON.parse(rStr) as UTSJSONObject
-              const sc = (ro['statusCode'] as number) ?? 0
-              const datRaw = ro['data']
-              const datSafe = (datRaw != null) ? datRaw : ({} as UTSJSONObject)
-              resolve({ statusCode: sc, data: datSafe } as RequestResult)
-            },
-            fail: (err) => reject(err)
-          })
-        })
-        const ok: boolean = res.statusCode === 200
-        if (!ok) {
-          uni.showToast({ title: '登录失败', icon: 'none' })
+        console.error('[handleLogin] 开始登录流程')
+        console.error('[handleLogin] 用户名:', this.username)
+        console.error('[handleLogin] 原始密码:', this.password)
+        
+        const keyBase64 = 'EY8WePvjM5GGwQzn'
+        console.error('[handleLogin] 密钥Base64:', keyBase64)
+        
+        // 使用新的双重加密方法（AES ECB PKCS7 -> Base64 -> 字节数组 -> Hex字符串）
+        const encPwd = doubleEncryptWithTimestamp(this.password, keyBase64).slice(0, -4)
+        console.error('[handleLogin] 最终加密密码:', encPwd);
+        if (encPwd.length === 0) {
+          uni.showToast({ title: '加密库未就绪', icon: 'none' })
+          this.loading = false
           return
         }
-        const body: any = res.data
-        const bodyObj = body as UTSJSONObject
-        let token: string = ''
-        if (bodyObj != null) {
-          const t1 = bodyObj['token'] as string | null
-          const hasT1: boolean = (t1 != null) && ((t1 as string).length > 0)
-          if (hasT1) {
-            token = t1 as string
-          } else {
-            const at = bodyObj['access_token'] as string | null
-            const hasAt: boolean = (at != null) && ((at as string).length > 0)
-            if (hasAt) {
-              token = at as string
-            } else {
-              const inner = bodyObj['data'] as UTSJSONObject | null
-              if (inner != null) {
-                const it = inner['token'] as string | null
-                const hasIt: boolean = (it != null) && ((it as string).length > 0)
-                if (hasIt) {
-                  token = it as string
-                } else {
-                  const iat = inner['access_token'] as string | null
-                  const hasIat: boolean = (iat != null) && ((iat as string).length > 0)
-                  if (hasIat) {
-                    token = iat as string
-                  }
-                }
+        
+        // 新的加密结果是十六进制字符串，不再需要base64验证
+        
+        const res = await new Promise<UTSJSONObject>((resolve, reject) => {
+          // URL encode parameters for form data
+          const encodedUsername = encodeURIComponent(this.username)
+          const encodedPassword = encodeURIComponent(encPwd)
+          const formData = `account=${this.username}&password=${encPwd}&grant_type=password&origin=password&timestamp=0`
+          console.log("formData", formData);
+          uni.request({
+            url: `http://43.248.97.247:36680/pb/api/oauth/Login`,
+            method: 'POST',
+            header: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            data: {
+				account: this.username,
+				password: encPwd,
+				grant_type: 'password',
+				origin: 'password',
+				timestamp: 0
+			  },
+            success: (r) => {
+				console.log("result", r);
+              const rStr = JSON.stringify(r as any)
+              const ro = JSON.parse(rStr) as UTSJSONObject
+              resolve(ro)
+            },
+            fail: (err) => {
+              let msg: string = ''
+              const anye = err as any
+              if (typeof anye === 'string') msg = anye as string
+              else {
+                try { msg = JSON.stringify(anye) } catch (_) { msg = '' + anye }
               }
+              reject(msg)
             }
+          })
+        })
+        
+        // 解析响应
+        const dataRaw = res['data']
+        if (dataRaw == null) {
+          uni.showToast({ title: '响应数据为空', icon: 'none' })
+          this.loading = false
+          return
+        }
+        const responseBody = dataRaw as UTSJSONObject
+        
+        // 检查业务状态码
+        const code = responseBody['code'] as number ?? 0
+        const msg = responseBody['msg'] as string ?? ''
+        
+        if (code != 200) {
+          // 登录失败
+          const errorMsg = msg.length > 0 ? msg : '登录失败'
+          uni.showToast({ title: errorMsg, icon: 'none' })
+          this.loading = false
+          return
+        }
+        
+        // 登录成功，提取token
+        const dataObj = responseBody['data'] as UTSJSONObject | null
+        let token: string = ''
+        if (dataObj != null) {
+          const tokenRaw = dataObj['token'] as string | null
+          if (tokenRaw != null && tokenRaw.length > 0) {
+            token = tokenRaw as string
           }
         }
+        
+        if (token.length === 0) {
+          uni.showToast({ title: '登录成功但未获取到token', icon: 'none' })
+          this.loading = false
+          return
+        }
+        
         const user: UserInfo = {
           id: '',
           username: this.username,
@@ -205,7 +248,15 @@ export default {
         }
         uni.switchTab({ url: '/pages/index/index' })
       } catch (e) {
-        uni.showToast({ title: '网络异常', icon: 'none' })
+        let msg: string = ''
+        const anye = e as any
+        if (typeof anye === 'string') msg = anye as string
+        else {
+          try { msg = JSON.stringify(anye) } catch (_) { msg = '' + anye }
+        }
+        const shortMsg = msg.length > 60 ? msg.substring(0, 60) : msg
+        console.error('登录网络异常:', msg)
+        uni.showToast({ title: ('网络异常: ' + shortMsg), icon: 'none' })
       } finally {
         this.loading = false
       }

@@ -17,6 +17,7 @@
     "license": "MIT",
     "dependencies": {
         "@qiun/ucharts": "^2.5.0-20230101",
+        "crypto-js": "^4.2.0",
         "uview-plus": "^3.7.13"
     },
     "engines": {
