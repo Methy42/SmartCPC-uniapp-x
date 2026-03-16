@@ -1,0 +1,890 @@
+// #ifdef APP-ANDROID
+import Base64 from 'android.util.Base64'
+import ByteArray from 'kotlin.ByteArray'
+// #endif
+
+const SBOX: number[] = [
+  99,124,119,123,242,107,111,197,48,1,103,43,254,215,171,118,
+  202,130,201,125,250,89,71,240,173,212,162,175,156,164,114,192,
+  183,253,147,38,54,63,247,204,52,165,229,241,113,216,49,21,
+  4,199,35,195,24,150,5,154,7,18,128,226,235,39,178,117,
+  9,131,44,26,27,110,90,160,82,59,214,179,41,227,47,132,
+  83,209,0,237,32,252,177,91,106,203,190,57,74,76,88,207,
+  208,239,170,251,67,77,51,133,69,249,2,127,80,60,159,168,
+  81,163,64,143,146,157,56,245,188,182,218,33,16,255,243,210,
+  205,12,19,236,95,151,68,23,196,167,126,61,100,93,25,115,
+  96,129,79,220,34,42,144,136,70,238,184,20,222,94,11,219,
+  224,50,58,10,73,6,36,92,194,211,172,98,145,149,228,121,
+  231,200,55,109,141,213,78,169,108,86,244,234,101,122,174,8,
+  186,120,37,46,28,166,180,198,232,221,116,31,75,189,139,138,
+  112,62,181,102,72,3,246,14,97,53,87,185,134,193,29,158,
+  225,248,152,17,105,217,142,148,155,30,135,233,206,85,40,223,
+  140,161,137,13,191,230,66,104,65,153,45,15,176,84,187,22
+]
+const RCON: number[] = [0,1,2,4,8,16,32,64,128,27,54,108,216,171,77,154,47,94,188,99,198,151,53,106,212,179,125,250,239,197,145,57]
+
+function rotWord(w: number[]): number[] { return [w[1], w[2], w[3], w[0]] }
+function subWord(w: number[]): number[] { return [SBOX[w[0]], SBOX[w[1]], SBOX[w[2]], SBOX[w[3]]] }
+
+function expandKey(key: number[]): number[] {
+  const Nk = key.length / 4
+  const Nr = Nk + 6
+  const Nb = 4
+  const w: number[] = new Array(Nb * (Nr + 1) * 4)
+  for (let i = 0; i < Nb * (Nr + 1) * 4; i++) {
+          w.push(0);
+  }
+  try {
+  for (let i=0;i<Nk;i++){ w[4*i]=key[4*i]; w[4*i+1]=key[4*i+1]; w[4*i+2]=key[4*i+2]; w[4*i+3]=key[4*i+3] }
+  } catch(e) {
+          console.log(e);
+  }
+  const temp = [0,0,0,0]
+  for (let i=Nk;i<Nb*(Nr+1);i++){
+          try {
+    temp[0]=w[4*(i-1)]; temp[1]=w[4*(i-1)+1]; temp[2]=w[4*(i-1)+2]; temp[3]=w[4*(i-1)+3]
+    if (i%Nk==0){
+      const r = rotWord(temp)
+      const s = subWord(r)
+      temp[0]=s[0]^RCON[i/Nk]; temp[1]=s[1]; temp[2]=s[2]; temp[3]=s[3]
+    } else if (Nk>6 && (i%Nk)==4){
+      const s = subWord(temp)
+      temp[0]=s[0]; temp[1]=s[1]; temp[2]=s[2]; temp[3]=s[3]
+    }
+    w[4*i]=w[4*(i-Nk)]^temp[0]
+    w[4*i+1]=w[4*(i-Nk)+1]^temp[1]
+    w[4*i+2]=w[4*(i-Nk)+2]^temp[2]
+    w[4*i+3]=w[4*(i-Nk)+3]^temp[3]
+        } catch(e) {
+                console.log(e);
+        }
+  }
+  return w
+}
+
+function addRoundKey(state: number[], w: number[], round: number){
+  for (let c=0;c<4;c++){
+    state[4*c]^=w[16*round+4*c]
+    state[4*c+1]^=w[16*round+4*c+1]
+    state[4*c+2]^=w[16*round+4*c+2]
+    state[4*c+3]^=w[16*round+4*c+3]
+  }
+}
+function subBytes(state: number[]){ for(let i=0;i<16;i++) state[i]=SBOX[state[i]] }
+function shiftRows(s: number[]){
+  const t = s.slice(0)
+  s[1]=t[5]; s[5]=t[9]; s[9]=t[13]; s[13]=t[1]
+  s[2]=t[10]; s[6]=t[14]; s[10]=t[2]; s[14]=t[6]
+  s[3]=t[15]; s[7]=t[3]; s[11]=t[7]; s[15]=t[11]
+}
+function xtime(a: number): number { return ((a<<1) & 0xFF) ^ ((a & 0x80) != 0 ? 0x1b : 0) }
+function mixColumns(s: number[]){
+  for (let c=0;c<4;c++){
+    const i=4*c
+    const a0=s[i], a1=s[i+1], a2=s[i+2], a3=s[i+3]
+    const t=a0^a1^a2^a3
+    const u=a0
+    s[i]   ^= t ^ xtime(a0^a1)
+    s[i+1] ^= t ^ xtime(a1^a2)
+    s[i+2] ^= t ^ xtime(a2^a3)
+    s[i+3] ^= t ^ xtime(a3^u)
+  }
+}
+function encryptBlock(inp: number[], w: number[]): number[] {
+  const Nk = w.length/4/ (10+ (w.length/16 -4)) // not used
+  const Nr = (w.length/4)/4 -1
+  const state = inp.slice(0)
+  addRoundKey(state, w, 0)
+  for (let r=1;r<Nr;r++){
+    subBytes(state); shiftRows(state); mixColumns(state); addRoundKey(state, w, r)
+  }
+  subBytes(state); shiftRows(state); addRoundKey(state, w, Nr)
+  return state
+}
+
+function pkcs7Pad(data: number[], blockSize: number): number[] {
+  const padLen = blockSize - (data.length % blockSize)
+  const out = data.slice(0)
+  for (let i=0;i<padLen;i++) out.push(padLen)
+  return out
+}
+
+function ccAt(s: string, idx: number): number {
+  const v: number | null = s.charCodeAt(idx)
+  if (v == null) return 0
+  return v
+}
+
+function utf8ToBytes(str: string): number[] {
+  const out: number[] = []
+  const len = str.length
+  let i = 0
+  while (i < len) {
+    let code: number = ccAt(str, i)
+    i = i + 1
+    if ((code >= 0xd800) && (code <= 0xdbff) && (i < len)) {
+      const next: number = ccAt(str, i)
+      if (((next & 0xfc00) === 0xdc00)) {
+        code = 0x10000 + ((code & 0x3ff) << 10) + ((next & 0x3ff))
+        i++
+      }
+    }
+    if (code <= 0x7f) out.push(code)
+    else if (code <= 0x7ff) { out.push(0xc0 | (code >> 6), 0x80 | (code & 0x3f)) }
+    else if (code <= 0xffff) { out.push(0xe0 | (code >> 12), 0x80 | ((code >> 6) & 0x3f), 0x80 | (code & 0x3f)) }
+    else { out.push(0xf0 | (code >> 18), 0x80 | ((code >> 12) & 0x3f), 0x80 | ((code >> 6) & 0x3f), 0x80 | (code & 0x3f)) }
+  }
+  return out
+}
+
+function bytesToBase64(bytes: number[]): string {
+  // #ifdef APP-ANDROID
+  // Android平台使用android.util.Base64
+  // 创建ByteArray，Kotlin类型
+  const size = bytes.length.toInt()
+  const byteArray = new ByteArray(size)
+  for (let i = 0; i < bytes.length; i++) {
+    // 将number转换为byte，注意处理有符号
+    const byteVal = bytes[i] & 0xff
+    const index = i.toInt()
+    byteArray[index] = byteVal.toByte()
+  }
+  // 转换为base64字符串
+  const result = Base64.encodeToString(byteArray, Base64.NO_WRAP)
+  return result as string
+  // #endif
+
+  // #ifndef APP-ANDROID
+  // 非Android平台使用uni.arrayBufferToBase64
+  const ab = new ArrayBuffer(bytes.length)
+  const view = new Uint8Array(ab)
+  for (let i=0;i<bytes.length;i++) view[i] = bytes[i] & 0xff
+  return uni.arrayBufferToBase64(ab)
+  // #endif
+}
+
+function base64ToBytes(s: string): number[] {
+  console.log(6);
+  try {
+    s = s.trim();
+
+    // #ifdef APP-ANDROID
+    // Android平台使用android.util.Base64.decode，使用NO_WRAP确保与编码一致
+    const androidDecoded = Base64.decode(s, Base64.NO_WRAP)
+    if (androidDecoded == null) {
+      console.error('base64ToBytes: decode returned null')
+      return []
+    }
+    // androidDecoded是ByteArray类型，需要转换为number[]
+    // 直接处理ByteArray，使用位运算确保正确转换
+    const len = androidDecoded.size
+        console.log("len", len);
+    let out: number[] = new Array();
+    for (let i = 0; i < len; i++) {
+      // 获取字节索引
+      const index = i.toInt()
+      // 获取字节值（Kotlin Byte类型，UTS会自动转换为number）
+      const byteVal = androidDecoded[index]
+          if (byteVal < 0) {
+                  // 直接将byteVal作为number处理，使用位运算转换为无符号字节
+                  let unsignedVal: number = byteVal & 0xff
+                  out.push(unsignedVal)
+                  // out[i] = unsignedVal
+          } else {
+                  try {
+                        out.push(byteVal)
+                  } catch(e) {
+                          console.log(e);
+                  }
+          }
+      // 调试日志 - 只打印前几个字节
+      if (i < 5) {
+        console.log(`[${i}] byteVal=${byteVal} out[i]=${out[i]}`)
+      }
+    }
+    return out
+    // #endif
+
+    // #ifndef APP-ANDROID
+    // 非Android平台使用uni.base64ToArrayBuffer
+    const ab = uni.base64ToArrayBuffer(s);
+    const view = new Uint8Array(ab);
+    const len = view.length;
+    const out: number[] = new Array(len);
+    for (let i = 0; i < len; i++) {
+      out[i] = (view[i] as number) & 0xff;
+    }
+    return out;
+    // #endif
+  } catch (error) {
+    console.error('base64ToBytes error: ' + (error as Error).message);
+    return [];
+  }
+}
+
+// 新增：字节数组转十六进制字符串
+function bytesToHex(bytes: number[]): string {
+  const hexChars = '0123456789abcdef'
+  let result = ''
+  for (let i = 0; i < bytes.length; i++) {
+    const byteVal = bytes[i] & 0xff
+    result += hexChars.charAt(byteVal >> 4)
+    result += hexChars.charAt(byteVal & 0x0f)
+  }
+  return result
+}
+
+/**
+ * 纯手工 AES-128 ECB 加密 (PKCS7 填充)
+ * 输入：明文字符串 (UTF-8)，密钥字符串 (必须为16字节)
+ * 输出：Base64 编码的密文
+ */
+function aes128EcbEncrypt(plaintext: string, key: string) {
+    // ---------- 辅助函数：字符串与字节数组转换 ----------
+        function stringToBytes(str: string): number[] {
+            const bytes: number[] = [];
+              for (let i = 0; i < str.length; i++) {
+                  // 仅取低8位，适合ASCII或Latin-1字符
+                  const code = str.charCodeAt(i)
+                  if (code != null) {
+                      bytes.push(code & 0xFF);
+                  }
+              }
+            return bytes;
+        }
+    
+        // 将密钥调整为16字节（AES-128要求）: 过长截断，过短补0
+        function adjustKey(keyStr: string): number[] {
+            const keyBytes: number[] = stringToBytes(keyStr);
+            const result: number[] = [];
+            for (let i = 0; i < 16; i++) {
+                if (i < keyBytes.length) {
+                    result.push(keyBytes[i]);
+                } else {
+                    result.push(0x00);
+                }
+            }
+            return result;
+        }
+    
+        // ---------- PKCS7 填充 ----------
+        function pkcs7Pad(data: number[]): number[] {
+            const padLen: number = 16 - (data.length % 16);
+            const finalPadLen: number = padLen === 0 ? 16 : padLen; // 恰好16字节时填充一整块
+            const padded: number[] = [];
+            for (let i = 0; i < data.length; i++) {
+                padded.push(data[i]);
+            }
+            for (let i = 0; i < finalPadLen; i++) {
+                padded.push(finalPadLen);
+            }
+            return padded;
+        }
+    
+        // ---------- Base64 编码 (纯数组实现) ----------
+        function bytesToBase64(bytes: number[]): string {
+            // 构建Base64字符集 (通过循环push生成)
+            const base64Chars: string[] = [];
+            // A-Z
+            for (let i = 0; i < 26; i++) base64Chars.push(String.fromCharCode(65 + i));
+            // a-z
+            for (let i = 0; i < 26; i++) base64Chars.push(String.fromCharCode(97 + i));
+            // 0-9
+            for (let i = 0; i < 10; i++) base64Chars.push(String.fromCharCode(48 + i));
+            base64Chars.push('+', '/');
+    
+            const result: string[] = [];
+            let i = 0;
+            const len = bytes.length;
+    
+            while (i < len) {
+                // 取三个字节
+                const b1 = bytes[i++];
+                const b2 = i < len ? bytes[i++] : NaN;
+                const b3 = i < len ? bytes[i++] : NaN;
+    
+                // 组合成24位整数
+                const triple = (b1 << 16) | ((b2 << 8) & 0xFFFFFF) | (b3 & 0xFF);
+    
+                // 分成4个6位索引
+                const index1 = (triple >> 18) & 0x3F;
+                const index2 = (triple >> 12) & 0x3F;
+                const index3 = (triple >> 6) & 0x3F;
+                const index4 = triple & 0x3F;
+    
+                // 添加对应字符
+                result.push(base64Chars[index1]);
+                result.push(base64Chars[index2]);
+    
+                if (isNaN(b2)) {
+                    result.push('=', '=');
+                } else if (isNaN(b3)) {
+                    result.push(base64Chars[index3], '=');
+                } else {
+                    result.push(base64Chars[index3], base64Chars[index4]);
+                }
+            }
+    
+            // 将数组拼接成字符串
+            let base64 = '';
+            for (let j = 0; j < result.length; j++) {
+                base64 += result[j];
+            }
+            return base64;
+        }
+    
+        // ---------- AES S盒 (通过循环从常量push生成) ----------
+        const sBox: number[] = [];
+        const sBoxValues: number[] = [
+            0x63, 0x7c, 0x77, 0x7b, 0xf2, 0x6b, 0x6f, 0xc5, 0x30, 0x01, 0x67, 0x2b, 0xfe, 0xd7, 0xab, 0x76,
+            0xca, 0x82, 0xc9, 0x7d, 0xfa, 0x59, 0x47, 0xf0, 0xad, 0xd4, 0xa2, 0xaf, 0x9c, 0xa4, 0x72, 0xc0,
+            0xb7, 0xfd, 0x93, 0x26, 0x36, 0x3f, 0xf7, 0xcc, 0x34, 0xa5, 0xe5, 0xf1, 0x71, 0xd8, 0x31, 0x15,
+            0x04, 0xc7, 0x23, 0xc3, 0x18, 0x96, 0x05, 0x9a, 0x07, 0x12, 0x80, 0xe2, 0xeb, 0x27, 0xb2, 0x75,
+            0x09, 0x83, 0x2c, 0x1a, 0x1b, 0x6e, 0x5a, 0xa0, 0x52, 0x3b, 0xd6, 0xb3, 0x29, 0xe3, 0x2f, 0x84,
+            0x53, 0xd1, 0x00, 0xed, 0x20, 0xfc, 0xb1, 0x5b, 0x6a, 0xcb, 0xbe, 0x39, 0x4a, 0x4c, 0x58, 0xcf,
+            0xd0, 0xef, 0xaa, 0xfb, 0x43, 0x4d, 0x33, 0x85, 0x45, 0xf9, 0x02, 0x7f, 0x50, 0x3c, 0x9f, 0xa8,
+            0x51, 0xa3, 0x40, 0x8f, 0x92, 0x9d, 0x38, 0xf5, 0xbc, 0xb6, 0xda, 0x21, 0x10, 0xff, 0xf3, 0xd2,
+            0xcd, 0x0c, 0x13, 0xec, 0x5f, 0x97, 0x44, 0x17, 0xc4, 0xa7, 0x7e, 0x3d, 0x64, 0x5d, 0x19, 0x73,
+            0x60, 0x81, 0x4f, 0xdc, 0x22, 0x2a, 0x90, 0x88, 0x46, 0xee, 0xb8, 0x14, 0xde, 0x5e, 0x0b, 0xdb,
+            0xe0, 0x32, 0x3a, 0x0a, 0x49, 0x06, 0x24, 0x5c, 0xc2, 0xd3, 0xac, 0x62, 0x91, 0x95, 0xe4, 0x79,
+            0xe7, 0xc8, 0x37, 0x6d, 0x8d, 0xd5, 0x4e, 0xa9, 0x6c, 0x56, 0xf4, 0xea, 0x65, 0x7a, 0xae, 0x08,
+            0xba, 0x78, 0x25, 0x2e, 0x1c, 0xa6, 0xb4, 0xc6, 0xe8, 0xdd, 0x74, 0x1f, 0x4b, 0xbd, 0x8b, 0x8a,
+            0x70, 0x3e, 0xb5, 0x66, 0x48, 0x03, 0xf6, 0x0e, 0x61, 0x35, 0x57, 0xb9, 0x86, 0xc1, 0x1d, 0x9e,
+            0xe1, 0xf8, 0x98, 0x11, 0x69, 0xd9, 0x8e, 0x94, 0x9b, 0x1e, 0x87, 0xe9, 0xce, 0x55, 0x28, 0xdf,
+            0x8c, 0xa1, 0x89, 0x0d, 0xbf, 0xe6, 0x42, 0x68, 0x41, 0x99, 0x2d, 0x0f, 0xb0, 0x54, 0xbb, 0x16
+        ];
+        for (let idx = 0; idx < sBoxValues.length; idx++) {
+            sBox.push(sBoxValues[idx]);
+        }
+    
+        // ---------- 轮常量 Rcon ----------
+        const rcon: number[] = [0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36];
+    
+        // ---------- 伽罗瓦域乘法 (用于 MixColumns) ----------
+          function mul2(x: number): number {
+              const shifted = x << 1;
+              if ((x & 0x80) != 0) {
+                  return (shifted ^ 0x1b) & 0xFF;
+              } else {
+                return shifted & 0xFF;
+            }
+        }
+        function mul3(x: number): number {
+            return mul2(x) ^ x;
+        }
+    
+        // ---------- 密钥扩展：生成11个轮密钥 (每个16字节) ----------
+        function keyExpansion(keyBytes: number[]): number[][] {
+            // 将16字节密钥拆成4个字，每个字4字节
+            const words: number[][] = []; // 存放44个字
+            for (let i = 0; i < 4; i++) {
+                const word: number[] = [];
+                for (let j = 0; j < 4; j++) {
+                    word.push(keyBytes[i * 4 + j]);
+                }
+                words.push(word);
+            }
+    
+            // 生成剩余40个字
+            for (let i = 4; i < 44; i++) {
+                let temp: number[] = [];
+                const prev = words[i - 1];
+                for (let k = 0; k < 4; k++) {
+                    temp.push(prev[k]);
+                }
+    
+                if (i % 4 === 0) {
+                    // RotWord: 循环左移一个字节
+                    const rot: number[] = [temp[1], temp[2], temp[3], temp[0]];
+                    // SubWord: 应用S盒
+                    for (let k = 0; k < 4; k++) {
+                        rot[k] = sBox[rot[k]];
+                    }
+                    // 异或Rcon (只影响最低字节)
+                    const rconVal = rcon[(i / 4) - 1];
+                    rot[0] = rot[0] ^ rconVal;
+                    temp = rot;
+                }
+    
+                const prevMinus4 = words[i - 4];
+                const newWord: number[] = [];
+                for (let k = 0; k < 4; k++) {
+                    newWord.push(prevMinus4[k] ^ temp[k]);
+                }
+                words.push(newWord);
+            }
+    
+            // 将44个字组装成11个轮密钥（每个轮密钥16字节）
+            const roundKeys: number[][] = [];
+            for (let round = 0; round < 11; round++) {
+                const roundKey: number[] = [];
+                for (let w = 0; w < 4; w++) {
+                    const word = words[round * 4 + w];
+                    for (let b = 0; b < 4; b++) {
+                        roundKey.push(word[b]);
+                    }
+                }
+                roundKeys.push(roundKey);
+            }
+            return roundKeys;
+        }
+    
+        // ---------- 加密一个16字节块 ----------
+        function encryptBlock(block: number[], roundKeys: number[][]): number[] {
+            // 初始化状态数组（通过循环push，保证全是普通数组操作）
+            const state: number[] = [];
+            for (let i = 0; i < 16; i++) {
+                state.push(block[i]);
+            }
+    
+            // 初始轮密钥加
+            for (let i = 0; i < 16; i++) {
+                state[i] ^= roundKeys[0][i];
+            }
+    
+            // 前9轮
+            for (let round = 1; round <= 9; round++) {
+                // SubBytes
+                for (let i = 0; i < 16; i++) {
+                    state[i] = sBox[state[i]];
+                }
+    
+                // ShiftRows
+                const newState: number[] = [];
+                for (let i = 0; i < 16; i++) newState.push(0); // 占位初始化
+                // 第0行 (索引 0,4,8,12) 保持不变
+                newState[0] = state[0];
+                newState[4] = state[4];
+                newState[8] = state[8];
+                newState[12] = state[12];
+                // 第1行 左移1位 (1,5,9,13) -> (5,9,13,1)
+                newState[1] = state[5];
+                newState[5] = state[9];
+                newState[9] = state[13];
+                newState[13] = state[1];
+                // 第2行 左移2位 (2,6,10,14) -> (10,14,2,6)
+                newState[2] = state[10];
+                newState[6] = state[14];
+                newState[10] = state[2];
+                newState[14] = state[6];
+                // 第3行 左移3位 (3,7,11,15) -> (15,3,7,11)
+                newState[3] = state[15];
+                newState[7] = state[3];
+                newState[11] = state[7];
+                newState[15] = state[11];
+                // 替换state
+                for (let i = 0; i < 16; i++) {
+                    state[i] = newState[i];
+                }
+    
+                // MixColumns
+                for (let col = 0; col < 4; col++) {
+                    const idx = col * 4;
+                    const a0 = state[idx];
+                    const a1 = state[idx + 1];
+                    const a2 = state[idx + 2];
+                    const a3 = state[idx + 3];
+                    const b0 = mul2(a0) ^ mul3(a1) ^ a2 ^ a3;
+                    const b1 = a0 ^ mul2(a1) ^ mul3(a2) ^ a3;
+                    const b2 = a0 ^ a1 ^ mul2(a2) ^ mul3(a3);
+                    const b3 = mul3(a0) ^ a1 ^ a2 ^ mul2(a3);
+                    state[idx] = b0;
+                    state[idx + 1] = b1;
+                    state[idx + 2] = b2;
+                    state[idx + 3] = b3;
+                }
+    
+                // 本轮密钥加
+                const rk = roundKeys[round];
+                for (let i = 0; i < 16; i++) {
+                    state[i] ^= rk[i];
+                }
+            }
+    
+            // 第10轮 (无 MixColumns)
+            // SubBytes
+            for (let i = 0; i < 16; i++) {
+                state[i] = sBox[state[i]];
+            }
+            // ShiftRows
+            const finalState: number[] = [];
+            for (let i = 0; i < 16; i++) finalState.push(0);
+            finalState[0] = state[0];
+            finalState[4] = state[4];
+            finalState[8] = state[8];
+            finalState[12] = state[12];
+            finalState[1] = state[5];
+            finalState[5] = state[9];
+            finalState[9] = state[13];
+            finalState[13] = state[1];
+            finalState[2] = state[10];
+            finalState[6] = state[14];
+            finalState[10] = state[2];
+            finalState[14] = state[6];
+            finalState[3] = state[15];
+            finalState[7] = state[3];
+            finalState[11] = state[7];
+            finalState[15] = state[11];
+            // 替换state
+            for (let i = 0; i < 16; i++) {
+                state[i] = finalState[i];
+            }
+            // 最后一轮密钥加
+            const rkLast = roundKeys[10];
+            for (let i = 0; i < 16; i++) {
+                state[i] ^= rkLast[i];
+            }
+    
+            return state;
+        }
+    
+        // ---------- 主加密流程 ----------
+        const keyBytes: number[] = adjustKey(key);
+        const plainBytes: number[] = stringToBytes(plaintext);
+        const padded: number[] = pkcs7Pad(plainBytes);
+        const roundKeys: number[][] = keyExpansion(keyBytes);
+    
+        const ciphertextBytes: number[] = [];
+        for (let i = 0; i < padded.length; i += 16) {
+            const block: number[] = [];
+            for (let j = 0; j < 16; j++) {
+                block.push(padded[i + j]);
+            }
+            const encBlock: number[] = encryptBlock(block, roundKeys);
+            for (let j = 0; j < encBlock.length; j++) {
+                ciphertextBytes.push(encBlock[j]);
+            }
+        }
+    
+        // 返回 Base64 编码的密文
+        return bytesToBase64(ciphertextBytes);
+}
+
+function base64ToHex(base64: string): string {
+    const chars: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+    const bytes: number[] = [];                // 存储解码后的字节（普通数组）
+    const hexChars: string = '0123456789abcdef'; // 十六进制字符映射
+
+    // 每 4 个字符为一组进行解码
+    for (let i = 0; i < base64.length; i += 4) {
+      // 取出当前组的 4 个字符，若索引超出则视为填充 '='
+      const c1: string = i < base64.length ? base64.charAt(i) : '=';
+      const c2: string = (i + 1) < base64.length ? base64.charAt(i + 1) : '=';
+      const c3: string = (i + 2) < base64.length ? base64.charAt(i + 2) : '=';
+      const c4: string = (i + 3) < base64.length ? base64.charAt(i + 3) : '=';
+
+        // 获取每个字符在 Base64 字符集中的索引（填充字符 '=' 不参与映射，索引设为 0）
+        const v1: number = c1 === '=' ? 0 : chars.indexOf(c1);
+        const v2: number = c2 === '=' ? 0 : chars.indexOf(c2);
+        const v3: number = c3 === '=' ? 0 : chars.indexOf(c3);
+        const v4: number = c4 === '=' ? 0 : chars.indexOf(c4);
+
+        // 检查是否有填充，决定实际解码出的字节数
+        const hasPad3: boolean = c3 === '=';
+        const hasPad4: boolean = c4 === '=';
+
+        // 将 4 个 6 位值合并为一个 24 位整数
+        const val: number = (v1 << 18) | (v2 << 12) | ((v3 & 0x3F) << 6) | (v4 & 0x3F);
+
+        // 根据填充情况提取字节
+        if (hasPad4 && hasPad3) {
+            // 两个填充：只有 1 个有效字节
+            bytes.push((val >> 16) & 0xFF);
+        } else if (hasPad4) {
+            // 一个填充：有 2 个有效字节
+            bytes.push((val >> 16) & 0xFF, (val >> 8) & 0xFF);
+        } else {
+            // 无填充：3 个有效字节
+            bytes.push((val >> 16) & 0xFF, (val >> 8) & 0xFF, val & 0xFF);
+        }
+    }
+
+    // 将字节数组转换为十六进制字符串
+    let hex: string = '';
+    for (let j = 0; j < bytes.length; j++) {
+        const b: number = bytes[j];
+        // 取高 4 位和低 4 位，并映射为十六进制字符
+          hex += hexChars.charAt((b >> 4) & 0xF) + hexChars.charAt(b & 0xF);
+    }
+    return hex;
+}
+
+// 新增：AES ECB PKCS7 加密，返回十六进制字符串
+export function encryptAesEcbPkcs7ToHex(plain: string, keyB64: string): string {
+  // 1. 解码Base64密钥
+  const keyBytes = base64ToBytes(keyB64)
+  // 2. 扩展密钥
+  const w = expandKey(keyBytes)
+  // 3. UTF-8编码明文并PKCS7填充
+  const input = pkcs7Pad(utf8ToBytes(plain), 16)
+  // 4. ECB模式加密：每个块独立加密，无IV
+  const out: number[] = []
+  for (let i = 0; i < input.length; i += 16) {
+    const block = input.slice(i, i + 16)
+    const enc = encryptBlock(block, w)
+    for (let j = 0; j < 16; j++) out.push(enc[j])
+  }
+  // 5. 将加密后的字节数组转换为十六进制字符串
+  return bytesToHex(out)
+}
+
+// 保留原有的CBC加密函数
+export function encryptAesCbcPkcs7Base64(plain: string, keyB64: string, ivB64: string): string {
+        console.log("plain", plain);
+        console.log("keyB64", keyB64);
+        console.log("ivB64", ivB64);
+  console.log(1);
+  const keyBytes = base64ToBytes(keyB64)
+  console.log(2);
+  const ivBytes = base64ToBytes(ivB64)
+  console.log(3);
+  const Nk = keyBytes.length/4
+  const Nr = Nk + 6
+  console.log("3-1");
+  const w = expandKey(keyBytes);
+  console.log(4);
+  const input = pkcs7Pad(utf8ToBytes(plain), 16)
+  console.log(5);
+  const out: number[] = []
+  let prev = ivBytes.slice(0,16)
+  for (let i=0;i<input.length;i+=16){
+    const block = input.slice(i,i+16)
+    for (let j=0;j<16;j++) block[j]^=prev[j]
+    const enc = encryptBlock(block, w)
+    for (let j=0;j<16;j++) out.push(enc[j])
+    prev = enc
+  }
+  return bytesToBase64(out)
+}
+
+// 新的加密方法：AES ECB PKCS7 -> Base64 -> 字节数组 -> Hex字符串
+export function encryptAesEcbPkcs7Base64ToHex(plain: string, keyB64: string): string {
+  console.error('[encryptAesEcbPkcs7Base64ToHex] 开始加密')
+  console.error('[encryptAesEcbPkcs7Base64ToHex] 明文:', plain)
+  console.error('[encryptAesEcbPkcs7Base64ToHex] 密钥Base64:', keyB64)
+  
+  const aes128EcbStr = aes128EcbEncrypt(plain, keyB64);
+  
+  console.log("aes128EcbStr", aes128EcbStr);
+  
+  const base64HexStr = base64ToHex(aes128EcbStr);
+  
+  console.log("base64HexStr", base64HexStr);
+  
+  // // 1. 使用AES ECB PKCS7加密得到字节数组
+  // const keyBytes = base64ToBytes(keyB64)
+  // console.error('[encryptAesEcbPkcs7Base64ToHex] 密钥字节数组长度:', keyBytes.length)
+  
+  // const w = expandKey(keyBytes)
+  // console.error('[encryptAesEcbPkcs7Base64ToHex] 扩展密钥长度:', w.length)
+  
+  // const inputBytes = utf8ToBytes(plain)
+  // console.error('[encryptAesEcbPkcs7Base64ToHex] UTF-8字节数组长度:', inputBytes.length)
+  
+  // const input = pkcs7Pad(inputBytes, 16)
+  // console.error('[encryptAesEcbPkcs7Base64ToHex] PKCS7填充后长度:', input.length)
+  
+  // const out: number[] = []
+  // for (let i = 0; i < input.length; i += 16) {
+  //   const block = input.slice(i, i + 16)
+  //   const enc = encryptBlock(block, w)
+  //   for (let j = 0; j < 16; j++) out.push(enc[j])
+  // }
+  // console.error('[encryptAesEcbPkcs7Base64ToHex] 加密后字节数组长度:', out.length)
+  
+  // // 2. 将字节数组进行Base64编码
+  // const base64Str = bytesToBase64(out)
+  // console.error('[encryptAesEcbPkcs7Base64ToHex] Base64字符串:', base64Str)
+  
+  // // 3. 将Base64字符串解码为字节数组（这一步可能冗余，但按照要求）
+  // const decodedBytes = base64ToBytes(base64Str)
+  // console.error('[encryptAesEcbPkcs7Base64ToHex] 解码后字节数组长度:', decodedBytes.length)
+  
+  // // 4. 将字节数组转为Hex字符串
+  // const hexResult = bytesToHex(decodedBytes)
+  // console.error('[encryptAesEcbPkcs7Base64ToHex] 最终Hex结果:', hexResult)
+  
+  // return hexResult
+  return base64HexStr;
+}
+
+// 循环左移函数
+function rol(x: number, n: number): number {
+  return ((x << n) | (x >>> (32 - n))) & 0xFFFFFFFF
+}
+
+// MD5哈希函数，返回32位小写十六进制字符串（纯UTS实现）
+export function md5(message: string): string {
+  // ---------- 辅助函数：将 ASCII 字符串转为字节数组 ----------
+  function stringToBytes(str: string): number[] {
+      const bytes: number[] = [];
+      for (let i = 0; i < str.length; i++) {
+          const code: number | null = str.charCodeAt(i);
+          if (code != null) {
+              bytes.push(code & 0xff); // 取低8位，适用于 ASCII
+          }
+      }
+      return bytes;
+  }
+
+  // ---------- MD5 核心实现 (处理字节数组) ----------
+  function md5Bytes(bytes: number[]): string {
+      // 初始值
+      let a0: number = 0x67452301;
+      let b0: number = 0xefcdab89;
+      let c0: number = 0x98badcfe;
+      let d0: number = 0x10325476;
+
+      // 常量表 T (64个)
+      const T: number[] = [];
+      for (let i = 0; i < 64; i++) {
+          T.push(Math.floor(Math.abs(Math.sin(i + 1)) * 0x100000000) >>> 0);
+      }
+
+      // 循环左移函数
+      function leftRotate(x: number, c: number): number {
+          return ((x << c) | (x >>> (32 - c))) >>> 0;
+      }
+
+      // ---------- 填充 ----------
+      const originalLen = bytes.length;
+      const bitLen = originalLen * 8; // 位长度
+
+      // 先添加 0x80
+      bytes.push(0x80);
+
+      // 填充 0 直到长度满足 (len + 8) % 64 == 0
+      while ((bytes.length + 8) % 64 !== 0) {
+          bytes.push(0x00);
+      }
+
+      // 添加原始长度 (64位，小端序，先低32位，后高32位)
+      bytes.push(bitLen & 0xff);
+      bytes.push((bitLen >>> 8) & 0xff);
+      bytes.push((bitLen >>> 16) & 0xff);
+      bytes.push((bitLen >>> 24) & 0xff);
+      const highBits = Math.floor(bitLen / 0x100000000); // 高32位，JavaScript 位运算只能处理32位，用除法
+      bytes.push(highBits & 0xff);
+      bytes.push((highBits >>> 8) & 0xff);
+      bytes.push((highBits >>> 16) & 0xff);
+      bytes.push((highBits >>> 24) & 0xff);
+
+      // ---------- 处理每个 64 字节块 ----------
+      for (let offset = 0; offset < bytes.length; offset += 64) {
+          // 将 64 字节转换为 16 个 32 位字 (小端序)
+          const M: number[] = new Array();
+          for (let i = 0; i < 16; i++) {
+              const base = offset + i * 4;
+              M.push((bytes[base]) |
+                      (bytes[base + 1] << 8) |
+                      (bytes[base + 2] << 16) |
+                      (bytes[base + 3] << 24));
+          }
+
+          let A: number = a0;
+          let B: number = b0;
+          let C: number = c0;
+          let D: number = d0;
+
+          // 主循环 64 步
+          for (let i = 0; i < 64; i++) {
+              let F: number, g: number;
+              if (i < 16) {
+                  F = (B & C) | ((~B) & D);
+                  g = i;
+              } else if (i < 32) {
+                  F = (D & B) | ((~D) & C);
+                  g = (5 * i + 1) % 16;
+              } else if (i < 48) {
+                  F = B ^ C ^ D;
+                  g = (3 * i + 5) % 16;
+              } else {
+                  F = C ^ (B | (~D));
+                  g = (7 * i) % 16;
+              }
+
+              // 确保 F 是无符号32位
+              F = F >>> 0;
+              const dTemp: number = D;
+              D = C;
+              C = B;
+              // B = B + leftRotate((A + F + M[g] + T[i]), s[i])  其中 s[i] 是位移量
+              const s: number[] = [
+                  7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22,
+                  5, 9, 14, 20, 5, 9, 14, 20, 5, 9, 14, 20, 5, 9, 14, 20,
+                  4, 11, 16, 23, 4, 11, 16, 23, 4, 11, 16, 23, 4, 11, 16, 23,
+                  6, 10, 15, 21, 6, 10, 15, 21, 6, 10, 15, 21, 6, 10, 15, 21
+              ];
+              const sum = (A + F + M[g] + T[i]) >>> 0;
+              const rotated = leftRotate(sum, s[i]);
+              B = (B + rotated) >>> 0;
+              A = dTemp;
+          }
+
+          // 更新初始值
+          a0 = (a0 + A) >>> 0;
+          b0 = (b0 + B) >>> 0;
+          c0 = (c0 + C) >>> 0;
+          d0 = (d0 + D) >>> 0;
+      }
+
+      // ---------- 输出十六进制 (小端序：每个寄存器的低字节在前) ----------
+      function wordToLittleEndianBytes(word: number): number[] {
+          return [
+              word & 0xff,
+              (word >>> 8) & 0xff,
+              (word >>> 16) & 0xff,
+              (word >>> 24) & 0xff
+          ];
+      }
+
+      const resultBytes: number[] = [];
+      resultBytes.push(...wordToLittleEndianBytes(a0));
+      resultBytes.push(...wordToLittleEndianBytes(b0));
+      resultBytes.push(...wordToLittleEndianBytes(c0));
+      resultBytes.push(...wordToLittleEndianBytes(d0));
+
+      // 将字节数组转为十六进制字符串
+      let hex = '';
+      for (let i = 0; i < resultBytes.length; i++) {
+          const byte = resultBytes[i];
+          hex += ((byte >>> 4) & 0x0f).toString(16);
+          hex += (byte & 0x0f).toString(16);
+      }
+      return hex;
+  }
+
+  // 将输入字符串转为字节数组并计算 MD5
+  return md5Bytes(stringToBytes(message));
+}
+
+// 双重加密带时间戳：先加密密码，拼接时间戳，再加密整个字符串
+export function doubleEncryptWithTimestamp(password: string, keyB64: string): string {
+  console.error('[doubleEncryptWithTimestamp] 开始双重加密')
+  console.error('[doubleEncryptWithTimestamp] 原始密码:', password)
+  console.error('[doubleEncryptWithTimestamp] 密钥Base64:', keyB64)
+  
+  // 先对密码进行MD5哈希（32位小写）
+  const md5Password = md5(password)
+  console.error('[doubleEncryptWithTimestamp] MD5后密码:', md5Password)
+  
+  // 获取当前时间戳（毫秒）
+  const timestamp = Date.now().toString()
+  console.error('[doubleEncryptWithTimestamp] 时间戳:', timestamp)
+  
+  // 第一步：使用新加密方法加密MD5后的密码
+  console.error('[doubleEncryptWithTimestamp] 第一步加密开始')
+  const firstEncrypted = encryptAesEcbPkcs7Base64ToHex(md5Password, keyB64)
+  console.error('[doubleEncryptWithTimestamp] 第一步加密结果:', firstEncrypted)
+  
+  // 拼接：加密结果 + 逗号 + 时间戳
+  const combined = `${firstEncrypted},${timestamp}`
+  console.error('[doubleEncryptWithTimestamp] 拼接后的字符串:', combined)
+  
+  // 第二步：再次使用新加密方法加密拼接后的字符串
+  console.error('[doubleEncryptWithTimestamp] 第二步加密开始')
+  const finalEncrypted = encryptAesEcbPkcs7Base64ToHex(combined, keyB64)
+  console.error('[doubleEncryptWithTimestamp] 最终加密结果:', finalEncrypted)
+  
+  return finalEncrypted
+}

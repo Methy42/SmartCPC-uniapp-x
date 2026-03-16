@@ -1,0 +1,282 @@
+// #ifdef APP-ANDROID
+import Base64 from 'android.util.Base64'
+import ByteArray from 'kotlin.ByteArray'
+// #endif
+
+const SBOX: number[] = [
+  99,124,119,123,242,107,111,197,48,1,103,43,254,215,171,118,
+  202,130,201,125,250,89,71,240,173,212,162,175,156,164,114,192,
+  183,253,147,38,54,63,247,204,52,165,229,241,113,216,49,21,
+  4,199,35,195,24,150,5,154,7,18,128,226,235,39,178,117,
+  9,131,44,26,27,110,90,160,82,59,214,179,41,227,47,132,
+  83,209,0,237,32,252,177,91,106,203,190,57,74,76,88,207,
+  208,239,170,251,67,77,51,133,69,249,2,127,80,60,159,168,
+  81,163,64,143,146,157,56,245,188,182,218,33,16,255,243,210,
+  205,12,19,236,95,151,68,23,196,167,126,61,100,93,25,115,
+  96,129,79,220,34,42,144,136,70,238,184,20,222,94,11,219,
+  224,50,58,10,73,6,36,92,194,211,172,98,145,149,228,121,
+  231,200,55,109,141,213,78,169,108,86,244,234,101,122,174,8,
+  186,120,37,46,28,166,180,198,232,221,116,31,75,189,139,138,
+  112,62,181,102,72,3,246,14,97,53,87,185,134,193,29,158,
+  225,248,152,17,105,217,142,148,155,30,135,233,206,85,40,223,
+  140,161,137,13,191,230,66,104,65,153,45,15,176,84,187,22
+]
+const RCON: number[] = [0,1,2,4,8,16,32,64,128,27,54,108,216,171,77,154,47,94,188,99,198,151,53,106,212,179,125,250,239,197,145,57]
+
+function rotWord(w: number[]): number[] { return [w[1], w[2], w[3], w[0]] }
+function subWord(w: number[]): number[] { return [SBOX[w[0]], SBOX[w[1]], SBOX[w[2]], SBOX[w[3]]] }
+
+function expandKey(key: number[]): number[] {
+  const Nk = key.length / 4
+  const Nr = Nk + 6
+  const Nb = 4
+  const w: number[] = new Array(Nb * (Nr + 1) * 4)
+  for (let i = 0; i < Nb * (Nr + 1) * 4; i++) {
+	  w.push(0);
+  }
+  try {
+  for (let i=0;i<Nk;i++){ w[4*i]=key[4*i]; w[4*i+1]=key[4*i+1]; w[4*i+2]=key[4*i+2]; w[4*i+3]=key[4*i+3] }
+  } catch(e) {
+	  console.log(e);
+  }
+  const temp = [0,0,0,0]
+  for (let i=Nk;i<Nb*(Nr+1);i++){
+	  try {
+    temp[0]=w[4*(i-1)]; temp[1]=w[4*(i-1)+1]; temp[2]=w[4*(i-1)+2]; temp[3]=w[4*(i-1)+3]
+    if (i%Nk==0){
+      const r = rotWord(temp)
+      const s = subWord(r)
+      temp[0]=s[0]^RCON[i/Nk]; temp[1]=s[1]; temp[2]=s[2]; temp[3]=s[3]
+    } else if (Nk>6 && (i%Nk)==4){
+      const s = subWord(temp)
+      temp[0]=s[0]; temp[1]=s[1]; temp[2]=s[2]; temp[3]=s[3]
+    }
+    w[4*i]=w[4*(i-Nk)]^temp[0]
+    w[4*i+1]=w[4*(i-Nk)+1]^temp[1]
+    w[4*i+2]=w[4*(i-Nk)+2]^temp[2]
+    w[4*i+3]=w[4*(i-Nk)+3]^temp[3]
+	} catch(e) {
+		console.log(e);
+	}
+  }
+  return w
+}
+
+function addRoundKey(state: number[], w: number[], round: number){
+  for (let c=0;c<4;c++){
+    state[4*c]^=w[16*round+4*c]
+    state[4*c+1]^=w[16*round+4*c+1]
+    state[4*c+2]^=w[16*round+4*c+2]
+    state[4*c+3]^=w[16*round+4*c+3]
+  }
+}
+function subBytes(state: number[]){ for(let i=0;i<16;i++) state[i]=SBOX[state[i]] }
+function shiftRows(s: number[]){
+  const t = s.slice(0)
+  s[1]=t[5]; s[5]=t[9]; s[9]=t[13]; s[13]=t[1]
+  s[2]=t[10]; s[6]=t[14]; s[10]=t[2]; s[14]=t[6]
+  s[3]=t[15]; s[7]=t[3]; s[11]=t[7]; s[15]=t[11]
+}
+function xtime(a: number): number { return ((a<<1) & 0xFF) ^ ((a & 0x80) != 0 ? 0x1b : 0) }
+function mixColumns(s: number[]){
+  for (let c=0;c<4;c++){
+    const i=4*c
+    const a0=s[i], a1=s[i+1], a2=s[i+2], a3=s[i+3]
+    const t=a0^a1^a2^a3
+    const u=a0
+    s[i]   ^= t ^ xtime(a0^a1)
+    s[i+1] ^= t ^ xtime(a1^a2)
+    s[i+2] ^= t ^ xtime(a2^a3)
+    s[i+3] ^= t ^ xtime(a3^u)
+  }
+}
+function encryptBlock(inp: number[], w: number[]): number[] {
+  const Nk = w.length/4/ (10+ (w.length/16 -4)) // not used
+  const Nr = (w.length/4)/4 -1
+  const state = inp.slice(0)
+  addRoundKey(state, w, 0)
+  for (let r=1;r<Nr;r++){
+    subBytes(state); shiftRows(state); mixColumns(state); addRoundKey(state, w, r)
+  }
+  subBytes(state); shiftRows(state); addRoundKey(state, w, Nr)
+  return state
+}
+
+function pkcs7Pad(data: number[], blockSize: number): number[] {
+  const padLen = blockSize - (data.length % blockSize)
+  const out = data.slice(0)
+  for (let i=0;i<padLen;i++) out.push(padLen)
+  return out
+}
+
+function ccAt(s: string, idx: number): number {
+  const v: number | null = s.charCodeAt(idx)
+  if (v == null) return 0
+  return v
+}
+
+function utf8ToBytes(str: string): number[] {
+  const out: number[] = []
+  const len = str.length
+  let i = 0
+  while (i < len) {
+    let code: number = ccAt(str, i)
+    i = i + 1
+    if ((code >= 0xd800) && (code <= 0xdbff) && (i < len)) {
+      const next: number = ccAt(str, i)
+      if (((next & 0xfc00) === 0xdc00)) {
+        code = 0x10000 + ((code & 0x3ff) << 10) + ((next & 0x3ff))
+        i++
+      }
+    }
+    if (code <= 0x7f) out.push(code)
+    else if (code <= 0x7ff) { out.push(0xc0 | (code >> 6), 0x80 | (code & 0x3f)) }
+    else if (code <= 0xffff) { out.push(0xe0 | (code >> 12), 0x80 | ((code >> 6) & 0x3f), 0x80 | (code & 0x3f)) }
+    else { out.push(0xf0 | (code >> 18), 0x80 | ((code >> 12) & 0x3f), 0x80 | ((code >> 6) & 0x3f), 0x80 | (code & 0x3f)) }
+  }
+  return out
+}
+
+function bytesToBase64(bytes: number[]): string {
+  // #ifdef APP-ANDROID
+  // Android平台使用android.util.Base64
+  // 创建ByteArray，Kotlin类型
+  const size = bytes.length.toInt()
+  const byteArray = new ByteArray(size)
+  for (let i = 0; i < bytes.length; i++) {
+    // 将number转换为byte，注意处理有符号
+    const byteVal = bytes[i] & 0xff
+    const index = i.toInt()
+    byteArray[index] = byteVal.toByte()
+  }
+  // 转换为base64字符串
+  const result = Base64.encodeToString(byteArray, Base64.NO_WRAP)
+  return result as string
+  // #endif
+  
+  // #ifndef APP-ANDROID
+  // 非Android平台使用uni.arrayBufferToBase64
+  const ab = new ArrayBuffer(bytes.length)
+  const view = new Uint8Array(ab)
+  for (let i=0;i<bytes.length;i++) view[i] = bytes[i] & 0xff
+  return uni.arrayBufferToBase64(ab)
+  // #endif
+}
+
+function base64ToBytes(s: string): number[] {
+  console.log(6);
+  try {
+    s = s.trim();
+    
+    // #ifdef APP-ANDROID
+    // Android平台使用android.util.Base64.decode，使用NO_WRAP确保与编码一致
+    const androidDecoded = Base64.decode(s, Base64.NO_WRAP)
+    if (androidDecoded == null) {
+      console.error('base64ToBytes: decode returned null')
+      return []
+    }
+    // androidDecoded是ByteArray类型，需要转换为number[]
+    // 直接处理ByteArray，使用位运算确保正确转换
+    const len = androidDecoded.size
+	console.log("len", len);
+    let out: number[] = new Array();
+    for (let i = 0; i < len; i++) {
+      // 获取字节索引
+      const index = i.toInt()
+      // 获取字节值（Kotlin Byte类型，UTS会自动转换为number）
+      const byteVal = androidDecoded[index]
+	  if (byteVal < 0) {
+		  // 直接将byteVal作为number处理，使用位运算转换为无符号字节
+		  let unsignedVal = byteVal & 0xff
+		  out.push(unsignedVal)
+		  // out[i] = unsignedVal
+	  } else {
+		  try {
+			out.push(byteVal)
+		  } catch(e) {
+			  console.log(e);
+		  }
+	  }
+      // 调试日志 - 只打印前几个字节
+      if (i < 5) {
+        console.log(`[${i}] byteVal=${byteVal} out[i]=${out[i]}`)
+      }
+    }
+    return out
+    // #endif
+    
+    // #ifndef APP-ANDROID
+    // 非Android平台使用uni.base64ToArrayBuffer
+    const ab = uni.base64ToArrayBuffer(s);
+    const view = new Uint8Array(ab);
+    const len = view.length;
+    const out: number[] = new Array(len);
+    for (let i = 0; i < len; i++) {
+      out[i] = (view[i] as number) & 0xff;
+    }
+    return out;
+    // #endif
+  } catch (error) {
+    console.error('base64ToBytes error: ' + (error as Error).message);
+    return [];
+  }
+}
+
+// 字节数组转十六进制字符串
+function bytesToHex(bytes: number[]): string {
+  const hexChars = '0123456789abcdef'
+  let result = ''
+  for (let i = 0; i < bytes.length; i++) {
+    const byteVal = bytes[i] & 0xff
+    result += hexChars.charAt(byteVal >> 4)
+    result += hexChars.charAt(byteVal & 0x0f)
+  }
+  return result
+}
+
+// AES ECB PKCS7 加密，返回十六进制字符串
+export function encryptAesEcbPkcs7ToHex(plain: string, keyB64: string): string {
+  // 1. 解码Base64密钥
+  const keyBytes = base64ToBytes(keyB64)
+  // 2. 扩展密钥
+  const w = expandKey(keyBytes)
+  // 3. UTF-8编码明文并PKCS7填充
+  const input = pkcs7Pad(utf8ToBytes(plain), 16)
+  // 4. ECB模式加密：每个块独立加密，无IV
+  const out: number[] = []
+  for (let i = 0; i < input.length; i += 16) {
+    const block = input.slice(i, i + 16)
+    const enc = encryptBlock(block, w)
+    for (let j = 0; j < 16; j++) out.push(enc[j])
+  }
+  // 5. 将加密后的字节数组转换为十六进制字符串
+  return bytesToHex(out)
+}
+
+export function encryptAesCbcPkcs7Base64(plain: string, keyB64: string, ivB64: string): string {
+	console.log("plain", plain);
+	console.log("keyB64", keyB64);
+	console.log("ivB64", ivB64);
+  console.log(1);
+  const keyBytes = base64ToBytes(keyB64)
+  console.log(2);
+  const ivBytes = base64ToBytes(ivB64)
+  console.log(3);
+  const Nk = keyBytes.length/4
+  const Nr = Nk + 6
+  console.log("3-1");
+  const w = expandKey(keyBytes);
+  console.log(4);
+  const input = pkcs7Pad(utf8ToBytes(plain), 16)
+  console.log(5);
+  const out: number[] = []
+  let prev = ivBytes.slice(0,16)
+  for (let i=0;i<input.length;i+=16){
+    const block = input.slice(i,i+16)
+    for (let j=0;j<16;j++) block[j]^=prev[j]
+    const enc = encryptBlock(block, w)
+    for (let j=0;j<16;j++) out.push(enc[j])
+    prev = enc
+  }
+  return bytesToBase64(out)
+}
